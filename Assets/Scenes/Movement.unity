@@ -484,8 +484,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 536727975}
   model: {fileID: 536727972}
-  speed: 5
+  currentSpeed: 0
+  strafeSpeed: 5
+  dashSpeed: 5
   turnSpeed: 360
+  groundDrag: 10
+  movement: 0
+  dashing: 0
+  dashForce: 20
+  dashDuration: 0.25
+  dashCD: 0
+  Up: 119
+  Down: 115
+  Left: 97
+  Right: 100
+  dashKey: 304
 --- !u!1 &581939955
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,7 +864,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 4
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1488139669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,8 +879,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 1488139668}
   model: {fileID: 1488139664}
-  speed: 5
+  currentSpeed: 0
+  strafeSpeed: 5
+  dashSpeed: 5
   turnSpeed: 360
+  groundDrag: 10
+  movement: 0
+  dashing: 0
+  dashForce: 20
+  dashDuration: 0.25
+  dashCD: 2.5
+  Up: 119
+  Down: 115
+  Left: 97
+  Right: 100
+  dashKey: 304
 --- !u!1 &1742185140
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1742185141
 Transform:
   m_ObjectHideFlags: 0
