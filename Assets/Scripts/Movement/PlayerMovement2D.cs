@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement2D : MonoBehaviour {
    
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Transform model;
@@ -38,3 +38,4 @@ public class PlayerMovement : MonoBehaviour {
         rigidBody.MovePosition(transform.position + input.ToIso() * input.normalized.magnitude * speed * Time.deltaTime);
     }
 }
+
