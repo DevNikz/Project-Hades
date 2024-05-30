@@ -1,11 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using NUnit.Framework.Internal;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
     
@@ -21,13 +18,13 @@ public class PlayerMovement : MonoBehaviour {
     [Tooltip("Set Current Speed in Float")]
     [SerializeField] private float currentSpeed;
     [Tooltip("Set Strafing Speed in Float")]
-    [SerializeField] private float strafeSpeed = 5f;
+    [SerializeField] private float strafeSpeed;
     [Tooltip("Set Dash Speed in Float")]
-    [SerializeField] private float dashSpeed = 5f;
+    [SerializeField] private float dashSpeed;
     [Tooltip("Set TurnSpeed in Float")]
-    [SerializeField] private float turnSpeed = 360f;
+    [SerializeField] private float turnSpeed;
     [Tooltip("Set GroundDrag in Float")]
-    [SerializeField] private float groundDrag = 4f;
+    [SerializeField] private float groundDrag;
     [Tooltip("Current Movement State of the Object")]
 
     [Header("State")]
@@ -37,9 +34,9 @@ public class PlayerMovement : MonoBehaviour {
     //Dashing
     [Header("Dash")]
     [SerializeField] public bool dashing;
-    [SerializeField] public float dashForce = 5f;
-    [SerializeField] public float dashDuration = 0.25f;
-    [SerializeField] public float dashCD = 1.5f;
+    [SerializeField] public float dashForce;
+    [SerializeField] public float dashDuration;
+    [SerializeField] public float dashCD;
     private float dashCDTimer;
 
     //Keybinds
@@ -49,7 +46,27 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] public KeyCode Left = KeyCode.A;
     [SerializeField] public KeyCode Right = KeyCode.D;
     [SerializeField] public KeyCode dashKey = KeyCode.LeftShift;
+
+    //Temp
+    public PlayerControls playerControls;
+
+    private float Horizontal;
+    public float Vertical;
+
+    private InputAction move;
     
+    private void Awake() {
+        playerControls = new PlayerControls();
+    }
+
+    private void OnEnable() {
+        move = playerControls.Player.Move;
+        move.Enable();
+    }
+
+    private void OnDisable() {
+        move.Disable();
+    }
 
     private void Update() {
         GatherInput();
@@ -65,7 +82,14 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void GatherInput() {
+        //Old System
         input = new Vector3(Input.GetAxisRaw("Horizontal"),0,Input.GetAxisRaw("Vertical"));
+
+        //New System
+        // Horizontal = move.ReadValue<float>();
+        // Vertical = move.ReadValue<float>();
+
+        //input = new Vector3(Horizontal,0,Vertical);
     }
 
     private void Look() {
@@ -99,7 +123,8 @@ public class PlayerMovement : MonoBehaviour {
         else dashCDTimer = dashCD;
 
         this.dashing = true;
-        Vector3 forceToApply = gameObject.transform.forward * dashForce;
+        //Vector3 forceToApply = gameObject.transform.forward * dashForce;
+        Vector3 forceToApply = input * dashForce;
         delayedForce = forceToApply;
         Invoke(nameof(DelayedDashForce), 0.025f);
         Invoke(nameof(ResetDash), dashDuration);
@@ -122,7 +147,7 @@ public class PlayerMovement : MonoBehaviour {
         if(movement == Movement.Strafing) {
             rigidBody.drag = groundDrag;
         }
-        else rigidBody.drag = 0f;
+        else rigidBody.drag = 5f;
     }
 
     private void Cooldown() {
