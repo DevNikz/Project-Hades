@@ -7,7 +7,10 @@ IEPRJ Project based on the game [Hades](https://store.steampowered.com/app/11453
 
 ## Roadmap
 
-- [ ] Movement
+- [ ] Controller
+  - [x] Strafe
+  - [ ] Dash
+  - [ ] Interact
 - [ ] Combat (Stagnant Enemies)
 - [ ] Capture Mechanic
 - [ ] Death 
