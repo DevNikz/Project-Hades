@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour {
     
     //States
     [Header("State")]
-    [SerializeField] private Movement movement = Movement.Strafing;
+    [SerializeField] private Movement movement = Movement.Idle;
     [ReadOnly] public Direction direction;
 
     //Dashing
@@ -30,6 +30,15 @@ public class PlayerMovement : MonoBehaviour {
     public const string KEY_MOVE = "KEY_MOVE";
     
     public const string KEY_DASH = "KEY_DASH";
+
+    public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
+
+    //Effects
+    [Header("Experimental Effects")]
+    
+    [SerializeField] public ParticleSystem dust;
+
+    [SerializeField] public bool moveHeld;
 
     //Input References
     private Vector3 moveInput;
@@ -46,17 +55,41 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
-        //Init Strafe Funcs
+        //Checks
         CheckDrag();
+        CheckMove();
 
         //Init Dash Funcs
         Cooldown();
+
+        //if(Input.GetKeyDown(KeyCode.R)) ClearDust(); 
     }
 
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
+
         rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
     }
+
+    private void CheckMove() {
+        ParticleSystem.EmissionModule temp = dust.emission;
+        
+        if(movement == Movement.Strafing) temp.enabled = true;
+        else temp.enabled = false;
+        // if(movement == Movement.Strafing) CreateDust(); 
+        // else ClearDust(); 
+    }
+    
+    private void CreateDust() {
+        moveHeld = true;
+        // dust.Play();
+    }
+
+    private void ClearDust() {
+        moveHeld = false;
+        dust.Clear();
+    }
+
 
     private void lookEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
@@ -80,7 +113,6 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         else if(moveInput.x != 0 || moveInput.z != 0) {
-
             //Set To Strafing
             movement = Movement.Strafing;
 
@@ -90,6 +122,8 @@ public class PlayerMovement : MonoBehaviour {
             //Debug Direction
             direction = IsoCompass(moveInput.x, moveInput.z);
         }
+
+        else movement = Movement.Idle;
     }
 
     private void CheckDrag() {

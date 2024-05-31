@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum Movement {
     Strafing,
-    Dashing
+    Dashing,
+    Idle
 }
 
 public enum Direction {
