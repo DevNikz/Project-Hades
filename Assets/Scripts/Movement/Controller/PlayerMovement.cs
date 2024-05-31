@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,34 +37,21 @@ public class PlayerMovement : MonoBehaviour {
     [Header("Keybinds")]
     [SerializeField] private string debugString = "W.I.P";
 
+    public const string KEY_MOVE = "KEY_MOVE";
+
     //Input References
     private Vector3 moveInput;
     private bool dashInput;
 
-
-    //Will Fix This Rebinds soon
-    /*
-    [SerializeField] public KeyCode Up = KeyCode.W;
-    [SerializeField] public KeyCode Down = KeyCode.S;
-    [SerializeField] public KeyCode Left = KeyCode.A;
-    [SerializeField] public KeyCode Right = KeyCode.D;
-    [SerializeField] public KeyCode dashKey = KeyCode.LeftShift;
-    */
-
-    /*
-    private void Awake() {
-        playerControls = new PlayerControls();
+    void Start() {
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.lookEvent);
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
-    private void OnEnable() {
-        move = playerControls.Player.Move;
-        move.Enable();
+    void OnDestroy() {
+        EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
     }
-
-    private void OnDisable() {
-        move.Disable();
-    }
-    */
 
     private void Update() {
 
@@ -71,16 +59,53 @@ public class PlayerMovement : MonoBehaviour {
         GatherInput();
 
         //Init Strafe Funcs
-        Look();
         CheckDrag();
 
         //Init Dash Funcs
         Cooldown();
     }
 
-    private void FixedUpdate() {
-        StateHandler();
-        Move();
+    private void moveEvent(Parameters parameters) {
+        moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
+        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.strafeSpeed * Time.deltaTime);
+    }
+
+    private void lookEvent(Parameters parameters) {
+        moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
+
+        if(moveInput == Vector3.zero) return;
+
+        Quaternion rot = Quaternion.LookRotation(moveInput.ToIso(), Vector3.up);
+        model.rotation = Quaternion.RotateTowards(model.rotation, rot, strafe.turnSpeed * Time.deltaTime);
+
+    }
+
+    private void stateHandlerEvent(Parameters parameters) {
+
+        moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
+
+        if(UserInput.Instance.DashInput) {
+            movement = Movement.Dashing;
+            strafe.currentSpeed = dash.dashSpeed;
+            Dash();
+        }
+
+        else if(moveInput.x != 0 || moveInput.z != 0) {
+            movement = Movement.Strafing;
+            strafe.currentSpeed = strafe.strafeSpeed;
+
+            //Debug Direction
+            direction = IsoCompass(UserInput.Instance.Vertical, UserInput.Instance.Horizontal);
+            //Debug.Log("X: " + UserInput.Instance.Vertical + " | Z: " + UserInput.Instance.Horizontal);
+            //Debug.Log(direction);
+        }
+    }
+
+    private void CheckDrag() {
+        if(movement == Movement.Strafing) {
+            rigidBody.drag = strafe.groundDrag;
+        }
+        else rigidBody.drag = 5f;
     }
 
     private void GatherInput() {
@@ -94,33 +119,6 @@ public class PlayerMovement : MonoBehaviour {
         //Grabs instance of MoveInput
         moveInput = UserInput.Instance.MoveInput;
         dashInput = UserInput.Instance.DashInput;
-    }
-
-    private void Look() {
-        if(moveInput == Vector3.zero) return;
-
-        //var rot = Quaternion.LookRotation(input.ToIso(), Vector3.up);
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
-        Quaternion rot = Quaternion.LookRotation(moveInput.ToIso(), Vector3.up);
-        model.rotation = Quaternion.RotateTowards(model.rotation, rot, strafe.turnSpeed * Time.deltaTime);
-    }
-
-    private void StateHandler() {
-        if(UserInput.Instance.DashInput) {
-            movement = Movement.Dashing;
-            strafe.currentSpeed = dash.dashSpeed;
-            Dash();
-        }
-
-        else if(UserInput.Instance.Horizontal != 0 || UserInput.Instance.Vertical != 0) {
-            movement = Movement.Strafing;
-            strafe.currentSpeed = strafe.strafeSpeed;
-
-            //Debug Direction
-            direction = IsoCompass(UserInput.Instance.Vertical, UserInput.Instance.Horizontal);
-            //Debug.Log("X: " + UserInput.Instance.Vertical + " | Z: " + UserInput.Instance.Horizontal);
-            //Debug.Log(direction);
-        }
     }
 
     private Direction IsoCompass(float x, float z) {
@@ -149,18 +147,6 @@ public class PlayerMovement : MonoBehaviour {
         else if(x == 1 && z == -1) return Direction.NorthWest;
 
         else return Direction.None;
-    }
-
-    private void Move() {
-        //_rb.MovePosition(transform.position + transform.forward * _speed * Time.deltaTime);
-        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.strafeSpeed * Time.deltaTime);
-    }
-
-    private void CheckDrag() {
-        if(movement == Movement.Strafing) {
-            rigidBody.drag = strafe.groundDrag;
-        }
-        else rigidBody.drag = 5f;
     }
 
     private void Dash() {

@@ -50,6 +50,13 @@ public class UserInput : MonoBehaviour
         //Dash
         DashInput = _Dash.WasPressedThisFrame(); 
 
+        Parameters parameters = new Parameters();
+        parameters.PutExtra(PlayerMovement.KEY_MOVE, MoveInput);
+
+        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.KEY_INPUTS, parameters);
+
+        Debug.Log(MoveInput);
+
         //Debug
         //Debug.Log("Horizontal: " + _Horizontal.activeControl + " | Vertical: " + _Vertical.activeControl);
         //Debug.Log("X: " + MoveInput.x);

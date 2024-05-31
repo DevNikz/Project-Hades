@@ -2,12 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/*
- * Data model that holds parameters to be passed alongside observer functions
- * 
- * Structured similary to Android's Intent class.
- * Created By: NeilDG
- */
 public class Parameters {
 
 	//basic supported parcelable types
@@ -19,6 +13,7 @@ public class Parameters {
 	private Dictionary<string, short> shortData;
 	private Dictionary<string, long> longData;
 	private Dictionary<string, string> stringData;
+	private Dictionary<string, Vector3> vector3Data;
 
 	//reference type parcelable
 	private Dictionary<string, ArrayList> arrayListData;
@@ -36,6 +31,7 @@ public class Parameters {
 		this.stringData = new Dictionary<string, string>();
 		this.arrayListData = new Dictionary<string, ArrayList>();
 		this.objectListData = new Dictionary<string, object>();
+		this.vector3Data = new Dictionary<string, Vector3>();
 	}
 
 	public void PutExtra(string paramName, bool value) {
@@ -72,6 +68,10 @@ public class Parameters {
 
 	public void PutExtra(string paramName, ArrayList arrayList) {
 		this.arrayListData.Add(paramName, arrayList);
+	}
+
+	public void PutExtra(string paramName, Vector3 vector3) {
+		this.vector3Data.Add(paramName, vector3);
 	}
 
 	public void PutExtra(string paramName, object[] objectArray) {
@@ -150,6 +150,15 @@ public class Parameters {
 	public string GetStringExtra(string paramName, string defaultValue) {
 		if(this.stringData.ContainsKey(paramName)) {
 			return this.stringData[paramName];
+		}
+		else {
+			return defaultValue;
+		}
+	}
+
+	public Vector3 GetVector3Extra(string paramName, Vector3 defaultValue) {
+		if(this.vector3Data.ContainsKey(paramName)) {
+			return this.vector3Data[paramName];
 		}
 		else {
 			return defaultValue;
