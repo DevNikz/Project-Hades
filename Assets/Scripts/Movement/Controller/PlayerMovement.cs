@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour {
 
     //Strafe
     [Header("Speed")]
-    public Strafe strafe;
+    [SerializeField] private Strafe strafe;
     
     //States
     [Header("State")]
@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
     //Dashing
     [Header("Dash")]
 
-    public Dash dash;
+    [SerializeField] private Dash dash;
 
     //Keybinds
     [Header("Keybinds")]
@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Move() {
         //_rb.MovePosition(transform.position + transform.forward * _speed * Time.deltaTime);
-        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafeSpeed * Time.deltaTime);
+        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.strafeSpeed * Time.deltaTime);
     }
 
     private void CheckDrag() {

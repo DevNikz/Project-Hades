@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Strafe : MonoBehaviour
+[Serializable] public class Strafe
 {
     [Tooltip("Set Current Speed in Float")]
     [SerializeField] public float currentSpeed;

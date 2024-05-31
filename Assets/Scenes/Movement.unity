@@ -631,16 +631,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 536727975}
   model: {fileID: 536727972}
-  currentSpeed: 0
-  strafeSpeed: 5
-  dashSpeed: 5
-  turnSpeed: 360
-  groundDrag: 10
+  strafe:
+    currentSpeed: 0
+    strafeSpeed: 0
+    turnSpeed: 0
+    groundDrag: 0
   movement: 0
-  dashing: 0
-  dashForce: 20
-  dashDuration: 0.25
-  dashCD: 0
+  direction: 0
+  dash:
+    dashSpeed: 0
+    dashing: 0
+    dashForce: 0
+    dashDuration: 0
+    dashCD: 0
+    dashCDTimer: 0
+    delayedForce: {x: 0, y: 0, z: 0}
+    isoInput: {x: 0, y: 0, z: 0}
   debugString: W.I.P
 --- !u!1 &578316565
 GameObject:
@@ -1090,16 +1096,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 1488139668}
   model: {fileID: 1488139664}
-  currentSpeed: 0
-  strafeSpeed: 5
-  dashSpeed: 5
-  turnSpeed: 720
-  groundDrag: 10
+  strafe:
+    currentSpeed: 0
+    strafeSpeed: 5
+    turnSpeed: 720
+    groundDrag: 10
   movement: 0
-  dashing: 0
-  dashForce: 20
-  dashDuration: 0.25
-  dashCD: 1.5
+  direction: 3
+  dash:
+    dashSpeed: 5
+    dashing: 0
+    dashForce: 25
+    dashDuration: 0.025
+    dashCD: 1.5
+    dashCDTimer: 0
+    delayedForce: {x: 0, y: 0, z: 0}
+    isoInput: {x: 0, y: 0, z: 0}
   debugString: W.I.P
 --- !u!1 &1742185140
 GameObject:

@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dash : MonoBehaviour
+[Serializable] public class Dash
 {
     [Tooltip("Set Dash Speed in Float")]
     [SerializeField] public float dashSpeed;
