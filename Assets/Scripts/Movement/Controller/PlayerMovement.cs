@@ -1,16 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
+using Unity.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
-
-    /*
-    - Transfer EventManager
-    - Separate Strafe and Dash
-    */
     
     //Properties
     [Header("Properties")]
@@ -25,19 +16,20 @@ public class PlayerMovement : MonoBehaviour {
     
     //States
     [Header("State")]
-    [SerializeField] public Movement movement = Movement.Strafing;
-    public Direction direction;
+    [SerializeField] private Movement movement = Movement.Strafing;
+    [ReadOnly] public Direction direction;
 
     //Dashing
     [Header("Dash")]
-
     [SerializeField] private Dash dash;
 
     //Keybinds
     [Header("Keybinds")]
-    [SerializeField] private string debugString = "W.I.P";
+    [ReadOnly] protected string debugString = "W.I.P";
 
     public const string KEY_MOVE = "KEY_MOVE";
+    
+    public const string KEY_DASH = "KEY_DASH";
 
     //Input References
     private Vector3 moveInput;
@@ -54,10 +46,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
-
-        //Init Input From UserInput
-        GatherInput();
-
         //Init Strafe Funcs
         CheckDrag();
 
@@ -67,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
-        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.strafeSpeed * Time.deltaTime);
+        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
     }
 
     private void lookEvent(Parameters parameters) {
@@ -83,21 +71,24 @@ public class PlayerMovement : MonoBehaviour {
     private void stateHandlerEvent(Parameters parameters) {
 
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
+        dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(UserInput.Instance.DashInput) {
+        if(dashInput == true) {
             movement = Movement.Dashing;
             strafe.currentSpeed = dash.dashSpeed;
             Dash();
         }
 
         else if(moveInput.x != 0 || moveInput.z != 0) {
+
+            //Set To Strafing
             movement = Movement.Strafing;
+
+            //Set To Strafing Speed
             strafe.currentSpeed = strafe.strafeSpeed;
 
             //Debug Direction
-            direction = IsoCompass(UserInput.Instance.Vertical, UserInput.Instance.Horizontal);
-            //Debug.Log("X: " + UserInput.Instance.Vertical + " | Z: " + UserInput.Instance.Horizontal);
-            //Debug.Log(direction);
+            direction = IsoCompass(moveInput.x, moveInput.z);
         }
     }
 
@@ -108,43 +99,30 @@ public class PlayerMovement : MonoBehaviour {
         else rigidBody.drag = 5f;
     }
 
-    private void GatherInput() {
-        //Old System
-        //input = new Vector3(Input.GetAxisRaw("Horizontal"),0,Input.GetAxisRaw("Vertical"));
-
-        //New System
-        //Horizontal = move.ReadValue<float>();
-        //Vertical = move.ReadValue<float>();
-
-        //Grabs instance of MoveInput
-        moveInput = UserInput.Instance.MoveInput;
-        dashInput = UserInput.Instance.DashInput;
-    }
-
     private Direction IsoCompass(float x, float z) {
         //North
-        if(x == 1 && z == 0) return Direction.North;
+        if(x == 0 && z == 1) return Direction.North;
 
         //North East
         else if(x == 1 && z == 1) return Direction.NorthEast;
 
         //East
-        else if(x == 0 && z == 1) return Direction.East;
+        else if(x == 1 && z == 0) return Direction.East;
 
         //South East
-        else if(x == -1 && z == 1) return Direction.SouthEast;
+        else if(x == 1 && z == -1) return Direction.SouthEast;
 
         //South
-        else if(x == -1 && z == 0) return Direction.South;
+        else if(x == 0 && z == -1) return Direction.South;
 
         //South West
         else if(x == -1 && z == -1) return Direction.SouthWest;
 
         //West
-        else if(x == 0 && z == -1) return Direction.West;
+        else if(x == -1 && z == 0) return Direction.West;
 
         //North West
-        else if(x == 1 && z == -1) return Direction.NorthWest;
+        else if(x == -1 && z == 1) return Direction.NorthWest;
 
         else return Direction.None;
     }
@@ -152,16 +130,14 @@ public class PlayerMovement : MonoBehaviour {
     private void Dash() {
         if(dash.dashCDTimer > 0 ) return;
         else dash.dashCDTimer = dash.dashCD;
+
+        //Set Dash To True
         dash.dashing = true;
 
-        //Dashes Based on Front Face
-        //Vector3 forceToApply = gameObject.transform.forward * dashForce;
+        //Convert World View Coords To Iso Coords
+        dash.isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
 
-        //Dash Based on Key Input
-        //Vector3 forceToApply = moveInput * dashForce; //World View
-
-        dash.isoInput = this.ConvertToIso(moveInput.z, moveInput.x);
-
+        //Apply Dash Based On KeyInput
         Vector3 forceToApply = dash.isoInput * dash.dashForce; 
 
         //Apply Force
@@ -176,37 +152,35 @@ public class PlayerMovement : MonoBehaviour {
 
     private Vector3 ConvertToIso(float x, float z) {
 
-        Debug.Log("X: " + x + " Z: " + z);
         //North
-        if(x == 1 && z == 0) return new Vector3(1f, 0f, 1f);
+        if(x == 0 && z == 1) return new Vector3(1f, 0f, 1f);
 
         //North East
         else if(x == 1 && z == 1) return new Vector3(1f, 0f, 0f);
 
         //East
-        else if(x == 0 && z == 1) return new Vector3(1f, 0f, -1f);
+        else if(x == 1 && z == 0) return new Vector3(1f, 0f, -1f);
 
         //South East
-        else if(x == -1 && z == 1) return new Vector3(0f, 0f, -1f);
+        else if(x == 1 && z == -1) return new Vector3(0f, 0f, -1f);
 
         //South
-        else if(x == -1 && z == 0) return new Vector3(-1f, 0f, -1f);
+        else if(x == 0 && z == -1) return new Vector3(-1f, 0f, -1f);
 
         //South West
         else if(x == -1 && z == -1) return new Vector3(-1f, 0f, 0f);
 
         //West
-        else if(x == 0 && z == -1) return new Vector3(-1f, 0f, 1f);
+        else if(x == -1 && z == 0) return new Vector3(-1f, 0f, 1f);
 
         //North West
-        else if(x == 1 && z == -1) return new Vector3(0f, 0f, 1f);
+        else if(x == -1 && z == 1) return new Vector3(0f, 0f, 1f);
 
         else {
             Vector3 zero = Vector3.zero;
             return zero;
         }
     }
-
 
     private void DelayedDashForce() {
         rigidBody.AddForce(dash.delayedForce, ForceMode.Impulse);
@@ -218,7 +192,6 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Cooldown() {
         if(dash.dashCDTimer > 0) dash.dashCDTimer -= Time.deltaTime;
-        //Debug.Log(dashCDTimer);
     }
 }
 

@@ -647,7 +647,6 @@ MonoBehaviour:
     dashCDTimer: 0
     delayedForce: {x: 0, y: 0, z: 0}
     isoInput: {x: 0, y: 0, z: 0}
-  debugString: W.I.P
 --- !u!1 &578316565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,14 +1096,14 @@ MonoBehaviour:
   rigidBody: {fileID: 1488139668}
   model: {fileID: 1488139664}
   strafe:
-    currentSpeed: 0
+    currentSpeed: 5
     strafeSpeed: 5
     turnSpeed: 720
     groundDrag: 10
   movement: 0
-  direction: 3
+  direction: 0
   dash:
-    dashSpeed: 5
+    dashSpeed: 10
     dashing: 0
     dashForce: 25
     dashDuration: 0.025
@@ -1112,7 +1111,6 @@ MonoBehaviour:
     dashCDTimer: 0
     delayedForce: {x: 0, y: 0, z: 0}
     isoInput: {x: 0, y: 0, z: 0}
-  debugString: W.I.P
 --- !u!1 &1742185140
 GameObject:
   m_ObjectHideFlags: 0

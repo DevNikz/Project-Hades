@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class UserInput : MonoBehaviour
 {
-    public static UserInput Instance;
-
     //Strafe
     public float Horizontal { get; private set; }
 
@@ -24,10 +22,7 @@ public class UserInput : MonoBehaviour
     private InputAction _Dash;
     
     private void Awake() {
-        if (Instance == null) Instance = this;
-
         _playerInput = GetComponent<PlayerInput>();
-
         SetupInputActions();
     }
 
@@ -52,11 +47,12 @@ public class UserInput : MonoBehaviour
 
         Parameters parameters = new Parameters();
         parameters.PutExtra(PlayerMovement.KEY_MOVE, MoveInput);
+        parameters.PutExtra(PlayerMovement.KEY_DASH, DashInput);
 
         EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.KEY_INPUTS, parameters);
 
         Debug.Log(MoveInput);
-
+        
         //Debug
         //Debug.Log("Horizontal: " + _Horizontal.activeControl + " | Vertical: " + _Vertical.activeControl);
         //Debug.Log("X: " + MoveInput.x);
