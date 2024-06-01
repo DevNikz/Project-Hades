@@ -18,7 +18,7 @@ public class Parameters {
 	//reference type parcelable
 	private Dictionary<string, ArrayList> arrayListData;
 	private Dictionary<string, object> objectListData;
-
+	private Dictionary<string, Collider> colliderListData;
 
 	public Parameters() {
 		this.charData = new Dictionary<string, char>();
@@ -32,6 +32,7 @@ public class Parameters {
 		this.arrayListData = new Dictionary<string, ArrayList>();
 		this.objectListData = new Dictionary<string, object>();
 		this.vector3Data = new Dictionary<string, Vector3>();
+		this.colliderListData = new Dictionary<string, Collider>();
 	}
 
 	public void PutExtra(string paramName, bool value) {
@@ -72,6 +73,10 @@ public class Parameters {
 
 	public void PutExtra(string paramName, Vector3 vector3) {
 		this.vector3Data.Add(paramName, vector3);
+	}
+
+	public void PutExtra(string paramName, Collider collider) {
+		this.colliderListData.Add(paramName, collider);
 	}
 
 	public void PutExtra(string paramName, object[] objectArray) {
@@ -159,6 +164,15 @@ public class Parameters {
 	public Vector3 GetVector3Extra(string paramName, Vector3 defaultValue) {
 		if(this.vector3Data.ContainsKey(paramName)) {
 			return this.vector3Data[paramName];
+		}
+		else {
+			return defaultValue;
+		}
+	}
+
+	public Collider GetColliderExtra(string paramName, Collider defaultValue) {
+		if(this.colliderListData.ContainsKey(paramName)) {
+			return this.colliderListData[paramName];
 		}
 		else {
 			return defaultValue;
