@@ -10,12 +10,13 @@ IEPRJ Project based on the game [Hades](https://store.steampowered.com/app/11453
 - [ ] Controller
   - [x] Strafe
   - [x] Dash
-  - [ ] Interact
+  - [x] Interact
 - [ ] Combat (Stagnant Enemies)
 - [ ] Capture Mechanic
 - [ ] Death 
 - [ ] Powerups
 - [ ] UI
+  - [x] Interact Prompts  
 
 ## Resources
 
