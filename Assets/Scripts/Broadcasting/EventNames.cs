@@ -5,6 +5,9 @@ public class EventNames {
 	
 	public class KeyboardInput {
 		public const string KEY_INPUTS = "KEY_INPUTS";
+		public const string INTERACT_PRESS = "INTERACT_PRESS";
+		public const string INTERACT_HOLD = "INTERACT_HOLD";
+		public const string INTERACT_TOGGLE = "INTERACT_TOGGLE";
 	}
 
 	public class Prompt {
@@ -15,6 +18,7 @@ public class EventNames {
 	public class Active {
 		public const string INTERACT_ENABLE = "INTERACT_ENABLE";
 		public const string INTERACT_DISABLE = "INTERACT_DISABLE";
+		public const string INTERACT_EXIT = "INTERACT_EXIT";
 	}
 }
 

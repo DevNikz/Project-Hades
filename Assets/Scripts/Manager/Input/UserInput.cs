@@ -21,11 +21,17 @@ public class UserInput : MonoBehaviour
     //Dash
     public bool DashInput { get; private set; }
 
+    //Interact
+    public bool interactPress { get; private set; }
+    public bool interactHeld { get; private set; }
+    public bool interactReleased { get; private set; }
+
     //Input
     private PlayerInput _playerInput;
     private InputAction _Horizontal;
     private InputAction _Vertical;
     private InputAction _Dash;
+    private InputAction _Interact;
 
     //Bool Ref
     private InputAction _KeyboardMove;
@@ -43,6 +49,7 @@ public class UserInput : MonoBehaviour
         _Horizontal = _playerInput.actions["HorizontalMove"];
         _Vertical = _playerInput.actions["VerticalMove"];
         _Dash = _playerInput.actions["Dash"];
+        _Interact = _playerInput.actions["Interact"];
         //_KeyboardMove = _playerInput.actions["KeyboardMove"];
     }
 
@@ -55,23 +62,26 @@ public class UserInput : MonoBehaviour
         //Dash
         DashInput = _Dash.WasPressedThisFrame(); 
 
-        //Bool Input Move
-        // MovePressed = _KeyboardMove.WasPressedThisFrame();
-        // MoveHeld = _KeyboardMove.IsPressed();
-        // MoveReleased = _KeyboardMove.WasReleasedThisFrame();
+        //Interact
+        interactPress = _Interact.WasPressedThisFrame();
+        interactHeld = _Interact.IsPressed();
+        interactReleased = _Interact.WasReleasedThisFrame();
 
         Parameters parameters = new Parameters();
         parameters.PutExtra(PlayerMovement.KEY_MOVE, MoveInput);
         parameters.PutExtra(PlayerMovement.KEY_DASH, DashInput);
-        parameters.PutExtra(PlayerMovement.KEY_MOVE_HELD, MoveHeld);
-
         EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.KEY_INPUTS, parameters);
 
-        //Debug.Log(MoveInput);
-        
-        //Debug
-        //Debug.Log("Horizontal: " + _Horizontal.activeControl + " | Vertical: " + _Vertical.activeControl);
-        //Debug.Log("X: " + MoveInput.x);
-        //Debug.Log("Z: " + MoveInput.z);
+        parameters = new Parameters();
+        parameters.PutExtra(ColliderModule.INPUT_PRESS, interactPress);
+        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_PRESS, parameters);
+
+        parameters = new Parameters();
+        parameters.PutExtra(ColliderModule.INPUT_HOLD, interactHeld);
+        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_HOLD, parameters);
+
+        parameters = new Parameters();
+        parameters.PutExtra(ColliderModule.INPUT_TOGGLE, interactPress);
+        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_TOGGLE, parameters);
     }
 }
