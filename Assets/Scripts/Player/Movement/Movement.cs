@@ -1,4 +1,5 @@
 using Unity.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
@@ -17,7 +18,7 @@ public class Movement : MonoBehaviour {
     //States
     [Header("State")]
     [SerializeField] private EntityState state = EntityState.Idle;
-    [ReadOnly] public EntityDirection direction;
+    [ReadOnly] public EntityDirection direction = EntityDirection.None;
 
     //Dashing
     [Header("Dash")]
@@ -44,7 +45,29 @@ public class Movement : MonoBehaviour {
     private Vector3 moveInput;
     private bool dashInput;
 
+    void Reset() {
+        rigidBody = this.GetComponent<Rigidbody>();
+        model = this.GetComponent<Transform>();
+
+        state = EntityState.Idle;
+        direction = EntityDirection.None;
+
+        strafe.currentSpeed = 5;
+        strafe.strafeSpeed = 5;
+        strafe.turnSpeed = 720;
+        strafe.groundDrag = 10;
+
+        dash.dashSpeed = 10;
+        dash.dashing = false;
+        dash.dashForce = 25;
+        dash.dashDuration = 0.025f;
+        dash.dashCD = 1.5f;
+    }
+
     void Start() {
+        rigidBody = this.GetComponent<Rigidbody>();
+        model = this.GetComponent<Transform>();
+
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.lookEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);

@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 public class ColliderModule : MonoBehaviour
@@ -33,6 +31,8 @@ public class ColliderModule : MonoBehaviour
     public const string INPUT_TOGGLE = "INPUT_TOGGLE";
 
     private void Start() {
+        //Set Collider to InteractCollider Object
+        playerCollider.collider = this.transform.Find("InteractCollider").GetComponentInChildren<SphereCollider>();
         playerCollider.collider.radius = playerCollider.radiusModifier;
     }
 
