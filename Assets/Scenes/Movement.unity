@@ -160,39 +160,6 @@ Transform:
   - {fileID: 784169192}
   m_Father: {fileID: 1488139664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &108982652
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 108982653}
-  m_Layer: 6
-  m_Name: Modules
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &108982653
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 108982652}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2053344650}
-  - {fileID: 1762672555}
-  m_Father: {fileID: 1488139664}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &115924550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,6 +2471,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488139664}
+  - component: {fileID: 1488139672}
   - component: {fileID: 1488139671}
   - component: {fileID: 1488139669}
   - component: {fileID: 1488139668}
@@ -2530,8 +2498,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1762672555}
+  - {fileID: 2053344650}
   - {fileID: 78797115}
-  - {fileID: 108982653}
   m_Father: {fileID: 1742185141}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1488139665
@@ -2654,7 +2623,7 @@ MonoBehaviour:
     turnSpeed: 720
     groundDrag: 10
   state: 2
-  direction: 0
+  direction: 8
   dash:
     dashSpeed: 10
     dashing: 0
@@ -2664,7 +2633,7 @@ MonoBehaviour:
     dashCDTimer: 0
     delayedForce: {x: 0, y: 0, z: 0}
     isoInput: {x: 0, y: 0, z: 0}
-  dust: {fileID: 2053344652}
+  dust: {fileID: 0}
   moveHeld: 0
 --- !u!114 &1488139671
 MonoBehaviour:
@@ -2679,7 +2648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollider:
-    collider: {fileID: 1762672557}
+    collider: {fileID: 0}
     radiusModifier: 4
   interact:
     eventList: []
@@ -2691,6 +2660,18 @@ MonoBehaviour:
   inputPress: 0
   inputHold: 0
   inputToggle: 0
+--- !u!114 &1488139672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488139663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8854316e5e74d4f4f8860511b4d6d807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1607258317
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,12 +3060,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762672554}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 108982653}
+  m_Father: {fileID: 1488139664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1762672557
 SphereCollider:
@@ -3418,7 +3399,7 @@ GameObject:
   - component: {fileID: 2053344652}
   - component: {fileID: 2053344651}
   m_Layer: 6
-  m_Name: Particle System
+  m_Name: GroundDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3437,7 +3418,7 @@ Transform:
   m_LocalScale: {x: -1, y: -1, z: -1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 108982653}
+  m_Father: {fileID: 1488139664}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &2053344651
 ParticleSystemRenderer:
