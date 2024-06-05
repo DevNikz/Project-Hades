@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class UserInput : MonoBehaviour
 {
     //Strafe
@@ -50,7 +52,6 @@ public class UserInput : MonoBehaviour
         _Vertical = _playerInput.actions["VerticalMove"];
         _Dash = _playerInput.actions["Dash"];
         _Interact = _playerInput.actions["Interact"];
-        //_KeyboardMove = _playerInput.actions["KeyboardMove"];
     }
 
     private void UpdateInputs() {
@@ -68,8 +69,8 @@ public class UserInput : MonoBehaviour
         interactReleased = _Interact.WasReleasedThisFrame();
 
         Parameters parameters = new Parameters();
-        parameters.PutExtra(PlayerMovement.KEY_MOVE, MoveInput);
-        parameters.PutExtra(PlayerMovement.KEY_DASH, DashInput);
+        parameters.PutExtra(Movement.KEY_MOVE, MoveInput);
+        parameters.PutExtra(Movement.KEY_DASH, DashInput);
         EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.KEY_INPUTS, parameters);
 
         parameters = new Parameters();

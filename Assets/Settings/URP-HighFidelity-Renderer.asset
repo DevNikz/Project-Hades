@@ -17,11 +17,11 @@ MonoBehaviour:
     AOMethod: 1
     Downsample: 0
     AfterOpaque: 0
-    Source: 1
-    NormalSamples: 1
-    Intensity: 0.5
-    DirectLightingStrength: 0.25
-    Radius: 0.25
+    Source: 0
+    NormalSamples: 2
+    Intensity: 1
+    DirectLightingStrength: 0.3
+    Radius: 0.5
     Samples: 0
     BlurQuality: 0
     Falloff: 100
@@ -99,7 +99,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_DefaultStencilState:
-    overrideStencilState: 0
+    overrideStencilState: 1
     stencilReference: 0
     stencilCompareFunction: 8
     passOperation: 2

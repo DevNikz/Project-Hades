@@ -1,7 +1,7 @@
 using Unity.Collections;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class Movement : MonoBehaviour {
     
     //Properties
     [Header("Properties")]
@@ -16,8 +16,8 @@ public class PlayerMovement : MonoBehaviour {
     
     //States
     [Header("State")]
-    [SerializeField] private Movement movement = Movement.Idle;
-    [ReadOnly] public Direction direction;
+    [SerializeField] private EntityState state = EntityState.Idle;
+    [ReadOnly] public EntityDirection direction;
 
     //Dashing
     [Header("Dash")]
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour {
     private void CheckMove() {
         ParticleSystem.EmissionModule temp = dust.emission;
         
-        if(movement == Movement.Strafing) temp.enabled = true;
+        if(state == EntityState.Strafing) temp.enabled = true;
         else temp.enabled = false;
         // if(movement == Movement.Strafing) CreateDust(); 
         // else ClearDust(); 
@@ -107,14 +107,14 @@ public class PlayerMovement : MonoBehaviour {
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
         if(dashInput == true) {
-            movement = Movement.Dashing;
+            state = EntityState.Dashing;
             strafe.currentSpeed = dash.dashSpeed;
             Dash();
         }
 
         else if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
-            movement = Movement.Strafing;
+            state = EntityState.Strafing;
 
             //Set To Strafing Speed
             strafe.currentSpeed = strafe.strafeSpeed;
@@ -123,42 +123,42 @@ public class PlayerMovement : MonoBehaviour {
             direction = IsoCompass(moveInput.x, moveInput.z);
         }
 
-        else movement = Movement.Idle;
+        else state = EntityState.Idle;
     }
 
     private void CheckDrag() {
-        if(movement == Movement.Strafing) {
+        if(state == EntityState.Strafing) {
             rigidBody.drag = strafe.groundDrag;
         }
         else rigidBody.drag = 5f;
     }
 
-    private Direction IsoCompass(float x, float z) {
+    private EntityDirection IsoCompass(float x, float z) {
         //North
-        if(x == 0 && z == 1) return Direction.North;
+        if(x == 0 && z == 1) return EntityDirection.North;
 
         //North East
-        else if(x == 1 && z == 1) return Direction.NorthEast;
+        else if(x == 1 && z == 1) return EntityDirection.NorthEast;
 
         //East
-        else if(x == 1 && z == 0) return Direction.East;
+        else if(x == 1 && z == 0) return EntityDirection.East;
 
         //South East
-        else if(x == 1 && z == -1) return Direction.SouthEast;
+        else if(x == 1 && z == -1) return EntityDirection.SouthEast;
 
         //South
-        else if(x == 0 && z == -1) return Direction.South;
+        else if(x == 0 && z == -1) return EntityDirection.South;
 
         //South West
-        else if(x == -1 && z == -1) return Direction.SouthWest;
+        else if(x == -1 && z == -1) return EntityDirection.SouthWest;
 
         //West
-        else if(x == -1 && z == 0) return Direction.West;
+        else if(x == -1 && z == 0) return EntityDirection.West;
 
         //North West
-        else if(x == -1 && z == 1) return Direction.NorthWest;
+        else if(x == -1 && z == 1) return EntityDirection.NorthWest;
 
-        else return Direction.None;
+        else return EntityDirection.None;
     }
 
     private void Dash() {

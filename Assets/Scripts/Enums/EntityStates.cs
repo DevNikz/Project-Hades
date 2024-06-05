@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Movement {
+public enum EntityState {
     Strafing,
     Dashing,
     Idle
 }
 
-public enum Direction {
+public enum EntityDirection {
     North,
     NorthEast,
     East,
