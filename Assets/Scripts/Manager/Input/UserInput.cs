@@ -14,12 +14,6 @@ public class UserInput : MonoBehaviour
 
     public Vector3 MoveInput { get; private set; }
 
-    public bool MovePressed { get; private set;}
-    
-    public bool MoveHeld { get; private set; }
-
-    public bool MoveReleased { get; private set; }
-
     //Dash
     public bool DashInput { get; private set; }
 
@@ -28,15 +22,16 @@ public class UserInput : MonoBehaviour
     public bool interactHeld { get; private set; }
     public bool interactReleased { get; private set; }
 
+    //Position
+    public Vector2 mousePosition { get; private set; }
+
     //Input
     private PlayerInput _playerInput;
     private InputAction _Horizontal;
     private InputAction _Vertical;
     private InputAction _Dash;
     private InputAction _Interact;
-
-    //Bool Ref
-    private InputAction _KeyboardMove;
+    private InputAction _MousePosition;
     
     private void Awake() {
         _playerInput = GetComponent<PlayerInput>();
@@ -52,6 +47,7 @@ public class UserInput : MonoBehaviour
         _Vertical = _playerInput.actions["VerticalMove"];
         _Dash = _playerInput.actions["Dash"];
         _Interact = _playerInput.actions["Interact"];
+        _MousePosition = _playerInput.actions["MousePosition"];
     }
 
     private void UpdateInputs() {
@@ -68,21 +64,20 @@ public class UserInput : MonoBehaviour
         interactHeld = _Interact.IsPressed();
         interactReleased = _Interact.WasReleasedThisFrame();
 
-        Parameters parameters = new Parameters();
-        parameters.PutExtra(Movement.KEY_MOVE, MoveInput);
-        parameters.PutExtra(Movement.KEY_DASH, DashInput);
-        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.KEY_INPUTS, parameters);
+        //MousePosition
+        mousePosition = _MousePosition.ReadValue<Vector2>();
+        Vector3 projectedPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        parameters = new Parameters();
-        parameters.PutExtra(ColliderModule.INPUT_PRESS, interactPress);
-        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_PRESS, parameters);
+        //Move
+        Broadcaster.Instance.AddVectorBParam(Movement.KEY_MOVE, Movement.KEY_DASH, 
+                                            EventNames.KeyboardInput.KEY_INPUTS, MoveInput, DashInput);
+        
+        //Interact
+        Broadcaster.Instance.AddBoolParam(ColliderModule.INPUT_PRESS, EventNames.KeyboardInput.INTERACT_PRESS, interactPress);
+        Broadcaster.Instance.AddBoolParam(ColliderModule.INPUT_HOLD, EventNames.KeyboardInput.INTERACT_HOLD, interactHeld);
+        Broadcaster.Instance.AddBoolParam(ColliderModule.INPUT_TOGGLE, EventNames.KeyboardInput.INTERACT_TOGGLE, interactPress);
 
-        parameters = new Parameters();
-        parameters.PutExtra(ColliderModule.INPUT_HOLD, interactHeld);
-        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_HOLD, parameters);
-
-        parameters = new Parameters();
-        parameters.PutExtra(ColliderModule.INPUT_TOGGLE, interactPress);
-        EventBroadcaster.Instance.PostEvent(EventNames.KeyboardInput.INTERACT_TOGGLE, parameters);
+        //MousePosition
+        Broadcaster.Instance.AddVectorParam(MouseMoveTest.MOUSE_POS, EventNames.MouseInput.MOUSE_POS, projectedPosition);
     }
 }

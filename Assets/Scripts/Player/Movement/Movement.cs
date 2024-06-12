@@ -67,6 +67,7 @@ public class Movement : MonoBehaviour {
     void Start() {
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
+        dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
 
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.lookEvent);
@@ -84,8 +85,6 @@ public class Movement : MonoBehaviour {
 
         //Init Dash Funcs
         Cooldown();
-
-        //if(Input.GetKeyDown(KeyCode.R)) ClearDust(); 
     }
 
     private void moveEvent(Parameters parameters) {
@@ -96,11 +95,8 @@ public class Movement : MonoBehaviour {
 
     private void CheckMove() {
         ParticleSystem.EmissionModule temp = dust.emission;
-        
         if(state == EntityState.Strafing) temp.enabled = true;
         else temp.enabled = false;
-        // if(movement == Movement.Strafing) CreateDust(); 
-        // else ClearDust(); 
     }
     
     private void CreateDust() {
@@ -121,7 +117,6 @@ public class Movement : MonoBehaviour {
 
         Quaternion rot = Quaternion.LookRotation(moveInput.ToIso(), Vector3.up);
         model.rotation = Quaternion.RotateTowards(model.rotation, rot, strafe.turnSpeed * Time.deltaTime);
-
     }
 
     private void stateHandlerEvent(Parameters parameters) {

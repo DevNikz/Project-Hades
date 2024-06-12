@@ -10,6 +10,10 @@ public class EventNames {
 		public const string INTERACT_TOGGLE = "INTERACT_TOGGLE";
 	}
 
+	public class MouseInput {
+		public const string MOUSE_POS = "MOUSE_POS";
+	}
+
 	public class Prompt {
 		public const string PROMPT_NAMES_ADD = "PROMPT_NAMES_ADD";
 		public const string PROMPT_NAMES_DELETE = "PROMPT_NAMES_DELETE";
