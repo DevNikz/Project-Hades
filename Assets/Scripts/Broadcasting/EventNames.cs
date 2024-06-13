@@ -12,6 +12,8 @@ public class EventNames {
 
 	public class MouseInput {
 		public const string MOUSE_POS = "MOUSE_POS";
+		public const string LEFT_CLICK_PRESS = "LEFT_CLICK_PRESS";
+		public const string RIGHT_CLICK_PRESS = "RIGHT_CLICK_PRESS";
 	}
 
 	public class Prompt {
