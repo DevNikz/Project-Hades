@@ -19,3 +19,10 @@ public enum EntityDirection {
     NorthWest,
     None
 }
+
+public enum AnimDirection {
+    Up,
+    Down,
+    Left,
+    Right
+}

@@ -5,7 +5,6 @@ public class PointerTest : MonoBehaviour
     //Player Ref
     private GameObject player;   
     private GameObject bullet;
-    [SerializeField] private GameObjectPool bulletPool;
     
     //Pointer
     private Vector3 orbVector;
@@ -31,7 +30,6 @@ public class PointerTest : MonoBehaviour
     }
 
     private void Start() {
-        this.bulletPool.Initialize();
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.ShootDebug);
     }
 
@@ -54,12 +52,6 @@ public class PointerTest : MonoBehaviour
         angle = Mathf.Atan2(orbVector.y, orbVector.x) * Mathf.Rad2Deg;
     }
 
-    // private void ShootDebug(Parameters parameters) {
-    //     leftPress = parameters.GetBoolExtra(LEFT_CLICK_PRESS, false);
-    //     if(leftPress) {
-    //         this.bulletPool.RequestPoolable();
-    //     }
-    // }
 
     //Add Shooting (Left Click)
     private void ShootDebug(Parameters parameters) {

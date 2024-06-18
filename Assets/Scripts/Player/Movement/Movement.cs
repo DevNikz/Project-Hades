@@ -126,6 +126,7 @@ public class Movement : MonoBehaviour {
 
         if(dashInput == true) {
             state = EntityState.Dashing;
+            PlayerData.entityState = EntityState.Dashing;
             strafe.currentSpeed = dash.dashSpeed;
             Dash();
         }
@@ -133,6 +134,7 @@ public class Movement : MonoBehaviour {
         else if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
             state = EntityState.Strafing;
+            PlayerData.entityState = EntityState.Strafing;
 
             //Set To Strafing Speed
             strafe.currentSpeed = strafe.strafeSpeed;
@@ -141,7 +143,10 @@ public class Movement : MonoBehaviour {
             direction = IsoCompass(moveInput.x, moveInput.z);
         }
 
-        else state = EntityState.Idle;
+        else {
+            state = EntityState.Idle; 
+            PlayerData.entityState = EntityState.Idle;
+        }
     }
 
     private void CheckDrag() {
@@ -153,30 +158,65 @@ public class Movement : MonoBehaviour {
 
     private EntityDirection IsoCompass(float x, float z) {
         //North
-        if(x == 0 && z == 1) return EntityDirection.North;
+        if(x == 0 && z == 1) {
+            PlayerData.animDirection = AnimDirection.Up;
+            PlayerData.entityDirection = EntityDirection.North;
+            return EntityDirection.North;
+        }
 
         //North East
-        else if(x == 1 && z == 1) return EntityDirection.NorthEast;
+        else if(x == 1 && z == 1) {
+            PlayerData.animDirection = AnimDirection.Up;
+            PlayerData.entityDirection = EntityDirection.NorthEast;
+            return EntityDirection.NorthEast;
+        }
 
         //East
-        else if(x == 1 && z == 0) return EntityDirection.East;
+        else if(x == 1 && z == 0) {
+            PlayerData.animDirection = AnimDirection.Left;
+            PlayerData.entityDirection = EntityDirection.East;
+            return EntityDirection.East;
+        }
 
         //South East
-        else if(x == 1 && z == -1) return EntityDirection.SouthEast;
+        else if(x == 1 && z == -1) {
+            PlayerData.animDirection = AnimDirection.Down;
+            PlayerData.entityDirection = EntityDirection.SouthEast;
+            return EntityDirection.SouthEast;
+        }
 
         //South
-        else if(x == 0 && z == -1) return EntityDirection.South;
+        else if(x == 0 && z == -1) {
+            PlayerData.animDirection = AnimDirection.Down;
+            PlayerData.entityDirection = EntityDirection.South;
+            return EntityDirection.South;
+        }
 
         //South West
-        else if(x == -1 && z == -1) return EntityDirection.SouthWest;
+        else if(x == -1 && z == -1) {
+            PlayerData.animDirection = AnimDirection.Down;
+            PlayerData.entityDirection = EntityDirection.SouthWest;
+            return EntityDirection.SouthWest;
+        }
 
         //West
-        else if(x == -1 && z == 0) return EntityDirection.West;
+        else if(x == -1 && z == 0) {
+            PlayerData.animDirection = AnimDirection.Right;
+            PlayerData.entityDirection = EntityDirection.West;
+            return EntityDirection.West;
+        }
 
         //North West
-        else if(x == -1 && z == 1) return EntityDirection.NorthWest;
+        else if(x == -1 && z == 1) {
+            PlayerData.animDirection = AnimDirection.Up;
+            PlayerData.entityDirection = EntityDirection.NorthWest;
+            return EntityDirection.NorthWest;
+        }
 
-        else return EntityDirection.None;
+        else {
+            PlayerData.entityDirection = EntityDirection.None;
+            return EntityDirection.None;
+        }
     }
 
     private void Dash() {
