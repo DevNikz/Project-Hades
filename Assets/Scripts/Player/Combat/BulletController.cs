@@ -1,7 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    [SerializeField] [Range(1f,5f)] private float knocbackForce;
     private GameObject tempObject;
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
@@ -14,6 +16,10 @@ public class BulletController : MonoBehaviour
             Debug.Log("Bullet hit!");
             tempObject = other.gameObject;
             meshRenderer.material.SetColor("_BaseColor", Color.red);
+
+            Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
+            Vector3 knockback = direction * knocbackForce;
+            rb.AddForce(knockback, ForceMode.Impulse);
 
             Destroy(this.gameObject);
         }
