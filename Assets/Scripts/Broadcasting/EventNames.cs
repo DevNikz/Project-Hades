@@ -25,6 +25,7 @@ public class EventNames {
 		public const string INTERACT_ENABLE = "INTERACT_ENABLE";
 		public const string INTERACT_DISABLE = "INTERACT_DISABLE";
 		public const string INTERACT_EXIT = "INTERACT_EXIT";
+		public const string HIT_EXIT = "HIT_EXIT";
 	}
 }
 

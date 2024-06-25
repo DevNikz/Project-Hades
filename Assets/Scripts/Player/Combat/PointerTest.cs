@@ -22,7 +22,8 @@ public class PointerTest : MonoBehaviour
 
     //Enums
     public TimerState timerState = TimerState.Stop;
-    [SerializeField] [Range(0f,1f)] private float timer = 0.1f;
+    [SerializeField] [Range(0f,1f)] private float timer;
+    [SerializeField] private float tempTimer;
 
     //Broadcaster
     public const string LEFT_CLICK_PRESS = "LEFT_CLICK_PRESS";
@@ -60,12 +61,12 @@ public class PointerTest : MonoBehaviour
     }
 
     void UpdateTimer() {
+        
         //Timer
         if(timerState == TimerState.Start) {
-            timer -= Time.deltaTime;
-            if(timer <= 0) {
+            tempTimer -= Time.deltaTime;
+            if(tempTimer <= 0) {
                 timerState = TimerState.Stop;
-                timer = 0;
             }
         }
     }
@@ -94,15 +95,19 @@ public class PointerTest : MonoBehaviour
     private void MeleeDebug(Parameters parameters) {
         rightPress = parameters.GetBoolExtra(RIGHT_CLICK_PRESS, false);
 
-        if(rightPress) {
+        if(rightPress && timerState == TimerState.None) {
             tempObject = Instantiate(melee, melee.transform.position, this.transform.rotation);
             tempObject.transform.localScale = new Vector3(0.9f,0.9f,1.2f);
+            tempObject.tag = "PlayerMelee";
             tempObject.SetActive(true);
+            tempTimer = timer;
             timerState = TimerState.Start;
         }
 
         if(timerState == TimerState.Stop) {
+            tempObject.SetActive(false);
             Destroy(tempObject);
+            tempTimer = timer;
             timerState = TimerState.None;
         }
     }
