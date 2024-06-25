@@ -39,6 +39,8 @@ public class Movement : MonoBehaviour {
     
     [SerializeField] public ParticleSystem dust;
 
+    [SerializeField] private ParticleSystem dashParticle;
+
     [SerializeField] public bool moveHeld;
 
     //Input References
@@ -68,6 +70,7 @@ public class Movement : MonoBehaviour {
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
+        dust.Play();
 
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.lookEvent);
@@ -82,6 +85,7 @@ public class Movement : MonoBehaviour {
         //Checks
         CheckDrag();
         CheckMove();
+        CheckDash();
 
         //Init Dash Funcs
         Cooldown();
@@ -90,7 +94,7 @@ public class Movement : MonoBehaviour {
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
 
-        rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
+        if(!dashInput) rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
     }
 
     private void CheckMove() {
@@ -98,17 +102,16 @@ public class Movement : MonoBehaviour {
         if(state == EntityState.Strafing) temp.enabled = true;
         else temp.enabled = false;
     }
+
+    private void CheckDash() {
+        // ParticleSystem.EmissionModule temp = dashParticle.emission;
+        // if(state == EntityState.Dashing) temp.enabled = true;
+        // else temp.enabled = false;
+
+        if(state == EntityState.Dashing) dashParticle.Play();
+        // else dashParticle.Stop();
+    }
     
-    private void CreateDust() {
-        moveHeld = true;
-        // dust.Play();
-    }
-
-    private void ClearDust() {
-        moveHeld = false;
-        dust.Clear();
-    }
-
 
     private void lookEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
@@ -125,8 +128,6 @@ public class Movement : MonoBehaviour {
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
         if(dashInput == true) {
-            state = EntityState.Dashing;
-            PlayerData.entityState = EntityState.Dashing;
             strafe.currentSpeed = dash.dashSpeed;
             Dash();
         }
@@ -275,6 +276,8 @@ public class Movement : MonoBehaviour {
     }
 
     private void DelayedDashForce() {
+        state = EntityState.Dashing;
+        PlayerData.entityState = EntityState.Dashing;
         rigidBody.AddForce(dash.delayedForce, ForceMode.Impulse);
     }
 

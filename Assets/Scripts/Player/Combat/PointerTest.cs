@@ -102,7 +102,6 @@ public class PointerTest : MonoBehaviour
         }
 
         if(timerState == TimerState.Stop) {
-            Debug.Log("Stopped");
             Destroy(tempObject);
             timerState = TimerState.None;
         }

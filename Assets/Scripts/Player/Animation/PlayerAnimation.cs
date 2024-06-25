@@ -34,7 +34,19 @@ public class PlayerAnimation : MonoBehaviour
             case EntityDirection.East:
                 anim.Play("Right");
                 break;
+            case EntityDirection.NorthEast:
+                anim.Play("Right");
+                break;
+            case EntityDirection.SouthEast:
+                anim.Play("Right");
+                break;
             case EntityDirection.West:
+                anim.Play("Left");
+                break;
+            case EntityDirection.NorthWest:
+                anim.Play("Left");
+                break;
+            case EntityDirection.SouthWest:
                 anim.Play("Left");
                 break;
             case EntityDirection.North:
@@ -51,7 +63,19 @@ public class PlayerAnimation : MonoBehaviour
             case EntityDirection.East:
                 anim.Play("IRight");
                 break;
+            case EntityDirection.NorthEast:
+                anim.Play("IRight");
+                break;
+            case EntityDirection.SouthEast:
+                anim.Play("IRight");
+                break;
             case EntityDirection.West:
+                anim.Play("ILeft");
+                break;
+            case EntityDirection.NorthWest:
+                anim.Play("ILeft");
+                break;
+            case EntityDirection.SouthWest:
                 anim.Play("ILeft");
                 break;
             case EntityDirection.North:
