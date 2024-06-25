@@ -12,7 +12,7 @@ public class BulletController : MonoBehaviour
         meshRenderer = other.gameObject.GetComponent<MeshRenderer>();
         rb = other.gameObject.GetComponent<Rigidbody>();
 
-        if(other.CompareTag("Bounds") || other.CompareTag("Enemy")) {
+        if(other.CompareTag("Enemy")) {
             Debug.Log("Bullet hit!");
             tempObject = other.gameObject;
             meshRenderer.material.SetColor("_BaseColor", Color.red);
@@ -21,6 +21,10 @@ public class BulletController : MonoBehaviour
             Vector3 knockback = direction * knocbackForce;
             rb.AddForce(knockback, ForceMode.Impulse);
 
+            Destroy(this.gameObject);
+        }
+
+        else if(other.CompareTag("Bounds")) {
             Destroy(this.gameObject);
         }
     }
