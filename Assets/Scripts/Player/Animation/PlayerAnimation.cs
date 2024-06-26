@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator anim;
+    private Animator movementAnimator;
+    private Animator attackAnimator;
     public float rotation = 45f;
     public EntityDirection entityDirection;
     public EntityState entityState;
 
     private void Start() {
-        anim = GetComponent<Animator>();
+        movementAnimator = transform.Find("Movement").GetComponent<Animator>();
+        attackAnimator = transform.Find("Attack").GetComponent<Animator>();
     }
 
     private void Update() {
-        this.transform.rotation = Quaternion.Euler(0f,rotation,0f);
-        SetDirection();
+        movementAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
+        attackAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
+
+        if(PlayerData.entityState != EntityState.BasicAttack) SetAnimation();
         entityDirection = PlayerData.entityDirection;
         entityState = PlayerData.entityState;
     }
 
-    public void SetDirection() {
+    public void SetAnimation() {
         if(PlayerData.entityState == EntityState.Strafing) {
             SetRun();
         }
-        else {
+        else if(PlayerData.entityState == EntityState.Idle) {
             SetIdle();
         }
     }
@@ -32,28 +36,28 @@ public class PlayerAnimation : MonoBehaviour
     public void SetRun() {
         switch(PlayerData.entityDirection) {
             case EntityDirection.East:
-                anim.Play("Right");
+                movementAnimator.Play("Right");
                 break;
             case EntityDirection.NorthEast:
-                anim.Play("Right");
+                movementAnimator.Play("Right");
                 break;
             case EntityDirection.SouthEast:
-                anim.Play("Right");
+                movementAnimator.Play("Right");
                 break;
             case EntityDirection.West:
-                anim.Play("Left");
+                movementAnimator.Play("Left");
                 break;
             case EntityDirection.NorthWest:
-                anim.Play("Left");
+                movementAnimator.Play("Left");
                 break;
             case EntityDirection.SouthWest:
-                anim.Play("Left");
+                movementAnimator.Play("Left");
                 break;
             case EntityDirection.North:
-                anim.Play("Up");
+                movementAnimator.Play("Up");
                 break;
             case EntityDirection.South:
-                anim.Play("Down");
+                movementAnimator.Play("Down");
                 break;
         }
     }
@@ -61,28 +65,28 @@ public class PlayerAnimation : MonoBehaviour
     public void SetIdle() {
         switch(PlayerData.entityDirection) {
             case EntityDirection.East:
-                anim.Play("IRight");
+                movementAnimator.Play("IRight");
                 break;
             case EntityDirection.NorthEast:
-                anim.Play("IRight");
+                movementAnimator.Play("IRight");
                 break;
             case EntityDirection.SouthEast:
-                anim.Play("IRight");
+                movementAnimator.Play("IRight");
                 break;
             case EntityDirection.West:
-                anim.Play("ILeft");
+                movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.NorthWest:
-                anim.Play("ILeft");
+                movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.SouthWest:
-                anim.Play("ILeft");
+                movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.North:
-                anim.Play("IUp");
+                movementAnimator.Play("IUp");
                 break;
             case EntityDirection.South:
-                anim.Play("IDown");
+                movementAnimator.Play("IDown");
                 break;
         }
     }

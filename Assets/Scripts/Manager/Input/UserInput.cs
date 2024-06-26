@@ -78,7 +78,6 @@ public class UserInput : MonoBehaviour
 
         //MousePosition
         mousePosition = _MousePosition.ReadValue<Vector2>();
-        Vector3 projectedPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         //Move
         Broadcaster.Instance.AddVectorBParam(Movement.KEY_MOVE, Movement.KEY_DASH, EventNames.KeyboardInput.KEY_INPUTS, MoveInput, DashInput);
@@ -89,9 +88,11 @@ public class UserInput : MonoBehaviour
         Broadcaster.Instance.AddBoolParam(ColliderModule.INPUT_TOGGLE, EventNames.KeyboardInput.INTERACT_TOGGLE, interactPress);
 
         //LeftClick
-        Broadcaster.Instance.AddBoolParam(PointerTest.LEFT_CLICK_PRESS, EventNames.MouseInput.LEFT_CLICK_PRESS, leftclickPress);
+        //Broadcaster.Instance.AddBoolParam(PointerTest.LEFT_CLICK_PRESS, EventNames.MouseInput.LEFT_CLICK_PRESS, leftclickPress);
+        Broadcaster.Instance.AddBoolParam(Combat.LEFT_CLICK, EventNames.MouseInput.LEFT_CLICK_PRESS, leftclickPress);
 
         //RightClick
-        Broadcaster.Instance.AddBoolParam(PointerTest.RIGHT_CLICK_PRESS, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
+        //Broadcaster.Instance.AddBoolParam(PointerTest.RIGHT_CLICK_PRESS, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
+        //Broadcaster.Instance.AddBoolParam(Movement.RIGHT_CLICK, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
     }
 }

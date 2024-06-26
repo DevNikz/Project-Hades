@@ -20,6 +20,10 @@ public class PointerTest : MonoBehaviour
     private bool leftPress;
     private bool rightPress;
 
+    //Animation
+    [SerializeField] public Animator moveAnim;
+    [SerializeField] public Animator attackAnim;
+
     //Enums
     public TimerState timerState = TimerState.Stop;
     [SerializeField] [Range(0f,1f)] private float timer;
@@ -96,6 +100,9 @@ public class PointerTest : MonoBehaviour
         rightPress = parameters.GetBoolExtra(RIGHT_CLICK_PRESS, false);
 
         if(rightPress && timerState == TimerState.None) {
+            moveAnim.gameObject.SetActive(false);
+            attackAnim.gameObject.SetActive(true);
+
             tempObject = Instantiate(melee, melee.transform.position, this.transform.rotation);
             tempObject.transform.localScale = new Vector3(0.9f,0.9f,1.2f);
             tempObject.tag = "PlayerMelee";
@@ -105,6 +112,9 @@ public class PointerTest : MonoBehaviour
         }
 
         if(timerState == TimerState.Stop) {
+            moveAnim.gameObject.SetActive(true);
+            attackAnim.gameObject.SetActive(false);
+            
             tempObject.SetActive(false);
             Destroy(tempObject);
             tempTimer = timer;

@@ -1,4 +1,5 @@
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
@@ -25,6 +26,7 @@ public class Movement : MonoBehaviour {
 
     //Keybinds
     [Header("Keybinds")]
+    private bool rightClick;
     [ReadOnly] protected string debugString = "W.I.P";
 
     public const string KEY_MOVE = "KEY_MOVE";
@@ -32,6 +34,7 @@ public class Movement : MonoBehaviour {
     public const string KEY_DASH = "KEY_DASH";
 
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
+    public const string RIGHT_CLICK = "RIGHT_CLICK";
 
     //Effects
     [Header("Experimental Effects")]
@@ -92,8 +95,11 @@ public class Movement : MonoBehaviour {
 
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
-
-        if(!dashInput) rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
+        
+        if(dashInput || state == EntityState.BasicAttack || PlayerData.entityState == EntityState.BasicAttack) return;
+        else {
+            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
+        }
     }
 
     private void CheckMove() {
@@ -103,14 +109,8 @@ public class Movement : MonoBehaviour {
     }
 
     private void CheckDash() {
-        // ParticleSystem.EmissionModule temp = dashParticle.emission;
-        // if(state == EntityState.Dashing) temp.enabled = true;
-        // else temp.enabled = false;
-
         if(state == EntityState.Dashing) dashParticle.Play();
-        // else dashParticle.Stop();
     }
-    
 
     private void lookEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
@@ -122,7 +122,6 @@ public class Movement : MonoBehaviour {
     }
 
     private void stateHandlerEvent(Parameters parameters) {
-
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
@@ -131,7 +130,7 @@ public class Movement : MonoBehaviour {
             Dash();
         }
 
-        else if(moveInput.x != 0 || moveInput.z != 0) {
+        if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
             state = EntityState.Strafing;
             PlayerData.entityState = EntityState.Strafing;
@@ -143,9 +142,14 @@ public class Movement : MonoBehaviour {
             direction = IsoCompass(moveInput.x, moveInput.z);
         }
 
-        else {
-            state = EntityState.Idle; 
+        if(moveInput.x == 0 && moveInput.z == 0) {
+            state = EntityState.Idle;
             PlayerData.entityState = EntityState.Idle;
+        }
+
+        if(PlayerData.entityState == EntityState.BasicAttack){
+            state = EntityState.BasicAttack;
+            PlayerData.entityState = EntityState.BasicAttack;
         }
     }
 
