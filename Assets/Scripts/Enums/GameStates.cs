@@ -3,3 +3,7 @@ public enum TimerState {
     Start,
     Stop
 }
+
+public enum DamageType {
+    Physical
+}
