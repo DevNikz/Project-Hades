@@ -6,6 +6,26 @@ public class MeleeController : MonoBehaviour
     private GameObject tempObject;
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
+    private TimerState timerState;
+    [SerializeField] [Range(0f,2f)] private float tempTimer;
+
+    void OnEnable() {
+        timerState = TimerState.Start;
+    }
+
+    void Update() {
+        if(timerState == TimerState.Start) {
+            tempTimer -= Time.deltaTime;
+            if(tempTimer <= 0) {
+                timerState = TimerState.Stop;
+            }
+        }
+
+        if(timerState == TimerState.Stop) {
+            this.gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
 
     void OnTriggerEnter(Collider other) {
         meshRenderer = other.gameObject.GetComponent<MeshRenderer>();

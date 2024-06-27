@@ -19,12 +19,14 @@ public class PlayerAnimation : MonoBehaviour
         movementAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
         attackAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
 
-        if(PlayerData.entityState != EntityState.BasicAttack) SetAnimation();
-        entityDirection = PlayerData.entityDirection;
         entityState = PlayerData.entityState;
+        entityDirection = PlayerData.entityDirection;
+
+        if(PlayerData.isAttacking == false) SetAnimation();
     }
 
     public void SetAnimation() {
+        Debug.Log("SetAnim");
         if(PlayerData.entityState == EntityState.Strafing) {
             SetRun();
         }

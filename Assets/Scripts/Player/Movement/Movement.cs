@@ -96,7 +96,7 @@ public class Movement : MonoBehaviour {
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         
-        if(dashInput || state == EntityState.BasicAttack || PlayerData.entityState == EntityState.BasicAttack) return;
+        if(dashInput || PlayerData.isAttacking) return;
         else {
             rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
         }
@@ -117,8 +117,8 @@ public class Movement : MonoBehaviour {
 
         if(moveInput == Vector3.zero) return;
 
-        Quaternion rot = Quaternion.LookRotation(moveInput.ToIso(), Vector3.up);
-        model.rotation = Quaternion.RotateTowards(model.rotation, rot, strafe.turnSpeed * Time.deltaTime);
+        // Quaternion rot = Quaternion.LookRotation(moveInput.ToIso(), Vector3.up);
+        // model.rotation = Quaternion.RotateTowards(model.rotation, rot, strafe.turnSpeed * Time.deltaTime);
     }
 
     private void stateHandlerEvent(Parameters parameters) {

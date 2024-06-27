@@ -1,23 +1,26 @@
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
 {
     //Reference
     private GameObject pointerUI;
+    private GameObject attackUI;
+    private Slider attackUISlider;
+    private RectTransform attackUIEnd;
     private GameObject movementSprite;
     private GameObject attackSprite;
     private Animator attackAnimator;
-    public AttackDirection attackDirection;
-    public AttackDirection tempDirection;
+    private AttackDirection attackDirection;
+    private AttackDirection tempDirection;
+    private EntityState deltaState;
+    private EntityDirection deltaDir;
 
     //Pointer
     private Vector3 tempVector;
     public float angle;
     private Quaternion rot;
     private float rotX;
-    //public float tempAngle;
 
     //Basic Attack (Left Click)
     [Header("Basic Attack")]
@@ -25,6 +28,8 @@ public class Combat : MonoBehaviour
     [SerializeField] private int counter = 0;
     private Vector3 tempPos;
     private bool leftClick;
+    private GameObject hitboxLeft;
+    private GameObject hitboxLeft_Temp;
     public const string LEFT_CLICK = "LEFT_CLICK";
     
     //Alternate Attack(Right Click)
@@ -35,17 +40,22 @@ public class Combat : MonoBehaviour
     //Timer
     [Header("Timer")]
     [SerializeField] private TimerState timerState;
-    [SerializeField] [Range(0.1f,5f)] private float timer;
-    [SerializeField] private float tickingTimer;
+    public float temptime;
 
     void Awake() {
         //Reference
         pointerUI = transform.Find("Pointer").gameObject;
+        attackUI = transform.Find("AttackUI").gameObject;
+        attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
+        attackUIEnd = attackUI.transform.Find("Border").transform.Find("EndBase").transform.Find("End").GetComponent<RectTransform>();
         movementSprite = transform.Find("Sprites").transform.Find("Movement").gameObject;
         attackSprite = transform.Find("Sprites").transform.Find("Attack").gameObject;
         attackAnimator = attackSprite.GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
+
+        hitboxLeft = pointerUI.transform.Find("Melee").gameObject;
+        hitboxLeft.SetActive(false);
 
         //Actives
         movementSprite.SetActive(true);
@@ -68,7 +78,11 @@ public class Combat : MonoBehaviour
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
 
-        if(PlayerData.entityState == EntityState.BasicAttack) UpdateAnimation();
+        if(PlayerData.isAttacking) UpdateAnimation();
+    }
+
+    void LateUpdate() {
+        //attackUI.GetComponent<RectTransform>().position = new Vector3();
     }
 
     void UpdateAttackDirection() {
@@ -78,12 +92,13 @@ public class Combat : MonoBehaviour
     }
 
     void UpdateAnimation() {
+        temptime = attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         //Right
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9 && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_R")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_R")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
@@ -93,7 +108,7 @@ public class Combat : MonoBehaviour
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_L")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_L")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
@@ -104,36 +119,50 @@ public class Combat : MonoBehaviour
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
         if(leftClick) {
+            deltaState = PlayerData.entityState;
+            deltaDir = PlayerData.entityDirection;
+    
             movementSprite.SetActive(false);
             attackSprite.SetActive(true);
 
-            tickingTimer = timer;
             timerState = TimerState.Start;
             counter++;
 
             tempDirection = attackDirection;
             
+        }
+
+        if(leftClick && counter > 0) {
+            InitHitBoxLeft();
             LungePlayer();
         }
 
         if(counter == 1) {
+            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk1_R");
             else attackAnimator.Play("BasicAtk1_L");
         }
 
         counter = Mathf.Clamp(counter, 0, 2);
 
-        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
-            tickingTimer = timer - 0.2f;
+        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
+            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk2_R");
             else attackAnimator.Play("BasicAtk2_L");
         }
 
-        else if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_L")) {
-            tickingTimer = timer - 0.2f;
+        else if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_L")) {
+            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk2_R");
             else attackAnimator.Play("BasicAtk2_L");
         }
+    }
+
+    void InitHitBoxLeft() {
+        hitboxLeft_Temp = Instantiate(hitboxLeft, hitboxLeft.transform.position, pointerUI.transform.rotation);
+        hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
+        hitboxLeft_Temp.tag = "PlayerMelee";
+        hitboxLeft_Temp.SetActive(true);
     }
 
     void LungePlayer() {
@@ -148,16 +177,18 @@ public class Combat : MonoBehaviour
 
     void UpdateTimer() {
         if(timerState == TimerState.Start) {
+            // meterValue += 23.5f;
+            // attackUIsize.sizeDelta = new Vector2(attackUIsize.sizeDelta.x, meterValue);
+            attackUISlider.value = temptime;
+            PlayerData.isAttacking = true;
             PlayerData.entityState = EntityState.BasicAttack;
-            tickingTimer -= Time.deltaTime;
-            if(tickingTimer <= 0f) {
-                Debug.Log("Stopping Time.");
-                counter = 0;
-                timerState = TimerState.Stop;
-            }
         }
         if(timerState == TimerState.Stop) {
-            timerState = TimerState.None;
+            // meterValue = 0;
+            // attackUIsize.sizeDelta = new Vector2(attackUIsize.sizeDelta.x, meterValue);
+            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
+            attackUISlider.value = 0;
+
             //Set Actives
             movementSprite.SetActive(true);
             attackSprite.SetActive(false);
@@ -165,7 +196,13 @@ public class Combat : MonoBehaviour
             //Set States
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.drag = 10f;
-            PlayerData.entityState = EntityState.Idle;
+            timerState = TimerState.None;
+        }
+
+        if(timerState == TimerState.None) {
+            PlayerData.isAttacking = false;
+            PlayerData.entityDirection = deltaDir;
+            PlayerData.entityState = deltaState;
         }
     }
 
