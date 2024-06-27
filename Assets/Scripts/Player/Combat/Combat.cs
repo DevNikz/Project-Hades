@@ -8,8 +8,6 @@ public class Combat : MonoBehaviour
     private GameObject attackUI;
     private Slider attackUISlider;
     private RectTransform attackUIEnd;
-    private GameObject movementSprite;
-    private GameObject attackSprite;
     private Animator attackAnimator;
     private AttackDirection attackDirection;
     private AttackDirection tempDirection;
@@ -24,12 +22,17 @@ public class Combat : MonoBehaviour
 
     //Basic Attack (Left Click)
     [Header("Basic Attack")]
-    [SerializeField] [Range(10f,20f)] private float lungeForce; 
+    [SerializeField] [Range(10f,50f)] private float lungeForce; 
+    [SerializeField] [Range(0.1f,20f)] private float quicklungeForce;
+    [Range(0.1f,2f)] public float flicktime = 1f;
+    public float tempflicktime;
     [SerializeField] private int counter = 0;
     private Vector3 tempPos;
     private bool leftClick;
     private GameObject hitboxLeft;
+    private GameObject hitboxLunge;
     private GameObject hitboxLeft_Temp;
+    private GameObject hitboxLunge_Temp;
     public const string LEFT_CLICK = "LEFT_CLICK";
     
     //Alternate Attack(Right Click)
@@ -40,6 +43,7 @@ public class Combat : MonoBehaviour
     //Timer
     [Header("Timer")]
     [SerializeField] private TimerState timerState;
+    [SerializeField] private TimerState timerFlickState;
     public float temptime;
 
     void Awake() {
@@ -48,18 +52,14 @@ public class Combat : MonoBehaviour
         attackUI = transform.Find("AttackUI").gameObject;
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
         attackUIEnd = attackUI.transform.Find("Border").transform.Find("EndBase").transform.Find("End").GetComponent<RectTransform>();
-        movementSprite = transform.Find("Sprites").transform.Find("Movement").gameObject;
-        attackSprite = transform.Find("Sprites").transform.Find("Attack").gameObject;
-        attackAnimator = attackSprite.GetComponent<Animator>();
+        attackAnimator = transform.Find("SpriteContainer").transform.Find("Sprite").GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
 
         hitboxLeft = pointerUI.transform.Find("Melee").gameObject;
+        hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
         hitboxLeft.SetActive(false);
 
-        //Actives
-        movementSprite.SetActive(true);
-        attackSprite.SetActive(false);
     }
 
     void Start() {
@@ -90,21 +90,30 @@ public class Combat : MonoBehaviour
     void UpdateAnimation() {
         temptime = attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         //Right
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9 && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_1")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_R")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_2")) {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_3")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
 
+
         //Left
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_L")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_1")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk2_L")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_2")) {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_3")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
@@ -122,36 +131,74 @@ public class Combat : MonoBehaviour
             timerState = TimerState.Start;
             counter++;
 
-            movementSprite.SetActive(false);
-            attackSprite.SetActive(true);
-
             tempDirection = attackDirection;
             
         }
 
-        if(leftClick && counter > 0) {
+        if(leftClick && counter > 0 && counter <= 2) {
             InitHitBoxLeft();
             LungePlayer();
         }
+        
+        if(leftClick && counter == 3) {
+            InitHitBoxLunge();
+        }
 
         if(counter == 1) {
-            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk1_R");
-            else attackAnimator.Play("BasicAtk1_L");
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_1");
+            else attackAnimator.Play("BasicAtkL_1");
         }
 
-        counter = Mathf.Clamp(counter, 0, 2);
+        counter = Mathf.Clamp(counter, 0, 3);
 
-        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_R")) {
-            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk2_R");
-            else attackAnimator.Play("BasicAtk2_L");
+        //2nd Move
+        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_1")) {
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_2");
+            else attackAnimator.Play("BasicAtkL_2");
         }
 
-        else if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtk1_L")) {
-            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtk2_R");
-            else attackAnimator.Play("BasicAtk2_L");
+        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_1")) {
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_2");
+            else attackAnimator.Play("BasicAtkL_2");
+            
+        }
+
+        //3rd Move
+        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_2")) {
+            tempflicktime = flicktime;
+            timerFlickState = TimerState.Start;
+
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
+            else attackAnimator.Play("BasicAtkL_3");
+        }
+
+        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_2")) {
+            tempflicktime = flicktime;
+            timerFlickState = TimerState.Start;
+
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
+            else attackAnimator.Play("BasicAtkL_3");
+        }
+
+        //3rd Move Lunge
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_3")) {
+            if(hitboxLunge_Temp != null) {
+                hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
+                hitboxLunge_Temp.SetActive(true);
+            }
+            
+            LungePlayerAlt();
+        }
+
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_3")) {
+            if(hitboxLunge_Temp != null) {
+                hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
+                hitboxLunge_Temp.SetActive(true);
+            }
+            LungePlayerAlt();
         }
     }
 
@@ -159,40 +206,48 @@ public class Combat : MonoBehaviour
         hitboxLeft_Temp = Instantiate(hitboxLeft, hitboxLeft.transform.position, pointerUI.transform.rotation);
         hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
         hitboxLeft_Temp.tag = "PlayerMelee";
+        hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
         hitboxLeft_Temp.SetActive(true);
     }
 
-    void LungePlayer() {
-        //Debug
-        Debug.Log("Lunging!");
+    void InitHitBoxLunge() {
+        hitboxLunge_Temp = Instantiate(hitboxLunge, hitboxLunge.transform.position, pointerUI.transform.rotation);
+        hitboxLunge_Temp.transform.localScale = new Vector3(2.615041f, 5.071505f, 1.2f);
+        hitboxLunge_Temp.tag = "PlayerMelee";
+    }
 
+    void LungePlayer() {
         //Lunge
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.drag = 0f;
+        rb.drag = 10f;
         rb.AddForce(tempPos.ToIso() * lungeForce, ForceMode.Impulse);
+    }
+
+    void LungePlayerAlt() {
+        if(timerFlickState == TimerState.Start) {
+            tempflicktime -= Time.deltaTime;
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.mass = 0.1f;
+            rb.drag = 10f;
+            rb.AddForce(tempPos.ToIso() * quicklungeForce, ForceMode.VelocityChange);
+            if(tempflicktime <= 0) {
+                rb.mass = 1f;
+                timerFlickState = TimerState.Stop;
+            }
+        }
     }
 
     void UpdateTimer() {
         if(timerState == TimerState.Start) {
-            // meterValue += 23.5f;
-            // attackUIsize.sizeDelta = new Vector2(attackUIsize.sizeDelta.x, meterValue);
             attackUISlider.value = temptime;
             PlayerData.isAttacking = true;
             PlayerData.entityState = EntityState.BasicAttack;
         }
         if(timerState == TimerState.Stop) {
-            // meterValue = 0;
-            // attackUIsize.sizeDelta = new Vector2(attackUIsize.sizeDelta.x, meterValue);
             attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
             attackUISlider.value = 0;
 
-            //Set Actives
-            movementSprite.SetActive(true);
-            attackSprite.SetActive(false);
-
             //Set States
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.drag = 10f;
             timerState = TimerState.None;
         }
 

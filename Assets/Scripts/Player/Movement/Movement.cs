@@ -157,7 +157,7 @@ public class Movement : MonoBehaviour {
         if(state == EntityState.Strafing) {
             rigidBody.drag = strafe.groundDrag;
         }
-        else rigidBody.drag = 5f;
+        else rigidBody.drag = 10f;
     }
 
     private EntityDirection IsoCompass(float x, float z) {

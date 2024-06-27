@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator movementAnimator;
-    private Animator attackAnimator;
+    private Animator spriteAnimator;
     public float rotation = 45f;
     public EntityDirection entityDirection;
     public EntityState entityState;
 
     private void Start() {
-        movementAnimator = transform.Find("Movement").GetComponent<Animator>();
-        attackAnimator = transform.Find("Attack").GetComponent<Animator>();
+        spriteAnimator = transform.Find("Sprite").GetComponent<Animator>();
     }
 
     private void Update() {
-        movementAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
-        attackAnimator.gameObject.transform.rotation = Quaternion.Euler(0f,rotation,0f);
+        spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
 
         entityState = PlayerData.entityState;
         entityDirection = PlayerData.entityDirection;
@@ -26,7 +23,6 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     public void SetAnimation() {
-        Debug.Log("SetAnim");
         if(PlayerData.entityState == EntityState.Strafing) {
             SetRun();
         }
@@ -38,28 +34,36 @@ public class PlayerAnimation : MonoBehaviour
     public void SetRun() {
         switch(PlayerData.entityDirection) {
             case EntityDirection.East:
-                movementAnimator.Play("Right");
+                spriteAnimator.Play("MoveRight");
+                //movementAnimator.Play("Right");
                 break;
             case EntityDirection.NorthEast:
-                movementAnimator.Play("Right");
+                spriteAnimator.Play("MoveRight");
+                //movementAnimator.Play("Right");
                 break;
             case EntityDirection.SouthEast:
-                movementAnimator.Play("Right");
+                spriteAnimator.Play("MoveRight");
+                //movementAnimator.Play("Right");
                 break;
             case EntityDirection.West:
-                movementAnimator.Play("Left");
+                spriteAnimator.Play("MoveLeft");
+                //movementAnimator.Play("Left");
                 break;
             case EntityDirection.NorthWest:
-                movementAnimator.Play("Left");
+                spriteAnimator.Play("MoveLeft");
+                //movementAnimator.Play("Left");
                 break;
             case EntityDirection.SouthWest:
-                movementAnimator.Play("Left");
+                spriteAnimator.Play("MoveLeft");
+                //movementAnimator.Play("Left");
                 break;
             case EntityDirection.North:
-                movementAnimator.Play("Up");
+                spriteAnimator.Play("MoveUp");
+                //movementAnimator.Play("Up");
                 break;
             case EntityDirection.South:
-                movementAnimator.Play("Down");
+                spriteAnimator.Play("MoveDown");
+                //movementAnimator.Play("Down");
                 break;
         }
     }
@@ -67,28 +71,36 @@ public class PlayerAnimation : MonoBehaviour
     public void SetIdle() {
         switch(PlayerData.entityDirection) {
             case EntityDirection.East:
-                movementAnimator.Play("IRight");
+                spriteAnimator.Play("IdleLeft");
+                //movementAnimator.Play("IRight");
                 break;
             case EntityDirection.NorthEast:
-                movementAnimator.Play("IRight");
+                spriteAnimator.Play("IdleLeft");
+                //movementAnimator.Play("IRight");
                 break;
             case EntityDirection.SouthEast:
-                movementAnimator.Play("IRight");
+                spriteAnimator.Play("IdleLeft");
+                //movementAnimator.Play("IRight");
                 break;
             case EntityDirection.West:
-                movementAnimator.Play("ILeft");
+                spriteAnimator.Play("IdleRight");
+                //movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.NorthWest:
-                movementAnimator.Play("ILeft");
+                spriteAnimator.Play("IdleRight");
+                //movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.SouthWest:
-                movementAnimator.Play("ILeft");
+                spriteAnimator.Play("IdleRight");
+                //movementAnimator.Play("ILeft");
                 break;
             case EntityDirection.North:
-                movementAnimator.Play("IUp");
+                spriteAnimator.Play("IdleLeft");
+                //movementAnimator.Play("IUp");
                 break;
             case EntityDirection.South:
-                movementAnimator.Play("IDown");
+                spriteAnimator.Play("IdleRight");
+                //movementAnimator.Play("IDown");
                 break;
         }
     }
