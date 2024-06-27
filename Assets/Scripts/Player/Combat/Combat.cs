@@ -81,10 +81,6 @@ public class Combat : MonoBehaviour
         if(PlayerData.isAttacking) UpdateAnimation();
     }
 
-    void LateUpdate() {
-        //attackUI.GetComponent<RectTransform>().position = new Vector3();
-    }
-
     void UpdateAttackDirection() {
         if(angle >= 0 && angle <= 90) attackDirection = AttackDirection.Right;
         else if(angle <= 0 && angle >= -90) attackDirection = AttackDirection.Right;
@@ -119,14 +115,15 @@ public class Combat : MonoBehaviour
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
         if(leftClick) {
+            PlayerData.isAttacking = true;
             deltaState = PlayerData.entityState;
             deltaDir = PlayerData.entityDirection;
-    
-            movementSprite.SetActive(false);
-            attackSprite.SetActive(true);
 
             timerState = TimerState.Start;
             counter++;
+
+            movementSprite.SetActive(false);
+            attackSprite.SetActive(true);
 
             tempDirection = attackDirection;
             

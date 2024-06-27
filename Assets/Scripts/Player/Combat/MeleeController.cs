@@ -33,7 +33,7 @@ public class MeleeController : MonoBehaviour
 
         if(other.CompareTag("Enemy")) {
             tempObject = other.gameObject;
-            meshRenderer.material.SetColor("_BaseColor", Color.red);
+            //meshRenderer.material.SetColor("_BaseColor", Color.red);
             other.GetComponent<EnemyController>().ReceiveDamage(25f, DamageType.Physical);
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
@@ -44,7 +44,7 @@ public class MeleeController : MonoBehaviour
 
     void OnDestroy() {
         if(tempObject != null) {
-            tempObject.GetComponent<MeshRenderer>().material.SetColor("_BaseColor",Color.white);
+            //tempObject.GetComponent<MeshRenderer>().material.SetColor("_BaseColor",Color.white);
         }
     }
 }

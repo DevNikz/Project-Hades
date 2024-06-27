@@ -11,12 +11,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float currentHealth;
 
     //Ref
+    private GameObject healthUI;
     private Slider meter;
     private ParticleSystem hitFX;
     private ParticleSystem.EmissionModule temp;
 
     void Start() {
-        meter = transform.Find("Health").transform.Find("Slider").GetComponent<Slider>();
+        healthUI = transform.Find("Health").gameObject;
+        meter = healthUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         temp = hitFX.emission;
         currentHealth = totalHealth;
@@ -27,6 +29,8 @@ public class EnemyController : MonoBehaviour
         if(currentHealth == 0) {
             this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.black);
             this.tag = "Enemy(Dead)";
+            this.gameObject.layer = 11;
+            healthUI.SetActive(false);
         }
     }
 
