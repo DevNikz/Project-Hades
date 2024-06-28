@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
 
     void Update() {
 
-        if(currentHealth == 0) {
+        if(currentHealth <= 0) {
             this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.black);
             this.tag = "Enemy(Dead)";
             this.gameObject.layer = 11;

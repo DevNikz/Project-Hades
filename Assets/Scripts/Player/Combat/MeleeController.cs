@@ -1,16 +1,17 @@
-using Unity.VisualScripting;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
     [SerializeField] private DamageType damageType;
     [SerializeField] private float damage;
-    [SerializeField] [Range(5f,10f)] private float knocbackForce;
+    [SerializeField] [Range(5f, 100f)] private float knocbackForce;
     private GameObject tempObject;
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
     public TimerState timerState;
     [SerializeField] [Range(0f,2f)] private float tempTimer;
+    [ReadOnly] [SerializeReference] private Vector3 knockback;
     
     public void StartTimer() {
         timerState = TimerState.Start;
@@ -43,7 +44,7 @@ public class MeleeController : MonoBehaviour
             other.GetComponent<EnemyController>().ReceiveDamage(damage, damageType);
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            Vector3 knockback = direction * knocbackForce;
+            knockback = direction * knocbackForce;
             rb.AddForce(knockback, ForceMode.Impulse);
         }
     }

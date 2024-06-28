@@ -12,19 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32dc7f8f2d72f9c4b8a589b9567575c5, type: 3}
   m_Name: PlayerMovement
   m_EditorClassIdentifier: 
-  strafe:
-    currentSpeed: 5
-    strafeSpeed: 5
-    turnSpeed: 720
-    groundDrag: 10
-  dash:
-    dashSpeed: 10
-    dashing: 0
-    dashForce: 25
-    dashDuration: 0.025
-    dashCD: 1.5
-    dashCDTimer: 0
-    delayedForce: {x: 0, y: 0, z: 0}
-    isoInput: {x: 0, y: 0, z: 0}
+  strafeSpeed: 5
+  currentSpeed: 5
+  turnSpeed: 720
+  groundDrag: 10
+  dashSpeed: 25
+  dashForce: 150
+  dashDuration: 0.025
+  dashCD: 1.5
+  dashing: 0
+  dashCDTimer: 0.13523096
+  delayedForce: {x: 0, y: 0, z: 150}
+  isoInput: {x: 0, y: 0, z: 1}
   state: 3
-  direction: 8
+  direction: 3
