@@ -3,15 +3,24 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
-    [SerializeField] private DamageType damageType;
-    [SerializeField] private float damage;
-    [SerializeField] [Range(5f, 100f)] private float knocbackForce;
-    private GameObject tempObject;
-    private Rigidbody rb;
-    private MeshRenderer meshRenderer;
-    public TimerState timerState;
-    [SerializeField] [Range(0f,2f)] private float tempTimer;
-    [ReadOnly] [SerializeReference] private Vector3 knockback;
+    public AttackType attackType;
+
+    [Title("Timer")]
+    [SerializeField] [Range(0f,2f)] public float tempTimer;
+    [ReadOnly] [SerializeReference] public TimerState timerState;
+
+    [Title("References")]
+    public bool ShowReferences;
+
+    [ShowIfGroup("ShowReferences")]
+    [BoxGroup("ShowReferences/References")]
+    [ReadOnly] [SerializeReference] private GameObject tempObject;
+
+    [BoxGroup("ShowReferences/References")]
+    [ReadOnly] [SerializeReference] private Rigidbody rb;
+
+    [BoxGroup("ShowReferences/References")]
+    [ReadOnly] [SerializeReference] private MeshRenderer meshRenderer;
     
     public void StartTimer() {
         timerState = TimerState.Start;
@@ -41,11 +50,16 @@ public class MeleeController : MonoBehaviour
 
         if(other.CompareTag("Enemy")) {
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(damage, damageType);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise);
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            knockback = direction * knocbackForce;
+            Vector3 knockback = direction * attackType.knocbackForce;
             rb.AddForce(knockback, ForceMode.Impulse);
+        }
+
+        if(other.CompareTag("Enemy(Staggered)")) {
+            tempObject = other.gameObject;
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise);
         }
     }
 }
