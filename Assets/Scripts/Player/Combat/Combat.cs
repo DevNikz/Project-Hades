@@ -24,8 +24,9 @@ public class Combat : MonoBehaviour
     [Header("Basic Attack")]
     [SerializeField] [Range(10f,50f)] private float lungeForce; 
     [SerializeField] [Range(0.1f,20f)] private float quicklungeForce;
+    public Vector3 tempPosition;
     [Range(0.1f,2f)] public float flicktime = 1f;
-    public float tempflicktime;
+    private float tempflicktime;
     [SerializeField] private int counter = 0;
     private Vector3 tempPos;
     private bool leftClick;
@@ -141,6 +142,7 @@ public class Combat : MonoBehaviour
         }
         
         if(leftClick && counter == 3) {
+            tempPosition = GetTempPosition();
             InitHitBoxLunge();
         }
 
@@ -202,6 +204,10 @@ public class Combat : MonoBehaviour
         }
     }
 
+    Vector3 GetTempPosition() {
+        return tempPos;
+    }
+
     void InitHitBoxLeft() {
         hitboxLeft_Temp = Instantiate(hitboxLeft, hitboxLeft.transform.position, pointerUI.transform.rotation);
         hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
@@ -229,7 +235,7 @@ public class Combat : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.mass = 0.1f;
             rb.drag = 10f;
-            rb.AddForce(tempPos.ToIso() * quicklungeForce, ForceMode.VelocityChange);
+            rb.AddForce(tempPosition.ToIso() * quicklungeForce, ForceMode.VelocityChange);
             if(tempflicktime <= 0) {
                 rb.mass = 1f;
                 timerFlickState = TimerState.Stop;
