@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Combat : MonoBehaviour
 {
     //Basic Attack (Left Click)
-    [Space] [Title("Basic Attack")]
+    [PropertySpace] [Title("Basic Attack")]
     [AssetSelector(Paths = "Assets/Data/Player/Combat")]
     public PlayerCombat combat;
     
@@ -113,6 +113,7 @@ public class Combat : MonoBehaviour
 
     void Awake() {
         //Reference
+        combat = Resources.Load<PlayerCombat>("Player/Combat/PlayerCombat");
         pointerUI = transform.Find("Pointer").gameObject;
         attackUI = transform.Find("AttackUI").gameObject;
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
@@ -200,9 +201,14 @@ public class Combat : MonoBehaviour
             
         }
 
-        if(leftClick && counter > 0 && counter <= 2) {
+        if(leftClick && counter == 1) {
             InitHitBoxLeft();
             LungePlayer();
+        }
+
+        if(leftClick && counter == 2) {
+            InitHitBoxLeft();
+            LungePlayer(combat.lungeForceMod);
         }
         
         if(leftClick && counter == 3) {
@@ -298,6 +304,13 @@ public class Combat : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
         rb.AddForce(tempPos.ToIso() * combat.lungeForce, ForceMode.Impulse);
+    }
+
+    void LungePlayer(float modifier) {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.drag = 10f;
+        float tempForce = combat.lungeForce + (combat.lungeForce * modifier);
+        rb.AddForce(tempPos.ToIso() * tempForce, ForceMode.Impulse);
     }
 
     void LungePlayerAlt() {

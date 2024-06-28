@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
+    [Title("AttackType")]
     public AttackType attackType;
 
     [Title("Timer")]
@@ -21,6 +22,11 @@ public class MeleeController : MonoBehaviour
 
     [BoxGroup("ShowReferences/References")]
     [ReadOnly] [SerializeReference] private MeshRenderer meshRenderer;
+
+    void Awake() {
+        if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+        else if(this.gameObject.name == "Lunge(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/LungeAttack");
+    }
     
     public void StartTimer() {
         timerState = TimerState.Start;
