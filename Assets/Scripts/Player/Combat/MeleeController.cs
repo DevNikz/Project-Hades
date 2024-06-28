@@ -11,8 +11,7 @@ public class MeleeController : MonoBehaviour
     private MeshRenderer meshRenderer;
     public TimerState timerState;
     [SerializeField] [Range(0f,2f)] private float tempTimer;
-
-
+    
     public void StartTimer() {
         timerState = TimerState.Start;
     }

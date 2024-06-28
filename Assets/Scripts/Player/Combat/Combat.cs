@@ -188,7 +188,7 @@ public class Combat : MonoBehaviour
     void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
-        if(leftClick) {
+        if(leftClick && IsMouseOverGameWindow) {
             PlayerData.isAttacking = true;
             deltaState = PlayerData.entityState;
             deltaDir = PlayerData.entityDirection;
@@ -210,13 +210,19 @@ public class Combat : MonoBehaviour
             InitHitBoxLunge();
         }
 
+        counter = Mathf.Clamp(counter, 0, 3);
+
+        SwitchAnimation();
+        UpdateLunge();
+    }
+
+    void SwitchAnimation() {
+        //1st Move
         if(counter == 1) {
             //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_1");
             else attackAnimator.Play("BasicAtkL_1");
         }
-
-        counter = Mathf.Clamp(counter, 0, 3);
 
         //2nd Move
         if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_1")) {
@@ -248,8 +254,10 @@ public class Combat : MonoBehaviour
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
             else attackAnimator.Play("BasicAtkL_3");
         }
+    }
 
-        //3rd Move Lunge
+    void UpdateLunge() {
+        //3rd Move
         if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_3")) {
             if(hitboxLunge_Temp != null) {
                 hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
@@ -287,7 +295,6 @@ public class Combat : MonoBehaviour
     }
 
     void LungePlayer() {
-        //Lunge
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
         rb.AddForce(tempPos.ToIso() * combat.lungeForce, ForceMode.Impulse);
@@ -341,5 +348,14 @@ public class Combat : MonoBehaviour
         tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
         tempVector = Input.mousePosition - tempVector;
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
+    bool IsMouseOverGameWindow
+    {
+        get
+        {
+            Vector3 mp = Input.mousePosition;
+            return !( 0>mp.x || 0>mp.y || Screen.width<mp.x || Screen.height<mp.y );
+        }
     }
 }
