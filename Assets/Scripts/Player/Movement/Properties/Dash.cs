@@ -1,5 +1,5 @@
+using Sirenix.OdinInspector;
 using System;
-using Unity.Collections;
 using UnityEngine;
 
 [Serializable] public class Dash

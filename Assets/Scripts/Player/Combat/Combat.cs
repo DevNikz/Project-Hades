@@ -1,51 +1,115 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
 {
-    //Reference
-    private GameObject pointerUI;
-    private GameObject attackUI;
-    private Slider attackUISlider;
-    private RectTransform attackUIEnd;
-    private Animator attackAnimator;
-    private AttackDirection attackDirection;
-    private AttackDirection tempDirection;
-    private EntityState deltaState;
-    private EntityDirection deltaDir;
-
-    //Pointer
-    private Vector3 tempVector;
-    public float angle;
-    private Quaternion rot;
-    private float rotX;
-
     //Basic Attack (Left Click)
-    [Header("Basic Attack")]
-    [SerializeField] [Range(10f,50f)] private float lungeForce; 
-    [SerializeField] [Range(0.1f,20f)] private float quicklungeForce;
-    public Vector3 tempPosition;
-    [Range(0.1f,2f)] public float flicktime = 1f;
-    private float tempflicktime;
-    [SerializeField] private int counter = 0;
-    private Vector3 tempPos;
-    private bool leftClick;
-    private GameObject hitboxLeft;
-    private GameObject hitboxLunge;
-    private GameObject hitboxLeft_Temp;
-    private GameObject hitboxLunge_Temp;
-    public const string LEFT_CLICK = "LEFT_CLICK";
+    [Space] [Title("Basic Attack")]
+    [AssetSelector(Paths = "Assets/Data/Player/Combat")]
+    public PlayerCombat combat;
     
     //Alternate Attack(Right Click)
-    [Header("Alternate Attack")]
-    private bool rightClick;
-    public const string RIGHT_CLICK = "RIGHT_CLICK";
+    [Space] [Title("Alternate Attack")]
+    [ReadOnly] [SerializeReference] protected bool rightClick;
 
     //Timer
-    [Header("Timer")]
-    [SerializeField] private TimerState timerState;
-    [SerializeField] private TimerState timerFlickState;
-    public float temptime;
+    [Space] [Title("Timer Settings")]
+    public bool ShowTimer;
+
+    [ShowIfGroup("ShowTimer")]
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [ReadOnly] [SerializeField] private TimerState timerState;
+
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [ReadOnly] [SerializeField] private TimerState timerFlickState;
+
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [ReadOnly] public float temptime;
+    
+    [Space] [Title("Temp(Debug)")] 
+    public bool ShowDebug;
+
+    [ShowIfGroup("ShowDebug")]
+    [BoxGroup("ShowDebug/Debug")]
+    [ReadOnly] [HideLabel] public Vector3 tempPosition;
+
+    [BoxGroup("ShowDebug/Debug")]
+    [ReadOnly] [HideLabel] public float tempflicktime;
+
+    [BoxGroup("ShowDebug/Debug")]
+    [ReadOnly] [HideLabel] public Vector3 tempPos;
+
+    [Space] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
+    public bool BasicAttack;
+
+    [ShowIfGroup("BasicAttack")]
+    [BoxGroup("BasicAttack/BasicAttack")]
+    [ReadOnly] public int counter = 0;
+
+    [BoxGroup("BasicAttack/BasicAttack")]
+    [ReadOnly] public bool leftClick;
+
+    [Space] public bool Pointer;
+
+    [ShowIfGroup("Pointer")]
+    [BoxGroup("Pointer/Pointer")]
+    [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
+
+    [BoxGroup("Pointer/Pointer")]
+    [HideLabel] [ReadOnly] [SerializeReference] protected float angle;
+
+    [BoxGroup("Pointer/Pointer")]
+    [HideLabel] [ReadOnly] [SerializeReference] protected Quaternion rot;
+
+    [BoxGroup("Pointer/Pointer")]
+    [HideLabel] [ReadOnly] [SerializeReference] protected float rotX;
+
+    [Space] public bool Reference;
+    [ShowIfGroup("Reference")]
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxLeft;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxLunge;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxLeft_Temp;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxLunge_Temp;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected GameObject pointerUI;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected GameObject attackUI;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected Slider attackUISlider;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected RectTransform attackUIEnd;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected Animator attackAnimator;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected AttackDirection attackDirection;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected AttackDirection tempDirection;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected EntityState deltaState;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
+
+    //Broadcaster
+    public const string LEFT_CLICK = "LEFT_CLICK";
+    public const string RIGHT_CLICK = "RIGHT_CLICK";
 
     void Awake() {
         //Reference
@@ -64,7 +128,7 @@ public class Combat : MonoBehaviour
     }
 
     void Start() {
-        EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttack);
+        EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
     }
 
     void OnDisable() {
@@ -121,7 +185,7 @@ public class Combat : MonoBehaviour
     }
 
     //Basic Attack
-    void BasicAttack(Parameters parameters) {
+    void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
         if(leftClick) {
@@ -170,7 +234,7 @@ public class Combat : MonoBehaviour
 
         //3rd Move
         if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_2")) {
-            tempflicktime = flicktime;
+            tempflicktime = combat.flicktime;
             timerFlickState = TimerState.Start;
 
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
@@ -178,7 +242,7 @@ public class Combat : MonoBehaviour
         }
 
         if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_2")) {
-            tempflicktime = flicktime;
+            tempflicktime = combat.flicktime;
             timerFlickState = TimerState.Start;
 
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
@@ -226,7 +290,7 @@ public class Combat : MonoBehaviour
         //Lunge
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
-        rb.AddForce(tempPos.ToIso() * lungeForce, ForceMode.Impulse);
+        rb.AddForce(tempPos.ToIso() * combat.lungeForce, ForceMode.Impulse);
     }
 
     void LungePlayerAlt() {
@@ -235,7 +299,7 @@ public class Combat : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.mass = 0.1f;
             rb.drag = 10f;
-            rb.AddForce(tempPosition.ToIso() * quicklungeForce, ForceMode.VelocityChange);
+            rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce, ForceMode.VelocityChange);
             if(tempflicktime <= 0) {
                 rb.mass = 1f;
                 timerFlickState = TimerState.Stop;

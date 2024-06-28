@@ -1,34 +1,47 @@
-using Unity.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
     
-    //Properties
-    [Header("Properties")]
+    [Space] [Title("Movement")]
+    [AssetSelector(Paths = "Assets/Data/Player/Movement")]
+    public PlayerMovement movement;
+
+    [Space] [Title("References")]
+    public bool ShowReference;
+
+    [ShowIfGroup("ShowReference")]
+    [BoxGroup("ShowReference/References")]
     [Tooltip("Set Rigidbody reference of the GameObject")]
     [SerializeField] private Rigidbody rigidBody;
+
+    [BoxGroup("ShowReference/References")]
     [Tooltip("Set Transform property reference of the GameObject")]
     [SerializeField] private Transform model;
 
-    //Strafe
-    [Header("Speed")]
-    [SerializeField] private Strafe strafe;
+    //Effects
+    [Space] [Title("Experimental Effects")]
+    public bool ShowEffects;
     
-    //States
-    [Header("State")]
-    [SerializeField] private EntityState state = EntityState.Idle;
-    [ReadOnly] public EntityDirection direction = EntityDirection.None;
+    [ShowIfGroup("ShowEffects")]
+    [BoxGroup("ShowEffects/Effects")]
+    [SerializeField] public ParticleSystem dust;
 
-    //Dashing
-    [Header("Dash")]
-    [SerializeField] private Dash dash;
+    [BoxGroup("ShowEffects/Effects")]
+    [SerializeField] private ParticleSystem dashParticle;
 
-    //Keybinds
-    [Header("Keybinds")]
-    private bool rightClick;
-    [ReadOnly] protected string debugString = "W.I.P";
+    //Input References
+    [Space] [Title("Input")]
+    public bool ShowInput;
 
+    [ShowIfGroup("ShowInput")]
+    [BoxGroup("ShowInput/Input")]
+    [ReadOnly] [SerializeReference] private Vector3 moveInput;
+    [BoxGroup("ShowInput/Input")]
+    [ReadOnly] [SerializeReference] private bool dashInput;
+
+    //Broadcaster
     public const string KEY_MOVE = "KEY_MOVE";
     
     public const string KEY_DASH = "KEY_DASH";
@@ -36,36 +49,23 @@ public class Movement : MonoBehaviour {
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
-    //Effects
-    [Header("Experimental Effects")]
-    
-    [SerializeField] public ParticleSystem dust;
-
-    [SerializeField] private ParticleSystem dashParticle;
-
-    [SerializeField] public bool moveHeld;
-
-    //Input References
-    private Vector3 moveInput;
-    private bool dashInput;
-
     void Reset() {
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
 
-        state = EntityState.Idle;
-        direction = EntityDirection.None;
+        movement.state = EntityState.Idle;
+        movement.direction = EntityDirection.None;
 
-        strafe.currentSpeed = 5;
-        strafe.strafeSpeed = 5;
-        strafe.turnSpeed = 720;
-        strafe.groundDrag = 10;
+        movement.currentSpeed = 5;
+        movement.strafeSpeed = 5;
+        movement.turnSpeed = 720;
+        movement.groundDrag = 10;
 
-        dash.dashSpeed = 10;
-        dash.dashing = false;
-        dash.dashForce = 25;
-        dash.dashDuration = 0.025f;
-        dash.dashCD = 1.5f;
+        movement.dashSpeed = 10;
+        movement.dashing = false;
+        movement.dashForce = 25;
+        movement.dashDuration = 0.025f;
+        movement.dashCD = 1.5f;
     }
 
     void Start() {
@@ -98,18 +98,18 @@ public class Movement : MonoBehaviour {
         
         if(dashInput || PlayerData.isAttacking) return;
         else {
-            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * strafe.currentSpeed * Time.deltaTime);
+            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * movement.currentSpeed * Time.deltaTime);
         }
     }
 
     private void CheckMove() {
         ParticleSystem.EmissionModule temp = dust.emission;
-        if(state == EntityState.Strafing) temp.enabled = true;
+        if(movement.state == EntityState.Strafing) temp.enabled = true;
         else temp.enabled = false;
     }
 
     private void CheckDash() {
-        if(state == EntityState.Dashing) dashParticle.Play();
+        if(movement.state == EntityState.Dashing) dashParticle.Play();
     }
 
     private void lookEvent(Parameters parameters) {
@@ -126,36 +126,36 @@ public class Movement : MonoBehaviour {
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
         if(dashInput == true) {
-            strafe.currentSpeed = dash.dashSpeed;
+            movement.currentSpeed = movement.dashSpeed;
             Dash();
         }
 
         if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
-            state = EntityState.Strafing;
+            movement.state = EntityState.Strafing;
             PlayerData.entityState = EntityState.Strafing;
 
             //Set To Strafing Speed
-            strafe.currentSpeed = strafe.strafeSpeed;
+            movement.currentSpeed = movement.strafeSpeed;
 
             //Debug Direction
-            direction = IsoCompass(moveInput.x, moveInput.z);
+            movement.direction = IsoCompass(moveInput.x, moveInput.z);
         }
 
         if(moveInput.x == 0 && moveInput.z == 0) {
-            state = EntityState.Idle;
+            movement.state = EntityState.Idle;
             PlayerData.entityState = EntityState.Idle;
         }
 
         if(PlayerData.entityState == EntityState.BasicAttack){
-            state = EntityState.BasicAttack;
+            movement.state = EntityState.BasicAttack;
             PlayerData.entityState = EntityState.BasicAttack;
         }
     }
 
     private void CheckDrag() {
-        if(state == EntityState.Strafing) {
-            rigidBody.drag = strafe.groundDrag;
+        if(movement.state == EntityState.Strafing) {
+            rigidBody.drag = movement.groundDrag;
         }
         else rigidBody.drag = 10f;
     }
@@ -224,26 +224,26 @@ public class Movement : MonoBehaviour {
     }
 
     private void Dash() {
-        if(dash.dashCDTimer > 0 ) return;
-        else dash.dashCDTimer = dash.dashCD;
+        if(movement.dashCDTimer > 0 ) return;
+        else movement.dashCDTimer = movement.dashCD;
 
         //Set Dash To True
-        dash.dashing = true;
+        movement.dashing = true;
 
         //Convert World View Coords To Iso Coords
-        dash.isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
+        movement.isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
 
         //Apply Dash Based On KeyInput
-        Vector3 forceToApply = dash.isoInput * dash.dashForce; 
+        Vector3 forceToApply = movement.isoInput * movement.dashForce; 
 
         //Apply Force
-        dash.delayedForce = forceToApply;
+        movement.delayedForce = forceToApply;
 
         //Duration
         Invoke(nameof(DelayedDashForce), 0.025f);
 
         //Cooldown
-        Invoke(nameof(ResetDash), dash.dashDuration);
+        Invoke(nameof(ResetDash), movement.dashDuration);
     }
 
     private Vector3 ConvertToIso(float x, float z) {
@@ -279,17 +279,17 @@ public class Movement : MonoBehaviour {
     }
 
     private void DelayedDashForce() {
-        state = EntityState.Dashing;
+        movement.state = EntityState.Dashing;
         PlayerData.entityState = EntityState.Dashing;
-        rigidBody.AddForce(dash.delayedForce, ForceMode.Impulse);
+        rigidBody.AddForce(movement.delayedForce, ForceMode.Impulse);
     }
 
     private void ResetDash() {
-        dash.dashing = false;
+        movement.dashing = false;
     }
 
     private void Cooldown() {
-        if(dash.dashCDTimer > 0) dash.dashCDTimer -= Time.deltaTime;
+        if(movement.dashCDTimer > 0) movement.dashCDTimer -= Time.deltaTime;
     }
 }
 

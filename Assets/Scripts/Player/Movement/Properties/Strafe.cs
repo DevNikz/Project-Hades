@@ -1,5 +1,5 @@
 using System;
-using Unity.Collections;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable] public class Strafe
