@@ -1,0 +1,145 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using Unity.VisualScripting;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+
+public class EnemyAction : MonoBehaviour
+{
+    [SerializeField] int Action = 0;
+    [SerializeField] GameObject Bullet = null;
+    [SerializeField] int BulletSpeed = 500;
+    [SerializeField] float FireRate = .5f;
+    Vector3 originalPosition = Vector3.zero;
+    GameObject Player = null;
+
+    [SerializeField] float moveSpeed = 3;
+    [SerializeField] float rotateSpeed = .6f;
+    List<Vector3> patrolPoints = new List<Vector3>();
+    int nextPoint = 0;
+    float timeStep = 0;
+    Quaternion toRotation = Quaternion.identity;
+    Quaternion prevRotation = Quaternion.identity;
+
+    bool isAttacking = false;
+
+    // Start is called before the first frame update
+    private void OnEnable()
+    {
+        this.originalPosition = this.transform.position;
+        this.Player = GameObject.Find("Player");
+
+        this.patrolPoints.Add(this.originalPosition);
+        this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0)*5);
+    }
+
+    public void SetAction(int num)
+    {
+        this.Action = num;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        switch(Action)
+        {
+            case 0: Patrol();
+                break;
+            case 1: Attack();
+                break;
+        }
+    }
+
+    void Patrol()
+    {
+        if (this.transform.position == patrolPoints[nextPoint])
+        {
+            if (this.nextPoint + 1 < patrolPoints.Count)
+                this.nextPoint++;
+            else this.nextPoint = 0;
+
+            Vector3 direction = patrolPoints[nextPoint] - this.transform.position;
+            this.prevRotation = this.transform.rotation;
+            this.toRotation = Quaternion.LookRotation(direction);
+
+            this.timeStep = 0;
+        }
+
+        if (this.transform.rotation == this.toRotation)
+            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.deltaTime);
+        else
+            this.transform.rotation = Quaternion.Slerp(prevRotation, this.toRotation, rotateSpeed * timeStep);
+        this.timeStep += Time.deltaTime;
+    }
+
+    void Attack()
+    {
+        if (Player != null)
+        {
+            Vector3 posPlayer = Player.transform.position;
+            this.transform.LookAt(posPlayer);
+
+            if(Vector3.Distance(this.transform.position, posPlayer) > 5)
+                this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.deltaTime);
+
+            if(!isAttacking)
+            {
+                isAttacking = true;
+                Invoke("Attacking", 0.1f);
+            } 
+        }
+    }
+
+    void Attacking()
+    {
+        GameObject fire = GameObject.Instantiate(Bullet);
+        if (fire != null)
+        {
+            fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);
+            fire.transform.rotation = this.transform.rotation;
+            fire.transform.Rotate(90, 0, 0);
+
+            fire.SetActive(true);
+            if (fire.GetComponent<Rigidbody>() != null)
+                fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * moveSpeed * this.BulletSpeed);
+        }
+        Invoke("Attacking", FireRate);
+    }
+
+    private Vector3 ConvertToIso(float x, float z)
+    {
+
+        //North
+        if (x == 0 && z == 1) return new Vector3(1f, 0f, 1f);
+
+        //North East
+        else if (x == 1 && z == 1) return new Vector3(1f, 0f, 0f);
+
+        //East
+        else if (x == 1 && z == 0) return new Vector3(1f, 0f, -1f);
+
+        //South East
+        else if (x == 1 && z == -1) return new Vector3(0f, 0f, -1f);
+
+        //South
+        else if (x == 0 && z == -1) return new Vector3(-1f, 0f, -1f);
+
+        //South West
+        else if (x == -1 && z == -1) return new Vector3(-1f, 0f, 0f);
+
+        //West
+        else if (x == -1 && z == 0) return new Vector3(-1f, 0f, 1f);
+
+        //North West
+        else if (x == -1 && z == 1) return new Vector3(0f, 0f, 1f);
+
+        else
+        {
+            Vector3 zero = Vector3.zero;
+            return zero;
+        }
+    }
+}

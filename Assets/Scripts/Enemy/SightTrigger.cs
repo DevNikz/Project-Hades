@@ -19,6 +19,9 @@ public class SightTrigger : MonoBehaviour
             if (Physics.Raycast(parentPos, direction, out hit, distance, layer, QueryTriggerInteraction.Ignore))
             {
                 Debug.Log(hit.collider.gameObject.name);
+                if (hit.collider.gameObject.name == "Player")
+                    if(this.GetComponentInParent<EnemyAction>() != null)
+                        this.GetComponentInParent<EnemyAction>().SetAction(1);
             }
         }
     }
