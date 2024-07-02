@@ -21,12 +21,18 @@ public class EnemyAction : MonoBehaviour
     List<Vector3> patrolPoints = new List<Vector3>();
     int nextPoint = 0;
     float timeStep = 0;
-    Quaternion toRotation = Quaternion.identity;
-    Quaternion prevRotation = Quaternion.identity;
+    public Quaternion toRotation = Quaternion.identity;
+    public Quaternion prevRotation = Quaternion.identity;
+    public Vector3 direction;
 
     bool isAttacking = false;
 
-    // Start is called before the first frame update
+    GameObject cone = null;
+
+    public Vector3 tempVector;
+    public float angle;
+    public Quaternion rot;
+
     private void OnEnable()
     {
         this.originalPosition = this.transform.position;
@@ -34,6 +40,8 @@ public class EnemyAction : MonoBehaviour
 
         this.patrolPoints.Add(this.originalPosition);
         this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0)*5);
+
+        cone = transform.Find("Cone").gameObject;
     }
 
     public void SetAction(int num)
@@ -55,58 +63,69 @@ public class EnemyAction : MonoBehaviour
 
     void Patrol()
     {
+        isAttacking = false;
         if (this.transform.position == patrolPoints[nextPoint])
         {
-            if (this.nextPoint + 1 < patrolPoints.Count)
+            if (this.nextPoint + 1 < patrolPoints.Count)    
                 this.nextPoint++;
             else this.nextPoint = 0;
 
-            Vector3 direction = patrolPoints[nextPoint] - this.transform.position;
-            this.prevRotation = this.transform.rotation;
-            this.toRotation = Quaternion.LookRotation(direction);
+            direction = patrolPoints[nextPoint] - this.transform.position;
+            
+            //Change cone rotation instead
+            prevRotation = this.transform.rotation;
+            toRotation = Quaternion.LookRotation(direction);
 
             this.timeStep = 0;
         }
 
         if (this.transform.rotation == this.toRotation)
-            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.fixedDeltaTime);
         else
-            this.transform.rotation = Quaternion.Slerp(prevRotation, this.toRotation, rotateSpeed * timeStep);
-        this.timeStep += Time.deltaTime;
+            this.transform.rotation = Quaternion.Slerp(prevRotation, toRotation, rotateSpeed * timeStep);
+        this.timeStep += Time.fixedDeltaTime;
     }
 
     void Attack()
     {
+        Debug.Log("Attacking!");
         if (Player != null)
         {
             Vector3 posPlayer = Player.transform.position;
             this.transform.LookAt(posPlayer);
 
             if(Vector3.Distance(this.transform.position, posPlayer) > 5)
-                this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.deltaTime);
+                this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
 
-            if(!isAttacking)
-            {
+            if(!isAttacking) {
                 isAttacking = true;
-                Invoke("Attacking", 0.1f);
-            } 
+                Invoke("Attacking", FireRate);
+            }
+            
+        }
+        else {
+            Debug.Log("Player not in sight");
+            isAttacking = false;
         }
     }
 
     void Attacking()
     {
-        GameObject fire = GameObject.Instantiate(Bullet);
-        if (fire != null)
-        {
-            fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);
-            fire.transform.rotation = this.transform.rotation;
-            fire.transform.Rotate(90, 0, 0);
+        if(isAttacking) {
+            Debug.Log("Fire!");
+            GameObject fire = GameObject.Instantiate(Bullet);
+            if (fire != null)
+            {
+                fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);
+                fire.transform.rotation = this.transform.rotation;
+                fire.transform.Rotate(90, 0, 0);
 
-            fire.SetActive(true);
-            if (fire.GetComponent<Rigidbody>() != null)
-                fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * moveSpeed * this.BulletSpeed);
+                fire.SetActive(true);
+                if (fire.GetComponent<Rigidbody>() != null)
+                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * moveSpeed * this.BulletSpeed);
+            }
+            Invoke("Attacking", FireRate);
         }
-        Invoke("Attacking", FireRate);
     }
 
     private Vector3 ConvertToIso(float x, float z)

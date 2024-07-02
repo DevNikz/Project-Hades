@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SightTrigger : MonoBehaviour
@@ -18,11 +14,15 @@ public class SightTrigger : MonoBehaviour
             var direction = vector / distance;
             if (Physics.Raycast(parentPos, direction, out hit, distance, layer, QueryTriggerInteraction.Ignore))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                // Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.gameObject.name == "Player")
                     if(this.GetComponentInParent<EnemyAction>() != null)
                         this.GetComponentInParent<EnemyAction>().SetAction(1);
             }
         }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        this.GetComponentInParent<EnemyAction>().SetAction(0);
     }
 }

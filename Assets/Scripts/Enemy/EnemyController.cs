@@ -36,9 +36,9 @@ public class EnemyController : MonoBehaviour
     private ParticleSystem.EmissionModule temp;
 
     void Start() {
-        healthUI = transform.Find("Health").gameObject;
+        healthUI = this.transform.parent.transform.Find("Health").gameObject;
         healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
-        poiseUI = transform.Find("Poise").gameObject;
+        poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         temp = hitFX.emission;

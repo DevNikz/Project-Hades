@@ -281,7 +281,6 @@ public class Movement : MonoBehaviour {
     }
 
     private void DelayedDashForce() {
-        Debug.Log("Dash!");
         state = EntityState.Dashing;
         PlayerData.entityState = EntityState.Dashing;
         rigidBody.AddForce(delayedForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
