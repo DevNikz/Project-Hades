@@ -303,25 +303,23 @@ public class Combat : MonoBehaviour
     void LungePlayer() {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
-        rb.AddForce(tempPos.ToIso() * combat.lungeForce, ForceMode.Impulse);
+        rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     void LungePlayer(float modifier) {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
         float tempForce = combat.lungeForce + (combat.lungeForce * modifier);
-        rb.AddForce(tempPos.ToIso() * tempForce, ForceMode.Impulse);
+        rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     void LungePlayerAlt() {
         if(timerFlickState == TimerState.Start) {
             tempflicktime -= Time.deltaTime;
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.mass = 0.1f;
             rb.drag = 10f;
-            rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce, ForceMode.VelocityChange);
+            rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
             if(tempflicktime <= 0) {
-                rb.mass = 1f;
                 timerFlickState = TimerState.Stop;
             }
         }

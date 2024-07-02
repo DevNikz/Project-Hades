@@ -40,6 +40,13 @@ public class Movement : MonoBehaviour {
     [BoxGroup("ShowInput/Input")]
     [ReadOnly] [SerializeReference] private bool dashInput;
 
+    [Space] [Title("Speed")]
+    public bool ShowSpeed;
+    [ShowIfGroup("ShowSpeed")]
+    [BoxGroup("ShowSpeed/Speed")]
+    [Tooltip("Set Current Speed in Float. (Default = strafeSpeed)")]
+    [ReadOnly] public float currentSpeed;
+
     [Space] [Title("Dash")]
     public bool ShowDash;
     
@@ -80,9 +87,6 @@ public class Movement : MonoBehaviour {
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
         dust.Play();
 
-        rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
-        rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
-
         this.GetComponent<BoxCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
 
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
@@ -108,7 +112,7 @@ public class Movement : MonoBehaviour {
         
         if(dashInput || PlayerData.isAttacking) return;
         else {
-            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * movement.currentSpeed * Time.deltaTime);
+            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * currentSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -127,7 +131,7 @@ public class Movement : MonoBehaviour {
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
         if(dashInput == true) {
-            movement.currentSpeed = movement.dashSpeed;
+            currentSpeed = movement.dashSpeed;
             Dash();
         }
 
@@ -137,7 +141,7 @@ public class Movement : MonoBehaviour {
             PlayerData.entityState = EntityState.Strafing;
 
             //Set To Strafing Speed
-            movement.currentSpeed = movement.strafeSpeed;
+            currentSpeed = movement.strafeSpeed;
 
             //Debug Direction
             direction = IsoCompass(moveInput.x, moveInput.z);
@@ -235,13 +239,10 @@ public class Movement : MonoBehaviour {
         isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
 
         //Apply Dash Based On KeyInput
-        Vector3 forceToApply = isoInput * movement.dashForce; 
-
-        //Apply Force
-        delayedForce = forceToApply;
+        delayedForce = isoInput * movement.dashForce; 
 
         //Duration
-        Invoke(nameof(DelayedDashForce), 0.025f);
+        Invoke(nameof(DelayedDashForce), movement.dashDuration);
 
         //Cooldown
         Invoke(nameof(ResetDash), movement.dashDuration);
@@ -280,9 +281,10 @@ public class Movement : MonoBehaviour {
     }
 
     private void DelayedDashForce() {
+        Debug.Log("Dash!");
         state = EntityState.Dashing;
         PlayerData.entityState = EntityState.Dashing;
-        rigidBody.AddForce(delayedForce, ForceMode.Impulse);
+        rigidBody.AddForce(delayedForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     private void ResetDash() {
@@ -290,7 +292,7 @@ public class Movement : MonoBehaviour {
     }
 
     private void Cooldown() {
-        if(dashCDTimer > 0) dashCDTimer -= Time.deltaTime;
+        if(dashCDTimer > 0) dashCDTimer -= Time.fixedDeltaTime;
     }
 }
 

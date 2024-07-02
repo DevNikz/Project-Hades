@@ -11,9 +11,6 @@ public class PlayerMovement : ScriptableObject
     [Tooltip("Set Strafing Speed in Float. (Default = 5)")]
     public float strafeSpeed;
 
-    [Tooltip("Set Current Speed in Float. (Default = strafeSpeed)")]
-    [ReadOnly] public float currentSpeed;
-
     [Tooltip("Set TurnSpeed in Float. (Default = 720)")]
     public float turnSpeed;
 
@@ -26,7 +23,7 @@ public class PlayerMovement : ScriptableObject
     public float dashSpeed;
 
     [Tooltip("Amount of Dash Force. (Default = 25)")]
-    public float dashForce;
+    [Range(0.1f,100f)] public float dashForce;
 
     [Tooltip("How Long The Dash will last. (Default = 0.025)")]
     public float dashDuration;

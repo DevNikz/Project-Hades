@@ -11,19 +11,26 @@ public class DebugTest : MonoBehaviour
     private TextMeshProUGUI speed;
     private TextMeshProUGUI dash;
     private TextMeshProUGUI lunge;
+    private TextMeshProUGUI deltaTime;
+    private TextMeshProUGUI fixeddeltaTime;
 
     void Awake() {
         movement = FindAnyObjectByType<Movement>();
         combat = FindAnyObjectByType<Combat>();
 
-        speed = transform.Find("Panel").transform.Find("Speed").GetComponent<TextMeshProUGUI>();
-        dash = transform.Find("Panel").transform.Find("Dash").GetComponent<TextMeshProUGUI>();
-        lunge = transform.Find("Panel").transform.Find("Lunge").GetComponent<TextMeshProUGUI>();
+        speed = transform.Find("Player").transform.Find("Speed").GetComponent<TextMeshProUGUI>();
+        dash = transform.Find("Player").transform.Find("Dash").GetComponent<TextMeshProUGUI>();
+        lunge = transform.Find("Player").transform.Find("Lunge").GetComponent<TextMeshProUGUI>();
+
+        deltaTime = transform.Find("Time").transform.Find("DeltaTime").GetComponent<TextMeshProUGUI>();
+        fixeddeltaTime = transform.Find("Time").transform.Find("FixedDeltaTime").GetComponent<TextMeshProUGUI>();
     }
 
     void Update() {
-        speed.text = "Speed: " + movement.movement.currentSpeed;
+        speed.text = "Speed: " + movement.currentSpeed;
         dash.text = "Dash: " + movement.movement.dashForce;
         lunge.text = "Lunge: " + combat.combat.quicklungeForce;
+        deltaTime.text = "DeltaTime: " + Time.deltaTime;
+        fixeddeltaTime.text = "FixedDeltaTime: " + Time.fixedDeltaTime;
     }
 }
