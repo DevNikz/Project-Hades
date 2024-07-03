@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(ColliderModule))]
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(Combat))]
-[RequireComponent(typeof(Death))]
+[RequireComponent(typeof(PlayerDeath))]
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour
 {

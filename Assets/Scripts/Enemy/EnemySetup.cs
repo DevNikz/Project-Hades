@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySetup : MonoBehaviour
@@ -20,8 +18,8 @@ public class EnemySetup : MonoBehaviour
     }
 
     void UpdateUI() {
-        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 0.7f, baseEnemy.transform.position.z);
-        poiseUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.1f, baseEnemy.transform.position.z);
+        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.5f, baseEnemy.transform.position.z);
+        poiseUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.9f, baseEnemy.transform.position.z);
 
         healthUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
         poiseUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);

@@ -26,6 +26,7 @@ public enum AnimDirection {
 }
 
 public enum AttackDirection {
+    None,
     Left,
     Right
 }

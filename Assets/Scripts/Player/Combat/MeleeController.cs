@@ -22,6 +22,7 @@ public class MeleeController : MonoBehaviour
 
     [BoxGroup("ShowReferences/References")]
     [ReadOnly] [SerializeReference] private MeshRenderer meshRenderer;
+    [ReadOnly] [SerializeReference] private AttackDirection atkdirection;
 
     void Awake() {
         if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
@@ -56,7 +57,7 @@ public class MeleeController : MonoBehaviour
 
         if(other.CompareTag("Enemy")) {
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection);
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
             Vector3 knockback = direction * attackType.knocbackForce;
@@ -65,7 +66,11 @@ public class MeleeController : MonoBehaviour
 
         if(other.CompareTag("Enemy(Staggered)")) {
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection);
         }
+    }
+
+    public void SetAttackDirection(AttackDirection attackDirection) {
+        this.atkdirection = attackDirection;
     }
 }

@@ -1,11 +1,11 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class Death : MonoBehaviour
+public class PlayerDeath : MonoBehaviour
 {
     [Space] [Title("Properties")]
     [ReadOnly] [SerializeReference] public int deaths; 
-    [ReadOnly] [SerializeReference] public GameObject playerSprite;
+    [ReadOnly] [SerializeReference] public GameObject entitySprite;
     [ReadOnly] [SerializeReference] public GameObject deathSprite;
     [ReadOnly] private GameObject deathSpriteTemp;
 
@@ -13,7 +13,6 @@ public class Death : MonoBehaviour
     [SerializeField] [Range(0.1f,5f)] public float timer = 2f;
     [ReadOnly] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
-
 
     [PropertySpace] [Title("[Debug]")]
     [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")] 
@@ -31,8 +30,8 @@ public class Death : MonoBehaviour
         deathSpriteTemp.SetActive(true);
 
         //Respawn Player to same spot
-        playerSprite = transform.Find("SpriteContainer").gameObject;
-        playerSprite.SetActive(false);
+        entitySprite = transform.Find("SpriteContainer").gameObject;
+        entitySprite.SetActive(false);
 
         tempTimer = timer;
         timerState = TimerState.Start;
@@ -62,7 +61,7 @@ public class Death : MonoBehaviour
 
         if(timerState == TimerState.Stop) {
             //Init Vars
-            playerSprite.SetActive(true);
+            entitySprite.SetActive(true);
             this.transform.position = new Vector3(15.5f, 0.5f, 16f);
 
             //Reset Timer

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,14 +23,26 @@ public class EnemyController : MonoBehaviour
     [ReadOnly] [SerializeReference] private TimerState timerState;
 
     //Ref
+    [Title("References")]
+    public bool ShowReferences;
+    [ShowIfGroup("ShowReferences")]
+    [BoxGroup("ShowReferences/Reference")]
     private GameObject healthUI;
+
+    [BoxGroup("ShowReferences/Reference")]
     private Slider healthMeter;
 
+    [BoxGroup("ShowReferences/Reference")]
     private GameObject poiseUI;
+
+    [BoxGroup("ShowReferences/Reference")]
     private Slider poiseMeter;
 
+    [BoxGroup("ShowReferences/Reference")]
     private ParticleSystem hitFX;
-    private ParticleSystem.EmissionModule temp;
+
+    [BoxGroup("ShowReferences/Reference")]
+    private GameObject sprite;
 
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
@@ -41,7 +50,7 @@ public class EnemyController : MonoBehaviour
         poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
-        temp = hitFX.emission;
+        sprite = transform.Find("SpriteContainer").gameObject;
         currentHealth = totalHealth;
         currentPoise = totalPoise;
     }
@@ -49,10 +58,13 @@ public class EnemyController : MonoBehaviour
     void Update() {
         RegenPoise();
         Stagger();
+        UpdateHealth();
+    }
 
-        if(currentHealth <= 0) {
-            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.black);
-            this.tag = "Enemy(Dead)";
+    void UpdateHealth() {
+        if(this.currentHealth <= 0) {
+            Destroy(this.GetComponent<EnemyAction>());
+            this.gameObject.tag = "Enemy(Dead)";
             this.gameObject.layer = 11;
             healthUI.SetActive(false);
             poiseUI.SetActive(false);
@@ -86,12 +98,9 @@ public class EnemyController : MonoBehaviour
     void Stagger() {
         if(currentPoise <= 0) {
             this.tag = "Enemy(Staggered)";
-            Color color = new Color(1f,0.7127394f,0f,1f);
-            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", color);
         }
         else {
             this.tag = "Enemy";
-            this.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Color.white);
         }
     }
 
@@ -100,9 +109,10 @@ public class EnemyController : MonoBehaviour
         poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
     }
 
-    public void ReceiveDamage(DamageType damageType, float damage, float poise) {
+    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection) {
         //Visual Cue
         hitFX.Play();
+        sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
 
         if(staggered) {
             //Health
@@ -128,6 +138,12 @@ public class EnemyController : MonoBehaviour
 
         //UI
         healthMeter.value = ToPercent(totalHealth) - ToPercent(currentHealth);
+
+        if(this.currentHealth <= 0) {
+            Debug.Log("Dead");
+            this.GetComponent<EnemyDeath>().Die();
+        }
+
     }
 
     float ToPercent(float value) {

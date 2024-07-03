@@ -156,30 +156,30 @@ public class Combat : MonoBehaviour
     void UpdateAnimation() {
         temptime = attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         //Right
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_1")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR1_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_2")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR2_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_3")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR3_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
 
 
         //Left
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_1")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL1_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_2")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL2_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_3")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")) {
             counter = 0;
             timerState = TimerState.Stop;
         }
@@ -226,56 +226,58 @@ public class Combat : MonoBehaviour
         //1st Move
         if(counter == 1) {
             //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_1");
-            else attackAnimator.Play("BasicAtkL_1");
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR1_New");
+            else attackAnimator.Play("BasicAtkL1_New");
         }
 
         //2nd Move
-        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_1")) {
+        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR1_New")) {
             //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_2");
-            else attackAnimator.Play("BasicAtkL_2");
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR2_New");
+            else attackAnimator.Play("BasicAtkL2_New");
         }
 
-        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_1")) {
+        if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL1_New")) {
             //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_2");
-            else attackAnimator.Play("BasicAtkL_2");
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR2_New");
+            else attackAnimator.Play("BasicAtkL2_New");
             
         }
 
         //3rd Move
-        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_2")) {
+        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR2_New")) {
             tempflicktime = combat.flicktime;
             timerFlickState = TimerState.Start;
 
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
-            else attackAnimator.Play("BasicAtkL_3");
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR3_New");
+            else attackAnimator.Play("BasicAtkL3_New");
         }
 
-        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_2")) {
+        if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL2_New")) {
             tempflicktime = combat.flicktime;
             timerFlickState = TimerState.Start;
 
-            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR_3");
-            else attackAnimator.Play("BasicAtkL_3");
+            if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR3_New");
+            else attackAnimator.Play("BasicAtkL3_New");
         }
     }
 
     void UpdateLunge() {
         //3rd Move
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR_3")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR3_New")) {
             if(hitboxLunge_Temp != null) {
                 hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
+                hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
                 hitboxLunge_Temp.SetActive(true);
             }
             
             LungePlayerAlt();
         }
 
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL_3")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")) {
             if(hitboxLunge_Temp != null) {
                 hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
+                hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
                 hitboxLunge_Temp.SetActive(true);
             }
             LungePlayerAlt();
@@ -291,6 +293,15 @@ public class Combat : MonoBehaviour
         hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
         hitboxLeft_Temp.tag = "PlayerMelee";
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
+        
+        if(tempDirection == AttackDirection.Right) {
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
+        }
+
+        else {
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
+        }
+
         hitboxLeft_Temp.SetActive(true);
     }
 
