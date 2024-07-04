@@ -8,7 +8,7 @@ public class EnemySetup : MonoBehaviour
 
     void Start() {
         healthUI = transform.Find("Health").gameObject;
-        poiseUI = transform.Find("Poise").gameObject;
+        // poiseUI = transform.Find("Poise").gameObject;
         baseEnemy = transform.Find("Base").gameObject;
     }
 
@@ -18,10 +18,10 @@ public class EnemySetup : MonoBehaviour
     }
 
     void UpdateUI() {
-        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.5f, baseEnemy.transform.position.z);
-        poiseUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.9f, baseEnemy.transform.position.z);
+        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.7f, baseEnemy.transform.position.z);
+        // poiseUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.9f, baseEnemy.transform.position.z);
 
         healthUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
-        poiseUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
+        // poiseUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
     }
 }

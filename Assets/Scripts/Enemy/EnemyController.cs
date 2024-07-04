@@ -4,17 +4,19 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    [Title("Type")]
+    [SerializeField] private EnemyType enemyType;
+
     [Title("Health")]
-    [SerializeField] [Range(0.1f,100f)] private float totalHealth;
-    [ReadOnly] [SerializeField] private float currentHealth;
+    [ReadOnly] [SerializeReference] private float totalHealth;
+    [ReadOnly] [SerializeReference] private float currentHealth;
 
     [Title("Poise")]
     [SerializeField] [Range(0.1f, 100f)] private float totalPoise;
     [SerializeField] [Range(0.1f,1f)] private float poiseMultiplier;
-    [ReadOnly] [SerializeField] private float currentPoise;
+    [ReadOnly] [SerializeReference] private float currentPoise;
     [ReadOnly] [SerializeReference] private bool poiseDamaged;
     [ReadOnly] [SerializeReference] private bool staggered;
-
     
 
     [Title("Timer")]
@@ -27,32 +29,60 @@ public class EnemyController : MonoBehaviour
     public bool ShowReferences;
     [ShowIfGroup("ShowReferences")]
     [BoxGroup("ShowReferences/Reference")]
-    private GameObject healthUI;
+    [SerializeReference] private GameObject healthUI;
 
     [BoxGroup("ShowReferences/Reference")]
-    private Slider healthMeter;
+    [SerializeReference] private Slider healthMeter;
+    
+    [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private Slider bossMeter1;
 
     [BoxGroup("ShowReferences/Reference")]
-    private GameObject poiseUI;
+    [SerializeReference] private Slider bossMeter2;
 
     [BoxGroup("ShowReferences/Reference")]
-    private Slider poiseMeter;
+    [SerializeReference] private Slider bossMeter3;
 
     [BoxGroup("ShowReferences/Reference")]
-    private ParticleSystem hitFX;
+    [SerializeReference] private GameObject poiseUI;
 
     [BoxGroup("ShowReferences/Reference")]
-    private GameObject sprite;
+    [SerializeReference] private Slider poiseMeter;
+
+    [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private ParticleSystem hitFX;
+
+    [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private GameObject sprite;
 
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
-        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
-        poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
-        poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
+        // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
+        // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         sprite = transform.Find("SpriteContainer").gameObject;
-        currentHealth = totalHealth;
         currentPoise = totalPoise;
+
+        if(enemyType == EnemyType.Normal) {
+            totalHealth = 100;
+            SetHealth();
+        }
+        else {
+            totalHealth = 300;
+            SetHealthBoss();
+        }
+
+        currentHealth = totalHealth;
+    }
+
+    void SetHealth() {
+        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
+    }
+
+    void SetHealthBoss() {
+        bossMeter1 = healthUI.transform.Find("Slider1").GetComponent<Slider>();
+        bossMeter2 = healthUI.transform.Find("Slider2").GetComponent<Slider>();
+        bossMeter3 = healthUI.transform.Find("Slider3").GetComponent<Slider>();
     }
 
     void Update() {
@@ -67,8 +97,9 @@ public class EnemyController : MonoBehaviour
             this.gameObject.tag = "Enemy(Dead)";
             this.gameObject.layer = 11;
             healthUI.SetActive(false);
-            poiseUI.SetActive(false);
+            //poiseUI.SetActive(false);
         }
+
     }
 
     void RegenPoise() {
@@ -106,7 +137,7 @@ public class EnemyController : MonoBehaviour
 
     void RevertPoise() {
         currentPoise = totalPoise;
-        poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+        //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
     }
 
     public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection) {
@@ -133,21 +164,44 @@ public class EnemyController : MonoBehaviour
             //RegenPoise
             poiseDamaged = true;
             tempDelay = timerDelay;
-            poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
         }
 
         //UI
-        healthMeter.value = ToPercent(totalHealth) - ToPercent(currentHealth);
+        switch(enemyType) {
+            case EnemyType.Normal: UpdateNormalHP();
+                break;
+            case EnemyType.Boss: UpdateBossHP();
+                break;
+        }
 
         if(this.currentHealth <= 0) {
             Debug.Log("Dead");
             this.GetComponent<EnemyDeath>().Die();
         }
-
     }
 
-    float ToPercent(float value) {
-        return value / 100;
+    void UpdateNormalHP() {
+        healthMeter.value = ToPercent(currentHealth, 100);
+    }
+
+    void UpdateBossHP() {
+        if(currentHealth <= 300 && currentHealth > 200) {
+            bossMeter1.value = ToPercent(currentHealth, 300);
+        }
+        else if(currentHealth <= 200 && currentHealth > 100) {
+            bossMeter1.value = 0;
+            bossMeter2.value = ToPercent(currentHealth, 200);
+        }
+        else if(currentHealth <= 100 && currentHealth > 0) {
+            bossMeter1.value = 0;
+            bossMeter2.value = 0;
+            bossMeter3.value = ToPercent(currentHealth, 100);
+        }
+    }
+
+    float ToPercent(float value, float threshold) {
+        return value / threshold;
     }
 
     float CalculatePoiseDamage(float poise) {
