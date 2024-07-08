@@ -167,56 +167,56 @@ public class Movement : MonoBehaviour {
 
     private EntityDirection IsoCompass(float x, float z) {
         //North
-        if(x == 0 && z == 1) {
+        if(x == 0 && (z <= 1 && z > 0)) {
             PlayerData.animDirection = AnimDirection.Up;
             PlayerData.entityDirection = EntityDirection.North;
             return EntityDirection.North;
         }
 
         //North East
-        else if(x == 1 && z == 1) {
+        else if((x <= 1 && x > 0) && (z <= 1 && z > 0)) {
             PlayerData.animDirection = AnimDirection.Up;
             PlayerData.entityDirection = EntityDirection.NorthEast;
             return EntityDirection.NorthEast;
         }
 
         //East
-        else if(x == 1 && z == 0) {
+        else if((x <= 1 && x > 0) && z == 0) {
             PlayerData.animDirection = AnimDirection.Left;
             PlayerData.entityDirection = EntityDirection.East;
             return EntityDirection.East;
         }
 
         //South East
-        else if(x == 1 && z == -1) {
+        else if((x <= 1 && x > 0) && (z >= -1 && z < 0)) {
             PlayerData.animDirection = AnimDirection.Down;
             PlayerData.entityDirection = EntityDirection.SouthEast;
             return EntityDirection.SouthEast;
         }
 
         //South
-        else if(x == 0 && z == -1) {
+        else if(x == 0 && (z >= -1 && z < 0)) {
             PlayerData.animDirection = AnimDirection.Down;
             PlayerData.entityDirection = EntityDirection.South;
             return EntityDirection.South;
         }
 
         //South West
-        else if(x == -1 && z == -1) {
+        else if((x >= -1 && x < 0) && (z >= -1 && z < 0)) {
             PlayerData.animDirection = AnimDirection.Down;
             PlayerData.entityDirection = EntityDirection.SouthWest;
             return EntityDirection.SouthWest;
         }
 
         //West
-        else if(x == -1 && z == 0) {
+        else if((x >= -1 && x < 0) && z == 0) {
             PlayerData.animDirection = AnimDirection.Right;
             PlayerData.entityDirection = EntityDirection.West;
             return EntityDirection.West;
         }
 
         //North West
-        else if(x == -1 && z == 1) {
+        else if((x >= -1 && x < 0) && (z <= 1 && z > 0)) {
             PlayerData.animDirection = AnimDirection.Up;
             PlayerData.entityDirection = EntityDirection.NorthWest;
             return EntityDirection.NorthWest;
@@ -251,28 +251,28 @@ public class Movement : MonoBehaviour {
     private Vector3 ConvertToIso(float x, float z) {
 
         //North
-        if(x == 0 && z == 1) return new Vector3(1f, 0f, 1f);
+        if(x == 0 && (z <= 1 && z > 0)) return new Vector3(1f, 0f, 1f);
 
         //North East
-        else if(x == 1 && z == 1) return new Vector3(1f, 0f, 0f);
+        else if((x <= 1 && x > 0) && (z <= 1 && z > 0)) return new Vector3(1f, 0f, 0f);
 
         //East
-        else if(x == 1 && z == 0) return new Vector3(1f, 0f, -1f);
+        else if((x <= 1 && x > 0) && z == 0) return new Vector3(1f, 0f, -1f);
 
         //South East
-        else if(x == 1 && z == -1) return new Vector3(0f, 0f, -1f);
+        else if((x <= 1 && x > 0) && (z >= -1 && z < 0)) return new Vector3(0f, 0f, -1f);
 
         //South
-        else if(x == 0 && z == -1) return new Vector3(-1f, 0f, -1f);
+        else if(x == 0 && (z >= -1 && z < 0)) return new Vector3(-1f, 0f, -1f);
 
         //South West
-        else if(x == -1 && z == -1) return new Vector3(-1f, 0f, 0f);
+        else if((x >= -1 && x < 0) && (z >= -1 && z < 0)) return new Vector3(-1f, 0f, 0f);
 
         //West
-        else if(x == -1 && z == 0) return new Vector3(-1f, 0f, 1f);
+        else if((x >= -1 && x < 0) && z == 0) return new Vector3(-1f, 0f, 1f);
 
         //North West
-        else if(x == -1 && z == 1) return new Vector3(0f, 0f, 1f);
+        else if((x >= -1 && x < 0) && (z <= 1 && z > 0)) return new Vector3(0f, 0f, 1f);
 
         else {
             Vector3 zero = Vector3.zero;

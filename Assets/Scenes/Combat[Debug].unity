@@ -8373,13 +8373,15 @@ MonoBehaviour:
   timerState: 0
   timerFlickState: 0
   temptime: 0
-  ShowDebug: 0
+  ShowDebug: 1
   tempPosition: {x: 0, y: 0, z: 0}
+  tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
   tempPos: {x: 0, y: 0, z: 0}
   BasicAttack: 0
   counter: 0
   leftClick: 0
+  RStickInput: {x: 0, y: 0, z: 0}
   Pointer: 0
   tempVector: {x: 0, y: 0, z: 0}
   angle: 0
@@ -14968,6 +14970,11 @@ PrefabInstance:
     - target: {fileID: 5369669026769144339, guid: 602e8d5ef75e89748832f8bce788ec9f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5506064837461463760, guid: 602e8d5ef75e89748832f8bce788ec9f,
+        type: 3}
+      propertyPath: m_WholeNumbers
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5519653768386420054, guid: 602e8d5ef75e89748832f8bce788ec9f,

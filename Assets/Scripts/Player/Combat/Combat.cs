@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
 using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
@@ -35,6 +37,9 @@ public class Combat : MonoBehaviour
     [ReadOnly] [HideLabel] public Vector3 tempPosition;
 
     [BoxGroup("ShowDebug/Debug")]
+    [ReadOnly] [HideLabel] public Vector3 tempVect;
+
+    [BoxGroup("ShowDebug/Debug")]
     [ReadOnly] [HideLabel] public float tempflicktime;
 
     [BoxGroup("ShowDebug/Debug")]
@@ -49,6 +54,9 @@ public class Combat : MonoBehaviour
 
     [BoxGroup("BasicAttack/BasicAttack")]
     [ReadOnly] public bool leftClick;
+
+    [BoxGroup("BasicAttack/BasicAttack")]
+    [ReadOnly] public Vector3 RStickInput; 
 
     [Space] public bool Pointer;
 
@@ -110,6 +118,7 @@ public class Combat : MonoBehaviour
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
+    public const string RSTICK = "RSTICK";
 
     void Awake() {
         //Reference
@@ -130,10 +139,13 @@ public class Combat : MonoBehaviour
 
     void Start() {
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
+        EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
+        // EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.UpdatePOS);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
     }
 
     void Update() {
@@ -189,16 +201,30 @@ public class Combat : MonoBehaviour
     void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
-        if(leftClick && IsMouseOverGameWindow) {
-            PlayerData.isAttacking = true;
-            deltaState = PlayerData.entityState;
-            deltaDir = PlayerData.entityDirection;
+        if(Gamepad.all.Count == 0) {
+            if(leftClick && IsMouseOverGameWindow) {
+                PlayerData.isAttacking = true;
+                deltaState = PlayerData.entityState;
+                deltaDir = PlayerData.entityDirection;
 
-            timerState = TimerState.Start;
-            counter++;
+                timerState = TimerState.Start;
+                counter++;
 
-            tempDirection = attackDirection;
-            
+                tempDirection = attackDirection;
+                
+            }
+        }
+        else {
+            if(leftClick) {
+                PlayerData.isAttacking = true;
+                deltaState = PlayerData.entityState;
+                deltaDir = PlayerData.entityDirection;
+
+                timerState = TimerState.Start;
+                counter++;
+
+                tempDirection = attackDirection;
+            }
         }
 
         if(leftClick && counter == 1) {
@@ -213,6 +239,7 @@ public class Combat : MonoBehaviour
         
         if(leftClick && counter == 3) {
             tempPosition = GetTempPosition();
+            tempVect = GetTempVector();
             InitHitBoxLunge();
         }
 
@@ -288,6 +315,10 @@ public class Combat : MonoBehaviour
         return tempPos;
     }
 
+    Vector3 GetTempVector() {
+        return tempVector;
+    }
+
     void InitHitBoxLeft() {
         hitboxLeft_Temp = Instantiate(hitboxLeft, hitboxLeft.transform.position, pointerUI.transform.rotation);
         hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
@@ -314,14 +345,20 @@ public class Combat : MonoBehaviour
     void LungePlayer() {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
-        rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        else {
+            rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        }
     }
 
     void LungePlayer(float modifier) {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
         float tempForce = combat.lungeForce + (combat.lungeForce * modifier);
-        rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        else {
+            rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        }
     }
 
     void LungePlayerAlt() {
@@ -329,7 +366,11 @@ public class Combat : MonoBehaviour
             tempflicktime -= Time.deltaTime;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.drag = 10f;
-            rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            if(Gamepad.all.Count == 0) rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            else {
+                rb.AddForce(tempVect.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            }
+
             if(tempflicktime <= 0) {
                 timerFlickState = TimerState.Stop;
             }
@@ -361,7 +402,7 @@ public class Combat : MonoBehaviour
     //Pointer
     void UpdatePointer() {
         pointerUI.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
-        toIsoRotation();
+        if(Gamepad.all.Count == 0) toIsoRotation();
         rot = Quaternion.Euler(rotX, -angle-45, 0.0f);
         pointerUI.transform.rotation = rot;
     }
@@ -370,6 +411,16 @@ public class Combat : MonoBehaviour
         tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
         tempVector = Input.mousePosition - tempVector;
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
+    void toIsoRotation_Gamepad(Parameters parameters)
+    {
+        RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
+        if(RStickInput != Vector3.zero) {
+            tempVector = new Vector3(RStickInput.x, 0f, RStickInput.z); 
+            angle = Mathf.Atan2(tempVector.z, tempVector.x) * Mathf.Rad2Deg; 
+        }
+        
     }
 
     bool IsMouseOverGameWindow
