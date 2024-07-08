@@ -10,6 +10,10 @@ public class EventNames {
 		public const string INTERACT_TOGGLE = "INTERACT_TOGGLE";
 	}
 
+	public class GamepadInput { 
+		public const string RIGHT_STICK_INPUT = "RIGHT_STICK_INPUT";
+	}
+
 	public class MouseInput {
 		public const string MOUSE_POS = "MOUSE_POS";
 		public const string LEFT_CLICK_PRESS = "LEFT_CLICK_PRESS";

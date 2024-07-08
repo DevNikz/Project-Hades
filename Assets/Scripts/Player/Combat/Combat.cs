@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
 using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
@@ -49,6 +51,9 @@ public class Combat : MonoBehaviour
 
     [BoxGroup("BasicAttack/BasicAttack")]
     [ReadOnly] public bool leftClick;
+
+    [BoxGroup("BasicAttack/BasicAttack")]
+    [ReadOnly] public Vector3 RStickInput; 
 
     [Space] public bool Pointer;
 
@@ -110,6 +115,7 @@ public class Combat : MonoBehaviour
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
+    public const string RSTICK = "RSTICK";
 
     void Awake() {
         //Reference
@@ -130,10 +136,13 @@ public class Combat : MonoBehaviour
 
     void Start() {
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
+        EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
+        EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.UpdatePOS);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
     }
 
     void Update() {
@@ -142,9 +151,18 @@ public class Combat : MonoBehaviour
         UpdateAttackDirection();
         
         //Temp
-        tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
+        
 
         if(PlayerData.isAttacking) UpdateAnimation();
+    }
+
+    void UpdatePOS(Parameters parameters) 
+    {
+        RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
+        if(Gamepad.all.Count == 0) tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
+        else {
+            tempPos = new Vector3(RStickInput.x, this.transform.position.y, RStickInput.z).normalized;
+        }
     }
 
     void UpdateAttackDirection() {
@@ -361,7 +379,7 @@ public class Combat : MonoBehaviour
     //Pointer
     void UpdatePointer() {
         pointerUI.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
-        toIsoRotation();
+        if(Gamepad.all.Count == 0) toIsoRotation();
         rot = Quaternion.Euler(rotX, -angle-45, 0.0f);
         pointerUI.transform.rotation = rot;
     }
@@ -370,6 +388,12 @@ public class Combat : MonoBehaviour
         tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
         tempVector = Input.mousePosition - tempVector;
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
+    void toIsoRotation_Gamepad(Parameters parameters)
+    {
+        RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
+        angle = Mathf.Atan2(RStickInput.z, RStickInput.x) * Mathf.Rad2Deg;
     }
 
     bool IsMouseOverGameWindow

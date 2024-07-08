@@ -190,7 +190,7 @@ public class EnemyController : MonoBehaviour
             bossMeter1.value = ToPercent(currentHealth, 300);
         }
         else if(currentHealth <= 200 && currentHealth > 100) {
-            bossMeter1.value = 0;
+            bossMeter1.value = ToPercent(currentHealth, 300);
             bossMeter2.value = ToPercent(currentHealth, 200);
         }
         else if(currentHealth <= 100 && currentHealth > 0) {

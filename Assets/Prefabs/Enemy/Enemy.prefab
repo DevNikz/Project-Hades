@@ -5758,10 +5758,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86f15eb2c300054d8f86cfe18544806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   totalHealth: 100
   currentHealth: 0
   totalPoise: 100
-  poiseMultiplier: 0.8
+  poiseMultiplier: 0.507
   currentPoise: 0
   poiseDamaged: 0
   staggered: 0
@@ -5769,6 +5770,15 @@ MonoBehaviour:
   tempDelay: 0
   timerState: 0
   ShowReferences: 0
+  healthUI: {fileID: 0}
+  healthMeter: {fileID: 0}
+  bossMeter1: {fileID: 0}
+  bossMeter2: {fileID: 0}
+  bossMeter3: {fileID: 0}
+  poiseUI: {fileID: 0}
+  poiseMeter: {fileID: 0}
+  hitFX: {fileID: 0}
+  sprite: {fileID: 0}
 --- !u!114 &366992361210127141
 MonoBehaviour:
   m_ObjectHideFlags: 0
