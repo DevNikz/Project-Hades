@@ -26,6 +26,10 @@ public class EnemyAction : MonoBehaviour
     public Vector3 direction;
 
     bool isAttacking = false;
+    bool isPatrolling = false;
+    bool isTurning = false;
+
+    public Vector3 lastSeenPos = Vector3.zero;
 
     GameObject cone = null;
 
@@ -44,51 +48,70 @@ public class EnemyAction : MonoBehaviour
         cone = transform.Find("Cone").gameObject;
     }
 
-    public void SetAction(int num)
-    {
-        this.Action = num;
-    }
-
     // Update is called once per frame
     void Update()
     {
-        switch(Action)
+        if (Action != 0) isPatrolling = false;
+        if (Action != 1) isAttacking = false;
+
+            switch (Action)
         {
             case 0: Patrol();
                 break;
             case 1: Attack();
                 break;
+            case 2: Search();
+                break;
         }
+    }
+
+    public void SetAction(int num)
+    {
+        this.Action = num;
+    }
+
+    public void SetPlayerPos(Vector3 pos)
+    {
+        this.lastSeenPos = pos;
     }
 
     void Patrol()
     {
-        isAttacking = false;
         if (this.transform.position == patrolPoints[nextPoint])
         {
             if (this.nextPoint + 1 < patrolPoints.Count)    
                 this.nextPoint++;
             else this.nextPoint = 0;
 
+            isPatrolling = false;
+        }
+
+        if(!isPatrolling)
+        {
             direction = patrolPoints[nextPoint] - this.transform.position;
-            
-            //Change cone rotation instead
+
             prevRotation = this.transform.rotation;
             toRotation = Quaternion.LookRotation(direction);
 
             this.timeStep = 0;
+            this.isTurning = true;
+            isPatrolling = true;
         }
 
-        if (this.transform.rotation == this.toRotation)
-            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.fixedDeltaTime);
+        if (isTurning)
+        {
+            this.transform.rotation = Quaternion.Slerp(prevRotation, toRotation, timeStep);
+            if (timeStep == 1) isTurning = false;
+        }
         else
-            this.transform.rotation = Quaternion.Slerp(prevRotation, toRotation, rotateSpeed * timeStep);
-        this.timeStep += Time.fixedDeltaTime;
+            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.fixedDeltaTime);
+
+        this.timeStep += Time.fixedDeltaTime * rotateSpeed;
+        if (this.timeStep > 1) this.timeStep = 1;
     }
 
     void Attack()
     {
-        Debug.Log("Attacking!");
         if (Player != null)
         {
             Vector3 posPlayer = Player.transform.position;
@@ -112,7 +135,6 @@ public class EnemyAction : MonoBehaviour
     void Attacking()
     {
         if(isAttacking) {
-            Debug.Log("Fire!");
             GameObject fire = GameObject.Instantiate(Bullet);
             if (fire != null)
             {
@@ -126,6 +148,15 @@ public class EnemyAction : MonoBehaviour
             }
             Invoke("Attacking", FireRate);
         }
+    }
+
+    void Search()
+    {
+        this.transform.LookAt(lastSeenPos);
+        if (this.transform.position != this.lastSeenPos)
+            this.transform.position = Vector3.MoveTowards(this.transform.position, lastSeenPos, moveSpeed * Time.fixedDeltaTime);
+        else
+            this.Action = 0;
     }
 
     private Vector3 ConvertToIso(float x, float z)

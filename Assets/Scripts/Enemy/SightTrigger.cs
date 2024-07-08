@@ -3,6 +3,7 @@ using UnityEngine;
 public class SightTrigger : MonoBehaviour
 {
     [SerializeField] LayerMask layer = 7;
+    bool found = false;
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.name == "Player")
@@ -14,15 +15,27 @@ public class SightTrigger : MonoBehaviour
             var direction = vector / distance;
             if (Physics.Raycast(parentPos, direction, out hit, distance, layer, QueryTriggerInteraction.Ignore))
             {
-                // Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.gameObject.name == "Player")
-                    if(this.GetComponentInParent<EnemyAction>() != null)
+                {
+                    this.found = true;
+                    if (this.GetComponentInParent<EnemyAction>() != null)
                         this.GetComponentInParent<EnemyAction>().SetAction(1);
+                }
+                else if (this.found && this.GetComponentInParent<EnemyAction>() != null)
+                {
+                    this.GetComponentInParent<EnemyAction>().SetAction(2);
+                    this.GetComponentInParent<EnemyAction>().SetPlayerPos(other.transform.position);
+                }
             }
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        this.GetComponentInParent<EnemyAction>().SetAction(0);
+        if (this.found && this.GetComponentInParent<EnemyAction>() != null)
+        {
+            this.GetComponentInParent<EnemyAction>().SetAction(2);
+            this.GetComponentInParent<EnemyAction>().SetPlayerPos(other.transform.position);
+        }
+        this.found = false;
     }
 }
