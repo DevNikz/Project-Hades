@@ -72,6 +72,7 @@ public class PlayerDeath : MonoBehaviour
             pointerSprite.SetActive(true);
 
             this.GetComponent<PlayerController>().RevertHealth();
+
             this.transform.position = this.GetComponent<PlayerController>().GetSpawnPoint();
             this.gameObject.tag = "Player";
             PlayerData.isDead = false;

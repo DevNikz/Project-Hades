@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     [SerializeReference] private GameObject sprite;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private Vector3 spawnPoint;
+    [ReadOnly] [SerializeReference] private Vector3 spawnPoint;
 
 
     void Awake() {
@@ -52,7 +52,11 @@ public class PlayerController : MonoBehaviour
         sprite = transform.Find("SpriteContainer").gameObject;
         currentPoise = totalPoise;
         currentHealth = totalHealth;
-        spawnPoint = this.transform.position;
+        spawnPoint = gameObject.transform.position;
+    }
+
+    void OnEnable() {
+        spawnPoint = gameObject.transform.position;
     }
 
     void Update(){
@@ -60,8 +64,17 @@ public class PlayerController : MonoBehaviour
     }
 
     void UpdateHealth() {
-        if(this.currentHealth <= 0) {
+        if(PlayerData.isDead) {
             this.gameObject.tag = "Player(Dead)";
+            if(this.GetComponent<Movement>().isActiveAndEnabled) this.GetComponent<Movement>().enabled = false;
+            if(this.GetComponent<Combat>().isActiveAndEnabled) this.GetComponent<Combat>().enabled = false;
+            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled) sprite.GetComponent<PlayerAnimation>().enabled = false;
+        }
+        else {
+            this.gameObject.tag = "Player";
+            if(!this.GetComponent<Movement>().isActiveAndEnabled) this.GetComponent<Movement>().enabled = true;
+            if(!this.GetComponent<Combat>().isActiveAndEnabled) this.GetComponent<Combat>().enabled = true;
+            if(!sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled) sprite.GetComponent<PlayerAnimation>().enabled = true;
         }
     }
 
@@ -93,7 +106,6 @@ public class PlayerController : MonoBehaviour
         healthMeter.value = ToPercent(currentHealth, totalHealth);
 
         if(this.currentHealth <= 0) {
-
             this.GetComponent<PlayerDeath>().KillYourself();
         }
 

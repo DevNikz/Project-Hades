@@ -38,14 +38,19 @@ public class Movement : MonoBehaviour {
     [BoxGroup("ShowInput/Input")]
     [ReadOnly] [SerializeReference] private Vector3 moveInput;
     [BoxGroup("ShowInput/Input")]
+    [ReadOnly] [SerializeReference] private float moveInput_normalized;
+
+    [BoxGroup("ShowInput/Input")]
     [ReadOnly] [SerializeReference] private bool dashInput;
 
     [Space] [Title("Speed")]
     public bool ShowSpeed;
     [ShowIfGroup("ShowSpeed")]
     [BoxGroup("ShowSpeed/Speed")]
-    [Tooltip("Set Current Speed in Float. (Default = strafeSpeed)")]
     [ReadOnly] public float currentSpeed;
+
+    [BoxGroup("ShowSpeed/Speed")]
+    [ReadOnly] public Vector3 currentSpeedDebug;
 
     [Space] [Title("Dash")]
     public bool ShowDash;
@@ -117,14 +122,11 @@ public class Movement : MonoBehaviour {
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         
-        if(PlayerData.isDead == false) {
-            if(dashInput || PlayerData.isAttacking ) return;
-            else{
-                rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * currentSpeed * Time.fixedDeltaTime);
-            }
-        }
-        else {
-            Debug.Log("Player is Dead. Cannot Move.");
+        if(dashInput || PlayerData.isAttacking ) return;
+        else{
+            moveInput_normalized = moveInput.normalized.magnitude;
+            currentSpeedDebug = transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
+            rigidBody.MovePosition(transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -142,36 +144,31 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(PlayerData.isDead == false) {
-            if(dashInput == true) {
-                currentSpeed = movement.dashSpeed;
-                Dash();
-            }
-
-            if(moveInput.x != 0 || moveInput.z != 0) {
-                //Set To Strafing
-                state = EntityState.Strafing;
-                PlayerData.entityState = EntityState.Strafing;
-
-                //Set To Strafing Speed
-                currentSpeed = movement.strafeSpeed;
-
-                //Debug Direction
-                direction = IsoCompass(moveInput.x, moveInput.z);
-            }
-
-            if(moveInput.x == 0 && moveInput.z == 0) {
-                state = EntityState.Idle;
-                PlayerData.entityState = EntityState.Idle;
-            }
-
-            if(PlayerData.entityState == EntityState.BasicAttack){
-                state = EntityState.BasicAttack;
-                PlayerData.entityState = EntityState.BasicAttack;
-            }
+        if(dashInput == true) {
+            currentSpeed = movement.dashSpeed;
+            Dash();
         }
-        else {
-            Debug.Log("Player Died.");
+
+        if(moveInput.x != 0 || moveInput.z != 0) {
+            //Set To Strafing
+            state = EntityState.Strafing;
+            PlayerData.entityState = EntityState.Strafing;
+
+            //Set To Strafing Speed
+            currentSpeed = movement.strafeSpeed;
+
+            //Debug Direction
+            direction = IsoCompass(moveInput.x, moveInput.z);
+        }
+
+        if(moveInput.x == 0 && moveInput.z == 0) {
+            state = EntityState.Idle;
+            PlayerData.entityState = EntityState.Idle;
+        }
+
+        if(PlayerData.entityState == EntityState.BasicAttack){
+            state = EntityState.BasicAttack;
+            PlayerData.entityState = EntityState.BasicAttack;
         }
     }
 

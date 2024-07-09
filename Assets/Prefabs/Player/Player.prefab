@@ -12004,6 +12004,7 @@ MonoBehaviour:
   detectUI: {fileID: 0}
   healthMeter: {fileID: 0}
   sprite: {fileID: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &5417435276137367245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12023,11 +12024,13 @@ MonoBehaviour:
   ShowEffects: 0
   dust: {fileID: 0}
   dashParticle: {fileID: 2796724403782960225}
-  ShowInput: 0
+  ShowInput: 1
   moveInput: {x: 0, y: 0, z: 0}
+  moveInput_normalized: 0
   dashInput: 0
-  ShowSpeed: 0
+  ShowSpeed: 1
   currentSpeed: 0
+  currentSpeedDebug: {x: 0, y: 0, z: 0}
   ShowDash: 0
   dashing: 0
   dashCDTimer: 0

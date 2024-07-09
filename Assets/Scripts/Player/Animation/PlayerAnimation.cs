@@ -8,9 +8,18 @@ public class PlayerAnimation : MonoBehaviour
     public float rotation = 45f;
     public EntityDirection entityDirection;
     public EntityState entityState;
+    public bool enableAnim;
 
     private void Start() {
         spriteAnimator = transform.Find("Sprite").GetComponent<Animator>();
+    }
+
+    void OnEnable() {
+        enableAnim = true;
+    }
+
+    void OnDisable() {
+        enableAnim = false;
     }
 
     private void Update() {
@@ -19,7 +28,7 @@ public class PlayerAnimation : MonoBehaviour
         entityState = PlayerData.entityState;
         entityDirection = PlayerData.entityDirection;
 
-        if(PlayerData.isAttacking == false) SetAnimation();
+        if(enableAnim == true) if(PlayerData.isAttacking == false) SetAnimation();
     }
 
     public void SetAnimation() {

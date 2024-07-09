@@ -150,6 +150,14 @@ public class Combat : MonoBehaviour
     }
 
     void OnEnable() {
+        hitboxLeft.SetActive(false);
+        hitboxLunge.SetActive(false);
+        hitboxDetain.SetActive(false);
+        rotX = pointerUI.transform.rotation.eulerAngles.x;
+        timerState = TimerState.None;
+        temptime = 0;
+        counter = 0;
+        Debug.Log("Combat Enabled!");
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
@@ -214,52 +222,53 @@ public class Combat : MonoBehaviour
     void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
-        if(Gamepad.all.Count == 0) {
-            if(leftClick && IsMouseOverGameWindow && !PlayerData.isDead) {
-                PlayerData.isAttacking = true;
-                deltaState = PlayerData.entityState;
-                deltaDir = PlayerData.entityDirection;
+            if(Gamepad.all.Count == 0) {
+                if(leftClick && IsMouseOverGameWindow) {
+                    PlayerData.isAttacking = true;
+                    deltaState = PlayerData.entityState;
+                    deltaDir = PlayerData.entityDirection;
 
-                timerState = TimerState.Start;
-                counter++;
+                    timerState = TimerState.Start;
+                    counter++;
 
-                tempDirection = attackDirection;
-                
+                    tempDirection = attackDirection;
+                    
+                }
             }
-        }
-        else {
-            if(leftClick && !PlayerData.isDead) {
-                PlayerData.isAttacking = true;
-                deltaState = PlayerData.entityState;
-                deltaDir = PlayerData.entityDirection;
+            else {
+                if(leftClick) {
+                    PlayerData.isAttacking = true;
+                    deltaState = PlayerData.entityState;
+                    deltaDir = PlayerData.entityDirection;
 
-                timerState = TimerState.Start;
-                counter++;
+                    timerState = TimerState.Start;
+                    counter++;
 
-                tempDirection = attackDirection;
+                    tempDirection = attackDirection;
+                }
             }
-        }
 
-        if(leftClick && counter == 1) {
-            InitHitBoxLeft();
-            LungePlayer();
-        }
+            if(leftClick && counter == 1) {
+                InitHitBoxLeft();
+                LungePlayer();
+            }
 
-        if(leftClick && counter == 2) {
-            InitHitBoxLeft();
-            LungePlayer(combat.lungeForceMod);
-        }
-        
-        if(leftClick && counter == 3) {
-            tempPosition = GetTempPosition();
-            tempVect = GetTempVector();
-            InitHitBoxLunge();
-        }
+            if(leftClick && counter == 2) {
+                InitHitBoxLeft();
+                LungePlayer(combat.lungeForceMod);
+            }
+            
+            if(leftClick && counter == 3) {
+                tempPosition = GetTempPosition();
+                tempVect = GetTempVector();
+                InitHitBoxLunge();
+            }
 
-        counter = Mathf.Clamp(counter, 0, 3);
+            counter = Mathf.Clamp(counter, 0, 3);
 
-        SwitchAnimation();
-        UpdateLunge();
+            SwitchAnimation();
+            UpdateLunge();
+
     }
 
     //DetainAttack (copy of basic attack for now)
