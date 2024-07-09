@@ -8,6 +8,7 @@ public class EventNames {
 		public const string INTERACT_PRESS = "INTERACT_PRESS";
 		public const string INTERACT_HOLD = "INTERACT_HOLD";
 		public const string INTERACT_TOGGLE = "INTERACT_TOGGLE";
+		public const string DETAIN_PRESS = "DETAIN_PRESS";
 	}
 
 	public class GamepadInput { 

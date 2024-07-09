@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Detain",
+                    "type": "Button",
+                    "id": "49f678c5-3149-4cdb-8d19-3f211cc9e34e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "e51a94c7-5bcc-4ba8-828a-c82b9ad275b6",
@@ -252,6 +261,17 @@
                     "processors": "NormalizeVector2",
                     "groups": ";Gamepad",
                     "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7014399-6358-44cf-a4ca-9a0f98817b34",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Detain",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

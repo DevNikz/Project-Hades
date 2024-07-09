@@ -56,7 +56,9 @@ public class Combat : MonoBehaviour
     [ReadOnly] public bool leftClick;
 
     [BoxGroup("BasicAttack/BasicAttack")]
-    [ReadOnly] public Vector3 RStickInput; 
+    [ReadOnly] public Vector3 RStickInput;
+
+    [ReadOnly] public bool detainPress;
 
     [Space] public bool Pointer;
 
@@ -89,6 +91,12 @@ public class Combat : MonoBehaviour
     [ReadOnly] public GameObject hitboxLunge_Temp;
 
     [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxDetain;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] public GameObject hitboxDetain_Temp;
+
+    [BoxGroup("Reference/References")]
     [ReadOnly] [SerializeReference] protected GameObject pointerUI;
 
     [BoxGroup("Reference/References")]
@@ -119,6 +127,7 @@ public class Combat : MonoBehaviour
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
     public const string RSTICK = "RSTICK";
+    public const string DETAIN = "DETAIN";
 
     void Awake() {
         //Reference
@@ -133,7 +142,9 @@ public class Combat : MonoBehaviour
 
         hitboxLeft = pointerUI.transform.Find("Melee").gameObject;
         hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
+        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitboxLeft.SetActive(false);
+        hitboxDetain.SetActive(false);
 
     }
 
@@ -141,11 +152,13 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         // EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.UpdatePOS);
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.DETAIN_PRESS);
     }
 
     void Update() {
@@ -249,6 +262,39 @@ public class Combat : MonoBehaviour
         UpdateLunge();
     }
 
+    //DetainAttack (copy of basic attack for now)
+    void DetainAttackState(Parameters parameters)
+    {
+        detainPress = parameters.GetBoolExtra(DETAIN, false);
+
+        if (Gamepad.all.Count == 0)
+        {
+            if (detainPress)
+            {
+                PlayerData.isAttacking = true;
+                deltaState = PlayerData.entityState;
+                deltaDir = PlayerData.entityDirection;
+
+                timerState = TimerState.Start;
+                counter = 1;
+
+                tempDirection = attackDirection;
+
+                Debug.Log("Enemy Detained!");
+            }
+        }
+
+        if(detainPress)
+        {
+            InitHitBoxDetain();
+        }
+
+        counter = Mathf.Clamp(counter, 0, 3);
+
+        SwitchAnimation();
+        UpdateLunge();
+    }
+
     void SwitchAnimation() {
         //1st Move
         if(counter == 1) {
@@ -340,6 +386,26 @@ public class Combat : MonoBehaviour
         hitboxLunge_Temp = Instantiate(hitboxLunge, hitboxLunge.transform.position, pointerUI.transform.rotation);
         hitboxLunge_Temp.transform.localScale = new Vector3(2.615041f, 5.071505f, 1.2f);
         hitboxLunge_Temp.tag = "PlayerMelee";
+    }
+
+    void InitHitBoxDetain()
+    {
+        hitboxDetain_Temp = Instantiate(hitboxDetain, hitboxDetain.transform.position, pointerUI.transform.rotation);
+        hitboxDetain_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
+        hitboxDetain_Temp.tag = "PlayerMelee";
+        hitboxDetain_Temp.GetComponent<MeleeController>().StartTimer();
+
+        if (tempDirection == AttackDirection.Right)
+        {
+            hitboxDetain_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
+        }
+
+        else
+        {
+            hitboxDetain_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
+        }
+
+        hitboxDetain_Temp.SetActive(true);
     }
 
     void LungePlayer() {

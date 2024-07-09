@@ -27,6 +27,7 @@ public class MeleeController : MonoBehaviour
     void Awake() {
         if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
         else if(this.gameObject.name == "Lunge(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/LungeAttack");
+        else if (this.gameObject.name == "Detain(Clone)") attackType = Resources.Load<AttackType>("Weapon/Detain");
     }
     
     public void StartTimer() {
@@ -65,6 +66,7 @@ public class MeleeController : MonoBehaviour
         }
 
         if(other.CompareTag("Enemy(Staggered)")) {
+            Debug.Log("Enemy Staggered");
             tempObject = other.gameObject;
             other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection);
         }

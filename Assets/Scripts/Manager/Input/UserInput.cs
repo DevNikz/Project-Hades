@@ -29,6 +29,9 @@ public class UserInput : MonoBehaviour
     //Position
     public Vector2 mousePosition { get; private set; }
 
+    //Detain
+    public bool DetainInput { get; private set; }
+
     //Input
     private PlayerInput _playerInput;
     private InputAction _Horizontal;
@@ -40,6 +43,7 @@ public class UserInput : MonoBehaviour
     private InputAction _MousePosition;
     private InputAction _RStickX;
     private InputAction _RStickY;
+    private InputAction _Detain;
 
     public float RStickX { get; private set; }
     public float RStickY { get; private set; }
@@ -66,6 +70,7 @@ public class UserInput : MonoBehaviour
         _LeftClick = _playerInput.actions["LeftClick"];
         _RightClick = _playerInput.actions["RightClick"];
         _MousePosition = _playerInput.actions["MousePosition"];
+        _Detain = _playerInput.actions["Detain"];
 
         _Rotate = _playerInput.actions["Rotate"];
         // _RStickX = _playerInput.actions["RStickX"];
@@ -96,6 +101,9 @@ public class UserInput : MonoBehaviour
         leftclickPress = _LeftClick.WasPressedThisFrame();
         rightclickPress = _RightClick.WasPressedThisFrame();
 
+        //Detain
+        DetainInput = _Detain.WasPressedThisFrame();
+
         //MousePosition
         mousePosition = _MousePosition.ReadValue<Vector2>();
 
@@ -116,5 +124,8 @@ public class UserInput : MonoBehaviour
         //Broadcaster.Instance.AddBoolParam(Movement.RIGHT_CLICK, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
 
         Broadcaster.Instance.AddVectorParam(Combat.RSTICK, EventNames.GamepadInput.RIGHT_STICK_INPUT, RStickInput);
+
+        //Detain
+        Broadcaster.Instance.AddBoolParam(Combat.DETAIN, EventNames.KeyboardInput.DETAIN_PRESS, DetainInput);
     }
 }
