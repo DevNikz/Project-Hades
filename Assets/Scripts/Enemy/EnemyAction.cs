@@ -140,7 +140,6 @@ public class EnemyAction : MonoBehaviour
     void Attacking()
     {
         if(isAttacking && this.tag == "Enemy") {
-            Debug.Log("Pew!");
             GameObject fire = GameObject.Instantiate(Bullet);
             if (fire != null)
             {

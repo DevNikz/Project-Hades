@@ -6,8 +6,10 @@ public class PlayerDeath : MonoBehaviour
     [Space] [Title("Properties")]
     [ReadOnly] [SerializeReference] public int deaths; 
     [ReadOnly] [SerializeReference] public GameObject entitySprite;
+    [ReadOnly] [SerializeReference] public GameObject pointerSprite;
     [ReadOnly] [SerializeReference] public GameObject deathSprite;
     [ReadOnly] private GameObject deathSpriteTemp;
+    [ReadOnly] [SerializeReference] public bool isDead;
 
     [Space] [Title("Timer")]
     [SerializeField] [Range(0.1f,5f)] public float timer = 2f;
@@ -32,9 +34,14 @@ public class PlayerDeath : MonoBehaviour
         //Respawn Player to same spot
         entitySprite = transform.Find("SpriteContainer").gameObject;
         entitySprite.SetActive(false);
+
+        pointerSprite = transform.Find("Pointer").gameObject;
+        pointerSprite.SetActive(false);
     
+        PlayerData.isDead = true;
         tempTimer = timer;
         timerState = TimerState.Start;
+        
     }
 
 
@@ -48,6 +55,7 @@ public class PlayerDeath : MonoBehaviour
 
     void Update() {
         StartTimer();
+        isDead = PlayerData.isDead;
     }
 
     void StartTimer() {
@@ -61,9 +69,12 @@ public class PlayerDeath : MonoBehaviour
         if(timerState == TimerState.Stop) {
             //Init Vars
             entitySprite.SetActive(true);
+            pointerSprite.SetActive(true);
+
             this.GetComponent<PlayerController>().RevertHealth();
-            this.transform.position = new Vector3(15.5f, 0.5f, 16f);
+            this.transform.position = this.GetComponent<PlayerController>().GetSpawnPoint();
             this.gameObject.tag = "Player";
+            PlayerData.isDead = false;
 
             //Reset Timer
             timerState = TimerState.None;

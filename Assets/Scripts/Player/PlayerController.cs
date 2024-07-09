@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private GameObject sprite;
 
+    [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private Vector3 spawnPoint;
+
 
     void Awake() {
         healthUI = GameObject.Find("PlayerHealth");
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
         sprite = transform.Find("SpriteContainer").gameObject;
         currentPoise = totalPoise;
         currentHealth = totalHealth;
+        spawnPoint = this.transform.position;
     }
 
     void Update(){
@@ -59,6 +63,10 @@ public class PlayerController : MonoBehaviour
         if(this.currentHealth <= 0) {
             this.gameObject.tag = "Player(Dead)";
         }
+    }
+
+    public Vector3 GetSpawnPoint() {
+        return spawnPoint;
     }
 
     public void RevertHealth() {
@@ -85,7 +93,7 @@ public class PlayerController : MonoBehaviour
         healthMeter.value = ToPercent(currentHealth, totalHealth);
 
         if(this.currentHealth <= 0) {
-            Debug.Log("Player Died.");
+
             this.GetComponent<PlayerDeath>().KillYourself();
         }
 

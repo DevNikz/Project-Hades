@@ -155,7 +155,12 @@ public class EnemyController : MonoBehaviour
 
     public void RevertHealth() {
         currentHealth = totalHealth;
-        healthMeter.value = ToPercent(currentHealth, totalHealth);
+        if(enemyType == EnemyType.Normal) healthMeter.value = 1;
+        else {
+            bossMeter1.value = 1;
+            bossMeter2.value = 1;
+            bossMeter3.value = 1;
+        }
     }
 
     public Vector3 GetSpawnPoint() {
@@ -198,7 +203,6 @@ public class EnemyController : MonoBehaviour
         }
 
         if(this.currentHealth <= 0) {
-            Debug.Log("Dead");
             this.GetComponent<EnemyDeath>().Die();
         }
     }

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1556104cc0eff8c4d8617a405bcfbf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knocbackForce: 2.5
+  attackType: {fileID: 0}
 --- !u!33 &6069694806070793514
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5772,6 +5772,7 @@ MonoBehaviour:
   timerState: 0
   ShowReferences: 0
   healthUI: {fileID: 0}
+  detectUI: {fileID: 0}
   healthMeter: {fileID: 0}
   bossMeter1: {fileID: 0}
   bossMeter2: {fileID: 0}
@@ -5780,6 +5781,7 @@ MonoBehaviour:
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
   sprite: {fileID: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &366992361210127141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5794,6 +5796,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entitySprite: {fileID: 0}
   deathSprite: {fileID: 0}
+  timer: 5
+  tempTimer: 0
+  timerState: 0
 --- !u!33 &4354481283016872967
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6458,7 +6463,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f8162c4c4eabebf45af089ca9f7f92be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

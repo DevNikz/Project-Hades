@@ -149,10 +149,9 @@ public class Combat : MonoBehaviour
 
     }
 
-    void Start() {
+    void OnEnable() {
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
-        // EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.UpdatePOS);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
     }
 
@@ -216,7 +215,7 @@ public class Combat : MonoBehaviour
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         
         if(Gamepad.all.Count == 0) {
-            if(leftClick && IsMouseOverGameWindow) {
+            if(leftClick && IsMouseOverGameWindow && !PlayerData.isDead) {
                 PlayerData.isAttacking = true;
                 deltaState = PlayerData.entityState;
                 deltaDir = PlayerData.entityDirection;
@@ -229,7 +228,7 @@ public class Combat : MonoBehaviour
             }
         }
         else {
-            if(leftClick) {
+            if(leftClick && !PlayerData.isDead) {
                 PlayerData.isAttacking = true;
                 deltaState = PlayerData.entityState;
                 deltaDir = PlayerData.entityDirection;

@@ -93,7 +93,14 @@ public class Movement : MonoBehaviour {
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
-    void OnDestroy() {
+    void OnEnable() {
+        dust.Play();
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+    }
+
+    void OnDisable() {
+        dust.Stop();
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
     }
 
@@ -110,9 +117,14 @@ public class Movement : MonoBehaviour {
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         
-        if(dashInput || PlayerData.isAttacking || this.gameObject.tag == "Player(Dead)") return;
+        if(PlayerData.isDead == false) {
+            if(dashInput || PlayerData.isAttacking ) return;
+            else{
+                rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * currentSpeed * Time.fixedDeltaTime);
+            }
+        }
         else {
-            rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * currentSpeed * Time.fixedDeltaTime);
+            Debug.Log("Player is Dead. Cannot Move.");
         }
     }
 
@@ -130,31 +142,36 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(dashInput == true) {
-            currentSpeed = movement.dashSpeed;
-            Dash();
+        if(PlayerData.isDead == false) {
+            if(dashInput == true) {
+                currentSpeed = movement.dashSpeed;
+                Dash();
+            }
+
+            if(moveInput.x != 0 || moveInput.z != 0) {
+                //Set To Strafing
+                state = EntityState.Strafing;
+                PlayerData.entityState = EntityState.Strafing;
+
+                //Set To Strafing Speed
+                currentSpeed = movement.strafeSpeed;
+
+                //Debug Direction
+                direction = IsoCompass(moveInput.x, moveInput.z);
+            }
+
+            if(moveInput.x == 0 && moveInput.z == 0) {
+                state = EntityState.Idle;
+                PlayerData.entityState = EntityState.Idle;
+            }
+
+            if(PlayerData.entityState == EntityState.BasicAttack){
+                state = EntityState.BasicAttack;
+                PlayerData.entityState = EntityState.BasicAttack;
+            }
         }
-
-        if(moveInput.x != 0 || moveInput.z != 0) {
-            //Set To Strafing
-            state = EntityState.Strafing;
-            PlayerData.entityState = EntityState.Strafing;
-
-            //Set To Strafing Speed
-            currentSpeed = movement.strafeSpeed;
-
-            //Debug Direction
-            direction = IsoCompass(moveInput.x, moveInput.z);
-        }
-
-        if(moveInput.x == 0 && moveInput.z == 0) {
-            state = EntityState.Idle;
-            PlayerData.entityState = EntityState.Idle;
-        }
-
-        if(PlayerData.entityState == EntityState.BasicAttack){
-            state = EntityState.BasicAttack;
-            PlayerData.entityState = EntityState.BasicAttack;
+        else {
+            Debug.Log("Player Died.");
         }
     }
 

@@ -16,7 +16,7 @@ public class SightTrigger : MonoBehaviour
     }
 
     void OnDisable() {
-        this.GetComponentInParent<EnemyAction>().SetAction(-1);
+        parentEntity.GetComponent<EnemyAction>().SetAction(-1);
     }
 
     private void OnTriggerStay(Collider other)

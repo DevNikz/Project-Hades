@@ -58,6 +58,11 @@ public class UserInput : MonoBehaviour
         SetupInputActions();
     }
 
+    void OnEnable() {
+        _playerInput = GetComponent<PlayerInput>();
+        SetupInputActions();
+    }
+
     private void Update() {
         UpdateInputs();
     }
@@ -73,8 +78,6 @@ public class UserInput : MonoBehaviour
         _Detain = _playerInput.actions["Detain"];
 
         _Rotate = _playerInput.actions["Rotate"];
-        // _RStickX = _playerInput.actions["RStickX"];
-        // _RStickY = _playerInput.actions["RStickY"];
     }
 
     private void UpdateInputs() {
@@ -82,12 +85,8 @@ public class UserInput : MonoBehaviour
         Horizontal = _Horizontal.ReadValue<float>();
         Vertical = _Vertical.ReadValue<float>();
         MoveInput = new Vector3(Mathf.RoundToInt(Horizontal), 0f, Mathf.RoundToInt(Vertical));
-
         Rotate = _Rotate.ReadValue<Vector2>();
         RStickInput = new Vector3(Rotate.x, 0f, Rotate.y);
-        // RStickX = _RStickX.ReadValue<float>();
-        // RStickY = _RStickY.ReadValue<float>();
-        // RStickInput = new Vector3(Mathf.RoundToInt(RStickX), 0f, Mathf.RoundToInt(RStickY));
 
         //Dash
         DashInput = _Dash.WasPressedThisFrame(); 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7922317893057703040}
   m_Layer: 6
   m_Name: SpriteContainer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 1468066896467751218}
   m_Layer: 6
   m_Name: DeathSprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1528,7 +1528,7 @@ GameObject:
   - component: {fileID: 277723893157019589}
   m_Layer: 6
   m_Name: GroundDust
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6516,7 +6516,7 @@ GameObject:
   - component: {fileID: 784132878627009364}
   m_Layer: 6
   m_Name: Pointer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12023,17 +12023,17 @@ MonoBehaviour:
   ShowEffects: 0
   dust: {fileID: 0}
   dashParticle: {fileID: 2796724403782960225}
-  ShowInput: 1
+  ShowInput: 0
   moveInput: {x: 0, y: 0, z: 0}
   dashInput: 0
-  ShowSpeed: 1
+  ShowSpeed: 0
   currentSpeed: 0
-  ShowDash: 1
+  ShowDash: 0
   dashing: 0
   dashCDTimer: 0
   delayedForce: {x: 0, y: 0, z: 0}
   isoInput: {x: 0, y: 0, z: 0}
-  ShowStates: 0
+  ShowStates: 1
   state: 3
   direction: 8
 --- !u!114 &4310140860803777214
@@ -12099,7 +12099,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deaths: 0
   entitySprite: {fileID: 0}
+  pointerSprite: {fileID: 0}
   deathSprite: {fileID: 0}
+  isDead: 0
   timer: 2
   tempTimer: 0
   timerState: 0
