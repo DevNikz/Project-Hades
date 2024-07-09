@@ -144,6 +144,7 @@ public class Combat : MonoBehaviour
         hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
         hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitboxLeft.SetActive(false);
+        hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
 
     }
@@ -414,7 +415,6 @@ public class Combat : MonoBehaviour
         if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         else {
             rb.AddForce(tempVector.ToIso().normalized * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-            Debug.Log(tempVector.ToIso().normalized); 
         }
 
         
@@ -427,7 +427,6 @@ public class Combat : MonoBehaviour
         if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         else {
             rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-            Debug.Log(tempVector.ToIso().normalized);
         }
         
     }

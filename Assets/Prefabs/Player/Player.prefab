@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1556104cc0eff8c4d8617a405bcfbf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knocbackForce: 2.5
+  attackType: {fileID: 0}
 --- !u!33 &5629689872726614971
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -11963,7 +11963,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8730666089872806669}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 15.5, y: 0.5, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11976,7 +11976,7 @@ Transform:
   - {fileID: 2254384915208597777}
   - {fileID: 400012415452913998}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &589720015984411529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11989,6 +11989,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8854316e5e74d4f4f8860511b4d6d807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalHealth: 100
+  currentHealth: 0
+  totalPoise: 100
+  poiseMultiplier: 0.1
+  currentPoise: 0
+  poiseDamaged: 0
+  staggered: 0
+  timerDelay: 2
+  tempDelay: 0
+  timerState: 0
+  ShowReferences: 0
+  healthUI: {fileID: 0}
+  detectUI: {fileID: 0}
+  healthMeter: {fileID: 0}
+  sprite: {fileID: 0}
 --- !u!114 &5417435276137367245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12039,12 +12054,12 @@ MonoBehaviour:
   timerState: 0
   timerFlickState: 0
   temptime: 0
-  ShowDebug: 1
+  ShowDebug: 0
   tempPosition: {x: 0, y: 0, z: 0}
   tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
   tempPos: {x: 0, y: 0, z: 0}
-  BasicAttack: 0
+  BasicAttack: 1
   counter: 0
   leftClick: 0
   RStickInput: {x: 0, y: 0, z: 0}

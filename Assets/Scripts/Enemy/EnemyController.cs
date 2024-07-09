@@ -58,6 +58,9 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private GameObject sprite;
 
+    [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private Vector3 spawnPoint;
+
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
         detectUI = this.transform.Find("Cone").gameObject;
@@ -65,6 +68,7 @@ public class EnemyController : MonoBehaviour
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         sprite = transform.Find("SpriteContainer").gameObject;
+        spawnPoint = this.transform.position;
         currentPoise = totalPoise;
 
         if(enemyType == EnemyType.Normal) {
@@ -97,14 +101,18 @@ public class EnemyController : MonoBehaviour
 
     void UpdateHealth() {
         if(this.currentHealth <= 0) {
-            Destroy(this.GetComponent<EnemyAction>());
-            this.gameObject.tag = "Enemy(Dead)";
-            this.gameObject.layer = 11;
+            this.GetComponent<EnemyAction>().enabled = false;
+            detectUI.GetComponent<SightTrigger>().enabled = false;
+            this.tag = "Enemy(Dead)";
             healthUI.SetActive(false);
             detectUI.SetActive(false);
-            //poiseUI.SetActive(false);
         }
-
+        else {
+            this.GetComponent<EnemyAction>().enabled = true;
+            detectUI.GetComponent<SightTrigger>().enabled = true;
+            healthUI.SetActive(true);
+            detectUI.SetActive(true);
+        }
     }
 
     void RegenPoise() {
@@ -140,9 +148,18 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void RevertPoise() {
+    public void RevertPoise() {
         currentPoise = totalPoise;
         //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+    }
+
+    public void RevertHealth() {
+        currentHealth = totalHealth;
+        healthMeter.value = ToPercent(currentHealth, totalHealth);
+    }
+
+    public Vector3 GetSpawnPoint() {
+        return spawnPoint;
     }
 
     public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection) {
