@@ -16,7 +16,7 @@ public class PlayerDeath : MonoBehaviour
 
     [PropertySpace] [Title("[Debug]")]
     [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")] 
-    void KillYourself() {
+    public void KillYourself() {
         //Tick Counter
         deaths += 1;
 
@@ -32,7 +32,7 @@ public class PlayerDeath : MonoBehaviour
         //Respawn Player to same spot
         entitySprite = transform.Find("SpriteContainer").gameObject;
         entitySprite.SetActive(false);
-
+    
         tempTimer = timer;
         timerState = TimerState.Start;
     }
@@ -44,7 +44,6 @@ public class PlayerDeath : MonoBehaviour
         foreach(GameObject i in GameObject.FindGameObjectsWithTag("Player(Dead)")) {
             Destroy(i);
         }
-        //Destroy(GameObject.FindGameObjectsWithTag("Player(Dead)"));
     }
 
     void Update() {
@@ -62,7 +61,9 @@ public class PlayerDeath : MonoBehaviour
         if(timerState == TimerState.Stop) {
             //Init Vars
             entitySprite.SetActive(true);
+            this.GetComponent<PlayerController>().RevertHealth();
             this.transform.position = new Vector3(15.5f, 0.5f, 16f);
+            this.gameObject.tag = "Player";
 
             //Reset Timer
             timerState = TimerState.None;

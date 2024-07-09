@@ -1,3 +1,4 @@
+using System.Threading;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ public class EnemyDeath : MonoBehaviour
     [ReadOnly] [SerializeReference] public GameObject entitySprite;
     [ReadOnly] [SerializeReference] public GameObject deathSprite;
     [ReadOnly] private GameObject deathSpriteTemp;
+
+    [Space] [Title("Timer")]
+    [SerializeField] [Range(1f,10f)] public float timer = 5f;
+    [ReadOnly] public float tempTimer;
+    [ReadOnly] [SerializeReference] public TimerState timerState;
 
 
     public void Die() {
@@ -20,5 +26,33 @@ public class EnemyDeath : MonoBehaviour
         //Respawn Player to same spot
         entitySprite = transform.Find("SpriteContainer").gameObject;
         entitySprite.SetActive(false);
+
+        tempTimer = timer;
+        timerState = TimerState.Start;
+
+    }
+    void Update() {
+        StartTimer();
+    }
+
+    void StartTimer() {
+        if(timerState == TimerState.Start) {
+            tempTimer -= Time.deltaTime;
+            if(tempTimer <= 0) {
+                timerState = TimerState.Stop;
+            }
+        }
+
+        if(timerState == TimerState.Stop) {
+            //Init Vars
+            entitySprite.SetActive(true);
+            this.GetComponent<EnemyController>().RevertHealth();
+            this.GetComponent<EnemyController>().RevertPoise();
+            this.transform.position = this.GetComponent<EnemyController>().GetSpawnPoint();
+            this.gameObject.tag = "Enemy";
+
+            //Reset Timer
+            timerState = TimerState.None;
+        }
     }
 }

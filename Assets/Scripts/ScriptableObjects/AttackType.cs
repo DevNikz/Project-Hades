@@ -9,5 +9,5 @@ public class AttackType : ScriptableObject
     public DamageType damageType;
     [Range(1f,1000f)] public float damage;
     [Range(1f,100f)] public float poise;
-    [Range(5f, 1000f)] public float knocbackForce;
+    [Range(1f, 1000f)] public float knocbackForce;
 }

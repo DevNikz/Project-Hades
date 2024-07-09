@@ -4,9 +4,24 @@ public class SightTrigger : MonoBehaviour
 {
     [SerializeField] LayerMask layer = 7;
     bool found = false;
+
+    GameObject parentEntity;
+
+    void Start() {
+        parentEntity = transform.parent.gameObject;
+    }
+
+    void OnEnable() {
+        this.GetComponentInParent<EnemyAction>().SetAction(0);
+    }
+
+    void OnDisable() {
+        this.GetComponentInParent<EnemyAction>().SetAction(-1);
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "Player")
+        if (other.gameObject.tag == "Player")
         {
             RaycastHit hit;
             Vector3 parentPos = this.transform.parent.position;
@@ -15,7 +30,7 @@ public class SightTrigger : MonoBehaviour
             var direction = vector / distance;
             if (Physics.Raycast(parentPos, direction, out hit, distance, layer, QueryTriggerInteraction.Ignore))
             {
-                if (hit.collider.gameObject.name == "Player")
+                if (hit.collider.gameObject.tag == "Player")
                 {
                     this.found = true;
                     if (this.GetComponentInParent<EnemyAction>() != null)

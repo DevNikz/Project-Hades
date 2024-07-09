@@ -54,13 +54,17 @@ public class EnemyAction : MonoBehaviour
         if (Action != 0) isPatrolling = false;
         if (Action != 1) isAttacking = false;
 
-            switch (Action)
+        switch (Action)
         {
             case 0: Patrol();
                 break;
             case 1: Attack();
                 break;
             case 2: Search();
+                break;
+            default:
+                isPatrolling = false;
+                isAttacking = false;
                 break;
         }
     }
@@ -114,6 +118,7 @@ public class EnemyAction : MonoBehaviour
     {
         if (Player != null)
         {
+            
             Vector3 posPlayer = Player.transform.position;
             this.transform.LookAt(posPlayer);
 
@@ -134,7 +139,8 @@ public class EnemyAction : MonoBehaviour
 
     void Attacking()
     {
-        if(isAttacking) {
+        if(isAttacking && this.tag == "Enemy") {
+            Debug.Log("Pew!");
             GameObject fire = GameObject.Instantiate(Bullet);
             if (fire != null)
             {

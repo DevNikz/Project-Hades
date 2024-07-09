@@ -110,7 +110,7 @@ public class Movement : MonoBehaviour {
     private void moveEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         
-        if(dashInput || PlayerData.isAttacking) return;
+        if(dashInput || PlayerData.isAttacking || this.gameObject.tag == "Player(Dead)") return;
         else {
             rigidBody.MovePosition(transform.position + moveInput.ToIso() * moveInput.normalized.magnitude * currentSpeed * Time.fixedDeltaTime);
         }
