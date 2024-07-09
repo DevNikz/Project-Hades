@@ -64,17 +64,24 @@ public class PlayerController : MonoBehaviour
     }
 
     void UpdateHealth() {
-        if(PlayerData.isDead) {
+        if(PlayerData.isDead == true) {
             this.gameObject.tag = "Player(Dead)";
-            if(this.GetComponent<Movement>().isActiveAndEnabled) this.GetComponent<Movement>().enabled = false;
-            if(this.GetComponent<Combat>().isActiveAndEnabled) this.GetComponent<Combat>().enabled = false;
-            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled) sprite.GetComponent<PlayerAnimation>().enabled = false;
+            if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
+            if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
+            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
         }
         else {
             this.gameObject.tag = "Player";
-            if(!this.GetComponent<Movement>().isActiveAndEnabled) this.GetComponent<Movement>().enabled = true;
-            if(!this.GetComponent<Combat>().isActiveAndEnabled) this.GetComponent<Combat>().enabled = true;
-            if(!sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled) sprite.GetComponent<PlayerAnimation>().enabled = true;
+            if(this.GetComponent<Movement>().isActiveAndEnabled == false) {
+                this.GetComponent<Movement>().enabled = true; 
+            }
+            if(this.GetComponent<Combat>().isActiveAndEnabled == false) {
+                this.GetComponent<Combat>().enabled = true;
+            }
+            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
+                sprite.GetComponent<PlayerAnimation>().enabled = true;
+            }
+            Debug.Log(PlayerData.entityState);
         }
     }
 

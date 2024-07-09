@@ -22,11 +22,14 @@ public class PlayerAnimation : MonoBehaviour
         enableAnim = false;
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
 
         entityState = PlayerData.entityState;
         entityDirection = PlayerData.entityDirection;
+
+        PlayerData.entityState = entityState;
+        PlayerData.entityDirection = entityDirection;
 
         if(enableAnim == true) if(PlayerData.isAttacking == false) SetAnimation();
     }

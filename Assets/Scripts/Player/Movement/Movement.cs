@@ -147,7 +147,7 @@ public class Movement : MonoBehaviour {
             Dash();
         }
 
-        if(moveInput.x != 0 || moveInput.z != 0) {
+        else if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
             state = EntityState.Strafing;
             PlayerData.entityState = EntityState.Strafing;
@@ -159,12 +159,12 @@ public class Movement : MonoBehaviour {
             direction = IsoCompass(moveInput.x, moveInput.z);
         }
 
-        if(moveInput.x == 0 && moveInput.z == 0) {
+        else if(moveInput.x == 0 && moveInput.z == 0) {
             state = EntityState.Idle;
             PlayerData.entityState = EntityState.Idle;
         }
 
-        if(PlayerData.entityState == EntityState.BasicAttack){
+        else if(PlayerData.entityState == EntityState.BasicAttack){
             state = EntityState.BasicAttack;
             PlayerData.entityState = EntityState.BasicAttack;
         }

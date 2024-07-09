@@ -28,7 +28,7 @@ public class DebugTest : MonoBehaviour
 
     }
 
-    void LateUpdate() {
+    void Update() {
         speed.text = "Speed: " + movement.currentSpeed;
         dash.text = "Dash: " + movement.movement.dashForce;
         lunge.text = "Lunge: " + combat.combat.quicklungeForce;
