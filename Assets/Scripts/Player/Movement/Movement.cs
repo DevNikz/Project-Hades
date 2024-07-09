@@ -73,9 +73,9 @@ public class Movement : MonoBehaviour {
     public bool ShowStates;
     [ShowIfGroup("ShowStates")]
     [BoxGroup("ShowStates/States")]
-    [ReadOnly] public EntityState state = EntityState.Idle;
+    [SerializeReference] public EntityState state;
     [BoxGroup("ShowStates/States")]
-    [ReadOnly] public EntityDirection direction = EntityDirection.None;
+    [SerializeReference] public EntityDirection direction;
 
     //Broadcaster
     public const string KEY_MOVE = "KEY_MOVE";

@@ -22,7 +22,7 @@ public class PlayerAnimation : MonoBehaviour
         enableAnim = false;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
 
         entityState = PlayerData.entityState;
@@ -31,17 +31,21 @@ public class PlayerAnimation : MonoBehaviour
         if(enableAnim == true) if(PlayerData.isAttacking == false) SetAnimation();
     }
 
+    public EntityState GetEntityState() {
+        return entityState;
+    }
+
     public void SetAnimation() {
-        if(PlayerData.entityState == EntityState.Strafing) {
+        if(entityState == EntityState.Strafing) {
             SetRun();
         }
-        else if(PlayerData.entityState == EntityState.Idle) {
+        else if(entityState == EntityState.Idle) {
             SetIdle();
         }
     }
 
     public void SetRun() {
-        switch(PlayerData.entityDirection) {
+        switch(entityDirection) {
             case EntityDirection.East:
                 spriteAnimator.Play("MoveRight");
                 break;
@@ -70,7 +74,7 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     public void SetIdle() {
-        switch(PlayerData.entityDirection) {
+        switch(entityDirection) {
             case EntityDirection.East:
                 spriteAnimator.Play("IdleLeft");
                 break;
