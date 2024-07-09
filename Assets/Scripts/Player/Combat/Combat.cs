@@ -34,16 +34,16 @@ public class Combat : MonoBehaviour
 
     [ShowIfGroup("ShowDebug")]
     [BoxGroup("ShowDebug/Debug")]
-    [ReadOnly] [HideLabel] public Vector3 tempPosition;
+    [ReadOnly] public Vector3 tempPosition;
 
     [BoxGroup("ShowDebug/Debug")]
-    [ReadOnly] [HideLabel] public Vector3 tempVect;
+    [ReadOnly] public Vector3 tempVect;
 
     [BoxGroup("ShowDebug/Debug")]
-    [ReadOnly] [HideLabel] public float tempflicktime;
+    [ReadOnly] public float tempflicktime;
 
     [BoxGroup("ShowDebug/Debug")]
-    [ReadOnly] [HideLabel] public Vector3 tempPos;
+    [ReadOnly] public Vector3 tempPos;
 
     [Space] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
     public bool BasicAttack;
@@ -413,8 +413,11 @@ public class Combat : MonoBehaviour
         rb.drag = 10f;
         if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         else {
-            rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            rb.AddForce(tempVector.ToIso().normalized * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            Debug.Log(tempVector.ToIso().normalized); 
         }
+
+        
     }
 
     void LungePlayer(float modifier) {
@@ -424,7 +427,9 @@ public class Combat : MonoBehaviour
         if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
         else {
             rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            Debug.Log(tempVector.ToIso().normalized);
         }
+        
     }
 
     void LungePlayerAlt() {

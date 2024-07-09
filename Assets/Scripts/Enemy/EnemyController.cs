@@ -32,6 +32,9 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private GameObject healthUI;
 
     [BoxGroup("ShowReferences/Reference")]
+    [SerializeReference] private GameObject detectUI;
+
+    [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Slider healthMeter;
     
     [BoxGroup("ShowReferences/Reference")]
@@ -57,6 +60,7 @@ public class EnemyController : MonoBehaviour
 
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
+        detectUI = this.transform.Find("Cone").gameObject;
         // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
@@ -97,6 +101,7 @@ public class EnemyController : MonoBehaviour
             this.gameObject.tag = "Enemy(Dead)";
             this.gameObject.layer = 11;
             healthUI.SetActive(false);
+            detectUI.SetActive(false);
             //poiseUI.SetActive(false);
         }
 

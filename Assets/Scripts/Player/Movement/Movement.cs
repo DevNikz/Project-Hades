@@ -87,7 +87,7 @@ public class Movement : MonoBehaviour {
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
         dust.Play();
 
-        this.GetComponent<BoxCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
+        this.GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
 
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
