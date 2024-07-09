@@ -48,6 +48,7 @@ MonoBehaviour:
   rotation: 45
   entityDirection: 3
   entityState: 3
+  enableAnim: 0
 --- !u!1 &88237101618834150
 GameObject:
   m_ObjectHideFlags: 0
@@ -11999,7 +12000,7 @@ MonoBehaviour:
   timerDelay: 2
   tempDelay: 0
   timerState: 0
-  ShowReferences: 0
+  ShowReferences: 1
   healthUI: {fileID: 0}
   detectUI: {fileID: 0}
   healthMeter: {fileID: 0}
@@ -12024,7 +12025,7 @@ MonoBehaviour:
   ShowEffects: 0
   dust: {fileID: 0}
   dashParticle: {fileID: 2796724403782960225}
-  ShowInput: 1
+  ShowInput: 0
   moveInput: {x: 0, y: 0, z: 0}
   moveInput_normalized: 0
   dashInput: 0
@@ -12036,7 +12037,7 @@ MonoBehaviour:
   dashCDTimer: 0
   delayedForce: {x: 0, y: 0, z: 0}
   isoInput: {x: 0, y: 0, z: 0}
-  ShowStates: 1
+  ShowStates: 0
   state: 3
   direction: 8
 --- !u!114 &4310140860803777214
@@ -12053,7 +12054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combat: {fileID: 0}
   rightClick: 0
-  ShowTimer: 0
+  ShowTimer: 1
   timerState: 0
   timerFlickState: 0
   temptime: 0
@@ -12072,7 +12073,7 @@ MonoBehaviour:
   angle: 0
   rot: {x: 0, y: 0, z: 0, w: 0}
   rotX: 0
-  Reference: 0
+  Reference: 1
   hitboxLeft: {fileID: 0}
   hitboxLunge: {fileID: 0}
   hitboxLeft_Temp: {fileID: 0}

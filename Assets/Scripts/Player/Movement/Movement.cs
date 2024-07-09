@@ -99,13 +99,11 @@ public class Movement : MonoBehaviour {
     }
 
     void OnEnable() {
-        dust.Play();
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
     void OnDisable() {
-        dust.Stop();
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
     }
 
