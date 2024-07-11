@@ -34,12 +34,17 @@ public class SightTrigger : MonoBehaviour
                 {
                     this.found = true;
                     if (this.GetComponentInParent<EnemyAction>() != null)
+                    {
                         this.GetComponentInParent<EnemyAction>().SetAction(1);
+                        Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Sight.PLAYER_SEEN, this.found);
+                    }
+                        
                 }
                 else if (this.found && this.GetComponentInParent<EnemyAction>() != null)
                 {
                     this.GetComponentInParent<EnemyAction>().SetAction(2);
                     this.GetComponentInParent<EnemyAction>().SetPlayerPos(other.transform.position);
+
                 }
             }
         }
@@ -52,5 +57,6 @@ public class SightTrigger : MonoBehaviour
             this.GetComponentInParent<EnemyAction>().SetPlayerPos(other.transform.position);
         }
         this.found = false;
+        Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Sight.PLAYER_SEEN, this.found);
     }
 }

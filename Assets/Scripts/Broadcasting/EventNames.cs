@@ -32,6 +32,10 @@ public class EventNames {
 		public const string INTERACT_EXIT = "INTERACT_EXIT";
 		public const string HIT_EXIT = "HIT_EXIT";
 	}
+
+	public class Sight{
+		public const string PLAYER_SEEN = "PLAYER_SEEN";
+	}
 }
 
 

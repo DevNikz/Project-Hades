@@ -60,6 +60,8 @@ public class Combat : MonoBehaviour
 
     [ReadOnly] public bool detainPress;
 
+    [ReadOnly] public bool playerSeen = false;
+
     [Space] public bool Pointer;
 
     [ShowIfGroup("Pointer")]
@@ -128,6 +130,7 @@ public class Combat : MonoBehaviour
     public const string RIGHT_CLICK = "RIGHT_CLICK";
     public const string RSTICK = "RSTICK";
     public const string DETAIN = "DETAIN";
+    public const string HIDDEN = "HIDDEN";
 
     void Awake() {
         //Reference
@@ -161,12 +164,14 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
+        EventBroadcaster.Instance.AddObserver(EventNames.Sight.PLAYER_SEEN, this.SetPlayerSeen);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.DETAIN_PRESS);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.Sight.PLAYER_SEEN);
     }
 
     void Update() {
@@ -275,10 +280,11 @@ public class Combat : MonoBehaviour
     void DetainAttackState(Parameters parameters)
     {
         detainPress = parameters.GetBoolExtra(DETAIN, false);
+        
 
         if (Gamepad.all.Count == 0)
         {
-            if (detainPress)
+            if (detainPress && !this.playerSeen)
             {
                 PlayerData.isAttacking = true;
                 deltaState = PlayerData.entityState;
@@ -293,7 +299,7 @@ public class Combat : MonoBehaviour
             }
         }
 
-        if(detainPress)
+        if(detainPress && !this.playerSeen)
         {
             InitHitBoxDetain();
         }
@@ -508,5 +514,10 @@ public class Combat : MonoBehaviour
             Vector3 mp = Input.mousePosition;
             return !( 0>mp.x || 0>mp.y || Screen.width<mp.x || Screen.height<mp.y );
         }
+    }
+
+    void SetPlayerSeen(Parameters param)
+    {
+        this.playerSeen = param.GetBoolExtra(HIDDEN, false);
     }
 }
