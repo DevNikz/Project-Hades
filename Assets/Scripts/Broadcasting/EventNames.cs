@@ -33,7 +33,7 @@ public class EventNames {
 		public const string HIT_EXIT = "HIT_EXIT";
 	}
 
-	public class Sight{
+	public class EnemySight{
 		public const string PLAYER_SEEN = "PLAYER_SEEN";
 	}
 }

@@ -164,14 +164,14 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
-        EventBroadcaster.Instance.AddObserver(EventNames.Sight.PLAYER_SEEN, this.SetPlayerSeen);
+        EventBroadcaster.Instance.AddObserver(EventNames.EnemySight.PLAYER_SEEN, this.SetPlayerSeen);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.DETAIN_PRESS);
-        EventBroadcaster.Instance.RemoveObserver(EventNames.Sight.PLAYER_SEEN);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.EnemySight.PLAYER_SEEN);
     }
 
     void Update() {
