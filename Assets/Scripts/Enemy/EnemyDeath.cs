@@ -30,6 +30,8 @@ public class EnemyDeath : MonoBehaviour
         tempTimer = timer;
         timerState = TimerState.Start;
 
+        Broadcaster.Instance.AddBoolParam(Combat.ENEMY_KILLED, EventNames.Combat.ENEMY_KILLED, true);
+
     }
     void Update() {
         StartTimer();

@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,7 +82,7 @@ public class PlayerController : MonoBehaviour
             if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
                 sprite.GetComponent<PlayerAnimation>().enabled = true;
             }
-            Debug.Log(PlayerData.entityState);
+            //Debug.Log(PlayerData.entityState);
         }
     }
 

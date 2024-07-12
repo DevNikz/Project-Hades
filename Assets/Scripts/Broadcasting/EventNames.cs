@@ -33,9 +33,10 @@ public class EventNames {
 		public const string HIT_EXIT = "HIT_EXIT";
 	}
 
-	public class EnemySight{
-		public const string PLAYER_SEEN = "PLAYER_SEEN";
-	}
+	public class Combat {
+        public const string PLAYER_SEEN = "PLAYER_SEEN";
+		public const string ENEMY_KILLED = "ENEMY_KILLED";
+    }
 }
 
 

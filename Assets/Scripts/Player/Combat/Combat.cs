@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
@@ -125,12 +126,20 @@ public class Combat : MonoBehaviour
     [BoxGroup("Reference/References")]
     [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
 
+    [BoxGroup("Reference/References")]
+    [SerializeField] public TextMeshProUGUI fireChargeText;
+
+    [Title("Elemental Charges")]
+    [SerializeField][Range(0.1f, 100f)] public float maxFireCharge;
+    [SerializeField] private float currentFireCharge;
+
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
     public const string RSTICK = "RSTICK";
     public const string DETAIN = "DETAIN";
     public const string HIDDEN = "HIDDEN";
+    public const string ENEMY_KILLED = "ENEMY_KILLED";
 
     void Awake() {
         //Reference
@@ -150,6 +159,7 @@ public class Combat : MonoBehaviour
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
 
+        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     }
 
     void OnEnable() {
@@ -164,14 +174,16 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
-        EventBroadcaster.Instance.AddObserver(EventNames.EnemySight.PLAYER_SEEN, this.SetPlayerSeen);
+        EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
+        EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateFireCharge);
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
         EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.DETAIN_PRESS);
-        EventBroadcaster.Instance.RemoveObserver(EventNames.EnemySight.PLAYER_SEEN);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.Combat.PLAYER_SEEN);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.Combat.ENEMY_KILLED);
     }
 
     void Update() {
@@ -519,5 +531,18 @@ public class Combat : MonoBehaviour
     void SetPlayerSeen(Parameters param)
     {
         this.playerSeen = param.GetBoolExtra(HIDDEN, false);
+    }
+
+    void UpdateFireCharge(Parameters param)
+    {
+        bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
+
+        if (enemyKilled && currentFireCharge < maxFireCharge && detainPress)
+        {
+            Debug.Log("Fire charge update!");
+            currentFireCharge += 20;
+        }
+
+        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     }
 }
