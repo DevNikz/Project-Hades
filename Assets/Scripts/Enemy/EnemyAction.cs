@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
 public class EnemyAction : MonoBehaviour
@@ -38,8 +37,6 @@ public class EnemyAction : MonoBehaviour
     public float angle;
     public Quaternion rot;
 
-    private NavMeshAgent agent;
-
     private void OnEnable()
     {
         this.originalPosition = this.transform.position;
@@ -49,7 +46,6 @@ public class EnemyAction : MonoBehaviour
         this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0)*5);
 
         cone = transform.Find("Cone").gameObject;
-        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -126,9 +122,10 @@ public class EnemyAction : MonoBehaviour
             Vector3 posPlayer = Player.transform.position;
             this.transform.LookAt(posPlayer);
 
-            if (agent != null) agent.destination = posPlayer;
+            if(Vector3.Distance(this.transform.position, posPlayer) > 5)
+                this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
 
-            if (!isAttacking) {
+            if(!isAttacking) {
                 isAttacking = true;
                 Invoke("Attacking", FireRate);
             }
