@@ -1,55 +1,42 @@
 using UnityEngine;
 using System.Collections;
 
-/*
- * Holder for event names
- * Created By: NeilDG
- */ 
 public class EventNames {
-	public const string ON_UPDATE_SCORE = "ON_UPDATE_SCORE";
-	public const string ON_CORRECT_MATCH = "ON_CORRECT_MATCH";
-	public const string ON_WRONG_MATCH = "ON_WRONG_MATCH";
-	public const string ON_INCREASE_LEVEL = "ON_INCREASE_LEVEL";
-
-	public const string ON_PICTURE_CLICKED = "ON_PICTURE_CLICKED";
-
-
-	public class ARBluetoothEvents {
-		public const string ON_START_BLUETOOTH_DEMO = "ON_START_BLUETOOTH_DEMO";
-		public const string ON_RECEIVED_MESSAGE = "ON_RECEIVED_MESSAGE";
+	
+	public class KeyboardInput {
+		public const string KEY_INPUTS = "KEY_INPUTS";
+		public const string INTERACT_PRESS = "INTERACT_PRESS";
+		public const string INTERACT_HOLD = "INTERACT_HOLD";
+		public const string INTERACT_TOGGLE = "INTERACT_TOGGLE";
+		public const string DETAIN_PRESS = "DETAIN_PRESS";
 	}
 
-	public class ARPhysicsEvents {
-		public const string ON_FIRST_TARGET_SCAN = "ON_FIRST_TARGET_SCAN";
-		public const string ON_FINAL_TARGET_SCAN = "ON_FINAL_TARGET_SCAN";
+	public class GamepadInput { 
+		public const string RIGHT_STICK_INPUT = "RIGHT_STICK_INPUT";
 	}
 
-	public class ExtendTrackEvents {
-		public const string ON_TARGET_SCAN = "ON_TARGET_SCAN";
-		public const string ON_TARGET_HIDE = "ON_TARGET_HIDE";
-		public const string ON_SHOW_ALL = "ON_SHOW_ALL";
-		public const string ON_HIDE_ALL = "ON_HIDE_ALL";
-		public const string ON_DELETE_ALL = "ON_DELETE_ALL";
+	public class MouseInput {
+		public const string MOUSE_POS = "MOUSE_POS";
+		public const string LEFT_CLICK_PRESS = "LEFT_CLICK_PRESS";
+		public const string RIGHT_CLICK_PRESS = "RIGHT_CLICK_PRESS";
 	}
 
-	public class X01_Events {
-		public const string ON_FIRST_SCAN = "ON_FIRST_SCAN";
-		public const string ON_FINAL_SCAN = "ON_FINAL_SCAN";
-		public const string EXTENDED_TRACK_ON_SCAN = "EXTENDED_TRACK_ON_SCAN";
-		public const string EXTENDED_TRACK_REMOVED = "EXTENDED_TRACK_REMOVED";
+	public class Prompt {
+		public const string PROMPT_NAMES_ADD = "PROMPT_NAMES_ADD";
+		public const string PROMPT_NAMES_DELETE = "PROMPT_NAMES_DELETE";
 	}
 
-	public class X22_Events {
-		public const string ON_FIRST_SCAN = "ON_FIRST_SCAN";
-		public const string ON_FINAL_SCAN = "ON_FINAL_SCAN";
-		public const string EXTENDED_TRACK_ON_SCAN = "EXTENDED_TRACK_ON_SCAN";
-		public const string EXTENDED_TRACK_REMOVED = "EXTENDED_TRACK_REMOVED";
+	public class Active {
+		public const string INTERACT_ENABLE = "INTERACT_ENABLE";
+		public const string INTERACT_DISABLE = "INTERACT_DISABLE";
+		public const string INTERACT_EXIT = "INTERACT_EXIT";
+		public const string HIT_EXIT = "HIT_EXIT";
 	}
 
-	public class S18_Events {
-		public const string ON_FIRST_SCAN = "FIRST_TARGET_SCAN";
-		public const string ON_FINAL_SCAN = "ON_FINAL_SCAN";
-	}
+	public class Combat {
+        public const string PLAYER_SEEN = "PLAYER_SEEN";
+		public const string ENEMY_KILLED = "ENEMY_KILLED";
+    }
 }
 
 
