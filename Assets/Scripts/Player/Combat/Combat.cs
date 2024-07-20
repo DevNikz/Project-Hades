@@ -29,7 +29,13 @@ public class Combat : MonoBehaviour
 
     [BoxGroup("ShowTimer/TimerSettings")]
     [ReadOnly] public float temptime;
-    
+
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [ReadOnly] public float detainTimer;
+
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [SerializeField] public float detainCooldown;
+
     [Space] [Title("Temp(Debug)")] 
     public bool ShowDebug;
 
@@ -68,7 +74,7 @@ public class Combat : MonoBehaviour
     [ShowIfGroup("Pointer")]
     [BoxGroup("Pointer/Pointer")]
     [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
-
+    
     [BoxGroup("Pointer/Pointer")]
     [HideLabel] [ReadOnly] [SerializeReference] protected float angle;
 
@@ -160,6 +166,7 @@ public class Combat : MonoBehaviour
         hitboxDetain.SetActive(false);
 
         fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+        detainCooldown = 5.0f;
     }
 
     void OnEnable() {
@@ -170,6 +177,7 @@ public class Combat : MonoBehaviour
         timerState = TimerState.None;
         temptime = 0;
         counter = 0;
+        detainTimer = 0;
         Debug.Log("Combat Enabled!");
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
@@ -294,26 +302,36 @@ public class Combat : MonoBehaviour
         detainPress = parameters.GetBoolExtra(DETAIN, false);
         
 
-        if (Gamepad.all.Count == 0)
+        if(detainPress && !this.playerSeen)
         {
-            if (detainPress && !this.playerSeen)
+            if(this.detainTimer >= this.detainCooldown)
             {
-                PlayerData.isAttacking = true;
-                deltaState = PlayerData.entityState;
-                deltaDir = PlayerData.entityDirection;
+                this.detainTimer = 0;
 
-                timerState = TimerState.Start;
-                counter = 1;
+                if (Gamepad.all.Count == 0)
+                {
+                    PlayerData.isAttacking = true;
+                    deltaState = PlayerData.entityState;
+                    deltaDir = PlayerData.entityDirection;
+                    
+                    timerState = TimerState.Start;
+                    counter = 1;
 
-                tempDirection = attackDirection;
+                    tempDirection = attackDirection;
+                }
 
-                Debug.Log("Enemy Detained!");
+                InitHitBoxDetain();
+            }
+
+            else
+            {
+                Debug.Log("Cannot Detain: On Cooldown!");
             }
         }
 
-        if(detainPress && !this.playerSeen)
+        else if(detainPress && this.playerSeen)
         {
-            InitHitBoxDetain();
+            Debug.Log("Cannot Detain: Player is visible to enemies!");
         }
 
         counter = Mathf.Clamp(counter, 0, 3);
@@ -492,6 +510,10 @@ public class Combat : MonoBehaviour
             PlayerData.entityDirection = deltaDir;
             PlayerData.entityState = deltaState;
         }
+
+        //Hijacked for Detain Cooldown :)
+        if(this.detainTimer < this.detainCooldown)
+            this.detainTimer += Time.deltaTime;
     }
 
 
@@ -537,7 +559,7 @@ public class Combat : MonoBehaviour
     {
         bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
 
-        if (enemyKilled && currentFireCharge < maxFireCharge && detainPress)
+        if (enemyKilled && (currentFireCharge < maxFireCharge) && detainPress)
         {
             Debug.Log("Fire charge update!");
             currentFireCharge += 20;
