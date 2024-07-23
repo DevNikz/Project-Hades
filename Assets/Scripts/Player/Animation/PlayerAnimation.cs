@@ -46,7 +46,7 @@ public class PlayerAnimation : MonoBehaviour
             SetIdle();
         }
     }
-
+    
     public void SetRun() {
         switch(entityDirection) {
             case EntityDirection.East:

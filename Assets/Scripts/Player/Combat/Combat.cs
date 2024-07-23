@@ -203,7 +203,19 @@ public class Combat : MonoBehaviour
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
 
-        if(PlayerData.isAttacking) UpdateAnimation();
+        if (PlayerData.isAttacking && MenuScript.LastSelection == 3)
+        {
+            UpdateAnimation();
+        }
+        else if (PlayerData.isAttacking && MenuScript.LastSelection == 2)
+        {
+            UpdateFireAnimation();
+
+        }
+        else if (PlayerData.isAttacking)
+        {
+            UpdateAnimation();
+        }
     }
 
     void UpdateAttackDirection() {
@@ -244,11 +256,50 @@ public class Combat : MonoBehaviour
         }
     }
 
+    void UpdateFireAnimation()
+    {
+        temptime = attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;    
+        //Right
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR1"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR2"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR3"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+
+
+        //Left
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL1"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL2"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+        if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL3"))
+        {
+            counter = 0;
+            timerState = TimerState.Stop;
+        }
+    }
+
     void SwitchWeapon()
     {
         // Example usage of the last selection
         int lastWeapon = MenuScript.LastSelection;
-        Debug.Log("Last selected weapon: " + lastWeapon);
+
 
         // Do something based on the last selection
         switch (lastWeapon)
@@ -262,7 +313,6 @@ public class Combat : MonoBehaviour
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
                 break;
             default:
-                Debug.Log("None selected");
                 break;
         }
     }
@@ -270,7 +320,9 @@ public class Combat : MonoBehaviour
     //Basic Attack
     void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
-        
+
+
+
             if(Gamepad.all.Count == 0) {
                 if(leftClick && IsMouseOverGameWindow) {
                     PlayerData.isAttacking = true;
@@ -287,6 +339,7 @@ public class Combat : MonoBehaviour
             else {
                 if(leftClick) {
                     PlayerData.isAttacking = true;
+
                     deltaState = PlayerData.entityState;
                     deltaDir = PlayerData.entityDirection;
 
@@ -331,6 +384,7 @@ public class Combat : MonoBehaviour
             if (leftClick && IsMouseOverGameWindow)
             {
                 PlayerData.isAttacking = true;
+
                 deltaState = PlayerData.entityState;
                 deltaDir = PlayerData.entityDirection;
 
@@ -379,7 +433,7 @@ public class Combat : MonoBehaviour
 
         counter = Mathf.Clamp(counter, 0, 3);
 
-        SwitchAnimation();
+        SwitchFireAnimation();
         UpdateLunge();
     }
 
@@ -429,10 +483,12 @@ public class Combat : MonoBehaviour
 
     void SwitchAnimation() {
         //1st Move
-        if(counter == 1) {
+        //The other conditions are for the unanimated aspects. They're just here to prevent some jank while doing the demo.
+        if(counter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
             //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
             if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR1_New");
             else attackAnimator.Play("BasicAtkL1_New");
+
         }
 
         //2nd Move
@@ -467,9 +523,56 @@ public class Combat : MonoBehaviour
         }
     }
 
+    void SwitchFireAnimation()
+    {
+        //1st Move
+        if (counter == 1 && MenuScript.LastSelection == 2)
+        {
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
+            if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR1");
+            else attackAnimator.Play("FireAtkL1");
+
+        }
+
+        //2nd Move
+        if (counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR1"))
+        {
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
+            if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR2");
+            else attackAnimator.Play("FireAtkL2");
+        }
+
+        if (counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL1"))
+        {
+            //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
+            if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR2");
+            else attackAnimator.Play("FireAtkL2");
+
+        }
+
+        //3rd Move
+        if (counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR2"))
+        {
+            tempflicktime = combat.flicktime;
+            timerFlickState = TimerState.Start;
+
+            if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR3");
+            else attackAnimator.Play("FireAtkL3");
+        }
+
+        if (counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL2"))
+        {
+            tempflicktime = combat.flicktime;
+            timerFlickState = TimerState.Start;
+
+            if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR3");
+            else attackAnimator.Play("FireAtkL3");
+        }
+    }
+
     void UpdateLunge() {
         //3rd Move
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR3_New")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR3_New")||attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR3"))) {
             if(hitboxLunge_Temp != null) {
                 hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
                 hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
@@ -479,7 +582,7 @@ public class Combat : MonoBehaviour
             LungePlayerAlt();
         }
 
-        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")) {
+        if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")| attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL3"))) {
             if(hitboxLunge_Temp != null) {
                 hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
                 hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
