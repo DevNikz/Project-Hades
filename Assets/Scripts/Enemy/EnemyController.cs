@@ -180,6 +180,20 @@ public class EnemyController : MonoBehaviour
             poiseDamaged = false;
             tempDelay = timerDelay;
         }
+        else if(MenuScript.LastSelection == 2)
+        {
+            float fireDamage = damage * 1.5f; 
+            currentHealth -= fireDamage; //Rudimentary damage increase for now
+
+            //Poise
+            poise = CalculatePoiseDamage(poise);
+            currentPoise -= poise;
+
+            //RegenPoise
+            poiseDamaged = true;
+            tempDelay = timerDelay;
+            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+        }
 
         else {
             currentHealth -= damage;
