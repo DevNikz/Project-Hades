@@ -198,6 +198,7 @@ public class Combat : MonoBehaviour
         UpdatePointer();
         UpdateTimer();
         UpdateAttackDirection();
+        SwitchWeapon();
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
@@ -240,6 +241,29 @@ public class Combat : MonoBehaviour
         if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")) {
             counter = 0;
             timerState = TimerState.Stop;
+        }
+    }
+
+    void SwitchWeapon()
+    {
+        // Example usage of the last selection
+        int lastWeapon = MenuScript.LastSelection;
+        Debug.Log("Last selected weapon: " + lastWeapon);
+
+        // Do something based on the last selection
+        switch (lastWeapon)
+        {
+            case 2:
+                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.FireAttack);
+                break;
+            case 3:
+                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
+                break;
+            default:
+                Debug.Log("None selected");
+                break;
         }
     }
 
@@ -294,6 +318,69 @@ public class Combat : MonoBehaviour
             SwitchAnimation();
             UpdateLunge();
 
+    }
+
+    void FireAttack(Parameters parameters)
+    {
+        leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
+
+    
+
+        if (Gamepad.all.Count == 0)
+        {
+            if (leftClick && IsMouseOverGameWindow)
+            {
+                PlayerData.isAttacking = true;
+                deltaState = PlayerData.entityState;
+                deltaDir = PlayerData.entityDirection;
+
+                timerState = TimerState.Start;
+                counter++;
+
+                tempDirection = attackDirection;
+            }
+        }
+        else
+        {
+            if (leftClick)
+            {
+                PlayerData.isAttacking = true;
+                deltaState = PlayerData.entityState;
+                deltaDir = PlayerData.entityDirection;
+
+                timerState = TimerState.Start;
+                counter++;
+
+                tempDirection = attackDirection;
+
+
+
+            }
+        }
+
+        if (leftClick && counter == 1)
+        {
+            InitHitBoxLeft();
+            LungePlayer();
+        }
+
+        if (leftClick && counter == 2)
+        {
+            InitHitBoxLeft();
+            LungePlayer(combat.lungeForceMod);
+        }
+
+        if (leftClick && counter == 3)
+        {
+            tempPosition = GetTempPosition();
+            tempVect = GetTempVector();
+            InitHitBoxLunge();
+        }
+
+        counter = Mathf.Clamp(counter, 0, 3);
+
+        SwitchAnimation();
+        UpdateLunge();
     }
 
     //DetainAttack (copy of basic attack for now)
