@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
@@ -9,7 +10,11 @@ public class MenuScript : MonoBehaviour
     public int selection;
     private int previousSelection = -1;
 
+    public Image displayImage;
+    public Sprite[] images; 
+
     public GameObject[] menuItems;
+    public GameObject panel;
 
     private MenuItemScript menuItemSc;
     private MenuItemScript previousMenuItemSc;
@@ -21,7 +26,7 @@ public class MenuScript : MonoBehaviour
     public const string WHEEL_PRESS = "WHEEL_PRESS";
     public const string WHEEL_HOLD = "WHEEL_HOLD";
 
-    public static int LastSelection { get; private set; } = -1;
+    public static int LastSelection { get; private set; } = 0;
 
     private void Start()
     {
@@ -29,7 +34,9 @@ public class MenuScript : MonoBehaviour
         {
             item.SetActive(false);
         }
-    }    
+        panel.SetActive(false);
+        displayImage.gameObject.SetActive(false);
+    }
 
     private void Update()
     {
@@ -68,22 +75,25 @@ public class MenuScript : MonoBehaviour
                     previousSelection = selection;
                     menuItemSc = menuItems[selection].GetComponent<MenuItemScript>();
                     menuItemSc.Select();
-                    
+
                     LastSelection = selection;
+
+                    // Update the displayed image based on the selection
+                    UpdateDisplayImage(selection);
                 }
             }
         }
     }
 
-
-
-
-        private void ShowMenuItems()
+    private void ShowMenuItems()
     {
         foreach (GameObject item in menuItems)
         {
             item.SetActive(true);
         }
+        panel.SetActive(true);
+        displayImage.gameObject.SetActive(true);
+
     }
 
     private void HideMenuItems()
@@ -93,11 +103,22 @@ public class MenuScript : MonoBehaviour
             item.SetActive(false);
         }
 
+        panel.SetActive(false);
+        displayImage.gameObject.SetActive(false);
+
         // Keep the last selection highlighted
         if (previousSelection >= 0 && previousSelection < menuItems.Length)
         {
             menuItemSc = menuItems[previousSelection].GetComponent<MenuItemScript>();
             menuItemSc.Select();
+        }
+    }
+
+    private void UpdateDisplayImage(int selection)
+    {
+        if (selection >= 0 && selection < images.Length)
+        {
+            displayImage.sprite = images[selection];
         }
     }
 }
