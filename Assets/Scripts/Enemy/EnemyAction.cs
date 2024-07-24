@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
 public class EnemyAction : MonoBehaviour
@@ -28,6 +29,7 @@ public class EnemyAction : MonoBehaviour
     bool isAttacking = false;
     bool isPatrolling = false;
     bool isTurning = false;
+    bool isSearching = false;
 
     public Vector3 lastSeenPos = Vector3.zero;
 
@@ -37,34 +39,45 @@ public class EnemyAction : MonoBehaviour
     public float angle;
     public Quaternion rot;
 
+    public NavMeshAgent agent;
+
     private void OnEnable()
     {
+        cone = transform.Find("Cone").gameObject;
+        agent = this.GetComponent<NavMeshAgent>();
+
         this.originalPosition = this.transform.position;
         this.Player = GameObject.Find("Player");
 
         this.patrolPoints.Add(this.originalPosition);
-        this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0)*5);
-
-        cone = transform.Find("Cone").gameObject;
+        this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0) * 5);
     }
 
     // Update is called once per frame
     void Update()
     {
+        this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
+
         if (Action != 0) isPatrolling = false;
         if (Action != 1) isAttacking = false;
+        if (Action != 2) isSearching = false;
+
+        agent.isStopped = false;
 
         switch (Action)
         {
-            case 0: Patrol();
+            case 0:
+                Patrol();
                 break;
-            case 1: Attack();
+            case 1:
+                Attack();
                 break;
-            case 2: Search();
+            case 2:
+                isSearching = true;
+                Search();
                 break;
             default:
-                isPatrolling = false;
-                isAttacking = false;
+                this.Action = 0;
                 break;
         }
     }
@@ -81,7 +94,7 @@ public class EnemyAction : MonoBehaviour
 
     void Patrol()
     {
-        if (this.transform.position == patrolPoints[nextPoint])
+        if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {
             if (this.nextPoint + 1 < patrolPoints.Count)    
                 this.nextPoint++;
@@ -104,11 +117,12 @@ public class EnemyAction : MonoBehaviour
 
         if (isTurning)
         {
+            agent.isStopped = true;
             this.transform.rotation = Quaternion.Slerp(prevRotation, toRotation, timeStep);
             if (timeStep == 1) isTurning = false;
         }
         else
-            this.transform.position = Vector3.MoveTowards(this.transform.position, patrolPoints[nextPoint], moveSpeed * Time.fixedDeltaTime);
+            agent.destination = patrolPoints[nextPoint];
 
         this.timeStep += Time.fixedDeltaTime * rotateSpeed;
         if (this.timeStep > 1) this.timeStep = 1;
@@ -118,14 +132,16 @@ public class EnemyAction : MonoBehaviour
     {
         if (Player != null)
         {
-            
+
             Vector3 posPlayer = Player.transform.position;
-            this.transform.LookAt(posPlayer);
+            //this.transform.LookAt(posPlayer);
 
-            if(Vector3.Distance(this.transform.position, posPlayer) > 5)
-                this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
+            agent.destination = posPlayer;
+            if (agent.remainingDistance <= agent.stoppingDistance + 5)
+                agent.isStopped = true;
+            //this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
 
-            if(!isAttacking) {
+            if (!isAttacking) {
                 isAttacking = true;
                 Invoke("Attacking", FireRate);
             }
@@ -157,11 +173,12 @@ public class EnemyAction : MonoBehaviour
 
     void Search()
     {
-        this.transform.LookAt(lastSeenPos);
-        if (this.transform.position != this.lastSeenPos)
-            this.transform.position = Vector3.MoveTowards(this.transform.position, lastSeenPos, moveSpeed * Time.fixedDeltaTime);
-        else
+        agent.destination = lastSeenPos;
+
+        if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1)
+        {
             this.Action = 0;
+        }
     }
 
     private Vector3 ConvertToIso(float x, float z)

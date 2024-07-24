@@ -52,10 +52,10 @@ public class BulletController : MonoBehaviour
             tempObject = other.gameObject;
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            Vector3 knockback = direction * attackType.knocbackForce;
-            rb.AddForce(knockback, ForceMode.Impulse);
+            //Vector3 knockback = direction * attackType.knocbackForce;
+            //rb.AddForce(knockback, ForceMode.Impulse);
 
-            other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
+            //other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
             Destroy(this.gameObject);
         }
 

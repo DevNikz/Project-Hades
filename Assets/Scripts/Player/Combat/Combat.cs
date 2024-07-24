@@ -165,7 +165,7 @@ public class Combat : MonoBehaviour
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
 
-        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+        //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
         detainCooldown = 5.0f;
     }
 
