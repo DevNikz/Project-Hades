@@ -16,6 +16,7 @@ public class EnemyAction : MonoBehaviour
     [SerializeField] float FireRate = .5f;
     Vector3 originalPosition = Vector3.zero;
     GameObject Player = null;
+    public float StopDis = 2;
 
     [SerializeField] float moveSpeed = 3;
     [SerializeField] float rotateSpeed = .6f;
@@ -23,6 +24,7 @@ public class EnemyAction : MonoBehaviour
 
     int nextPoint = 0;
     float timeStep = 0;
+    
     [NonSerialized] public Quaternion toRotation = Quaternion.identity;
     [NonSerialized] public Quaternion prevRotation = Quaternion.identity;
     [NonSerialized] public Vector3 direction;
@@ -30,10 +32,9 @@ public class EnemyAction : MonoBehaviour
     bool isAttacking = false;
     bool isPatrolling = false;
     bool isTurning = false;
+    bool isSearching = false;
 
     [NonSerialized] public Vector3 lastSeenPos = Vector3.zero;
-
-    GameObject cone = null;
 
     [NonSerialized] public Vector3 tempVector;
     [NonSerialized] public float angle;
@@ -43,11 +44,14 @@ public class EnemyAction : MonoBehaviour
 
     private void OnEnable()
     {
-        cone = transform.Find("Cone").gameObject;
         agent = this.GetComponent<NavMeshAgent>();
 
         this.originalPosition = this.transform.position;
         this.Player = GameObject.Find("Player");
+
+        this.patrolPoints.Add(this.originalPosition);
+
+        if (this.patrolPoints.Count >= 1) patrolPoints[0] = new Vector3(this.patrolPoints[0].x, this.originalPosition.y, this.patrolPoints[0].z);
     }
 
     // Update is called once per frame
@@ -69,6 +73,8 @@ public class EnemyAction : MonoBehaviour
                 Attack();
                 break;
             case 2:
+                if (!isSearching) this.lastSeenPos = Player.transform.position;
+                isSearching = true;
                 Search();
                 break;
             default:
@@ -128,11 +134,11 @@ public class EnemyAction : MonoBehaviour
         if (Player != null)
         {
 
-            Vector3 posPlayer = Player.transform.position;
+            //Vector3 posPlayer = Player.transform.position;
             //this.transform.LookAt(posPlayer);
 
-            agent.destination = posPlayer;
-            if (agent.remainingDistance <= agent.stoppingDistance + 5)
+            agent.destination = Player.transform.position;
+            if (agent.remainingDistance <= agent.stoppingDistance + StopDis)
                 agent.isStopped = true;
             //this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
 
