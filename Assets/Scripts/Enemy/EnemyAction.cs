@@ -19,27 +19,27 @@ public class EnemyAction : MonoBehaviour
 
     [SerializeField] float moveSpeed = 3;
     [SerializeField] float rotateSpeed = .6f;
-    List<Vector3> patrolPoints = new List<Vector3>();
+    [SerializeField] public List<Vector3> patrolPoints = new List<Vector3>();
+
     int nextPoint = 0;
     float timeStep = 0;
-    public Quaternion toRotation = Quaternion.identity;
-    public Quaternion prevRotation = Quaternion.identity;
-    public Vector3 direction;
+    [NonSerialized] public Quaternion toRotation = Quaternion.identity;
+    [NonSerialized] public Quaternion prevRotation = Quaternion.identity;
+    [NonSerialized] public Vector3 direction;
 
     bool isAttacking = false;
     bool isPatrolling = false;
     bool isTurning = false;
-    bool isSearching = false;
 
-    public Vector3 lastSeenPos = Vector3.zero;
+    [NonSerialized] public Vector3 lastSeenPos = Vector3.zero;
 
     GameObject cone = null;
 
-    public Vector3 tempVector;
-    public float angle;
-    public Quaternion rot;
+    [NonSerialized] public Vector3 tempVector;
+    [NonSerialized] public float angle;
+    [NonSerialized] public Quaternion rot;
 
-    public NavMeshAgent agent;
+    [NonSerialized] public NavMeshAgent agent;
 
     private void OnEnable()
     {
@@ -48,9 +48,6 @@ public class EnemyAction : MonoBehaviour
 
         this.originalPosition = this.transform.position;
         this.Player = GameObject.Find("Player");
-
-        this.patrolPoints.Add(this.originalPosition);
-        this.patrolPoints.Add(this.originalPosition + ConvertToIso(-1, 0) * 5);
     }
 
     // Update is called once per frame
@@ -60,7 +57,6 @@ public class EnemyAction : MonoBehaviour
 
         if (Action != 0) isPatrolling = false;
         if (Action != 1) isAttacking = false;
-        if (Action != 2) isSearching = false;
 
         agent.isStopped = false;
 
@@ -73,7 +69,6 @@ public class EnemyAction : MonoBehaviour
                 Attack();
                 break;
             case 2:
-                isSearching = true;
                 Search();
                 break;
             default:
