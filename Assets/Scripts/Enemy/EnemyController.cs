@@ -61,6 +61,8 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
+    private Combat fireCharge;
+
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
         detectUI = this.transform.Find("Cone").gameObject;
@@ -171,8 +173,9 @@ public class EnemyController : MonoBehaviour
         //Visual Cue
         hitFX.Play();
         sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
+        fireCharge = FindAnyObjectByType<Combat>();
 
-        if(staggered) {
+        if (staggered) {
             //Health
             currentHealth -= damage * 2; //Multiplier hardcoded for now
 
@@ -180,7 +183,7 @@ public class EnemyController : MonoBehaviour
             poiseDamaged = false;
             tempDelay = timerDelay;
         }
-        else if(MenuScript.LastSelection == 2)
+        else if(MenuScript.LastSelection == 2 && fireCharge.GetCurrentFireCharge() > 0)
         {
             float fireDamage = damage * 1.5f; 
             currentHealth -= fireDamage; //Rudimentary damage increase for now
@@ -193,6 +196,8 @@ public class EnemyController : MonoBehaviour
             poiseDamaged = true;
             tempDelay = timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+
+            Debug.Log("Using fire damage");
         }
 
         else {

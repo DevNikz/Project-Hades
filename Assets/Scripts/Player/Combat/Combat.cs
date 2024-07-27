@@ -139,6 +139,9 @@ public class Combat : MonoBehaviour
     [SerializeField][Range(0.1f, 100f)] public float maxFireCharge;
     [SerializeField] private float currentFireCharge;
 
+    [Title("Fire Charge Decrement")]
+    [SerializeField][Range(0.1f, 100f)] public float fireChargeDecrement;
+
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
@@ -297,11 +300,9 @@ public class Combat : MonoBehaviour
 
     void SwitchWeapon()
     {
-        // Example usage of the last selection
         int lastWeapon = MenuScript.LastSelection;
 
 
-        // Do something based on the last selection
         switch (lastWeapon)
         {
             case 2:
@@ -316,6 +317,8 @@ public class Combat : MonoBehaviour
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
                 break;
+
+            //Make more animations in the future, will figure out what to do with default case later.
         }
     }
 
@@ -394,6 +397,7 @@ public class Combat : MonoBehaviour
                 counter++;
 
                 tempDirection = attackDirection;
+
             }
         }
         else
@@ -418,12 +422,28 @@ public class Combat : MonoBehaviour
         {
             InitHitBoxLeft();
             LungePlayer();
+
+            if (currentFireCharge > 0)
+            {
+                currentFireCharge = currentFireCharge - fireChargeDecrement;
+
+                fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+            }
+
         }
 
         if (leftClick && counter == 2)
         {
             InitHitBoxLeft();
             LungePlayer(combat.lungeForceMod);
+
+            if (currentFireCharge > 0)
+            {
+                currentFireCharge = currentFireCharge - fireChargeDecrement;
+
+                fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+            }
+
         }
 
         if (leftClick && counter == 3)
@@ -431,6 +451,14 @@ public class Combat : MonoBehaviour
             tempPosition = GetTempPosition();
             tempVect = GetTempVector();
             InitHitBoxLunge();
+
+            if (currentFireCharge > 0)
+            {
+                currentFireCharge = currentFireCharge - fireChargeDecrement;
+
+                fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+            }
+
         }
 
         counter = Mathf.Clamp(counter, 0, 3);
@@ -750,7 +778,7 @@ public class Combat : MonoBehaviour
     void UpdateFireCharge(Parameters param)
     {
         bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
-
+        
         if (enemyKilled && (currentFireCharge < maxFireCharge) && detainPress)
         {
             Debug.Log("Fire charge update!");
@@ -758,5 +786,10 @@ public class Combat : MonoBehaviour
         }
 
         fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+    }
+
+    public float GetCurrentFireCharge()
+    {
+        return currentFireCharge;
     }
 }
