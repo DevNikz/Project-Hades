@@ -16,7 +16,6 @@ public class EnemyAction : MonoBehaviour
     [SerializeField] float FireRate = .5f;
     Vector3 originalPosition = Vector3.zero;
     GameObject Player = null;
-    public float StopDis = 2;
 
     [SerializeField] float moveSpeed = 3;
     [SerializeField] float rotateSpeed = .6f;
@@ -133,14 +132,9 @@ public class EnemyAction : MonoBehaviour
     {
         if (Player != null)
         {
-
-            //Vector3 posPlayer = Player.transform.position;
-            //this.transform.LookAt(posPlayer);
-
             agent.destination = Player.transform.position;
-            if (agent.remainingDistance <= agent.stoppingDistance + StopDis)
-                agent.isStopped = true;
-            //this.transform.position = Vector3.MoveTowards(this.transform.position, posPlayer, moveSpeed * Time.fixedDeltaTime);
+            if (agent.remainingDistance <= agent.stoppingDistance)
+                gameObject.transform.LookAt(Player.transform.position);
 
             if (!isAttacking) {
                 isAttacking = true;
@@ -179,40 +173,6 @@ public class EnemyAction : MonoBehaviour
         if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1)
         {
             this.Action = 0;
-        }
-    }
-
-    private Vector3 ConvertToIso(float x, float z)
-    {
-
-        //North
-        if (x == 0 && z == 1) return new Vector3(1f, 0f, 1f);
-
-        //North East
-        else if (x == 1 && z == 1) return new Vector3(1f, 0f, 0f);
-
-        //East
-        else if (x == 1 && z == 0) return new Vector3(1f, 0f, -1f);
-
-        //South East
-        else if (x == 1 && z == -1) return new Vector3(0f, 0f, -1f);
-
-        //South
-        else if (x == 0 && z == -1) return new Vector3(-1f, 0f, -1f);
-
-        //South West
-        else if (x == -1 && z == -1) return new Vector3(-1f, 0f, 0f);
-
-        //West
-        else if (x == -1 && z == 0) return new Vector3(-1f, 0f, 1f);
-
-        //North West
-        else if (x == -1 && z == 1) return new Vector3(0f, 0f, 1f);
-
-        else
-        {
-            Vector3 zero = Vector3.zero;
-            return zero;
         }
     }
 }
