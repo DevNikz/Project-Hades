@@ -8,7 +8,7 @@ public class TimedDialog : View, DialogInterface {
 	private System.Action onDismissAction;
 
 	private float timedDuration;
-	private bool indefinite = false;
+	//private bool indefinite = false;
 
 	void Start() {
 		this.SetCancelable(false);

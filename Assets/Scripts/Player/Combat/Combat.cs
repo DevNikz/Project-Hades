@@ -136,11 +136,11 @@ public class Combat : MonoBehaviour
     [SerializeField] public TextMeshProUGUI fireChargeText;
 
     [Title("Elemental Charges")]
-    [SerializeField][Range(0.1f, 100f)] public float maxFireCharge;
-    [SerializeField] private float currentFireCharge;
+    [SerializeField][Range(0, 100)] public int maxFireCharge;
+    [SerializeField] private int currentFireCharge;
 
     [Title("Fire Charge Decrement")]
-    [SerializeField][Range(0.1f, 100f)] public float fireChargeDecrement;
+    [SerializeField][Range(0, 100)] public int fireChargeDecrement;
 
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
@@ -170,6 +170,12 @@ public class Combat : MonoBehaviour
 
         //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
         detainCooldown = 5.0f;
+
+        fireChargeText = GameObject.Find("/GeneralObjects/UI/FireChargeText").GetComponent<TextMeshProUGUI>();
+    }
+
+    void Start() {
+        
     }
 
     void OnEnable() {
@@ -202,6 +208,7 @@ public class Combat : MonoBehaviour
         UpdateTimer();
         UpdateAttackDirection();
         SwitchWeapon();
+        UpdateUI();
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
@@ -219,6 +226,10 @@ public class Combat : MonoBehaviour
         {
             UpdateAnimation();
         }
+    }
+
+    void UpdateUI() {
+        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     }
 
     void UpdateAttackDirection() {
@@ -778,6 +789,7 @@ public class Combat : MonoBehaviour
     void UpdateFireCharge(Parameters param)
     {
         bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
+        if(enemyKilled) Debug.Log(enemyKilled);
         
         if (enemyKilled && (currentFireCharge < maxFireCharge) && detainPress)
         {
@@ -785,10 +797,10 @@ public class Combat : MonoBehaviour
             currentFireCharge += 20;
         }
 
-        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+        
     }
 
-    public float GetCurrentFireCharge()
+    public int GetCurrentFireCharge()
     {
         return currentFireCharge;
     }
