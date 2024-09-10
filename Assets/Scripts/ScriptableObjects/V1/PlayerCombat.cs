@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerCombat", menuName = "ProjectHades/Player/Combat", order = 1)]
 [InlineEditor]
 public class PlayerCombat : ScriptableObject
 {

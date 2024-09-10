@@ -1,0 +1,27 @@
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "PlayerAttack", menuName = "ProjectHades/Player/AttackV2", order = 2)]
+[InlineEditor]
+public class PlayerAttackScriptable : ScriptableObject
+{
+    [PropertySpace] [TitleGroup("Properties", "Lunge", alignment: TitleAlignments.Centered)]
+    [InfoBox("Force Applied to Attack (Default = 1f)", InfoMessageType.None)]
+    [Required] [Range(0.1f, 100f)] public float lungeForce = 0.1f;
+
+    [PropertySpace] [InfoBox("Force Modifier applied to the Lunge (For Physics. Default: 1f)", InfoMessageType.None)]
+    [Required] [Range(0.1f, 10f)] public float lungeForceMod = 0.1f;
+
+    [PropertySpace] [TitleGroup("Optionals", "Quick Lunge", alignment: TitleAlignments.Centered)]
+    [InfoBox("Force Applied to 'Charged' Lunge (Optional)", InfoMessageType.None)]
+    [Range(0.1f, 100f)] public float quickLungeForce = 0.1f;
+
+    [PropertySpace] [InfoBox("Timer for Charged Lunge", InfoMessageType.None)]
+    [Range(0.1f, 2f)] public float flicktime = 0.1f;
+
+    [PropertySpace] [TitleGroup("References", "References to Attack Animation Clips", alignment: TitleAlignments.Centered)]
+    [AssetList(Path = "/Resources/Player/Animation")]
+    [InfoBox("Assign Reference To Player Attack Animation Clips", InfoMessageType.None)]
+    [Required] public AnimationClip[] attackAnimationClips;
+}
