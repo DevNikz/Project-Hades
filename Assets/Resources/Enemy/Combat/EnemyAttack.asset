@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18703038c75d31c43a5c1ae39c7d7e40, type: 3}
-  m_Name: Attack
+  m_Script: {fileID: 11500000, guid: c167e45deb807dd4481eafcd1229a652, type: 3}
+  m_Name: EnemyAttack
   m_EditorClassIdentifier: 
-  lungeForce: 0.1
-  lungeForceMod: 0.1
-  quickLungeForce: 0.1
-  flicktime: 0.1
+  healthDamage: 1
+  poiseDamage: 1
+  knockbackForce: 1
   attackAnimationClips: []

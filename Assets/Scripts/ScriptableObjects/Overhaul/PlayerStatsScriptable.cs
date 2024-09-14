@@ -17,7 +17,7 @@ public class PlayerStatsScriptable : ScriptableObject
 
     [PropertySpace] [TitleGroup("Attributes", "General Player Attributes", alignment: TitleAlignments.Centered)]
     [InfoBox("Player Max HP (Default = 100)", InfoMessageType.None)]
-    [Required] [Range(0f, 100f)] public float maxHP = 100f;
+    [Required] [Range(0f, 1000f)] public float maxHP = 100f;
 
     [PropertySpace] [InfoBox("Stun Resist (Default = 1)", InfoMessageType.None)]
     [Required] [Range(0.1f, 100f)] public float stunResist = 1f;

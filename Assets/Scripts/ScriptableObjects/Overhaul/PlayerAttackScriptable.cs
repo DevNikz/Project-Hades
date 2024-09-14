@@ -13,6 +13,16 @@ public class PlayerAttackScriptable : ScriptableObject
     [PropertySpace] [InfoBox("Force Modifier applied to the Lunge (For Physics. Default: 1f)", InfoMessageType.None)]
     [Required] [Range(0.1f, 10f)] public float lungeForceMod = 0.1f;
 
+    [PropertySpace] [TitleGroup("Attributes", "General Attack Stats", alignment: TitleAlignments.Centered)]
+    [InfoBox("Damage Value", InfoMessageType.None)]
+    [Range(1f, 1000f)] public float healthDamage = 1f;
+
+    [PropertySpace] [InfoBox("Stun Damage Value", InfoMessageType.None)]
+    [Range(1f, 100f)] public float poiseDamage = 1f;
+
+    [PropertySpace] [InfoBox("Knockback Force Value", InfoMessageType.None)]
+    [Range(1f, 1000f)] public float knockbackForce = 1f;
+
     [PropertySpace] [TitleGroup("Optionals", "Quick Lunge", alignment: TitleAlignments.Centered)]
     [InfoBox("Force Applied to 'Charged' Lunge (Optional)", InfoMessageType.None)]
     [Range(0.1f, 100f)] public float quickLungeForce = 0.1f;
