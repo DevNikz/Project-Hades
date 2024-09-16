@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerMovement", menuName = "ProjectHades/Player/AttributesV2", order = 1)]
+[CreateAssetMenu(fileName = "PlayerStats", menuName = "ProjectHades/Player/AttributesV2", order = 1)]
 [InlineEditor]
 public class PlayerStatsScriptable : ScriptableObject 
 {
