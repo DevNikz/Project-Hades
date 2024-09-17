@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1556104cc0eff8c4d8617a405bcfbf65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: {fileID: 0}
+  attackType: {fileID: 11400000, guid: 6fad7416a464e794aa18ed42dcd32809, type: 2}
 --- !u!33 &6069694806070793514
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 2005999249618306331}
   m_Layer: 8
   m_Name: HitFX
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2
@@ -5872,7 +5872,7 @@ MonoBehaviour:
   timerDelay: 2
   tempDelay: 0
   timerState: 0
-  ShowReferences: 0
+  ShowReferences: 1
   healthUI: {fileID: 0}
   detectUI: {fileID: 0}
   healthMeter: {fileID: 0}

@@ -23,12 +23,11 @@ public class EnemyDeath : MonoBehaviour
         deathSpriteTemp.SetActive(true);
         this.tag = "Enemy(Dead)";
 
-        //Respawn Player to same spot
         entitySprite = transform.Find("SpriteContainer").gameObject;
         entitySprite.SetActive(false);
 
-        tempTimer = timer;
-        timerState = TimerState.Start;
+        // tempTimer = timer;
+        // timerState = TimerState.Start;
 
         Broadcaster.Instance.AddBoolParam(Combat.ENEMY_KILLED, EventNames.Combat.ENEMY_KILLED, true);
 
