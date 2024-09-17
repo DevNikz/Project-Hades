@@ -7,7 +7,7 @@ public class MainMenu_Button_Script : MonoBehaviour
 {
     public void OnStartClick()
     {
-        SceneManager.LoadScene("Demo Scene 2");
+        SceneManager.LoadScene("Demo Scene 3");
     }
 
     public void OnOptionsClick()

@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(ColliderModule))]
@@ -70,6 +71,7 @@ public class PlayerController : MonoBehaviour
             if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
             if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
             if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
+            SceneManager.LoadScene("Lose Screen");
         }
         else {
             this.gameObject.tag = "Player";
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void ReceiveDamage(DamageType damageType, float damage) {
         if(staggered) {
-
+            
         }
         else {
             currentHealth -= damage;
