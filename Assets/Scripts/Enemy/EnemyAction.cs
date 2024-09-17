@@ -108,7 +108,9 @@ public class EnemyAction : MonoBehaviour
             direction = patrolPoints[nextPoint] - this.transform.position;
 
             prevRotation = this.transform.rotation;
-            toRotation = Quaternion.LookRotation(direction);
+
+            if (direction != Vector3.zero) //was printing an "error" message in console
+                toRotation = Quaternion.LookRotation(direction);
 
             this.timeStep = 0;
             this.isTurning = true;

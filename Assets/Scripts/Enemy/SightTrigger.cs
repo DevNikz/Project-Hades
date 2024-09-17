@@ -64,6 +64,7 @@ public class SightTrigger : MonoBehaviour
             {
                 this.GetComponentInParent<EnemyAction>().SetAction(2);
             }
+            Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
         }
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
@@ -82,6 +83,7 @@ public class SightTrigger : MonoBehaviour
                         {
                             this.GetComponentInParent<EnemyAction>().SetAction(1);
                         }
+                        Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
                 }
             }
