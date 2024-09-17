@@ -4,8 +4,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour {
     
     [PropertySpace] [Title("Movement")]
-    [AssetSelector(Paths = "Assets/Data/Player/Movement")]
-    public PlayerMovement movement;
+    [AssetSelector]
+    public PlayerStatsScriptable movement;
 
     [Space] [Title("References")]
     public bool ShowReference;
@@ -86,7 +86,7 @@ public class Movement : MonoBehaviour {
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
     void Awake() {
-        movement = Resources.Load<PlayerMovement>("Player/Movement/PlayerMovement");
+        movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
@@ -143,7 +143,7 @@ public class Movement : MonoBehaviour {
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
         if(dashInput == true) {
-            currentSpeed = movement.dashSpeed;
+            //currentSpeed = movement.dashSpeed;
             Dash();
         }
 
@@ -242,7 +242,7 @@ public class Movement : MonoBehaviour {
 
     private void Dash() {
         if(dashCDTimer > 0 ) return;
-        else dashCDTimer = movement.dashCD;
+        else dashCDTimer = movement.dashCooldown;
 
         //Set Dash To True
         dashing = true;

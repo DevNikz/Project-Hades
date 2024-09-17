@@ -9,8 +9,8 @@ public class Combat : MonoBehaviour
 {
     //Basic Attack (Left Click)
     [PropertySpace] [Title("Basic Attack")]
-    [AssetSelector(Paths = "Assets/Data/Player/Combat")]
-    public PlayerCombat combat;
+    [AssetSelector]
+    public PlayerAttackScriptable combat;
     
     //Alternate Attack(Right Click)
     [Space] [Title("Alternate Attack")]
@@ -152,7 +152,7 @@ public class Combat : MonoBehaviour
 
     void Awake() {
         //Reference
-        combat = Resources.Load<PlayerCombat>("Player/Combat/PlayerCombat");
+        combat = Resources.Load<PlayerAttackScriptable>("Player/Combat/PlayerAttack");
         pointerUI = transform.Find("Pointer").gameObject;
         attackUI = transform.Find("AttackUI").gameObject;
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
@@ -687,10 +687,11 @@ public class Combat : MonoBehaviour
     void LungePlayer() {
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
-        if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-        else {
-            rb.AddForce(tempVector.ToIso().normalized * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-        }
+        rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // else {
+        //     rb.AddForce(tempVector.ToIso().normalized * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // }
 
         
     }
@@ -699,10 +700,11 @@ public class Combat : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.drag = 10f;
         float tempForce = combat.lungeForce + (combat.lungeForce * modifier);
-        if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-        else {
-            rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-        }
+        rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // else {
+        //     rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+        // }
         
     }
 
@@ -711,10 +713,11 @@ public class Combat : MonoBehaviour
             tempflicktime -= Time.deltaTime;
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.drag = 10f;
-            if(Gamepad.all.Count == 0) rb.AddForce(tempPosition.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-            else {
-                rb.AddForce(tempVect.ToIso() * combat.quicklungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-            }
+            rb.AddForce(tempPosition.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            // if(Gamepad.all.Count == 0) rb.AddForce(tempPosition.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            // else {
+            //     rb.AddForce(tempVect.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
+            // }
 
             if(tempflicktime <= 0) {
                 timerFlickState = TimerState.Stop;

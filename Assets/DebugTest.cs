@@ -31,7 +31,7 @@ public class DebugTest : MonoBehaviour
     void Update() {
         speed.text = "Speed: " + movement.currentSpeed;
         dash.text = "Dash: " + movement.movement.dashForce;
-        lunge.text = "Lunge: " + combat.combat.quicklungeForce;
+        lunge.text = "Lunge: " + combat.combat.quickLungeForce;
         fixeddeltaTime.text = "FixedDeltaTime: " + Time.fixedDeltaTime;
         state.text = "State: " + PlayerData.entityState;
     }
