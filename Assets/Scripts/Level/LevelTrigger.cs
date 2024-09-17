@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelTrigger : MonoBehaviour
 {
-    [SerializeField] SceneAsset NextLevel;
+    [SerializeField] String NextLevel;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
     
@@ -24,7 +25,7 @@ public class LevelTrigger : MonoBehaviour
     }
 
     public void TransitionLevel() {
-        SceneManager.LoadScene(NextLevel.name, LoadSceneMode.Single);
+        SceneManager.LoadScene(NextLevel, LoadSceneMode.Single);
     }
 
     void OnTriggerEnter(Collider other) {
