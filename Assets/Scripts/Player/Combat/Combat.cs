@@ -316,14 +316,33 @@ public class Combat : MonoBehaviour
 
         switch (lastWeapon)
         {
-            case 2:
+            //Earth can't be loaded as of the moment.
+            //LastSelection returns 0 by default in MenuScript, but Earth's position in wheel is also 0.
+            //Declaring LastSelection as -1 breaks the movement.
+            //Earth image is set to index 0 in weapon wheel ui, could prolly add some kind of filler image to move to 1?
+
+            //Note for future ref: Dmg and stun calc is done in EnemyController
+
+            case 1: //Wind
+                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to wind eventually
+                break;
+            
+            case 2: //Fire
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.FireAttack);
                 break;
-            case 3:
+
+            case 3: //Void
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
                 break;
+
+            case 4: //Water
+                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to water eventually
+                break;
+
             default:
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
@@ -336,8 +355,6 @@ public class Combat : MonoBehaviour
     //Basic Attack
     void BasicAttackState(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
-
-
 
             if(Gamepad.all.Count == 0) {
                 if(leftClick && IsMouseOverGameWindow) {
@@ -393,8 +410,6 @@ public class Combat : MonoBehaviour
     {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
 
-    
-
         if (Gamepad.all.Count == 0)
         {
             if (leftClick && IsMouseOverGameWindow)
@@ -423,9 +438,6 @@ public class Combat : MonoBehaviour
                 counter++;
 
                 tempDirection = attackDirection;
-
-
-
             }
         }
 
