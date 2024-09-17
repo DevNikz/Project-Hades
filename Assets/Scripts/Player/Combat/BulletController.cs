@@ -12,7 +12,8 @@ public class BulletController : MonoBehaviour
     private TimerState timerState = TimerState.None;
 
     void Start() {
-        if(this.tag == "EnemyBullet") attackType = Resources.Load<AttackType>("Enemies/AttackType/BasicEnemy");
+        //Old Version. Will be updated to new version
+        if(this.tag == "EnemyBullet") attackType = Resources.Load<AttackType>("Enemy/Deprecated/BasicEnemy"); 
         timer = 1.5f;
     }
 
