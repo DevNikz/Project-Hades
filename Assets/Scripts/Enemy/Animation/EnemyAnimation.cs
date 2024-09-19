@@ -5,7 +5,7 @@ public class EnemyAnimation : MonoBehaviour
     private Animator spriteAnimator;
     public float rotation = 45f;
     public EntityDirection entityDirection;
-    public EntityState entityState;
+    public EntityMovement entityMovement;
     public bool isHit;
     public float timer;
 
@@ -20,7 +20,7 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public void SetAnimation() {
-        if(entityState == EntityState.Strafing) {
+        if(entityMovement == EntityMovement.Strafing) {
             SetRun();
         }
     }

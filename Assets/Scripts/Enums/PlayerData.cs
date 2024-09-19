@@ -1,6 +1,7 @@
 
 public static class PlayerData
 {
+    public static EntityMovement entityMovement;
     public static EntityState entityState;
     public static EntityDirection entityDirection;
     public static AnimDirection animDirection { get; set; }

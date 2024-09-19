@@ -1,9 +1,13 @@
 
-public enum EntityState {
+public enum EntityMovement {
     Strafing,
     Dashing,
-    BasicAttack,
-    Idle
+    Idle,
+}
+
+public enum EntityState {
+    None,
+    Attack,
 }
 
 public enum EntityDirection {

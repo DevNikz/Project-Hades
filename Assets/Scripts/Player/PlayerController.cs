@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Slider healthMeter;
 
-    [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private GameObject sprite;
+    // [BoxGroup("ShowReferences/Reference")]
+    // [SerializeReference] private GameObject sprite;
 
     [BoxGroup("ShowReferences/Reference")]
     [ReadOnly] [SerializeReference] private Vector3 spawnPoint;
@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
     void Awake() {
         healthUI = GameObject.Find("PlayerHealth");
         healthMeter = healthUI.GetComponent<Slider>();
-        sprite = transform.Find("SpriteContainer").gameObject;
         currentPoise = totalPoise;
         currentHealth = totalHealth;
         spawnPoint = gameObject.transform.position;
@@ -62,7 +61,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
+        UpdateAnimation();
         UpdateHealth();
+    }
+
+    void UpdateAnimation() {
+
     }
 
     void UpdateHealth() {
@@ -70,7 +74,7 @@ public class PlayerController : MonoBehaviour
             this.gameObject.tag = "Player(Dead)";
             if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
             if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
-            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
+            //if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
             SceneManager.LoadScene("Lose Screen");
         }
         else {
@@ -81,9 +85,9 @@ public class PlayerController : MonoBehaviour
             if(this.GetComponent<Combat>().isActiveAndEnabled == false) {
                 this.GetComponent<Combat>().enabled = true;
             }
-            if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
-                sprite.GetComponent<PlayerAnimation>().enabled = true;
-            }
+            // if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
+            //     sprite.GetComponent<PlayerAnimation>().enabled = true;
+            // }
             //Debug.Log(PlayerData.entityState);
         }
     }

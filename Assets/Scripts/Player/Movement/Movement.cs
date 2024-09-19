@@ -19,6 +19,14 @@ public class Movement : MonoBehaviour {
     [Tooltip("Set Transform property reference of the GameObject")]
     [SerializeField] private Transform model;
 
+    [BoxGroup("ShowReference/References")]
+    //[Tooltip("Set Transform property reference of the GameObject")]
+    [SerializeField] private PlayerAnimatorController animatorController;
+
+    [BoxGroup("ShowReference/References")]
+    //[Tooltip("Set Transform property reference of the GameObject")]
+    [SerializeField] private Combat combat;
+
     //Effects
     [Space] [Title("Experimental Effects")]
     public bool ShowEffects;
@@ -73,7 +81,11 @@ public class Movement : MonoBehaviour {
     public bool ShowStates;
     [ShowIfGroup("ShowStates")]
     [BoxGroup("ShowStates/States")]
+    [SerializeReference] public EntityMovement move;
+
+    [BoxGroup("ShowStates/States")]
     [SerializeReference] public EntityState state;
+
     [BoxGroup("ShowStates/States")]
     [SerializeReference] public EntityDirection direction;
 
@@ -86,6 +98,8 @@ public class Movement : MonoBehaviour {
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
     void Awake() {
+        animatorController = this.GetComponent<PlayerAnimatorController>();
+        combat = this.GetComponent<Combat>();
         movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
@@ -113,8 +127,17 @@ public class Movement : MonoBehaviour {
         CheckMove();
         CheckDash();
 
+        UpdateAnimation();
+
         //Init Dash Funcs
         Cooldown();
+    }
+
+    void UpdateAnimation() {
+        combat.UpdateStates(move, direction);
+        animatorController.UpdateStates(move, direction);
+        animatorController.SetAnimBottom(move, direction);
+        animatorController.SetAnimTop(move, direction);
     }
 
     private void moveEvent(Parameters parameters) {
@@ -130,12 +153,12 @@ public class Movement : MonoBehaviour {
 
     private void CheckMove() {
         ParticleSystem.EmissionModule temp = dust.emission;
-        if(state == EntityState.Strafing) temp.enabled = true;
+        if(move == EntityMovement.Strafing) temp.enabled = true;
         else temp.enabled = false;
     }
 
     private void CheckDash() {
-        if(state == EntityState.Dashing) dashParticle.Play();
+        if(move == EntityMovement.Dashing) dashParticle.Play();
     }
 
     private void stateHandlerEvent(Parameters parameters) {
@@ -149,8 +172,7 @@ public class Movement : MonoBehaviour {
 
         else if(moveInput.x != 0 || moveInput.z != 0) {
             //Set To Strafing
-            state = EntityState.Strafing;
-            PlayerData.entityState = EntityState.Strafing;
+            move = EntityMovement.Strafing;
 
             //Set To Strafing Speed
             currentSpeed = movement.strafeSpeed;
@@ -160,18 +182,17 @@ public class Movement : MonoBehaviour {
         }
 
         else if(moveInput.x == 0 && moveInput.z == 0) {
-            state = EntityState.Idle;
-            PlayerData.entityState = EntityState.Idle;
+            move = EntityMovement.Idle;
         }
 
-        else if(PlayerData.entityState == EntityState.BasicAttack){
-            state = EntityState.BasicAttack;
-            PlayerData.entityState = EntityState.BasicAttack;
-        }
+        // else if(PlayerData.entityState == EntityState.BasicAttack){
+        //     /tate = EntityState.BasicAttack;
+        //     PlayerData.entityState = EntityState.BasicAttack;
+        // }
     }
 
     private void CheckDrag() {
-        if(state == EntityState.Strafing) {
+        if(move == EntityMovement.Strafing) {
             rigidBody.drag = movement.groundDrag;
         }
         else rigidBody.drag = 10f;
@@ -180,62 +201,45 @@ public class Movement : MonoBehaviour {
     private EntityDirection IsoCompass(float x, float z) {
         //North
         if(x == 0 && (z <= 1 && z > 0)) {
-            PlayerData.animDirection = AnimDirection.Up;
-            PlayerData.entityDirection = EntityDirection.North;
             return EntityDirection.North;
         }
 
         //North East
         else if((x <= 1 && x > 0) && (z <= 1 && z > 0)) {
-            PlayerData.animDirection = AnimDirection.Up;
-            PlayerData.entityDirection = EntityDirection.NorthEast;
             return EntityDirection.NorthEast;
         }
 
         //East
         else if((x <= 1 && x > 0) && z == 0) {
-            PlayerData.animDirection = AnimDirection.Left;
-            PlayerData.entityDirection = EntityDirection.East;
             return EntityDirection.East;
         }
 
         //South East
         else if((x <= 1 && x > 0) && (z >= -1 && z < 0)) {
-            PlayerData.animDirection = AnimDirection.Down;
-            PlayerData.entityDirection = EntityDirection.SouthEast;
             return EntityDirection.SouthEast;
         }
 
         //South
         else if(x == 0 && (z >= -1 && z < 0)) {
-            PlayerData.animDirection = AnimDirection.Down;
-            PlayerData.entityDirection = EntityDirection.South;
             return EntityDirection.South;
         }
 
         //South West
         else if((x >= -1 && x < 0) && (z >= -1 && z < 0)) {
-            PlayerData.animDirection = AnimDirection.Down;
-            PlayerData.entityDirection = EntityDirection.SouthWest;
             return EntityDirection.SouthWest;
         }
 
         //West
         else if((x >= -1 && x < 0) && z == 0) {
-            PlayerData.animDirection = AnimDirection.Right;
-            PlayerData.entityDirection = EntityDirection.West;
             return EntityDirection.West;
         }
 
         //North West
         else if((x >= -1 && x < 0) && (z <= 1 && z > 0)) {
-            PlayerData.animDirection = AnimDirection.Up;
-            PlayerData.entityDirection = EntityDirection.NorthWest;
             return EntityDirection.NorthWest;
         }
 
         else {
-            PlayerData.entityDirection = EntityDirection.None;
             return EntityDirection.None;
         }
     }
@@ -293,8 +297,7 @@ public class Movement : MonoBehaviour {
     }
 
     private void DelayedDashForce() {
-        state = EntityState.Dashing;
-        PlayerData.entityState = EntityState.Dashing;
+        move = EntityMovement.Dashing;
         rigidBody.AddForce(delayedForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
