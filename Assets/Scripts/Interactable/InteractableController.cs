@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class InteractableController : MonoBehaviour
 {
@@ -9,6 +10,21 @@ public class InteractableController : MonoBehaviour
     [BoxGroup("Properties/Box1", ShowLabel = false)]
     [InfoBox("Popup Toggle (Disables Popup)"), OnValueChanged("UpdateToggle")]
     public bool toggle;
+
+    [BoxGroup("Properties/Box1", ShowLabel = false)]
+    [Button("Interact", ButtonSizes.Large)]
+    void InteractScript() {
+        //Should invoke script
+        interact.Invoke();
+    }
+
+    [Serializable]
+    public class Interact : UnityEvent {}
+
+    [FormerlySerializedAs("Interact")]
+    [SerializeField] private Interact interact = new Interact();
+
+
 
     void UpdateToggle() {
         if(!toggle) {
