@@ -1,6 +1,9 @@
+using System;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class PopupController : MonoBehaviour 
 {
@@ -18,6 +21,12 @@ public class PopupController : MonoBehaviour
     [PropertySpace, InfoBox("Preview Input Text"), TextArea(1, 10)]
     [ReadOnly] public string previewText = "";
 
+    [Serializable]
+    public class PopupEvent : UnityEvent {}
+
+    [FormerlySerializedAs("Event")]
+    [SerializeField] private PopupEvent popupEvent = new PopupEvent();
+
     [TitleGroup("References", "General Popup References", Alignment = TitleAlignments.Centered)]
     [BoxGroup("References/Box1", ShowLabel = false)]
     [InfoBox("Reference to Popup")]
@@ -27,39 +36,42 @@ public class PopupController : MonoBehaviour
     [InfoBox("Reference to Popup UI Text")]
     [SerializeReference] private TextMeshProUGUI textUI;
 
-    [BoxGroup("References/Box1", ShowLabel = false)]
-    [InfoBox("Reference to Interact Script")]
-    [SerializeReference] private MonoBehaviour interactScript;
-
     void Update() {
         Interact();
+        previewTextUpdate();
     }
 
     void Interact() {
-        if(toggle && Input.GetKeyDown("F")) {
+        if(toggle && Input.GetKeyDown(KeyCode.F)) {
             //Activate script or wtv
+            popupEvent.Invoke();
         }
-        else if(toggle && Input.GetKeyDown("X")) {
+        else if(toggle && Input.GetKeyDown(KeyCode.X)) {
             //Dismiss popup
             toggle = false;
+            popupRef.SetActive(false);
         }
     }
 
     void previewTextUpdate() {
-        if(this.previewText == "") {
+        if(inputText != null) {
             previewText = inputText.ToString();
+            textUI.text = inputText.ToString();
         }
         else {
             previewText = "";
+            textUI.text = "";
         }
     }
 
     public void Enable() {
         toggle = true;
+        popupRef.SetActive(true);
         //Enable PopUp
     }
 
     public void Disable() {
         toggle = false;
+        popupRef.SetActive(false);
     }
 }
