@@ -9,3 +9,8 @@ public enum Rarity {
 public enum Kind {
     None
 }
+
+public enum AugmentType {
+    AGGRO,
+    STEEL
+}
