@@ -45,13 +45,13 @@ public class PlayerAnimatorController : MonoBehaviour
             case (EntityMovement.Idle, EntityDirection.NorthEast):
             case (EntityMovement.Idle, EntityDirection.SouthEast):
             case (EntityMovement.Idle, EntityDirection.North):
-                skeletalBottom.Play("PlayerRunB_Right");
+                skeletalBottom.Play("PlayerIdleB");
                 break;
             case (EntityMovement.Idle, EntityDirection.West):
             case (EntityMovement.Idle, EntityDirection.NorthWest):
             case (EntityMovement.Idle, EntityDirection.SouthWest):
             case (EntityMovement.Idle, EntityDirection.South):
-                skeletalBottom.Play("PlayerRunB_Left");
+                skeletalBottom.Play("PlayerIdleB");
                 break;
 
             //Strafing
@@ -79,13 +79,13 @@ public class PlayerAnimatorController : MonoBehaviour
             case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthEast):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthEast):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.North):
-                skeletalTop.Play("PlayerRunT_Right");
+                skeletalTop.Play("PlayerIdleT");
                 break;
             case (EntityState.None, EntityMovement.Idle, EntityDirection.West):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthWest):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthWest):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.South):
-                skeletalTop.Play("PlayerRunT_Left");
+                skeletalTop.Play("PlayerIdleT");
                 break;
 
             //None | Strafing

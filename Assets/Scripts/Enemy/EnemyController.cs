@@ -184,28 +184,28 @@ public class EnemyController : MonoBehaviour
             tempDelay = timerDelay;
         }
 
-        //WindStyle - decreased damage, higher attack speed ()
-        else if (MenuScript.LastSelection == 1) //&& fireCharge.GetCurrentFireCharge() > 0) - change to windcharge
+        //EarthStyle. Basic attacks will be defaulted to EarthStyle - increased stun damage
+        else if (MenuScript.LastSelection == 0)
         {
-            float windDamage = damage * 0.8f;
-            currentHealth -= windDamage; //Rudimentary damage increase for now
+            float waterDamage = damage * 0.8f;
+            currentHealth -= waterDamage; //Rudimentary damage increase for now
 
             //Poise
             poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
+            currentPoise -= poise * 1.5f;
 
             //RegenPoise
             poiseDamaged = true;
             tempDelay = timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
-            Debug.Log("Using wind damage");
+            Debug.Log("Using earth damage");
         }
 
         //FireStyle - increased damage
-        else if(MenuScript.LastSelection == 2 && fireCharge.GetCurrentFireCharge() > 0)
+        else if (MenuScript.LastSelection == 1 && fireCharge.GetCurrentFireCharge() > 0)
         {
-            float fireDamage = damage * 1.5f; 
+            float fireDamage = damage * 1.5f;
             currentHealth -= fireDamage; //Rudimentary damage increase for now
 
             //Poise
@@ -221,7 +221,7 @@ public class EnemyController : MonoBehaviour
         }
 
         //WaterStyle - decreased damage, increased aoe (to be done in Combat.cs, see InitHitboxLeft())
-        else if (MenuScript.LastSelection == 4)
+        else if (MenuScript.LastSelection == 2)
         {
             float waterDamage = damage * 0.8f;
             currentHealth -= waterDamage; //Rudimentary damage increase for now
@@ -238,23 +238,29 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Using water damage");
         }
 
-        //EarthStyle wip because basic attacks will be defaulted to EarthStyle - increased stun damage
-        /*else if (MenuScript.LastSelection == ?)
+        //WindStyle - decreased damage, higher attack speed ()
+        else if (MenuScript.LastSelection == 3) //&& fireCharge.GetCurrentFireCharge() > 0) - change to windcharge
         {
-            float waterDamage = damage * 0.8f;
-            currentHealth -= waterDamage; //Rudimentary damage increase for now
+            float windDamage = damage * 0.8f;
+            currentHealth -= windDamage; //Rudimentary damage increase for now
 
             //Poise
             poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise * 1.5f;
+            currentPoise -= poise;
 
             //RegenPoise
             poiseDamaged = true;
             tempDelay = timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
-            Debug.Log("Using earth damage");
-        }*/
+            Debug.Log("Using wind damage");
+        }
+
+        
+
+        
+
+        
 
         else {
             currentHealth -= damage;

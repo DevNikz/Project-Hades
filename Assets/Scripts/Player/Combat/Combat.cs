@@ -336,9 +336,9 @@ public class Combat : MonoBehaviour
 
             //Note for future ref: Dmg and stun calc is done in EnemyController
 
-            case 1: //Wind
+            case 1: //Earth
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to wind eventually
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to earth(basic?) eventually
                 break;
             
             case 2: //Fire
@@ -346,14 +346,14 @@ public class Combat : MonoBehaviour
                 // EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.FireAttack);
                 break;
 
-            case 3: //Void (Earth?)
+            case 3: //Water
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to water
                 break;
 
-            case 4: //Water
+            case 4: //Wind
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to water eventually
+                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to wind eventually
                 break;
 
             default:
