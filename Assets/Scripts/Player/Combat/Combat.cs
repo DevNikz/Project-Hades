@@ -142,8 +142,17 @@ public class Combat : MonoBehaviour
     [SerializeField][Range(0, 100)] public int maxFireCharge;
     [SerializeField] private int currentFireCharge;
 
-    [Title("Fire Charge Decrement")]
-    [SerializeField][Range(0, 100)] public int fireChargeDecrement;
+    [SerializeField][Range(0, 100)] public int maxWaterCharge;
+    [SerializeField] private int currentWaterCharge;
+
+    [SerializeField][Range(0, 100)] public int maxEarthCharge;
+    [SerializeField] private int currentEarthCharge;
+
+    [SerializeField][Range(0, 100)] public int maxWindCharge;
+    [SerializeField] private int currentWindCharge;
+
+    [Title("Elemental Charge Decrement")]
+    [SerializeField][Range(0, 100)] public int elementChargeDecrement;
 
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
@@ -191,7 +200,7 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
-        EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateFireCharge);
+        EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementCharge);
     }
 
     void OnDisable() {
@@ -318,7 +327,6 @@ public class Combat : MonoBehaviour
     {
         int lastWeapon = MenuScript.LastSelection;
 
-
         switch (lastWeapon)
         {
             //Earth can't be loaded as of the moment.
@@ -338,7 +346,7 @@ public class Combat : MonoBehaviour
                 // EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.FireAttack);
                 break;
 
-            case 3: //Void
+            case 3: //Void (Earth?)
                 EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
                 EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
                 break;
@@ -446,7 +454,7 @@ public class Combat : MonoBehaviour
     //         InitHitBoxLeft();
     //         if (currentFireCharge > 0)
     //         {
-    //             currentFireCharge = currentFireCharge - fireChargeDecrement;
+    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
     //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     //         }
 
@@ -457,7 +465,7 @@ public class Combat : MonoBehaviour
     //         InitHitBoxLeft();
     //         if (currentFireCharge > 0)
     //         {
-    //             currentFireCharge = currentFireCharge - fireChargeDecrement;
+    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
     //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     //         }
 
@@ -471,7 +479,7 @@ public class Combat : MonoBehaviour
 
     //         if (currentFireCharge > 0)
     //         {
-    //             currentFireCharge = currentFireCharge - fireChargeDecrement;
+    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
 
     //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     //         }
@@ -792,19 +800,66 @@ public class Combat : MonoBehaviour
         this.playerSeen = param.GetBoolExtra(HIDDEN, false);
     }
 
-    void UpdateFireCharge(Parameters param)
+    void UpdateElementCharge(Parameters param)
     {
         bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
         if(enemyKilled) Debug.Log(enemyKilled);
-        
-        if (enemyKilled && (currentFireCharge < maxFireCharge) && detainPress)
+
+        int lastWeapon = MenuScript.LastSelection;
+
+        if (enemyKilled && detainPress)
         {
-            Debug.Log("Fire charge update!");
-            currentFireCharge += 20;
+            switch (lastWeapon)
+            {
+                case 1:
+                    if (currentWindCharge < maxWindCharge)
+                    {
+                        Debug.Log("Wind charge update!");
+                        currentWindCharge += 20;
+                    }
+                    break;
+                case 2:
+                    if (currentFireCharge < maxFireCharge)
+                    {
+                        Debug.Log("Fire charge update!");
+                        currentFireCharge += 20;
+                    }
+                    break;
+                case 3:
+                    if (currentEarthCharge < maxEarthCharge)
+                    {
+                        Debug.Log("Earth charge update!");
+                        currentEarthCharge += 20;
+                    }
+                    break;
+                case 4:
+                    if (currentWaterCharge < maxWaterCharge)
+                    {
+                        Debug.Log("Water charge update!");
+                        currentWaterCharge += 20;
+                    }
+                    break;
+            }
+                
         }
     }
 
     public int GetCurrentFireCharge()
+    {
+        return currentFireCharge;
+    }
+
+    public int GetCurrentWaterCharge()
+    {
+        return currentFireCharge;
+    }
+
+    public int GetCurrentEarthCharge()
+    {
+        return currentFireCharge;
+    }
+
+    public int GetCurrentWindCharge()
     {
         return currentFireCharge;
     }

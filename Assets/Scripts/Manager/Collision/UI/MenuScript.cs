@@ -60,7 +60,7 @@ public class MenuScript : MonoBehaviour
             currentAngle = Mathf.Atan2(normalisedMousePosition.y, normalisedMousePosition.x) * Mathf.Rad2Deg;
 
             currentAngle = (currentAngle + 360.0f) % 360;
-            selection = (int)(currentAngle / 72);
+            selection = (int)(currentAngle / 90); //changed from 72
 
             if (selection >= 0 && selection < menuItems.Length)
             {
