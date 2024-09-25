@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
+    [TitleGroup("Properties", "General Enemy Properties", TitleAlignments.Centered)]
+    [SerializeReference] private EnemyStatsScriptable enemyStats;
+
     [Title("Type")]
     [SerializeField] private EnemyType enemyType;
 
@@ -256,12 +259,6 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Using wind damage");
         }
 
-        
-
-        
-
-        
-
         else {
             currentHealth -= damage;
 
@@ -285,6 +282,10 @@ public class EnemyController : MonoBehaviour
 
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyDeath>().Die();
+            //Add Scrap if ded
+            if(ItemManager.Instance != null) {
+                ItemManager.Instance.PAddScrap(enemyStats.scrapCount);
+            }
         }
     }
 

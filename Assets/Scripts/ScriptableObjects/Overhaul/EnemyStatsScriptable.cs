@@ -30,6 +30,9 @@ public class EnemyStatsScriptable : ScriptableObject
     [InfoBox("Assign Loot when Killed", InfoMessageType.None)]
     [Required] public GameObject[] lootKilled;
 
+    [PropertySpace, InfoBox("Scrap Count when killed", InfoMessageType.None)]
+    [Required] [Range(1f, 10000f)] public int scrapCount = 1;
+
     [PropertySpace] [TitleGroup("References", "General References to Assets", alignment: TitleAlignments.Centered)]
     [AssetList(Path = "/Resources/Enemy/Animation")]
     [InfoBox("Assign Reference To Enemy Animation Clips", InfoMessageType.None)]

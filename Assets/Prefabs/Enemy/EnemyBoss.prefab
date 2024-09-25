@@ -1081,6 +1081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86f15eb2c300054d8f86cfe18544806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyStats: {fileID: 11400000, guid: 98b2dd77aa00be143ad141dc435f95c7, type: 2}
   enemyType: 1
   totalHealth: 100
   currentHealth: 0
@@ -6617,6 +6618,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotation: 45
   entityDirection: 4
-  entityState: 0
+  entityMovement: 0
   isHit: 0
   timer: 0.5
