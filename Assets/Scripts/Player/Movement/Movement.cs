@@ -3,92 +3,89 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
     
-    [PropertySpace] [Title("Movement")]
+    [PropertySpace] [TitleGroup("Properties", "General Movement Properties", TitleAlignments.Centered)]
     [AssetSelector]
     public PlayerStatsScriptable movement;
 
-    [Space] [Title("References")]
-    public bool ShowReference;
+    [HorizontalGroup("Properties/Group")]
+    [VerticalGroup("Properties/Group/Left")]
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public float currentSpeed;
 
-    [ShowIfGroup("ShowReference")]
-    [BoxGroup("ShowReference/References")]
-    [Tooltip("Set Rigidbody reference of the GameObject")]
-    [SerializeField] private Rigidbody rigidBody;
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference, HideLabel] private Vector3 currentSpeedDebug;
 
-    [BoxGroup("ShowReference/References")]
-    [Tooltip("Set Transform property reference of the GameObject")]
-    [SerializeField] private Transform model;
-
-    [BoxGroup("ShowReference/References")]
-    //[Tooltip("Set Transform property reference of the GameObject")]
-    [SerializeField] private PlayerAnimatorController animatorController;
-
-    [BoxGroup("ShowReference/References")]
-    //[Tooltip("Set Transform property reference of the GameObject")]
-    [SerializeField] private Combat combat;
-
-    //Effects
-    [Space] [Title("Experimental Effects")]
-    public bool ShowEffects;
     
-    [ShowIfGroup("ShowEffects")]
-    [BoxGroup("ShowEffects/Effects")]
-    [SerializeField] public ParticleSystem dust;
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private bool dashing;
 
-    [BoxGroup("ShowEffects/Effects")]
-    [SerializeField] private ParticleSystem dashParticle;
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private float dashCDTimer;
 
-    //Input References
-    [Space] [Title("Input")]
-    public bool ShowInput;
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference, HideLabel] private Vector3 delayedForce;
 
-    [ShowIfGroup("ShowInput")]
-    [BoxGroup("ShowInput/Input")]
-    [ReadOnly] [SerializeReference] private Vector3 moveInput;
-    [BoxGroup("ShowInput/Input")]
-    [ReadOnly] [SerializeReference] private float moveInput_normalized;
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference, HideLabel] private Vector3 isoInput;
 
-    [BoxGroup("ShowInput/Input")]
-    [ReadOnly] [SerializeReference] private bool dashInput;
+    [VerticalGroup("Properties/Group/Right")]
+    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public EntityMovement move;
 
-    [Space] [Title("Speed")]
-    public bool ShowSpeed;
-    [ShowIfGroup("ShowSpeed")]
-    [BoxGroup("ShowSpeed/Speed")]
-    [ReadOnly] public float currentSpeed;
+    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public EntityState state;
 
-    [BoxGroup("ShowSpeed/Speed")]
-    [ReadOnly] public Vector3 currentSpeedDebug;
+    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public EntityDirection direction;
 
-    [Space] [Title("Dash")]
-    public bool ShowDash;
-    
-    [ShowIfGroup("ShowDash")]
-    [BoxGroup("ShowDash/Dash")]
-    [ReadOnly] public bool dashing;
+    [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
+    [HorizontalGroup("References/Group")]
+    [VerticalGroup("References/Group/Left")]
+    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private Rigidbody rigidBody;
 
-    [BoxGroup("ShowDash/Dash")]
-    [ReadOnly] public float dashCDTimer;
+    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private Transform model;
 
-    [BoxGroup("ShowDash/Dash")]
-    [ReadOnly] public Vector3 delayedForce;
+    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private PlayerAnimatorController animatorController;
 
-    [BoxGroup("ShowDash/Dash")]
-    [ReadOnly] public Vector3 isoInput;
+    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private Combat combat;
 
-    //States
-    [Space] [Title("States")]
-    public bool ShowStates;
-    [ShowIfGroup("ShowStates")]
-    [BoxGroup("ShowStates/States")]
-    [SerializeReference] public EntityMovement move;
+    [VerticalGroup("References/Group/Right")]
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private ParticleSystem dust;
 
-    [BoxGroup("ShowStates/States")]
-    [SerializeReference] public EntityState state;
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private ParticleSystem dashParticle;
 
-    [BoxGroup("ShowStates/States")]
-    [SerializeReference] public EntityDirection direction;
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private Vector3 moveInput;
 
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference, HideLabel] private float moveInput_normalized;
+
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] private bool dashInput;
     //Broadcaster
     public const string KEY_MOVE = "KEY_MOVE";
     

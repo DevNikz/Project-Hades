@@ -12079,7 +12079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54c35de3fe980f45a01ba9a3590c96d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 0}
+  movement: {fileID: 11400000, guid: e1b5f80aa1502794db7b8a9ad521cf60, type: 2}
   ShowReference: 0
   rigidBody: {fileID: 2498595640253494118}
   model: {fileID: 8073765998928832489}
@@ -12092,7 +12092,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0, z: 0}
   moveInput_normalized: 0
   dashInput: 0
-  ShowSpeed: 1
+  ShowSpeed: 0
   currentSpeed: 0
   currentSpeedDebug: {x: 0, y: 0, z: 0}
   ShowDash: 0
@@ -12100,7 +12100,7 @@ MonoBehaviour:
   dashCDTimer: 0
   delayedForce: {x: 0, y: 0, z: 0}
   isoInput: {x: 0, y: 0, z: 0}
-  ShowStates: 1
+  ShowStates: 0
   move: 0
   state: 0
   direction: 8
@@ -12160,7 +12160,13 @@ MonoBehaviour:
   fireChargeText: {fileID: 0}
   maxFireCharge: 100
   currentFireCharge: 0
-  fireChargeDecrement: 10
+  maxWaterCharge: 0
+  currentWaterCharge: 0
+  maxEarthCharge: 0
+  currentEarthCharge: 0
+  maxWindCharge: 0
+  currentWindCharge: 0
+  elementChargeDecrement: 0
 --- !u!114 &3601372180678940627
 MonoBehaviour:
   m_ObjectHideFlags: 0
