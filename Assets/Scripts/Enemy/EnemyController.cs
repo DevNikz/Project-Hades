@@ -7,25 +7,51 @@ public class EnemyController : MonoBehaviour
     [TitleGroup("Properties", "General Enemy Properties", TitleAlignments.Centered)]
     [SerializeReference] private EnemyStatsScriptable enemyStats;
 
-    [Title("Type")]
-    [SerializeField] private EnemyType enemyType;
+    [HorizontalGroup("Properties/Group")]
+    [VerticalGroup("Properties/Group/Left")]
+    [BoxGroup("Properties/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private float currentHealth;
 
-    [Title("Health")]
-    [ReadOnly] [SerializeReference] private float totalHealth;
-    [ReadOnly] [SerializeReference] private float currentHealth;
+    [BoxGroup("Properties/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private float currentPoise;
 
-    [Title("Poise")]
-    [SerializeField] [Range(0.1f, 100f)] private float totalPoise;
-    [SerializeField] [Range(0.1f,1f)] private float poiseMultiplier;
-    [ReadOnly] [SerializeReference] private float currentPoise;
-    [ReadOnly] [SerializeReference] private bool poiseDamaged;
-    [ReadOnly] [SerializeReference] private bool staggered;
+    [BoxGroup("Properties/Group/Left/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private float currentTimer;
+
+    [VerticalGroup("Properties/Group/Right")]
+    [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private bool poiseDamaged;
+
+    [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private bool staggered;
+
+    [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private TimerState timerState;
+
+    // [Title("Type")]
+    // [SerializeField] private EnemyType enemyType;
+
+    // [Title("Health")]
+    // [ReadOnly] [SerializeReference] private float currentHealth;
+
+    // [Title("Poise")]
+    // [SerializeField] [Range(0.1f, 100f)] private float totalPoise;
+    // [SerializeField] [Range(0.1f,1f)] private float poiseMultiplier;
+    // [ReadOnly] [SerializeReference] private float currentPoise;
+    // [ReadOnly] [SerializeReference] private bool poiseDamaged;
+    // [ReadOnly] [SerializeReference] private bool staggered;
     
 
-    [Title("Timer")]
-    [SerializeField] [Range(0.1f, 5f)] private float timerDelay;
-    [ReadOnly] [SerializeReference] private float tempDelay;
-    [ReadOnly] [SerializeReference] private TimerState timerState;
+    // [Title("Timer")]
+    // [SerializeField] [Range(0.1f, 5f)] private float timerDelay;
+    // [ReadOnly] [SerializeReference] private float tempDelay;
+    // [ReadOnly] [SerializeReference] private TimerState timerState;
 
     //Ref
     [Title("References")]
@@ -74,18 +100,18 @@ public class EnemyController : MonoBehaviour
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         sprite = transform.Find("SpriteContainer").gameObject;
         spawnPoint = this.transform.position;
-        currentPoise = totalPoise;
+        currentPoise = enemyStats.maxPoise;
 
-        if(enemyType == EnemyType.Normal) {
-            totalHealth = 100;
-            SetHealth();
-        }
-        else {
-            totalHealth = 300;
-            SetHealthBoss();
-        }
+        // if(enemyType == EnemyType.Normal) {
+        //     totalHealth = 100;
+        //     SetHealth();
+        // }
+        // else {
+        //     totalHealth = 300;
+        //     SetHealthBoss();
+        // }
 
-        currentHealth = totalHealth;
+        currentHealth = enemyStats.maxHP;
     }
 
     void SetHealth() {
@@ -122,15 +148,15 @@ public class EnemyController : MonoBehaviour
 
     void RegenPoise() {
         if(poiseDamaged && !staggered) {
-            tempDelay -= Time.deltaTime;
-            if(tempDelay <= 0) {
+            currentTimer -= Time.deltaTime;
+            if(currentTimer <= 0) {
                 timerState = TimerState.Stop;
             }
         }
 
         if(staggered) {
-            tempDelay -= Time.deltaTime;
-            if(tempDelay <= 0) {
+            currentTimer -= Time.deltaTime;
+            if(currentTimer <= 0) {
                 staggered = false;
                 timerState = TimerState.Stop;
             }
@@ -154,13 +180,13 @@ public class EnemyController : MonoBehaviour
     }
 
     public void RevertPoise() {
-        currentPoise = totalPoise;
+        currentPoise = enemyStats.maxPoise;
         //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
     }
 
     public void RevertHealth() {
-        currentHealth = totalHealth;
-        if(enemyType == EnemyType.Normal) healthMeter.value = 1;
+        currentHealth = enemyStats.maxHP;
+        if(enemyStats.enemyType == EnemyType.Normal) healthMeter.value = 1;
         else {
             bossMeter1.value = 1;
             bossMeter2.value = 1;
@@ -184,7 +210,7 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = false;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
         }
 
         //EarthStyle. Basic attacks will be defaulted to EarthStyle - increased stun damage
@@ -199,7 +225,7 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = true;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
             Debug.Log("Using earth damage");
@@ -217,7 +243,7 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = true;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
             Debug.Log("Using fire damage");
@@ -235,7 +261,7 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = true;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
             Debug.Log("Using water damage");
@@ -253,7 +279,7 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = true;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
             Debug.Log("Using wind damage");
@@ -268,12 +294,12 @@ public class EnemyController : MonoBehaviour
 
             //RegenPoise
             poiseDamaged = true;
-            tempDelay = timerDelay;
+            currentTimer = enemyStats.timerDelay;
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
         }
 
         //UI
-        switch(enemyType) {
+        switch(enemyStats.enemyType) {
             case EnemyType.Normal: UpdateNormalHP();
                 break;
             case EnemyType.Boss: UpdateBossHP();
@@ -313,6 +339,6 @@ public class EnemyController : MonoBehaviour
     }
 
     float CalculatePoiseDamage(float poise) {
-        return poise * poiseMultiplier;
+        return poise * enemyStats.stunResist;
     }
 }

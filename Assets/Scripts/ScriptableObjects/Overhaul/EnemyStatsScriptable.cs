@@ -12,6 +12,9 @@ public class EnemyStatsScriptable : ScriptableObject
     [PropertySpace] [InfoBox("Enemy Max HP (Default = 100)", InfoMessageType.None)]
     [Required] [Range(0f, 10000f)] public float maxHP = 100f;
 
+    [PropertySpace] [InfoBox("Enemy Max Poise (Default = 100)", InfoMessageType.None)]
+    [Required] [Range(0f, 10000f)] public float maxPoise = 100f;
+
     [PropertySpace] [InfoBox("Stun Resist (Default = 1)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float stunResist = 1f;
 
@@ -20,6 +23,10 @@ public class EnemyStatsScriptable : ScriptableObject
     
     [PropertySpace] [InfoBox("Movement Speed (Default = 10)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float moveSpeed = 10f;
+
+    [PropertySpace] [TitleGroup("Timer Properties", "Enemy Timer Properties", alignment: TitleAlignments.Centered)]
+    [InfoBox("Timer Delay", InfoMessageType.None)]
+    [Required] [Range(0f, 100f)] public float timerDelay = 2f;
 
     [PropertySpace] [TitleGroup("Loot Properties", "Enemy Loot Drops!", alignment: TitleAlignments.Centered)]
     [AssetList(Path = "/Resources/Items")]
