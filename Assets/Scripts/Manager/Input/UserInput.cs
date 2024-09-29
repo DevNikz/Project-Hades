@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,12 +42,8 @@ public class UserInput : MonoBehaviour
     private InputAction _LeftClick;
     private InputAction _RightClick;
     private InputAction _MousePosition;
-    private InputAction _RStickX;
-    private InputAction _RStickY;
     private InputAction _Detain;
 
-    public float RStickX { get; private set; }
-    public float RStickY { get; private set; }
     public Vector3 RStickInput { get; private set; }
 
     private InputAction _Rotate;
@@ -76,7 +73,6 @@ public class UserInput : MonoBehaviour
         _RightClick = _playerInput.actions["RightClick"];
         _MousePosition = _playerInput.actions["MousePosition"];
         _Detain = _playerInput.actions["Detain"];
-
         _Rotate = _playerInput.actions["Rotate"];
     }
 
@@ -122,7 +118,7 @@ public class UserInput : MonoBehaviour
         //Broadcaster.Instance.AddBoolParam(PointerTest.RIGHT_CLICK_PRESS, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
         //Broadcaster.Instance.AddBoolParam(Movement.RIGHT_CLICK, EventNames.MouseInput.RIGHT_CLICK_PRESS, rightclickPress);
 
-        Broadcaster.Instance.AddVectorParam(Combat.RSTICK, EventNames.GamepadInput.RIGHT_STICK_INPUT, RStickInput);
+        //Broadcaster.Instance.AddVectorParam(Combat.RSTICK, EventNames.GamepadInput.RIGHT_STICK_INPUT, RStickInput);
 
         //Detain
         Broadcaster.Instance.AddBoolParam(Combat.DETAIN, EventNames.KeyboardInput.DETAIN_PRESS, DetainInput);

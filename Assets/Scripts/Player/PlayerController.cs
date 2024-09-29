@@ -11,6 +11,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
 
     [Title("Health")]
     [Range(0.1f,1000f)] public float totalHealth;
@@ -28,6 +29,13 @@ public class PlayerController : MonoBehaviour
     [ReadOnly] [SerializeReference] private float tempDelay;
     [ReadOnly] [SerializeReference] private TimerState timerState;
 
+    [Title("State")]
+    [SerializeReference] public bool isPerformingAction = true;
+    public bool returnAction() { return isPerformingAction; }
+
+    [SerializeReference] public EntityState entityState;
+    public EntityState currentPlayerState() { return entityState; }
+
     //Ref
     [Title("References")]
     public bool ShowReferences;
@@ -41,14 +49,18 @@ public class PlayerController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Slider healthMeter;
 
-    // [BoxGroup("ShowReferences/Reference")]
-    // [SerializeReference] private GameObject sprite;
-
     [BoxGroup("ShowReferences/Reference")]
     [ReadOnly] [SerializeReference] private Vector3 spawnPoint;
 
 
     void Awake() {
+        if(Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+
+
         healthUI = GameObject.Find("PlayerHealth");
         healthMeter = healthUI.GetComponent<Slider>();
         currentPoise = totalPoise;
@@ -61,16 +73,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update(){
-        UpdateAnimation();
         UpdateHealth();
     }
 
-    void UpdateAnimation() {
-
-    }
-
     void UpdateHealth() {
-        if(PlayerData.isDead == true) {
+        if(entityState == EntityState.Dead) {
             this.gameObject.tag = "Player(Dead)";
             if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
             if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
@@ -107,14 +114,6 @@ public class PlayerController : MonoBehaviour
         }
         else {
             currentHealth -= damage;
-
-            /*
-            poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
-
-            poiseDamaged = true;
-            tempDelay = timerDelay;
-            */
         }
 
         healthMeter.value = ToPercent(currentHealth, totalHealth);

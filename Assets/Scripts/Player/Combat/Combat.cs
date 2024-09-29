@@ -1,16 +1,23 @@
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Layouts;
 using UnityEngine.UI;
 
 public class Combat : MonoBehaviour
 {
     //Basic Attack (Left Click)
-    [PropertySpace] [Title("Basic Attack")]
+    [PropertySpace] [TitleGroup("Basic Attack")]
     [AssetSelector]
     public PlayerAttackScriptable combat;
+
+    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [ReadOnly, SerializeReference] private float lastClickedTime;
+    
+    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [ReadOnly, SerializeReference] private float lastComboEnd;
+
+    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [ReadOnly, SerializeReference] private float comboCounter;
     
     //Alternate Attack(Right Click)
     [Space] [Title("Alternate Attack")]
@@ -28,7 +35,10 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeField] private TimerState timerFlickState;
 
     [BoxGroup("ShowTimer/TimerSettings")]
-    [ReadOnly] public float temptime;
+    [Range(0.1f, 10f)] public float comboTimer = 1;
+
+    [BoxGroup("ShowTimer/TimerSettings")]
+    [ReadOnly] public float tempTimer;
 
     [BoxGroup("ShowTimer/TimerSettings")]
     [ReadOnly] public float detainTimer;
@@ -56,8 +66,6 @@ public class Combat : MonoBehaviour
     public bool BasicAttack;
 
     [ShowIfGroup("BasicAttack")]
-    [BoxGroup("BasicAttack/BasicAttack")]
-    [ReadOnly] public int counter = 0;
 
     [BoxGroup("BasicAttack/BasicAttack")]
     [ReadOnly] public bool leftClick;
@@ -88,7 +96,7 @@ public class Combat : MonoBehaviour
     [ShowIfGroup("Reference")]
 
     [BoxGroup("Reference/References")]
-    [ReadOnly] public GameObject hitboxLeft;
+    [ReadOnly] public GameObject hitBoxBasic;
 
     [BoxGroup("Reference/References")]
     [ReadOnly] public GameObject hitboxLunge;
@@ -136,6 +144,12 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected EntityDirection entityDir;
 
     [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected EntityState deltaState;
+
+    [BoxGroup("Reference/References")]
+    [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
+
+    [BoxGroup("Reference/References")]
     [SerializeField] public TextMeshProUGUI fireChargeText;
 
     [Title("Elemental Charges")]
@@ -157,7 +171,6 @@ public class Combat : MonoBehaviour
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
-    public const string RSTICK = "RSTICK";
     public const string DETAIN = "DETAIN";
     public const string HIDDEN = "HIDDEN";
     public const string ENEMY_KILLED = "ENEMY_KILLED";
@@ -173,10 +186,11 @@ public class Combat : MonoBehaviour
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
 
-        hitboxLeft = pointerUI.transform.Find("Melee").gameObject;
+        //Rather than finding it in scene, reference it in the scriptables
+        hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
         hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
         hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
-        hitboxLeft.SetActive(false);
+        hitBoxBasic.SetActive(false);
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
 
@@ -187,17 +201,16 @@ public class Combat : MonoBehaviour
     }
 
     void OnEnable() {
-        hitboxLeft.SetActive(false);
+        hitBoxBasic.SetActive(false);
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
-        temptime = 0;
-        counter = 0;
+        tempTimer = 0;
+        comboCounter = 0;
         detainTimer = 0;
         Debug.Log("Combat Enabled!");
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
-        EventBroadcaster.Instance.AddObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT, this.toIsoRotation_Gamepad);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementCharge);
@@ -205,7 +218,6 @@ public class Combat : MonoBehaviour
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-        EventBroadcaster.Instance.RemoveObserver(EventNames.GamepadInput.RIGHT_STICK_INPUT);
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.DETAIN_PRESS);
         EventBroadcaster.Instance.RemoveObserver(EventNames.Combat.PLAYER_SEEN);
         EventBroadcaster.Instance.RemoveObserver(EventNames.Combat.ENEMY_KILLED);
@@ -213,10 +225,11 @@ public class Combat : MonoBehaviour
 
     void Update() {
         UpdatePointer();
-        UpdateTimer();
+        //UpdateTimer();
         UpdateAttackDirection();
         SwitchWeapon();
         UpdateUI();
+        ExitAttack();
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
@@ -237,6 +250,7 @@ public class Combat : MonoBehaviour
     }
 
     public void UpdateStates(EntityMovement move, EntityDirection dir, EntityState state = EntityState.None) {
+        //Retrieves states from movement
         entityMovement = move;
         entityDir = dir;
         entityState = state;
@@ -253,7 +267,7 @@ public class Combat : MonoBehaviour
     }
 
     void UpdateAnimation() {
-        temptime = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        //comboTimer = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
         //Right
         // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
         //     counter = 0;
@@ -365,57 +379,55 @@ public class Combat : MonoBehaviour
         }
     }
 
+    void ExitAttack() {
+
+    }
+
+    void EndCombo() {
+        comboCounter = 0;
+        lastComboEnd = Time.time;
+    }
+
     //Basic Attack
     void BasicAttackState(Parameters parameters) {
+        //Gonna do queued inputs instead lol
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
 
-            if(leftClick && IsMouseOverGameWindow) {
-                //PlayerData.isAttacking = true;
-                // entityState = PlayerData.entityState;
-                // entityDir = PlayerData.entityDirection;
-                entityState = EntityState.Attack;
+        if(leftClick && IsMouseOverGameWindow) {
+            if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
+                CancelInvoke("EndCombo");
+                if(Time.time - lastClickedTime >= 0.2f) {
 
-                timerState = TimerState.Start;
-                counter++;
+                    deltaState = entityState;
+                    deltaDir = entityDir;
 
-                tempDirection = attackDirection;
+                    entityState = EntityState.Attack;
+                    
+                    comboCounter++;
+                    lastClickedTime = Time.time;
+
+
+                    if(comboCounter == 1) {
+                        Debug.Log("Combo 1!");
+                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
+                    }
+
+                    else if(comboCounter == 2) {
+                        Debug.Log("Combo 2!");
+                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
+                    }
+                    
+                    else if(comboCounter == 3) {
+                        Debug.Log("Combo 3!");
+                        InitHitBox(hitBoxBasic, new Vector3(2.615041f, 5.071505f, 1.2f), "PlayerMelee");
+                        comboCounter = 0;
+                    }
+                    
+
+                    tempDirection = attackDirection;
+                }
             }
-            // else {
-            //     if(leftClick) {
-            //         PlayerData.isAttacking = true;
-
-            //         deltaState = PlayerData.entityState;
-            //         deltaDir = PlayerData.entityDirection;
-
-            //         timerState = TimerState.Start;
-            //         counter++;
-
-            //         tempDirection = attackDirection;
-            //     }
-            // }
-
-            if(leftClick && counter == 1) {
-                Debug.Log("Combo 1!");
-                InitHitBoxLeft();
-            }
-
-            if(leftClick && counter == 2) {
-                Debug.Log("Combo 2!");
-                InitHitBoxLeft();
-            }
-            
-            if(leftClick && counter == 3) {
-                Debug.Log("Combo 3!");
-                // tempPosition = GetTempPosition();
-                // tempVect = GetTempVector();
-                // InitHitBoxLunge();
-            }
-
-            counter = Mathf.Clamp(counter, 0, 3);
-
-            // SwitchAnimation();
-            // UpdateLunge();
-
+        }
     }
 
     // void FireAttack(Parameters parameters)
@@ -509,11 +521,11 @@ public class Combat : MonoBehaviour
                     // deltaDir = PlayerData.entityDirection;
                     
                 timerState = TimerState.Start;
-                counter = 1;
+                comboCounter = 1;
 
                 tempDirection = attackDirection;
 
-                InitHitBoxDetain();
+                InitHitBox(hitboxDetain, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
             }
 
             else
@@ -527,7 +539,7 @@ public class Combat : MonoBehaviour
             Debug.Log("Cannot Detain: Player is visible to enemies!");
         }
 
-        counter = Mathf.Clamp(counter, 0, 3);
+        comboCounter = Mathf.Clamp(comboCounter, 0, 3);
 
         // SwitchAnimation();
         // UpdateLunge();
@@ -652,12 +664,21 @@ public class Combat : MonoBehaviour
         return tempVector;
     }
 
-    void InitHitBoxLeft() {
-        hitboxLeft_Temp = Instantiate(hitboxLeft, hitboxLeft.transform.position, pointerUI.transform.rotation);
-        hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
-        hitboxLeft_Temp.tag = "PlayerMelee";
+    //THIS NEEDS UPDATING! Will definitely make one function for calling all kinds of hitbox
+    void InitHitBox(GameObject hitBoxRef, Vector3 scale, string attackTag) {
+        //Instantiate hitbox from selected attack type
+        hitboxLeft_Temp = Instantiate(hitBoxRef, hitBoxRef.transform.position, pointerUI.transform.rotation);
+
+        //To Fix scaling
+        hitboxLeft_Temp.transform.localScale = scale;
+
+        //Init tag based on attack type (i.e. PlayerMelee, etc)
+        hitboxLeft_Temp.tag = attackTag;
+
+        //Start Timer for hitbox (To mimic ticks)
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
         
+        //Set Pos of hitbox
         if(tempDirection == AttackDirection.Right) {
             hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
         }
@@ -666,33 +687,8 @@ public class Combat : MonoBehaviour
             hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
         }
 
+        //Activate it 
         hitboxLeft_Temp.SetActive(true);
-    }
-
-    void InitHitBoxLunge() {
-        hitboxLunge_Temp = Instantiate(hitboxLunge, hitboxLunge.transform.position, pointerUI.transform.rotation);
-        hitboxLunge_Temp.transform.localScale = new Vector3(2.615041f, 5.071505f, 1.2f);
-        hitboxLunge_Temp.tag = "PlayerMelee";
-    }
-
-    void InitHitBoxDetain()
-    {
-        hitboxDetain_Temp = Instantiate(hitboxDetain, hitboxDetain.transform.position, pointerUI.transform.rotation);
-        hitboxDetain_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f);
-        hitboxDetain_Temp.tag = "PlayerMelee";
-        hitboxDetain_Temp.GetComponent<MeleeController>().StartTimer();
-
-        if (tempDirection == AttackDirection.Right)
-        {
-            hitboxDetain_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
-        }
-
-        else
-        {
-            hitboxDetain_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
-        }
-
-        hitboxDetain_Temp.SetActive(true);
     }
 
     // void LungePlayer() {
@@ -737,24 +733,26 @@ public class Combat : MonoBehaviour
     // }
 
     void UpdateTimer() {
-        if(timerState == TimerState.Start) {
-            //attackUISlider.value = temptime;
-            // PlayerData.isAttacking = true;
-            //PlayerData.entityState = EntityState.BasicAttack;
+
+        if(tempTimer <= 0) {
+            timerState = TimerState.Stop;
         }
-        if(timerState == TimerState.Stop) {
-            attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
-            attackUISlider.value = 0;
+
+        if(timerState == TimerState.Start) {
+            tempTimer -= Time.fixedDeltaTime;
+        }
+
+        else if(timerState == TimerState.Stop) {
+            comboCounter = 0;
+            tempTimer = comboTimer;
 
             //Set States
             timerState = TimerState.None;
         }
 
-        if(timerState == TimerState.None) {
-            entityState = EntityState.None;
-            // PlayerData.isAttacking = false;
-            // PlayerData.entityDirection = deltaDir;
-            // PlayerData.entityState = deltaState;
+        else if(timerState == TimerState.None) {
+            entityState = deltaState;
+            entityDir = deltaDir;
         }
 
         //Hijacked for Detain Cooldown :)
@@ -777,14 +775,14 @@ public class Combat : MonoBehaviour
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
     }
 
-    void toIsoRotation_Gamepad(Parameters parameters)
-    {
-        RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
-        if(RStickInput != Vector3.zero) {
-            tempVector = new Vector3(RStickInput.x, 0f, RStickInput.z); 
-            angle = Mathf.Atan2(tempVector.z, tempVector.x) * Mathf.Rad2Deg; 
-        }
-    }
+    // void toIsoRotation_Gamepad(Parameters parameters)
+    // {
+    //     RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
+    //     if(RStickInput != Vector3.zero) {
+    //         tempVector = new Vector3(RStickInput.x, 0f, RStickInput.z); 
+    //         angle = Mathf.Atan2(tempVector.z, tempVector.x) * Mathf.Rad2Deg; 
+    //     }
+    // }
 
     bool IsMouseOverGameWindow
     {

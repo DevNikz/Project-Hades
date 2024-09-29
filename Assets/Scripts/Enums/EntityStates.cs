@@ -7,6 +7,7 @@ public enum EntityMovement {
 
 public enum EntityState {
     None,
+    Dead,
     Attack,
 }
 

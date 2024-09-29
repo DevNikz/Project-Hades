@@ -45,13 +45,13 @@ public class PlayerAnimatorController : MonoBehaviour
             case (EntityMovement.Idle, EntityDirection.NorthEast):
             case (EntityMovement.Idle, EntityDirection.SouthEast):
             case (EntityMovement.Idle, EntityDirection.North):
-                skeletalBottom.Play("PlayerIdleB");
+                skeletalBottom.Play("PlayerIdleB_Right");
                 break;
             case (EntityMovement.Idle, EntityDirection.West):
             case (EntityMovement.Idle, EntityDirection.NorthWest):
             case (EntityMovement.Idle, EntityDirection.SouthWest):
             case (EntityMovement.Idle, EntityDirection.South):
-                skeletalBottom.Play("PlayerIdleB");
+                skeletalBottom.Play("PlayerIdleB_Left");
                 break;
 
             //Strafing
@@ -79,13 +79,13 @@ public class PlayerAnimatorController : MonoBehaviour
             case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthEast):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthEast):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.North):
-                skeletalTop.Play("PlayerIdleT");
+                skeletalTop.Play("PlayerIdleT_Right");
                 break;
             case (EntityState.None, EntityMovement.Idle, EntityDirection.West):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthWest):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthWest):
             case (EntityState.None, EntityMovement.Idle, EntityDirection.South):
-                skeletalTop.Play("PlayerIdleT");
+                skeletalTop.Play("PlayerIdleT_Left");
                 break;
 
             //None | Strafing
@@ -102,7 +102,7 @@ public class PlayerAnimatorController : MonoBehaviour
                 skeletalTop.Play("PlayerRunT_Left");
                 break;
 
-            //Attack | Idle
+            //Attack | Idle (Too many types | I'll update it later lol)
             case (EntityState.Attack, EntityMovement.Idle, EntityDirection.East):
             case (EntityState.Attack, EntityMovement.Idle, EntityDirection.NorthEast):
             case (EntityState.Attack, EntityMovement.Idle, EntityDirection.SouthEast):

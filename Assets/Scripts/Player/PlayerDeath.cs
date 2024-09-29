@@ -38,7 +38,7 @@ public class PlayerDeath : MonoBehaviour
         pointerSprite = transform.Find("Pointer").gameObject;
         pointerSprite.SetActive(false);
     
-        PlayerData.isDead = true;
+        PlayerController.Instance.entityState = EntityState.Dead;
         tempTimer = timer;
         timerState = TimerState.Start;
         
