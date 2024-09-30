@@ -157,7 +157,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: c8b302be61195d044807d5f77387539b, type: 3}
+  - {fileID: 2100000, guid: c00f03415b079df449da353a21c7d774, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.2, y: 5.4}
+  m_Size: {x: 24.75, y: 24.75}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -6710,7 +6710,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: c8b302be61195d044807d5f77387539b, type: 3}
+  - {fileID: -876546973899608171, guid: df679881f5fc0984f8a81a2c63468599, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12117,29 +12117,17 @@ MonoBehaviour:
   lastComboEnd: 0
   comboCounter: 0
   rightClick: 0
-  ShowTimer: 1
   timerState: 0
   timerFlickState: 0
   comboTimer: 1
   tempTimer: 0
   detainTimer: 0
   detainCooldown: 0
-  ShowDebug: 0
   tempPosition: {x: 0, y: 0, z: 0}
   tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
   tempPos: {x: 0, y: 0, z: 0}
-  BasicAttack: 1
-  leftClick: 0
-  RStickInput: {x: 0, y: 0, z: 0}
-  detainPress: 0
-  playerSeen: 0
-  Pointer: 0
-  tempVector: {x: 0, y: 0, z: 0}
-  angle: 0
-  rot: {x: 0, y: 0, z: 0, w: 0}
-  rotX: 0
-  Reference: 0
+  animatorController: {fileID: 0}
   hitBoxBasic: {fileID: 0}
   hitboxLunge: {fileID: 0}
   hitboxLeft_Temp: {fileID: 0}
@@ -12153,12 +12141,20 @@ MonoBehaviour:
   skeletalTop: {fileID: 0}
   attackDirection: 0
   tempDirection: 0
-  entityMovement: 0
+  entityMovement: 2
   entityState: 0
   entityDir: 0
   deltaState: 0
   deltaDir: 0
   fireChargeText: {fileID: 0}
+  leftClick: 0
+  RStickInput: {x: 0, y: 0, z: 0}
+  detainPress: 0
+  playerSeen: 0
+  tempVector: {x: 0, y: 0, z: 0}
+  angle: 0
+  rot: {x: 0, y: 0, z: 0, w: 0}
+  rotX: 0
   maxFireCharge: 100
   currentFireCharge: 0
   maxWaterCharge: 0
@@ -12183,7 +12179,7 @@ MonoBehaviour:
   ShowReferences: 1
   skeletalTop: {fileID: 0}
   skeletalBottom: {fileID: 0}
-  entityMovement: 0
+  entityMovement: 2
   entityState: 0
   entityDirection: 0
 --- !u!114 &7191996246000666657

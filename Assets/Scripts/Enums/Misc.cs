@@ -14,3 +14,11 @@ public enum AugmentType {
     AGGRO,
     STEEL
 }
+
+public enum Elements {
+    None,
+    Earth,
+    Fire,
+    Water,
+    Wind
+}

@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour {
     [VerticalGroup("Properties/Group/Right")]
     [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
     [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public EntityMovement move;
+    [ReadOnly, SerializeReference] public EntityMovement move = EntityMovement.Idle;
 
     [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
     [LabelWidth(125)]
@@ -124,17 +124,11 @@ public class Movement : MonoBehaviour {
         CheckMove();
         CheckDash();
 
-        UpdateAnimation();
+        animatorController.SetMovement(move);
+        animatorController.SetDirection(direction);
 
         //Init Dash Funcs
         Cooldown();
-    }
-
-    void UpdateAnimation() {
-        combat.UpdateStates(move, direction);
-        animatorController.UpdateStates(move, direction);
-        animatorController.SetAnimBottom(move, direction);
-        animatorController.SetAnimTop(move, direction);
     }
 
     private void moveEvent(Parameters parameters) {

@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.Android.Gradle;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class Combat : MonoBehaviour
     [ReadOnly, SerializeReference] private float lastComboEnd;
 
     [BoxGroup("Properties/Box", ShowLabel = false)]
-    [ReadOnly, SerializeReference] private float comboCounter;
+    [ReadOnly, SerializeReference] private int comboCounter;
     
     //Alternate Attack(Right Click)
     [BoxGroup("Properties/Box", ShowLabel = false)]
@@ -56,6 +57,9 @@ public class Combat : MonoBehaviour
 
     [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public Vector3 tempPos;
+
+    [BoxGroup("References/Ref", ShowLabel = false)]
+    [ReadOnly] public PlayerAnimatorController animatorController;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitBoxBasic;
@@ -97,7 +101,7 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected AttackDirection tempDirection;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] [SerializeReference] protected EntityMovement entityMovement;
+    [ReadOnly] [SerializeReference] protected EntityMovement entityMovement = EntityMovement.Idle;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityState entityState;
@@ -171,6 +175,7 @@ public class Combat : MonoBehaviour
 
     void Awake() {
         //Reference
+        animatorController = this.GetComponent<PlayerAnimatorController>();
         combat = Resources.Load<PlayerAttackScriptable>("Player/Combat/PlayerAttack");
         pointerUI = transform.Find("Pointer").gameObject;
         attackUI = transform.Find("AttackUI").gameObject;
@@ -219,11 +224,12 @@ public class Combat : MonoBehaviour
 
     void Update() {
         UpdatePointer();
-        //UpdateTimer();
+        UpdateTimer();
         UpdateAttackDirection();
         SwitchWeapon();
         UpdateUI();
-        ExitAttack();
+
+        animatorController.SetState(entityState);
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
@@ -235,19 +241,11 @@ public class Combat : MonoBehaviour
         // else if (PlayerData.isAttacking && MenuScript.LastSelection == 2)
         // {
         //     UpdateFireAnimation();
-
         // }
         else if (entityState == EntityState.Attack)
         {
             UpdateAnimation();
         }
-    }
-
-    public void UpdateStates(EntityMovement move, EntityDirection dir, EntityState state = EntityState.None) {
-        //Retrieves states from movement
-        entityMovement = move;
-        entityDir = dir;
-        entityState = state;
     }
 
     void UpdateUI() {
@@ -261,35 +259,27 @@ public class Combat : MonoBehaviour
     }
 
     void UpdateAnimation() {
-        //comboTimer = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
         //Right
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+            EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+            EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_3")) {
+            EndCombo();
+        }
 
-
-        // // //Left
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
-        // if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("")) {
-        //     counter = 0;
-        //     timerState = TimerState.Stop;
-        // }
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+            EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+            EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
+            EndCombo();
+        }
     }
 
     // void UpdateFireAnimation()
@@ -373,13 +363,11 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void ExitAttack() {
-
-    }
-
     void EndCombo() {
+        Debug.Log("Combo End");
         comboCounter = 0;
         lastComboEnd = Time.time;
+        entityState = EntityState.None;
     }
 
     //Basic Attack
@@ -388,8 +376,8 @@ public class Combat : MonoBehaviour
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
 
         if(leftClick && IsMouseOverGameWindow) {
+            tempDirection = attackDirection;
             if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
-                CancelInvoke("EndCombo");
                 if(Time.time - lastClickedTime >= 0.2f) {
 
                     deltaState = entityState;
@@ -400,6 +388,9 @@ public class Combat : MonoBehaviour
                     comboCounter++;
                     lastClickedTime = Time.time;
 
+                    if (comboCounter > 3) {
+                        comboCounter = 1;
+                    }
 
                     if(comboCounter == 1) {
                         Debug.Log("Combo 1!");
@@ -414,14 +405,12 @@ public class Combat : MonoBehaviour
                     else if(comboCounter == 3) {
                         Debug.Log("Combo 3!");
                         InitHitBox(hitBoxBasic, new Vector3(2.615041f, 5.071505f, 1.2f), "PlayerMelee");
-                        comboCounter = 0;
                     }
-                    
-
-                    tempDirection = attackDirection;
                 }
             }
         }
+
+        SwitchAnimation();
     }
 
     // void FireAttack(Parameters parameters)
@@ -539,47 +528,37 @@ public class Combat : MonoBehaviour
         // UpdateLunge();
     }
 
-    // void SwitchAnimation() {
-    //     //1st Move
-    //     //The other conditions are for the unanimated aspects. They're just here to prevent some jank while doing the demo.
-    //     if(counter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
-    //         if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR1_New");
-    //         else attackAnimator.Play("BasicAtkL1_New");
+    void SwitchAnimation() {
+        //1st Move
+        //The other conditions are for the unanimated aspects. They're just here to prevent some jank while doing the demo.
+        if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_1");
+            else skeletalTop.Play("Earth_T_L_1");
+        }
 
-    //     }
+        //2nd Move
+        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
+            else skeletalTop.Play("Earth_T_L_2");
+        }
 
-    //     //2nd Move
-    //     if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR1_New")) {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-    //         if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR2_New");
-    //         else attackAnimator.Play("BasicAtkL2_New");
-    //     }
-
-    //     if(counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL1_New")) {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-    //         if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR2_New");
-    //         else attackAnimator.Play("BasicAtkL2_New");
+        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
+            else skeletalTop.Play("Earth_T_L_2");
             
-    //     }
+        }
 
-    //     //3rd Move
-    //     if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR2_New")) {
-    //         tempflicktime = combat.flicktime;
-    //         timerFlickState = TimerState.Start;
+        //3rd Move
+        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
+            else skeletalTop.Play("Earth_T_L_3");
+        }
 
-    //         if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR3_New");
-    //         else attackAnimator.Play("BasicAtkL3_New");
-    //     }
-
-    //     if(counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL2_New")) {
-    //         tempflicktime = combat.flicktime;
-    //         timerFlickState = TimerState.Start;
-
-    //         if(tempDirection == AttackDirection.Right) attackAnimator.Play("BasicAtkR3_New");
-    //         else attackAnimator.Play("BasicAtkL3_New");
-    //     }
-    // }
+        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
+            else skeletalTop.Play("Earth_T_L_3");
+        }
+    }
 
     // void SwitchFireAnimation()
     // {
@@ -628,36 +607,6 @@ public class Combat : MonoBehaviour
     //     }
     // }
 
-    // void UpdateLunge() {
-    //     //3rd Move
-    //     if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkR3_New")||attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR3"))) {
-    //         if(hitboxLunge_Temp != null) {
-    //             hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
-    //             hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
-    //             hitboxLunge_Temp.SetActive(true);
-    //         }
-            
-    //         LungePlayerAlt();
-    //     }
-
-    //     if(attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.6f && (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("BasicAtkL3_New")| attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL3"))) {
-    //         if(hitboxLunge_Temp != null) {
-    //             hitboxLunge_Temp.GetComponent<MeleeController>().StartTimer();
-    //             hitboxLunge_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
-    //             hitboxLunge_Temp.SetActive(true);
-    //         }
-    //         LungePlayerAlt();
-    //     }
-    // }
-
-    Vector3 GetTempPosition() {
-        return tempPos;
-    }
-
-    Vector3 GetTempVector() {
-        return tempVector;
-    }
-
     //THIS NEEDS UPDATING! Will definitely make one function for calling all kinds of hitbox
     void InitHitBox(GameObject hitBoxRef, Vector3 scale, string attackTag) {
         //Instantiate hitbox from selected attack type
@@ -685,70 +634,7 @@ public class Combat : MonoBehaviour
         hitboxLeft_Temp.SetActive(true);
     }
 
-    // void LungePlayer() {
-    //     Rigidbody rb = GetComponent<Rigidbody>();
-    //     rb.drag = 10f;
-    //     rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // else {
-    //     //     rb.AddForce(tempVector.ToIso().normalized * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // }
-
-        
-    // }
-
-    // void LungePlayer(float modifier) {
-    //     Rigidbody rb = GetComponent<Rigidbody>();
-    //     rb.drag = 10f;
-    //     float tempForce = combat.lungeForce + (combat.lungeForce * modifier);
-    //     rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // if(Gamepad.all.Count == 0) rb.AddForce(tempPos.ToIso() * tempForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // else {
-    //     //     rb.AddForce(tempVector.ToIso() * combat.lungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //     // }
-        
-    // }
-
-    // void LungePlayerAlt() {
-    //     if(timerFlickState == TimerState.Start) {
-    //         tempflicktime -= Time.deltaTime;
-    //         Rigidbody rb = GetComponent<Rigidbody>();
-    //         rb.drag = 10f;
-    //         rb.AddForce(tempPosition.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //         // if(Gamepad.all.Count == 0) rb.AddForce(tempPosition.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //         // else {
-    //         //     rb.AddForce(tempVect.ToIso() * combat.quickLungeForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
-    //         // }
-
-    //         if(tempflicktime <= 0) {
-    //             timerFlickState = TimerState.Stop;
-    //         }
-    //     }
-    // }
-
     void UpdateTimer() {
-
-        if(tempTimer <= 0) {
-            timerState = TimerState.Stop;
-        }
-
-        if(timerState == TimerState.Start) {
-            tempTimer -= Time.fixedDeltaTime;
-        }
-
-        else if(timerState == TimerState.Stop) {
-            comboCounter = 0;
-            tempTimer = comboTimer;
-
-            //Set States
-            timerState = TimerState.None;
-        }
-
-        else if(timerState == TimerState.None) {
-            entityState = deltaState;
-            entityDir = deltaDir;
-        }
-
         //Hijacked for Detain Cooldown :)
         if(this.detainTimer < this.detainCooldown)
             this.detainTimer += Time.deltaTime;
@@ -768,15 +654,6 @@ public class Combat : MonoBehaviour
         tempVector = Input.mousePosition - tempVector;
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
     }
-
-    // void toIsoRotation_Gamepad(Parameters parameters)
-    // {
-    //     RStickInput = parameters.GetVector3Extra(RSTICK, Vector3.zero);
-    //     if(RStickInput != Vector3.zero) {
-    //         tempVector = new Vector3(RStickInput.x, 0f, RStickInput.z); 
-    //         angle = Mathf.Atan2(tempVector.z, tempVector.x) * Mathf.Rad2Deg; 
-    //     }
-    // }
 
     bool IsMouseOverGameWindow
     {
