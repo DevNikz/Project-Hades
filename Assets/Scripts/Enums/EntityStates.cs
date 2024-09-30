@@ -20,7 +20,6 @@ public enum EntityDirection {
     SouthWest,
     West,
     NorthWest,
-    None
 }
 
 public enum AnimDirection {

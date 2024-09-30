@@ -230,9 +230,7 @@ public class Movement : MonoBehaviour {
             return EntityDirection.NorthWest;
         }
 
-        else {
-            return EntityDirection.None;
-        }
+        else return direction;
     }
 
     private void Dash() {

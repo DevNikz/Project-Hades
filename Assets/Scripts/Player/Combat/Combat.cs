@@ -537,24 +537,24 @@ public class Combat : MonoBehaviour
         }
 
         //2nd Move
-        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
             else skeletalTop.Play("Earth_T_L_2");
         }
 
-        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
             else skeletalTop.Play("Earth_T_L_2");
             
         }
 
         //3rd Move
-        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
             else skeletalTop.Play("Earth_T_L_3");
         }
 
-        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
             else skeletalTop.Play("Earth_T_L_3");
         }
