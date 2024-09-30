@@ -6,166 +6,160 @@ using UnityEngine.UI;
 public class Combat : MonoBehaviour
 {
     //Basic Attack (Left Click)
-    [PropertySpace] [TitleGroup("Basic Attack")]
+    [PropertySpace] [TitleGroup("Properties", "General Combat Properties", TitleAlignments.Centered)]
     [AssetSelector]
     public PlayerAttackScriptable combat;
 
-    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [BoxGroup("Properties/Box", ShowLabel = false)]
     [ReadOnly, SerializeReference] private float lastClickedTime;
     
-    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [BoxGroup("Properties/Box", ShowLabel = false)]
     [ReadOnly, SerializeReference] private float lastComboEnd;
 
-    [BoxGroup("Basic Attack/Box", ShowLabel = false)]
+    [BoxGroup("Properties/Box", ShowLabel = false)]
     [ReadOnly, SerializeReference] private float comboCounter;
     
     //Alternate Attack(Right Click)
-    [Space] [Title("Alternate Attack")]
+    [BoxGroup("Properties/Box", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected bool rightClick;
 
     //Timer
-    [Space] [Title("Timer Settings")]
-    public bool ShowTimer;
-
-    [ShowIfGroup("ShowTimer")]
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [PropertySpace] [TitleGroup("Timer", "General Timer Settings", TitleAlignments.Centered)]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [ReadOnly] [SerializeField] private TimerState timerState;
 
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [ReadOnly] [SerializeField] private TimerState timerFlickState;
 
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [Range(0.1f, 10f)] public float comboTimer = 1;
 
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [ReadOnly] public float tempTimer;
 
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [ReadOnly] public float detainTimer;
 
-    [BoxGroup("ShowTimer/TimerSettings")]
+    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [SerializeField] public float detainCooldown;
 
-    [Space] [Title("Temp(Debug)")] 
-    public bool ShowDebug;
+    [PropertySpace] [TitleGroup("References", "General References", TitleAlignments.Centered)] 
 
-    [ShowIfGroup("ShowDebug")]
-    [BoxGroup("ShowDebug/Debug")]
+    [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public Vector3 tempPosition;
 
-    [BoxGroup("ShowDebug/Debug")]
+    [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public Vector3 tempVect;
 
-    [BoxGroup("ShowDebug/Debug")]
+    [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public float tempflicktime;
 
-    [BoxGroup("ShowDebug/Debug")]
+    [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public Vector3 tempPos;
 
-    [Space] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
-    public bool BasicAttack;
-
-    [ShowIfGroup("BasicAttack")]
-
-    [BoxGroup("BasicAttack/BasicAttack")]
-    [ReadOnly] public bool leftClick;
-
-    [BoxGroup("BasicAttack/BasicAttack")]
-    [ReadOnly] public Vector3 RStickInput;
-
-    [ReadOnly] public bool detainPress;
-
-    [ReadOnly] public bool playerSeen = false;
-
-    [Space] public bool Pointer;
-
-    [ShowIfGroup("Pointer")]
-    [BoxGroup("Pointer/Pointer")]
-    [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
-    
-    [BoxGroup("Pointer/Pointer")]
-    [HideLabel] [ReadOnly] [SerializeReference] protected float angle;
-
-    [BoxGroup("Pointer/Pointer")]
-    [HideLabel] [ReadOnly] [SerializeReference] protected Quaternion rot;
-
-    [BoxGroup("Pointer/Pointer")]
-    [HideLabel] [ReadOnly] [SerializeReference] protected float rotX;
-
-    [Space] public bool Reference;
-    [ShowIfGroup("Reference")]
-
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitBoxBasic;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxLunge;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxLeft_Temp;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxLunge_Temp;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxDetain;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxDetain_Temp;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected GameObject pointerUI;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected GameObject attackUI;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected Slider attackUISlider;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected RectTransform attackUIEnd;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected Animator skeletalTop;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected AttackDirection attackDirection;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected AttackDirection tempDirection;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityMovement entityMovement;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityState entityState;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityDirection entityDir;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityState deltaState;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
 
-    [BoxGroup("Reference/References")]
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [SerializeField] public TextMeshProUGUI fireChargeText;
 
-    [Title("Elemental Charges")]
+    [PropertySpace] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
+
+    [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public bool leftClick;
+
+    [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public Vector3 RStickInput;
+
+    [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public bool detainPress;
+
+    [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public bool playerSeen = false;
+
+    [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+
+    [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
+    [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
+    
+    [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
+    [HideLabel] [ReadOnly] [SerializeReference] protected float angle;
+
+    [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
+    [HideLabel] [ReadOnly] [SerializeReference] protected Quaternion rot;
+
+    [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
+    [HideLabel] [ReadOnly] [SerializeReference] protected float rotX;
+
+    [PropertySpace, TitleGroup("Elemental Charges", "Elements Properties", TitleAlignments.Centered)]
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField][Range(0, 100)] public int maxFireCharge;
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField] private int currentFireCharge;
-
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField][Range(0, 100)] public int maxWaterCharge;
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField] private int currentWaterCharge;
-
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField][Range(0, 100)] public int maxEarthCharge;
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField] private int currentEarthCharge;
-
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField][Range(0, 100)] public int maxWindCharge;
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField] private int currentWindCharge;
-
-    [Title("Elemental Charge Decrement")]
+    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
     [SerializeField][Range(0, 100)] public int elementChargeDecrement;
 
     //Broadcaster
