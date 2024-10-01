@@ -40,6 +40,9 @@ public class PlayerAttackScriptable : ScriptableObject
     [AssetList(Path = "/Resources/Player/Animation")]
     [InfoBox("Assign Reference To Player Attack Animation Clips", InfoMessageType.None)]
     [Required] public AnimationClip[] attackAnimationClips;
+
+    [BoxGroup("Melee Prefab")]
+    [SerializeField] public GameObject meleePrefab;
 }
 
 

@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MeleeController : MonoBehaviour
 {
@@ -9,6 +10,22 @@ public class MeleeController : MonoBehaviour
     [Title("Timer")]
     [SerializeField] [Range(0f,2f)] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
+
+    [TitleGroup("Hitbox Scale")]
+    [HorizontalGroup("Hitbox Scale/Split")]
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 5f)] private float defaultScaleX;
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 5f)] private float defaultScaleY;
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 5f)] private float defaultScaleZ;
+
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 5f)] private float largeScaleX;
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 5f)] private float largeScaleY;
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 5f)] private float largeScaleZ;
 
     [Title("References")]
     public bool ShowReferences;
@@ -22,12 +39,29 @@ public class MeleeController : MonoBehaviour
 
     [BoxGroup("ShowReferences/References")]
     [ReadOnly] [SerializeReference] private MeshRenderer meshRenderer;
-    [ReadOnly] [SerializeReference] private AttackDirection atkdirection;
+    [ReadOnly][SerializeReference] private AttackDirection atkdirection;
 
     void Awake() {
-        if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
-        else if(this.gameObject.name == "Lunge(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/LungeAttack");
-        else if (this.gameObject.name == "Detain(Clone)") attackType = Resources.Load<AttackType>("Weapon/Detain");
+        //Changed to tags
+        //if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+        //else if(this.gameObject.name == "Lunge(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/LungeAttack");
+        //else if (this.gameObject.name == "Detain(Clone)") attackType = Resources.Load<AttackType>("Weapon/Detain");
+
+        if(gameObject.CompareTag("PlayerMelee"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+            gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+        }
+        else if (gameObject.CompareTag("Detain"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Detain");
+            gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+        }
+        else if (gameObject.CompareTag("PlayerMeleeLarge"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Detain");
+            gameObject.transform.localScale = new Vector3(largeScaleX, largeScaleY, largeScaleZ);
+        }
     }
     
     public void StartTimer() {
@@ -53,7 +87,7 @@ public class MeleeController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        meshRenderer = other.gameObject.GetComponent<MeshRenderer>();
+        meshRenderer = other.gameObject.GetComponent<MeshRenderer>(); //<- Not being used?
         rb = other.gameObject.GetComponent<Rigidbody>();
 
         if(other.CompareTag("Enemy")) {

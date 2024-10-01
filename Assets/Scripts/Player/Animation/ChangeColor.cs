@@ -11,6 +11,7 @@ public class ChangeColor : MonoBehaviour
     {
         rend = GetComponent<SpriteRenderer>();
         rend.color = Color.white;
+        rend.material.color = Color.white;
     }
 
     void Update()
@@ -33,5 +34,6 @@ public class ChangeColor : MonoBehaviour
                 break;
         }
         rend.color = newColor;
+        rend.material.color = newColor;
     }
 }

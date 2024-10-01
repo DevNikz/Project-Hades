@@ -61,23 +61,27 @@ public class Combat : MonoBehaviour
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public PlayerAnimatorController animatorController;
 
+
+    //HITBOXES
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitBoxBasic;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] public GameObject hitboxLunge;
-
-    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] public GameObject hitboxLeft_Temp;
 
-    [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] public GameObject hitboxLunge_Temp;
+    //[BoxGroup("References/Ref", ShowLabel = false)]
+    //[ReadOnly] public GameObject hitboxDetain;
 
-    [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] public GameObject hitboxDetain;
+    //[BoxGroup("References/Ref", ShowLabel = false)]
+    //[ReadOnly] public GameObject hitboxLunge;
 
-    [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] public GameObject hitboxDetain_Temp;
+
+    //[BoxGroup("References/Ref", ShowLabel = false)]
+    //[ReadOnly] public GameObject hitboxLunge_Temp;
+
+
+    //[BoxGroup("References/Ref", ShowLabel = false)]
+    //[ReadOnly] public GameObject hitboxDetain_Temp;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected GameObject pointerUI;
@@ -186,12 +190,17 @@ public class Combat : MonoBehaviour
         timerState = TimerState.None;
 
         //Rather than finding it in scene, reference it in the scriptables
-        hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
-        hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
-        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
+        //hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
+        //hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
+        //hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
+        
+        //Scriptable Reference
+        hitBoxBasic = combat.meleePrefab;
+        
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
-        hitboxDetain.SetActive(false);
+        //hitboxDetain.SetActive(false);
+        //hitboxLunge.SetActive(false);
+
 
         //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
         detainCooldown = 5.0f;
@@ -201,8 +210,9 @@ public class Combat : MonoBehaviour
 
     void OnEnable() {
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
-        hitboxDetain.SetActive(false);
+        //hitboxDetain.SetActive(false);
+        //hitboxLunge.SetActive(false);
+
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
         tempTimer = 0;
@@ -232,7 +242,7 @@ public class Combat : MonoBehaviour
         animatorController.SetState(entityState);
         
         //Temp
-        tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
+        //tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
 
         if (entityState == EntityState.Attack && MenuScript.LastSelection == 3)
         {
@@ -327,11 +337,6 @@ public class Combat : MonoBehaviour
 
         switch (lastWeapon)
         {
-            //Earth can't be loaded as of the moment.
-            //LastSelection returns 0 by default in MenuScript, but Earth's position in wheel is also 0.
-            //Declaring LastSelection as -1 breaks the movement.
-            //Earth image is set to index 0 in weapon wheel ui, could prolly add some kind of filler image to move to 1?
-
             //Note for future ref: Dmg and stun calc is done in EnemyController
 
             case 1: //Earth
@@ -394,17 +399,17 @@ public class Combat : MonoBehaviour
 
                     if(comboCounter == 1) {
                         Debug.Log("Combo 1!");
-                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
+                        InitHitBox(hitBoxBasic, "PlayerMelee"); //new Vector3(1.8f, 3f, 1.2f);
                     }
 
                     else if(comboCounter == 2) {
                         Debug.Log("Combo 2!");
-                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
+                        InitHitBox(hitBoxBasic, "PlayerMelee"); //new Vector3(1.8f, 3f, 1.2f);
                     }
                     
                     else if(comboCounter == 3) {
                         Debug.Log("Combo 3!");
-                        InitHitBox(hitBoxBasic, new Vector3(2.615041f, 5.071505f, 1.2f), "PlayerMelee");
+                        InitHitBox(hitBoxBasic, "PlayerMeleeLarge"); //new Vector3(2.615041f, 5.071505f, 1.2f);
                     }
                 }
             }
@@ -504,11 +509,15 @@ public class Combat : MonoBehaviour
                     // deltaDir = PlayerData.entityDirection;
                     
                 timerState = TimerState.Start;
-                comboCounter = 1;
+
+                //Removed combo because it fucks with the anims
+                //comboCounter = 1;
 
                 tempDirection = attackDirection;
+                InitHitBox(hitBoxBasic, "Detain"); //new Vector3(1.8f, 3f, 1.2f);
 
-                InitHitBox(hitboxDetain, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
+                //Adding this helps but makes the combo out of order
+                //comboCounter++;
             }
 
             else
@@ -521,13 +530,13 @@ public class Combat : MonoBehaviour
         {
             Debug.Log("Cannot Detain: Player is visible to enemies!");
         }
-
-        comboCounter = Mathf.Clamp(comboCounter, 0, 3);
-
-        // SwitchAnimation();
+        
+        //comboCounter = Mathf.Clamp(comboCounter, 0, 3);
+        
+        //SwitchAnimation();
         // UpdateLunge();
     }
-
+        
     void SwitchAnimation() {
         //1st Move
         //The other conditions are for the unanimated aspects. They're just here to prevent some jank while doing the demo.
@@ -608,15 +617,17 @@ public class Combat : MonoBehaviour
     // }
 
     //THIS NEEDS UPDATING! Will definitely make one function for calling all kinds of hitbox
-    void InitHitBox(GameObject hitBoxRef, Vector3 scale, string attackTag) {
+    void InitHitBox(GameObject hitBoxRef, string attackTag) {
+        hitBoxRef.tag = attackTag;
+
         //Instantiate hitbox from selected attack type
         hitboxLeft_Temp = Instantiate(hitBoxRef, hitBoxRef.transform.position, pointerUI.transform.rotation);
 
         //To Fix scaling
-        hitboxLeft_Temp.transform.localScale = scale;
+        //hitboxLeft_Temp.transform.localScale = new Vector3(1.8f, 3f, 1.2f); //<- Moved to MeleeController for prefab
 
         //Init tag based on attack type (i.e. PlayerMelee, etc)
-        hitboxLeft_Temp.tag = attackTag;
+        //hitboxLeft_Temp.tag = attackTag;
 
         //Start Timer for hitbox (To mimic ticks)
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
