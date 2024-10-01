@@ -259,7 +259,7 @@ public class Combat : MonoBehaviour
     }
 
     void UpdateUI() {
-        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
+        //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     }
 
     void UpdateAttackDirection() {
