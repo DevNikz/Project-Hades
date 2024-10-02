@@ -34,3 +34,9 @@ public enum AttackDirection {
     Left,
     Right
 }
+
+public enum LookDirection {
+    None,
+    Left,
+    Right
+}

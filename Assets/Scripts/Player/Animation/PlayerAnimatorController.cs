@@ -22,7 +22,7 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeReference] private EntityState entityState;
 
     [BoxGroup("ShowReferences/Ref")]
-    [SerializeReference] private EntityDirection entityDirection;
+    [SerializeReference] private LookDirection entityDirection;
 
     void Start() {
         skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
@@ -31,72 +31,48 @@ public class PlayerAnimatorController : MonoBehaviour
 
     public void SetMovement(EntityMovement value) { entityMovement = value; }
     public void SetState(EntityState value) { entityState = value; }
-    public void SetDirection(EntityDirection value) { entityDirection = value; }
+    public void SetDirection(LookDirection value) { entityDirection = value; }
 
     void Update() {
         SetAnimBottom(entityMovement, entityDirection);
         SetAnimTop(entityMovement, entityDirection, entityState);
     }
 
-    void SetAnimBottom(EntityMovement move, EntityDirection dir) {
+    void SetAnimBottom(EntityMovement move, LookDirection dir) {
         switch(move, dir) {
             //Idle
-            case (EntityMovement.Idle, EntityDirection.East):
-            case (EntityMovement.Idle, EntityDirection.NorthEast):
-            case (EntityMovement.Idle, EntityDirection.SouthEast):
-            case (EntityMovement.Idle, EntityDirection.North):
+            case (EntityMovement.Idle, LookDirection.Right):
                 skeletalBottom.Play("PlayerIdleB_Right");
                 break;
-            case (EntityMovement.Idle, EntityDirection.West):
-            case (EntityMovement.Idle, EntityDirection.NorthWest):
-            case (EntityMovement.Idle, EntityDirection.SouthWest):
-            case (EntityMovement.Idle, EntityDirection.South):
+            case (EntityMovement.Idle, LookDirection.Left):
                 skeletalBottom.Play("PlayerIdleB_Left");
                 break;
 
             //Strafing
-            case (EntityMovement.Strafing, EntityDirection.East):
-            case (EntityMovement.Strafing, EntityDirection.NorthEast):
-            case (EntityMovement.Strafing, EntityDirection.SouthEast):
-            case (EntityMovement.Strafing, EntityDirection.North):
+            case (EntityMovement.Strafing, LookDirection.Right):
                 skeletalBottom.Play("PlayerRunB_Right");
                 break;
-            case (EntityMovement.Strafing, EntityDirection.West):
-            case (EntityMovement.Strafing, EntityDirection.NorthWest):
-            case (EntityMovement.Strafing, EntityDirection.SouthWest):
-            case (EntityMovement.Strafing, EntityDirection.South):
+            case (EntityMovement.Strafing, LookDirection.Left):
                 skeletalBottom.Play("PlayerRunB_Left");
                 break;
         }
     }
 
-    void SetAnimTop(EntityMovement move, EntityDirection dir, EntityState state, Elements element = Elements.None) {
+    void SetAnimTop(EntityMovement move, LookDirection dir, EntityState state, Elements element = Elements.None) {
         switch(state, move, dir, element) {
             //None | Idle | None
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.East, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthEast, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthEast, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.North, _):
+            case (EntityState.None, EntityMovement.Idle, LookDirection.Right, _):
                 skeletalTop.Play("PlayerIdleT_Right");
                 break;
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.West, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.NorthWest, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.SouthWest, _):
-            case (EntityState.None, EntityMovement.Idle, EntityDirection.South, _):
+            case (EntityState.None, EntityMovement.Idle, LookDirection.Left, _):
                 skeletalTop.Play("PlayerIdleT_Left");
                 break;
 
             //None | Strafing
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.East, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.NorthEast, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.SouthEast, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.North, _):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Right, _):
                 skeletalTop.Play("PlayerRunT_Right");
                 break;
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.West, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.NorthWest, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.SouthWest, _):
-            case (EntityState.None, EntityMovement.Strafing, EntityDirection.South, _):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Left, _):
                 skeletalTop.Play("PlayerRunT_Left");
                 break;    
         }

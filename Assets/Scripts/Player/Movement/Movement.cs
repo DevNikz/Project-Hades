@@ -47,6 +47,10 @@ public class Movement : MonoBehaviour {
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] public EntityDirection direction;
 
+    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public LookDirection lookDirection;
+
     [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
     [HorizontalGroup("References/Group")]
     [VerticalGroup("References/Group/Left")]
@@ -73,6 +77,10 @@ public class Movement : MonoBehaviour {
 
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(125)]
+    [ReadOnly, SerializeReference] protected GameObject pointerUI;
+
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
     [ReadOnly, SerializeReference] private ParticleSystem dashParticle;
 
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
@@ -86,6 +94,11 @@ public class Movement : MonoBehaviour {
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] private bool dashInput;
+
+    private Vector3 tempVector;
+    Quaternion rot;
+    float angle;
+
     //Broadcaster
     public const string KEY_MOVE = "KEY_MOVE";
     
@@ -96,6 +109,7 @@ public class Movement : MonoBehaviour {
 
     void Awake() {
         animatorController = this.GetComponent<PlayerAnimatorController>();
+        pointerUI = transform.Find("Pointer").gameObject;
         combat = this.GetComponent<Combat>();
         movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
         rigidBody = this.GetComponent<Rigidbody>();
@@ -119,13 +133,16 @@ public class Movement : MonoBehaviour {
     }
 
     private void Update() {
+        UpdatePointer();
+        UpdateLookDirection();
+
         //Checks
         CheckDrag();
         CheckMove();
         CheckDash();
 
         animatorController.SetMovement(move);
-        animatorController.SetDirection(direction);
+        animatorController.SetDirection(lookDirection);
 
         //Init Dash Funcs
         Cooldown();
@@ -175,11 +192,6 @@ public class Movement : MonoBehaviour {
         else if(moveInput.x == 0 && moveInput.z == 0) {
             move = EntityMovement.Idle;
         }
-
-        // else if(PlayerData.entityState == EntityState.BasicAttack){
-        //     /tate = EntityState.BasicAttack;
-        //     PlayerData.entityState = EntityState.BasicAttack;
-        // }
     }
 
     private void CheckDrag() {
@@ -284,6 +296,26 @@ public class Movement : MonoBehaviour {
             return zero;
         }
     }
+
+    void UpdateLookDirection() {
+        if(angle >= 0 && angle <= 90) lookDirection = LookDirection.Right;
+        else if(angle <= 0 && angle >= -90) lookDirection = LookDirection.Right;
+        else lookDirection = LookDirection.Left;
+    }
+
+    void UpdatePointer() {
+        pointerUI.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
+        toIsoRotation();
+        rot = Quaternion.Euler(pointerUI.transform.rotation.eulerAngles.x, -angle-45, 0.0f);
+        pointerUI.transform.rotation = rot;
+    }
+
+    void toIsoRotation() {
+        tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
+        tempVector = Input.mousePosition - tempVector;
+        angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
 
     private void DelayedDashForce() {
         move = EntityMovement.Dashing;
