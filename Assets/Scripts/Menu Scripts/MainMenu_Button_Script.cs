@@ -7,7 +7,7 @@ public class MainMenu_Button_Script : MonoBehaviour
 {
     public void OnStartClick()
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene("Tutorial");
     }
 
     public void OnOptionsClick()

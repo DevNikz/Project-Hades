@@ -1,6 +1,5 @@
 using Sirenix.OdinInspector;
 using TMPro;
-using Unity.Android.Gradle;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -376,10 +375,10 @@ public class Combat : MonoBehaviour
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
 
         if(leftClick && IsMouseOverGameWindow) {
-            tempDirection = attackDirection;
+            Debug.Log($"Combo End: {Time.time - lastComboEnd}");
             if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
                 if(Time.time - lastClickedTime >= 0.2f) {
-
+                    tempDirection = attackDirection;
                     deltaState = entityState;
                     deltaDir = entityDir;
 
@@ -388,29 +387,25 @@ public class Combat : MonoBehaviour
                     comboCounter++;
                     lastClickedTime = Time.time;
 
-                    if (comboCounter > 3) {
-                        comboCounter = 1;
-                    }
-
                     if(comboCounter == 1) {
-                        Debug.Log("Combo 1!");
+                        Debug.Log("Combo 1!"); 
                         InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
                     }
 
                     else if(comboCounter == 2) {
                         Debug.Log("Combo 2!");
+                            
                         InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
                     }
                     
                     else if(comboCounter == 3) {
-                        Debug.Log("Combo 3!");
+                        Debug.Log("Combo 3!");   
                         InitHitBox(hitBoxBasic, new Vector3(2.615041f, 5.071505f, 1.2f), "PlayerMelee");
-                    }
+                    }       
                 }
             }
         }
-
-        SwitchAnimation();
+        SwitchAnimation(); 
     }
 
     // void FireAttack(Parameters parameters)
@@ -530,34 +525,48 @@ public class Combat : MonoBehaviour
 
     void SwitchAnimation() {
         //1st Move
-        //The other conditions are for the unanimated aspects. They're just here to prevent some jank while doing the demo.
         if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_1");
             else skeletalTop.Play("Earth_T_L_1");
         }
 
-        //2nd Move
-        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+        else if (comboCounter == 2) {
             if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
             else skeletalTop.Play("Earth_T_L_2");
         }
 
-        if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
-            else skeletalTop.Play("Earth_T_L_2");
+        else if (comboCounter == 3) {
+            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
+            else skeletalTop.Play("Earth_T_L_3");
+        }
+
+        // if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
+        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_1");
+        //     else skeletalTop.Play("Earth_T_L_1");
+        // }
+
+        // //2nd Move
+        // if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
+        //     else skeletalTop.Play("Earth_T_L_2");
+        // }
+
+        // if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
+        //     else skeletalTop.Play("Earth_T_L_2");
             
-        }
+        // }
 
-        //3rd Move
-        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
-            else skeletalTop.Play("Earth_T_L_3");
-        }
+        // //3rd Move
+        // if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
+        //     else skeletalTop.Play("Earth_T_L_3");
+        // }
 
-        if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.85f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
-            else skeletalTop.Play("Earth_T_L_3");
-        }
+        // if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
+        //     else skeletalTop.Play("Earth_T_L_3");
+        // }
     }
 
     // void SwitchFireAnimation()
