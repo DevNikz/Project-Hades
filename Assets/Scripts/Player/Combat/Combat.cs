@@ -115,6 +115,9 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected Elements elements;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
+    [ReadOnly] [SerializeReference] protected Elements selectedElement;
+
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityState deltaState;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
@@ -215,8 +218,8 @@ public class Combat : MonoBehaviour
         comboCounter = 0;
         detainTimer = 0;
         Debug.Log("Combat Enabled!");
-        EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.DetainAttackState);
+        EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.StateHandler);
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.StateHandler);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementCharge);
     }
@@ -289,44 +292,79 @@ public class Combat : MonoBehaviour
         }
     }
 
-    // void UpdateFireAnimation()
-    // {
-    //     temptime = attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;    
-    //     //Right
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR1"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR2"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR3"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
+    void StateHandler(Parameters parameters) {
+        leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
+        detainPress = parameters.GetBoolExtra(DETAIN, false);
 
+        //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
+        if(IsMouseOverGameWindow) {
+            switch(leftClick, detainPress) {
+                case (true, false):
+                    switch(selectedElement) {
+                        case Elements.Earth:
+                            InitEarthAttack();
+                            break;
+                        case Elements.Fire:
+                            break;
+                        case Elements.Water:
+                            break;
+                        case Elements.Wind:
+                            break;
+                    }
+                    break;
+                case (false, true):
+                    if(!playerSeen) InitDetain();
+                    break;
+            }
+        }
+        animatorController.PlayAnimation(comboCounter, tempDirection, elements);
+    }
 
-    //     //Left
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL1"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL2"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
-    //     if (attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL3"))
-    //     {
-    //         counter = 0;
-    //         timerState = TimerState.Stop;
-    //     }
-    // }
+    void InitEarthAttack() {
+        if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
+            if(Time.time - lastClickedTime >= 0.2f) {
+                tempDirection = attackDirection;
+                deltaState = entityState;
+                deltaDir = entityDir;
+
+                entityState = EntityState.Attack;
+                elements = Elements.Earth;
+                
+                comboCounter++;
+                lastClickedTime = Time.time;
+
+                if(comboCounter == 1) {
+                    InitHitBox(hitBoxBasic, "PlayerMelee");
+                }
+
+                else if(comboCounter == 2) {
+                    InitHitBox(hitBoxBasic, "PlayerMelee");
+                }
+                
+                else if(comboCounter == 3) { 
+                    InitHitBox(hitBoxBasic, "PlayerMeleeLarge");
+                }       
+
+                Debug.Log($"Counter: {comboCounter}");
+            }
+        }
+        
+    }
+
+    void InitDetain() {
+        if(detainTimer >= detainCooldown)
+        {
+            detainTimer = 0;
+                
+            timerState = TimerState.Start;
+            comboCounter = 0;
+
+            tempDirection = attackDirection;
+            entityState = EntityState.Detain;
+
+            InitHitBox(hitboxDetain, "Detain");
+        }
+    }
 
     void SwitchWeapon()
     {
@@ -341,290 +379,41 @@ public class Combat : MonoBehaviour
 
             //Note for future ref: Dmg and stun calc is done in EnemyController
 
-            case 1: //Earth
-                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to earth(basic?) eventually
+            //Set Element instead. This will be used as ref to the statehandler
+
+            case 0: //Earth
+                selectedElement = Elements.Earth;
                 break;
             
-            case 2: //Fire
-                // EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                // EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.FireAttack);
+            case 1: //Fire
+                selectedElement = Elements.Fire;
                 break;
 
-            case 3: //Water
-                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to water
+            case 2: //Water
+                selectedElement = Elements.Water;
                 break;
 
-            case 4: //Wind
-                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState); //Change to wind eventually
+            case 3: //Wind
+                selectedElement = Elements.Wind;
                 break;
 
             default:
-                EventBroadcaster.Instance.RemoveObserver(EventNames.MouseInput.LEFT_CLICK_PRESS);
-                EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.BasicAttackState);
+                selectedElement = Elements.None;
                 break;
-
-            //Make more animations in the future, will figure out what to do with default case later.
         }
     }
 
     void EndCombo() {
-        Debug.Log("Combo End");
         comboCounter = 0;
         lastComboEnd = Time.time;
         entityState = EntityState.None;
         elements = Elements.None;
     }
 
-    //Basic Attack
-    void BasicAttackState(Parameters parameters) {
-        //Gonna do queued inputs instead lol
-        leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
-
-        if(leftClick && IsMouseOverGameWindow) {
-            Debug.Log($"Combo End: {Time.time - lastComboEnd}");
-            if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
-                if(Time.time - lastClickedTime >= 0.2f) {
-                    tempDirection = attackDirection;
-                    deltaState = entityState;
-                    deltaDir = entityDir;
-
-                    entityState = EntityState.Attack;
-                    elements = Elements.Earth;
-                    
-                    comboCounter++;
-                    lastClickedTime = Time.time;
-
-                    if(comboCounter == 1) {
-                        Debug.Log("Combo 1!"); 
-                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
-                    }
-
-                    else if(comboCounter == 2) {
-                        Debug.Log("Combo 2!");
-                            
-                        InitHitBox(hitBoxBasic, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
-                    }
-                    
-                    else if(comboCounter == 3) {
-                        Debug.Log("Combo 3!");   
-                        InitHitBox(hitBoxBasic, new Vector3(2.615041f, 5.071505f, 1.2f), "PlayerMelee");
-                    }       
-                }
-            }
-        }
-        //animatorController.PlayAnimation(comboCounter, tempDirection, elements);
-        SwitchAnimation(); 
-    }
-
-    // void FireAttack(Parameters parameters)
-    // {
-    //     leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
-
-    //     if (leftClick && IsMouseOverGameWindow)
-    //     {
-    //         // PlayerData.isAttacking = true;
-    //         // entityState = PlayerData.entityState;
-    //         // etn = PlayerData.entityDirection;
-
-    //         timerState = TimerState.Start;
-    //         counter++;
-
-    //         tempDirection = attackDirection;
-
-    //     }
-    //     // else
-    //     // {
-    //     //     if (leftClick)
-    //     //     {
-    //     //         PlayerData.isAttacking = true;
-    //     //         deltaState = PlayerData.entityState;
-    //     //         deltaDir = PlayerData.entityDirection;
-
-    //     //         timerState = TimerState.Start;
-    //     //         counter++;
-
-    //     //         tempDirection = attackDirection;
-    //     //     }
-    //     // }
-
-    //     if (leftClick && counter == 1)
-    //     {
-    //         InitHitBoxLeft();
-    //         if (currentFireCharge > 0)
-    //         {
-    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
-    //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
-    //         }
-
-    //     }
-
-    //     if (leftClick && counter == 2)
-    //     {
-    //         InitHitBoxLeft();
-    //         if (currentFireCharge > 0)
-    //         {
-    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
-    //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
-    //         }
-
-    //     }
-
-    //     if (leftClick && counter == 3)
-    //     {
-    //         tempPosition = GetTempPosition();
-    //         tempVect = GetTempVector();
-    //         InitHitBoxLunge();
-
-    //         if (currentFireCharge > 0)
-    //         {
-    //             currentFireCharge = currentFireCharge - elementChargeDecrement;
-
-    //             fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
-    //         }
-
-    //     }
-
-    //     counter = Mathf.Clamp(counter, 0, 3);
-
-    //     // SwitchFireAnimation();
-    //     // UpdateLunge();
-    // }
-
-    //DetainAttack (copy of basic attack for now)
-    void DetainAttackState(Parameters parameters)
-    {
-        detainPress = parameters.GetBoolExtra(DETAIN, false);
-        
-
-        if(detainPress && !this.playerSeen)
-        {
-            if(this.detainTimer >= this.detainCooldown)
-            {
-                this.detainTimer = 0;
-
-                    // PlayerData.isAttacking = true;
-                    // deltaState = PlayerData.entityState;
-                    // deltaDir = PlayerData.entityDirection;
-                    
-                timerState = TimerState.Start;
-                comboCounter = 1;
-
-                tempDirection = attackDirection;
-
-                InitHitBox(hitboxDetain, new Vector3(1.8f, 3f, 1.2f), "PlayerMelee");
-            }
-
-            else
-            {
-                Debug.Log("Cannot Detain: On Cooldown!");
-            }
-        }
-
-        else if(detainPress && this.playerSeen)
-        {
-            Debug.Log("Cannot Detain: Player is visible to enemies!");
-        }
-
-        comboCounter = Mathf.Clamp(comboCounter, 0, 3);
-
-        // SwitchAnimation();
-        // UpdateLunge();
-    }
-
-    //Will move this to the animator controller later.
-    void SwitchAnimation() {
-        //1st Move
-        if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
-            if(tempDirection == AttackDirection.Right) {
-                skeletalTop.Play("Earth_T_R_1");
-                skeletalBottom.Play("Earth_B_R_1");
-            }
-            else {
-                skeletalTop.Play("Earth_T_L_1");
-                skeletalBottom.Play("Earth_B_L_1");
-            }
-        }
-
-        else if (comboCounter == 2) {
-            if(tempDirection == AttackDirection.Right) {
-                skeletalTop.Play("Earth_T_R_2");
-                skeletalBottom.Play("Earth_B_R_2");
-            }
-            else {
-                skeletalTop.Play("Earth_T_L_2");
-                skeletalBottom.Play("Earth_B_L_2");
-            }
-        }
-
-        else if (comboCounter == 3) {
-            if(tempDirection == AttackDirection.Right) {
-                skeletalTop.Play("Earth_T_R_3");
-                skeletalBottom.Play("Earth_B_R_3");
-            }
-            else { 
-                skeletalTop.Play("Earth_T_L_3");
-                skeletalBottom.Play("Earth_B_L_3");
-            }
-        }
-    }
-
-    // void SwitchFireAnimation()
-    // {
-    //     //1st Move
-    //     if (counter == 1 && MenuScript.LastSelection == 2)
-    //     {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f);
-    //         if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR1");
-    //         else attackAnimator.Play("FireAtkL1");
-
-    //     }
-
-    //     //2nd Move
-    //     if (counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR1"))
-    //     {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-    //         if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR2");
-    //         else attackAnimator.Play("FireAtkL2");
-    //     }
-
-    //     if (counter >= 2 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL1"))
-    //     {
-    //         //attackUIEnd.sizeDelta = new Vector2(attackUIEnd.sizeDelta.x, 23.5f+15f);
-    //         if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR2");
-    //         else attackAnimator.Play("FireAtkL2");
-
-    //     }
-
-    //     //3rd Move
-    //     if (counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkR2"))
-    //     {
-    //         tempflicktime = combat.flicktime;
-    //         timerFlickState = TimerState.Start;
-
-    //         if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR3");
-    //         else attackAnimator.Play("FireAtkL3");
-    //     }
-
-    //     if (counter >= 3 && attackAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("FireAtkL2"))
-    //     {
-    //         tempflicktime = combat.flicktime;
-    //         timerFlickState = TimerState.Start;
-
-    //         if (tempDirection == AttackDirection.Right) attackAnimator.Play("FireAtkR3");
-    //         else attackAnimator.Play("FireAtkL3");
-    //     }
-    // }
-
-    //THIS NEEDS UPDATING! Will definitely make one function for calling all kinds of hitbox
-    void InitHitBox(GameObject hitBoxRef, Vector3 scale, string attackTag) {
+    
+    void InitHitBox(GameObject hitBoxRef, string attackTag) {
         //Instantiate hitbox from selected attack type
         hitboxLeft_Temp = Instantiate(hitBoxRef, hitBoxRef.transform.position, pointerUI.transform.rotation);
-
-        //To Fix scaling
-        hitboxLeft_Temp.transform.localScale = scale;
 
         //Init tag based on attack type (i.e. PlayerMelee, etc)
         hitboxLeft_Temp.tag = attackTag;

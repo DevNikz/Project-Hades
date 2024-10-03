@@ -10,6 +10,22 @@ public class MeleeController : MonoBehaviour
     [SerializeField] [Range(0f,2f)] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
 
+    [TitleGroup("Hitbox Scale")]
+    [HorizontalGroup("Hitbox Scale/Split")]
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 10f)] protected float defaultScaleX = 1.8f;
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 10f)] protected float defaultScaleY = 3f;
+    [TabGroup("Hitbox Scale/Split/Size", "Default")]
+    [SerializeField][Range(0f, 10f)] protected float defaultScaleZ = 1.2f;
+
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 10f)] protected float largeScaleX = 2.615041f;
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 10f)] protected float largeScaleY = 5.071505f;
+    [TabGroup("Hitbox Scale/Split/Size", "Large")]
+    [SerializeField][Range(0f, 10f)] protected float largeScaleZ = 1.2f;
+
     [Title("References")]
     public bool ShowReferences;
 
@@ -25,9 +41,21 @@ public class MeleeController : MonoBehaviour
     [ReadOnly] [SerializeReference] private AttackDirection atkdirection;
 
     void Awake() {
-        if(this.gameObject.name == "Melee(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
-        else if(this.gameObject.name == "Lunge(Clone)") attackType = Resources.Load<AttackType>("Weapon/Sword/LungeAttack");
-        else if (this.gameObject.name == "Detain(Clone)") attackType = Resources.Load<AttackType>("Weapon/Detain");
+        if(gameObject.CompareTag("PlayerMelee"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+            gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+        }
+        else if (gameObject.CompareTag("Detain"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Detain");
+            gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+        }
+        else if (gameObject.CompareTag("PlayerMeleeLarge"))
+        {
+            attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+            gameObject.transform.localScale = new Vector3(largeScaleX, largeScaleY, largeScaleZ);
+        }
     }
     
     public void StartTimer() {

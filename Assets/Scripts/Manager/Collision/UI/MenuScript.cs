@@ -26,7 +26,12 @@ public class MenuScript : MonoBehaviour
     public const string WHEEL_PRESS = "WHEEL_PRESS";
     public const string WHEEL_HOLD = "WHEEL_HOLD";
 
-    public static int LastSelection { get; private set; } = 0;
+    protected static int lastSelected = 0;
+
+    public static int LastSelection {
+        get { return lastSelected; }
+        set { lastSelected = value; }
+    }
 
     private void Start()
     {

@@ -9,6 +9,7 @@ public enum EntityState {
     None,
     Dead,
     Attack,
+    Detain
 }
 
 public enum EntityDirection {
