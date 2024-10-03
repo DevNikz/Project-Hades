@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -50,6 +51,10 @@ public class Movement : MonoBehaviour {
     [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] public LookDirection lookDirection;
+
+        [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public Dashing isDashing;
 
     [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
     [HorizontalGroup("References/Group")]
@@ -119,12 +124,10 @@ public class Movement : MonoBehaviour {
 
         this.GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
 
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
     void OnEnable() {
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
@@ -141,22 +144,18 @@ public class Movement : MonoBehaviour {
         CheckMove();
         CheckDash();
 
-        animatorController.SetMovement(move);
-        animatorController.SetDirection(lookDirection);
-
         //Init Dash Funcs
         Cooldown();
+
+        animatorController.SetMovement(move);
+        animatorController.SetDirection(lookDirection);
+        animatorController.SetDashing(isDashing);
     }
 
-    private void moveEvent(Parameters parameters) {
-        moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
-        
-        if(dashInput || PlayerData.isAttacking ) return;
-        else{
-            moveInput_normalized = moveInput.normalized.magnitude;
-            currentSpeedDebug = transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
-            rigidBody.MovePosition(transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
-        }
+    void Move(Vector3 input) {
+        moveInput_normalized = input.normalized.magnitude;
+        currentSpeedDebug = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
+        rigidBody.MovePosition(transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     private void CheckMove() {
@@ -166,30 +165,32 @@ public class Movement : MonoBehaviour {
     }
 
     private void CheckDash() {
-        if(move == EntityMovement.Dashing) dashParticle.Play();
+        if(dashing) dashParticle.Play();
     }
 
     private void stateHandlerEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(dashInput == true) {
-            //currentSpeed = movement.dashSpeed;
-            Dash();
+        if(moveInput.x != 0 || moveInput.z != 0) {
+            if(dashInput) {
+                Dash();
+            }
+            else {
+                //Set To Strafing
+                move = EntityMovement.Strafing;
+
+                //Set To Strafing Speed
+                currentSpeed = movement.strafeSpeed;
+
+                //Debug Direction
+                direction = IsoCompass(moveInput.x, moveInput.z);
+
+                Move(moveInput);
+            }
         }
 
-        else if(moveInput.x != 0 || moveInput.z != 0) {
-            //Set To Strafing
-            move = EntityMovement.Strafing;
-
-            //Set To Strafing Speed
-            currentSpeed = movement.strafeSpeed;
-
-            //Debug Direction
-            direction = IsoCompass(moveInput.x, moveInput.z);
-        }
-
-        else if(moveInput.x == 0 && moveInput.z == 0) {
+        else {
             move = EntityMovement.Idle;
         }
     }
@@ -251,6 +252,7 @@ public class Movement : MonoBehaviour {
 
         //Set Dash To True
         dashing = true;
+        isDashing = Dashing.Yes;
 
         //Convert World View Coords To Iso Coords
         isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
@@ -318,12 +320,12 @@ public class Movement : MonoBehaviour {
 
 
     private void DelayedDashForce() {
-        move = EntityMovement.Dashing;
         rigidBody.AddForce(delayedForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     private void ResetDash() {
         dashing = false;
+        isDashing = Dashing.No;
     }
 
     private void Cooldown() {

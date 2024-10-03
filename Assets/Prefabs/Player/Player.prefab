@@ -6472,7 +6472,7 @@ MonoBehaviour:
   largeScaleX: 2.615041
   largeScaleY: 5.071505
   largeScaleZ: 1.2
-  ShowReferences: 0
+  ShowReferences: 1
   tempObject: {fileID: 0}
   rb: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -12104,6 +12104,7 @@ MonoBehaviour:
   state: 0
   direction: 2
   lookDirection: 0
+  isDashing: 0
   rigidBody: {fileID: 2498595640253494118}
   model: {fileID: 8073765998928832489}
   animatorController: {fileID: 0}
@@ -12160,6 +12161,7 @@ MonoBehaviour:
   entityState: 0
   entityDir: 0
   elements: 0
+  selectedElement: 0
   deltaState: 0
   deltaDir: 0
   fireChargeText: {fileID: 0}
@@ -12195,10 +12197,11 @@ MonoBehaviour:
   ShowReferences: 1
   skeletalTop: {fileID: 0}
   skeletalBottom: {fileID: 0}
-  entityMovement: 2
+  entityMovement: 1
   entityState: 0
   entityDirection: 0
   elements: 0
+  dashing: 0
 --- !u!114 &7191996246000666657
 MonoBehaviour:
   m_ObjectHideFlags: 0

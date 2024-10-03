@@ -1,8 +1,12 @@
 
 public enum EntityMovement {
     Strafing,
-    Dashing,
     Idle,
+}
+
+public enum Dashing {
+    No,
+    Yes
 }
 
 public enum EntityState {
