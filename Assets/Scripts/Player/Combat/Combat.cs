@@ -94,6 +94,9 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected Animator skeletalTop;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
+    [ReadOnly] [SerializeReference] protected Animator skeletalBottom;
+
+    [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected AttackDirection attackDirection;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
@@ -107,6 +110,9 @@ public class Combat : MonoBehaviour
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityDirection entityDir;
+
+    [BoxGroup("References/Ref", ShowLabel = false)]
+    [ReadOnly] [SerializeReference] protected Elements elements;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected EntityState deltaState;
@@ -181,6 +187,7 @@ public class Combat : MonoBehaviour
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
         attackUIEnd = attackUI.transform.Find("Border").transform.Find("EndBase").transform.Find("End").GetComponent<RectTransform>();
         skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
+        skeletalBottom = transform.Find("SpriteB").GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         timerState = TimerState.None;
 
@@ -229,6 +236,7 @@ public class Combat : MonoBehaviour
         UpdateUI();
 
         animatorController.SetState(entityState);
+        animatorController.SetElements(elements);
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
@@ -367,6 +375,7 @@ public class Combat : MonoBehaviour
         comboCounter = 0;
         lastComboEnd = Time.time;
         entityState = EntityState.None;
+        elements = Elements.None;
     }
 
     //Basic Attack
@@ -383,6 +392,7 @@ public class Combat : MonoBehaviour
                     deltaDir = entityDir;
 
                     entityState = EntityState.Attack;
+                    elements = Elements.Earth;
                     
                     comboCounter++;
                     lastClickedTime = Time.time;
@@ -405,6 +415,7 @@ public class Combat : MonoBehaviour
                 }
             }
         }
+        //animatorController.PlayAnimation(comboCounter, tempDirection, elements);
         SwitchAnimation(); 
     }
 
@@ -523,50 +534,41 @@ public class Combat : MonoBehaviour
         // UpdateLunge();
     }
 
+    //Will move this to the animator controller later.
     void SwitchAnimation() {
         //1st Move
         if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_1");
-            else skeletalTop.Play("Earth_T_L_1");
+            if(tempDirection == AttackDirection.Right) {
+                skeletalTop.Play("Earth_T_R_1");
+                skeletalBottom.Play("Earth_B_R_1");
+            }
+            else {
+                skeletalTop.Play("Earth_T_L_1");
+                skeletalBottom.Play("Earth_B_L_1");
+            }
         }
 
         else if (comboCounter == 2) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
-            else skeletalTop.Play("Earth_T_L_2");
+            if(tempDirection == AttackDirection.Right) {
+                skeletalTop.Play("Earth_T_R_2");
+                skeletalBottom.Play("Earth_B_R_2");
+            }
+            else {
+                skeletalTop.Play("Earth_T_L_2");
+                skeletalBottom.Play("Earth_B_L_2");
+            }
         }
 
         else if (comboCounter == 3) {
-            if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
-            else skeletalTop.Play("Earth_T_L_3");
+            if(tempDirection == AttackDirection.Right) {
+                skeletalTop.Play("Earth_T_R_3");
+                skeletalBottom.Play("Earth_B_R_3");
+            }
+            else { 
+                skeletalTop.Play("Earth_T_L_3");
+                skeletalBottom.Play("Earth_B_L_3");
+            }
         }
-
-        // if(comboCounter == 1 && (MenuScript.LastSelection == 3 || MenuScript.LastSelection == 0 || MenuScript.LastSelection == 1 || MenuScript.LastSelection == 4) ) {
-        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_1");
-        //     else skeletalTop.Play("Earth_T_L_1");
-        // }
-
-        // //2nd Move
-        // if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
-        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
-        //     else skeletalTop.Play("Earth_T_L_2");
-        // }
-
-        // if(comboCounter >= 2 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
-        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_2");
-        //     else skeletalTop.Play("Earth_T_L_2");
-            
-        // }
-
-        // //3rd Move
-        // if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
-        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
-        //     else skeletalTop.Play("Earth_T_L_3");
-        // }
-
-        // if(comboCounter >= 3 && skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
-        //     if(tempDirection == AttackDirection.Right) skeletalTop.Play("Earth_T_R_3");
-        //     else skeletalTop.Play("Earth_T_L_3");
-        // }
     }
 
     // void SwitchFireAnimation()

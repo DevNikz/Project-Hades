@@ -6710,7 +6710,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: df679881f5fc0984f8a81a2c63468599, type: 3}
+  - {fileID: 2100000, guid: c00f03415b079df449da353a21c7d774, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12091,11 +12091,13 @@ MonoBehaviour:
   move: 0
   state: 0
   direction: 2
+  lookDirection: 0
   rigidBody: {fileID: 2498595640253494118}
   model: {fileID: 8073765998928832489}
   animatorController: {fileID: 0}
   combat: {fileID: 0}
   dust: {fileID: 0}
+  pointerUI: {fileID: 0}
   dashParticle: {fileID: 2796724403782960225}
   moveInput: {x: 0, y: 0, z: 0}
   moveInput_normalized: 0
@@ -12139,11 +12141,13 @@ MonoBehaviour:
   attackUISlider: {fileID: 0}
   attackUIEnd: {fileID: 0}
   skeletalTop: {fileID: 0}
+  skeletalBottom: {fileID: 0}
   attackDirection: 0
   tempDirection: 0
   entityMovement: 2
   entityState: 0
   entityDir: 0
+  elements: 0
   deltaState: 0
   deltaDir: 0
   fireChargeText: {fileID: 0}
@@ -12182,6 +12186,7 @@ MonoBehaviour:
   entityMovement: 2
   entityState: 0
   entityDirection: 0
+  elements: 0
 --- !u!114 &7191996246000666657
 MonoBehaviour:
   m_ObjectHideFlags: 0
