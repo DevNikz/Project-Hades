@@ -1,4 +1,3 @@
-using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class Movement : MonoBehaviour {
 
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
     [LabelWidth(125)]
-    [ReadOnly, SerializeReference, HideLabel] private Vector3 currentSpeedDebug;
+    [SerializeReference, HideLabel] private Vector3 currentInput;
 
     
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
@@ -154,7 +153,7 @@ public class Movement : MonoBehaviour {
 
     void Move(Vector3 input) {
         moveInput_normalized = input.normalized.magnitude;
-        currentSpeedDebug = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
+        currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
         rigidBody.MovePosition(transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
