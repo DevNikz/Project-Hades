@@ -4663,6 +4663,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 277723893157019589, guid: 0291a643eb656e34bb3270a26e272696,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 53c04fc4febdc4e4e9357acf4386a81c, type: 2}
+    - target: {fileID: 1932886338681780610, guid: 0291a643eb656e34bb3270a26e272696,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c00f03415b079df449da353a21c7d774, type: 2}
+    - target: {fileID: 6159044427359960031, guid: 0291a643eb656e34bb3270a26e272696,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159044427359960031, guid: 0291a643eb656e34bb3270a26e272696,
+        type: 3}
+      propertyPath: m_TaaSettings.m_Quality
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8073765998928832489, guid: 0291a643eb656e34bb3270a26e272696,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13923,7 +13943,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 9126
+  m_ColorTemperature: 9333
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -13938,13 +13958,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1856927279}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39989987, y: 0.16679396, z: -0.07426146, w: 0.8981899}
+  m_LocalRotation: {x: -0.25484383, y: -0.4516456, z: 0.13635984, w: -0.8440835}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 126173351}
-  m_LocalEulerAnglesHint: {x: 48, y: 21.04, z: 0}
+  m_LocalEulerAnglesHint: {x: 33.6, y: -303.7, z: 0}
 --- !u!114 &1856927282
 MonoBehaviour:
   m_ObjectHideFlags: 0
