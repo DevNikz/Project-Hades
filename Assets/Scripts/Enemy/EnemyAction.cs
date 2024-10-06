@@ -10,28 +10,28 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyAction : MonoBehaviour
 {
-    [SerializeField] int Action = 0;
-    [SerializeField] GameObject Bullet = null;
-    [SerializeField] int BulletSpeed = 100;
-    [SerializeField] float FireRate = .5f;
-    Vector3 originalPosition = Vector3.zero;
-    GameObject Player = null;
+    [SerializeField] public int Action = 0;
+    [SerializeField] public GameObject Bullet = null;
+    [SerializeField] public int BulletSpeed = 100;
+    [SerializeField] public float FireRate = .5f;
+    [NonSerialized] public Vector3 originalPosition = Vector3.zero;
+    [NonSerialized] public GameObject Player = null;
 
-    [SerializeField] float moveSpeed = 3;
-    [SerializeField] float rotateSpeed = .6f;
+    [SerializeField] public float moveSpeed = 3;
+    [SerializeField] public float rotateSpeed = .6f;
     [SerializeField] public List<Vector3> patrolPoints = new List<Vector3>();
 
-    int nextPoint = 0;
-    float timeStep = 0;
+    [NonSerialized] public int nextPoint = 0;
+    [NonSerialized]public float timeStep = 0;
     
     [NonSerialized] public Quaternion toRotation = Quaternion.identity;
     [NonSerialized] public Quaternion prevRotation = Quaternion.identity;
     [NonSerialized] public Vector3 direction;
 
-    bool isAttacking = false;
-    bool isPatrolling = false;
-    bool isTurning = false;
-    bool isSearching = false;
+    public bool isAttacking = false;
+    public bool isPatrolling = false;
+    [NonSerialized] public bool isTurning = false;
+    public bool isSearching = false;
 
     [NonSerialized] public Vector3 lastSeenPos = Vector3.zero;
 
@@ -41,7 +41,7 @@ public class EnemyAction : MonoBehaviour
 
     [NonSerialized] public NavMeshAgent agent;
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         agent = this.GetComponent<NavMeshAgent>();
 
@@ -54,7 +54,7 @@ public class EnemyAction : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
 
@@ -92,7 +92,7 @@ public class EnemyAction : MonoBehaviour
         this.lastSeenPos = pos;
     }
 
-    void Patrol()
+    public virtual void Patrol()
     {
         if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {
@@ -130,7 +130,7 @@ public class EnemyAction : MonoBehaviour
         if (this.timeStep > 1) this.timeStep = 1;
     }
 
-    void Attack()
+    public virtual void Attack()
     {
         if (Player != null)
         {
@@ -150,7 +150,7 @@ public class EnemyAction : MonoBehaviour
         }
     }
 
-    void Attacking()
+    public virtual void Attacking()
     {
         if(isAttacking && this.tag == "Enemy") {
             GameObject fire = GameObject.Instantiate(Bullet);
@@ -168,7 +168,7 @@ public class EnemyAction : MonoBehaviour
         }
     }
 
-    void Search()
+    public virtual void Search()
     {
         agent.destination = lastSeenPos;
 
