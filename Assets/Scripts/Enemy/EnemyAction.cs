@@ -12,7 +12,7 @@ public class EnemyAction : MonoBehaviour
 {
     [SerializeField] int Action = 0;
     [SerializeField] GameObject Bullet = null;
-    [SerializeField] int BulletSpeed = 500;
+    [SerializeField] int BulletSpeed = 100;
     [SerializeField] float FireRate = .5f;
     Vector3 originalPosition = Vector3.zero;
     GameObject Player = null;
