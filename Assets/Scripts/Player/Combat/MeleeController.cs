@@ -98,6 +98,11 @@ public class MeleeController : MonoBehaviour
             tempObject = other.gameObject;
             other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection);
         }
+
+        if(other.CompareTag("HitHazard")) {
+            Debug.Log("Hazard Hit!");
+            other.GetComponent<HazardController>().InitHazard();
+        }
     }
 
     public void SetAttackDirection(AttackDirection attackDirection) {
