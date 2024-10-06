@@ -31,6 +31,12 @@ public class HazardController : MonoBehaviour
     [ReadOnly, SerializeReference] protected int counter = 1;
 
     [BoxGroup("EnablePillar/Pillar", ShowLabel = false)]
+    [ReadOnly, SerializeReference] protected GameObject hitbox;
+
+    [BoxGroup("EnablePillar/Pillar", ShowLabel = false)]
+    [ReadOnly, SerializeReference] protected GameObject visualBox;
+
+    [BoxGroup("EnablePillar/Pillar", ShowLabel = false)]
     [ReadOnly, SerializeReference] protected ParticleSystem hitEffect;
 
     [BoxGroup("EnablePillar/Pillar", ShowLabel = false)]
@@ -54,6 +60,8 @@ public class HazardController : MonoBehaviour
 
     void Awake() {
         if(hazardType == HazardType.Pillar) {
+            hitbox = transform.Find("HitCollider").gameObject;
+            visualBox = transform.Find("VisualCollider").gameObject;
             hitEffect = transform.Find("HitEffect").GetComponent<ParticleSystem>();
             shakeEffect = transform.Find("ShakeEffect").GetComponent<ParticleSystem>();
             pillar1 = transform.Find("1").gameObject;
@@ -73,11 +81,14 @@ public class HazardController : MonoBehaviour
         if(timerState == TimerState.Start) {
             tempTimer -= Time.deltaTime;
             if(tempTimer <= 0.0f) {
+                hitbox.SetActive(true);
                 timerState = TimerState.Stop;
             }
         }
 
         else if(timerState == TimerState.Stop) {
+            visualBox.SetActive(false);
+            hitbox.SetActive(false);
             pillar1.SetActive(false);
             pillar2.SetActive(false);
             pillar3.SetActive(false);
@@ -124,6 +135,7 @@ public class HazardController : MonoBehaviour
         if (counter == 11) {
             Debug.Log("Shaking!");
             shakeEffect.Play();
+            visualBox.SetActive(true);
             tempTimer = curTimer;
             timerState = TimerState.Start;
         }
