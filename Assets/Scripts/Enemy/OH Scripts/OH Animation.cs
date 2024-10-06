@@ -8,6 +8,7 @@ public class OHAnimation : MonoBehaviour
     public EntityDirection entityDirection;
     public EntityMovement entityMovement;
     public bool isHit;
+    public bool isStun;
     public float timer;
     public bool run;
     public float attackTime;
@@ -23,7 +24,7 @@ public class OHAnimation : MonoBehaviour
     {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         spriteAnimator.SetBool("PFound", run);
-        if (isHit == false) SetAnimation();
+        if (!isHit && !isStun) SetAnimation();
     }
 
     public void SetAnimation()
@@ -48,11 +49,25 @@ public class OHAnimation : MonoBehaviour
     public void Hurt()
     {
         spriteAnimator.Play("Hurt");
+        isHit = true;
+        Invoke("UnHurt", 1);
     }
 
-    public void Stun()
+    public void UnHurt()
+    {
+        isHit = false;
+    }
+
+    public void Stun(float time)
     {
         spriteAnimator.Play("Stun");
+        isStun = true;
+        Invoke("UnStun", time);
+    }
+
+    public void UnStun()
+    {
+        isStun = false;
     }
 
     public void ResetHit()
