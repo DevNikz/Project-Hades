@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(ColliderModule))]
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(Combat))]
+[RequireComponent(typeof(PlayerAnimatorController))]
 [RequireComponent(typeof(PlayerDeath))]
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour

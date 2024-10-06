@@ -1107,7 +1107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8229236368211957487
 Transform:
   m_ObjectHideFlags: 0
@@ -1142,7 +1142,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.00001
+  m_Radius: 0.18
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3651314998886926307
 GameObject:
@@ -12016,11 +12016,11 @@ GameObject:
   - component: {fileID: 5417435276137367245}
   - component: {fileID: 4310140860803777214}
   - component: {fileID: 3601372180678940627}
+  - component: {fileID: 7795045647855611930}
   - component: {fileID: 7191996246000666657}
   - component: {fileID: 2498595640253494118}
   - component: {fileID: 4405058144555528078}
   - component: {fileID: 7322764927724526897}
-  - component: {fileID: 4642731680614587457}
   - component: {fileID: 1874759129286193434}
   m_Layer: 6
   m_Name: Player
@@ -12094,8 +12094,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 11400000, guid: e1b5f80aa1502794db7b8a9ad521cf60, type: 2}
+  strafeSpeed: 0
   currentSpeed: 0
-  currentSpeedDebug: {x: 0, y: 0, z: 0}
+  currentInput: {x: 0, y: 0, z: 0}
   dashing: 0
   dashCDTimer: 0
   delayedForce: {x: 0, y: 0, z: 0}
@@ -12132,8 +12133,6 @@ MonoBehaviour:
   lastComboEnd: 0
   comboCounter: 0
   rightClick: 0
-  timerState: 0
-  timerFlickState: 0
   comboTimer: 1
   tempTimer: 0
   detainTimer: 0
@@ -12202,6 +12201,18 @@ MonoBehaviour:
   entityDirection: 0
   elements: 0
   dashing: 0
+--- !u!114 &7795045647855611930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730666089872806669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ea4f45717f5014e8665d4c08f2ebfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7191996246000666657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12301,31 +12312,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4642731680614587457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8730666089872806669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb9b8f138b8cae4b9c831e44d6bb0f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCollider:
-    collider: {fileID: 0}
-    radiusModifier: 4
-  interact:
-    eventList: []
-    pressList: []
-    holdList: []
-    toggleList: []
-  prompt:
-    promptList: []
-  inputPress: 0
-  inputHold: 0
-  inputToggle: 0
 --- !u!136 &1874759129286193434
 CapsuleCollider:
   m_ObjectHideFlags: 0

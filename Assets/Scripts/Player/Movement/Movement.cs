@@ -11,6 +11,10 @@ public class Movement : MonoBehaviour {
     [VerticalGroup("Properties/Group/Left")]
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
     [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public float strafeSpeed;
+
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
     [ReadOnly, SerializeReference] public float currentSpeed;
 
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
@@ -120,6 +124,7 @@ public class Movement : MonoBehaviour {
         model = this.GetComponent<Transform>();
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
         dust.Play();
+        strafeSpeed = movement.strafeSpeed;
 
         this.GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
 
@@ -180,7 +185,7 @@ public class Movement : MonoBehaviour {
                 move = EntityMovement.Strafing;
 
                 //Set To Strafing Speed
-                currentSpeed = movement.strafeSpeed;
+                currentSpeed = strafeSpeed;
 
                 //Debug Direction
                 direction = IsoCompass(moveInput.x, moveInput.z);
@@ -330,5 +335,11 @@ public class Movement : MonoBehaviour {
     private void Cooldown() {
         if(dashCDTimer > 0) dashCDTimer -= Time.fixedDeltaTime;
     }
+
+    public void SetSpeed(float value) {
+        strafeSpeed = value;
+    }
+
+    public float GetSpeed() { return movement.strafeSpeed; }
 }
 

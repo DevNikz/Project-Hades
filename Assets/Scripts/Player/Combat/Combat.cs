@@ -26,12 +26,6 @@ public class Combat : MonoBehaviour
     //Timer
     [PropertySpace] [TitleGroup("Timer", "General Timer Settings", TitleAlignments.Centered)]
     [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
-    [ReadOnly] [SerializeField] private TimerState timerState;
-
-    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
-    [ReadOnly] [SerializeField] private TimerState timerFlickState;
-
-    [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [Range(0.1f, 10f)] public float comboTimer = 1;
 
     [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
@@ -192,7 +186,7 @@ public class Combat : MonoBehaviour
         skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
         skeletalBottom = transform.Find("SpriteB").GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
-        timerState = TimerState.None;
+
 
         //Rather than finding it in scene, reference it in the scriptables
         hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
@@ -213,7 +207,6 @@ public class Combat : MonoBehaviour
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
         rotX = pointerUI.transform.rotation.eulerAngles.x;
-        timerState = TimerState.None;
         tempTimer = 0;
         comboCounter = 0;
         detainTimer = 0;
@@ -356,7 +349,6 @@ public class Combat : MonoBehaviour
         {
             detainTimer = 0;
                 
-            timerState = TimerState.Start;
             comboCounter = 0;
 
             tempDirection = attackDirection;
