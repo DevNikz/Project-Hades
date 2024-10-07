@@ -259,13 +259,16 @@ public class Combat : MonoBehaviour
                 case (true, false):
                     switch(selectedElement) {
                         case Elements.Earth:
-                            InitEarthAttack();
+                            InitAttack(Elements.Earth);
                             break;
                         case Elements.Fire:
+                            InitAttack(Elements.Fire);
                             break;
                         case Elements.Water:
+                            InitAttack(Elements.Water);
                             break;
                         case Elements.Wind:
+                            InitAttack(Elements.Wind);
                             break;
                     }
                     break;
@@ -277,7 +280,7 @@ public class Combat : MonoBehaviour
         animatorController.PlayAnimation(comboCounter, tempDirection, elements);
     }
 
-    void InitEarthAttack() {
+    void InitAttack(Elements selectedElement) {
         if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
             if(Time.time - lastClickedTime >= 0.2f) {
                 tempDirection = attackDirection;
@@ -285,7 +288,7 @@ public class Combat : MonoBehaviour
                 deltaDir = entityDir;
 
                 entityState = EntityState.Attack;
-                elements = Elements.Earth;
+                elements = selectedElement;
                 
                 comboCounter++;
                 lastClickedTime = Time.time;
@@ -301,11 +304,8 @@ public class Combat : MonoBehaviour
                 else if(comboCounter == 3) { 
                     InitHitBox(hitBoxBasic, "PlayerMeleeLarge");
                 }       
-
-                Debug.Log($"Counter: {comboCounter}");
             }
         }
-        
     }
 
     void InitDetain() {
@@ -325,18 +325,8 @@ public class Combat : MonoBehaviour
     void SwitchWeapon()
     {
         int lastWeapon = MenuScript.LastSelection;
-
         switch (lastWeapon)
         {
-            //Earth can't be loaded as of the moment.
-            //LastSelection returns 0 by default in MenuScript, but Earth's position in wheel is also 0.
-            //Declaring LastSelection as -1 breaks the movement.
-            //Earth image is set to index 0 in weapon wheel ui, could prolly add some kind of filler image to move to 1?
-
-            //Note for future ref: Dmg and stun calc is done in EnemyController
-
-            //Set Element instead. This will be used as ref to the statehandler
-
             case 0: //Earth
                 selectedElement = Elements.Earth;
                 break;
