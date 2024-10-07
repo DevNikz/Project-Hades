@@ -233,22 +233,10 @@ public class Combat : MonoBehaviour
 
         animatorController.SetState(entityState);
         animatorController.SetElements(elements);
+        animatorController.SetSelectedElements(selectedElement);
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
-
-        if (entityState == EntityState.Attack && MenuScript.LastSelection == 3)
-        {
-            UpdateAnimation();
-        }
-        // else if (PlayerData.isAttacking && MenuScript.LastSelection == 2)
-        // {
-        //     UpdateFireAnimation();
-        // }
-        else if (entityState == EntityState.Attack)
-        {
-            UpdateAnimation();
-        }
     }
 
     void UpdateUI() {
@@ -259,30 +247,6 @@ public class Combat : MonoBehaviour
         if(angle >= 0 && angle <= 90) attackDirection = AttackDirection.Right;
         else if(angle <= 0 && angle >= -90) attackDirection = AttackDirection.Right;
         else attackDirection = AttackDirection.Left;
-    }
-
-    void UpdateAnimation() {
-        //Right
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
-            EndCombo();
-        }
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
-            EndCombo();
-        }
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_3")) {
-            EndCombo();
-        }
-
-        //Left
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
-            EndCombo();
-        }
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
-            EndCombo();
-        }
-        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
-            EndCombo();
-        }
     }
 
     void StateHandler(Parameters parameters) {
@@ -395,7 +359,7 @@ public class Combat : MonoBehaviour
         }
     }
 
-    void EndCombo() {
+    public void EndCombo() {
         comboCounter = 0;
         lastComboEnd = Time.time;
         entityState = EntityState.None;

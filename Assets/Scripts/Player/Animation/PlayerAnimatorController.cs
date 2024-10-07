@@ -28,6 +28,9 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeReference] private Elements elements;
 
     [BoxGroup("ShowReferences/Ref")]
+    [SerializeReference] private Elements selectedElement;
+
+    [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private Dashing dashing;
 
     void Start() {
@@ -39,16 +42,79 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetState(EntityState value) { entityState = value; }
     public void SetDirection(LookDirection value) { entityDirection = value; }
     public void SetElements(Elements value) { elements = value; }
+    public void SetSelectedElements(Elements value) { selectedElement = value; }
     public void SetDashing(Dashing value) { dashing = value; }
 
     void Update() {
         if(dashing == Dashing.Yes) Debug.Log("Dashing!");
         SetAnimBottom(entityMovement, entityDirection, entityState, elements, dashing);
         SetAnimTop(entityMovement, entityDirection, entityState, elements, dashing);
+        UpdateAnimation(selectedElement);
     }
+
+    void UpdateAnimation(Elements elements) {
+        switch(elements) {
+            case Elements.Earth:
+                UpdateEarthAnimation();
+                break;
+            case Elements.Fire:
+                UpdateFireAnimation();
+                break;
+        }
+    }
+
+    void UpdateEarthAnimation() {
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+    }
+
+    void UpdateFireAnimation() {
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+    }
+
 
     public void PlayAnimation(int counter, AttackDirection dir, Elements element) {
         switch(counter, dir, element, entityMovement, entityDirection) {
+            //Earth
             //Idle
             case (1, AttackDirection.Right, Elements.Earth, EntityMovement.Idle, _): 
                 skeletalTop.Play("Earth_T_R_1");
@@ -130,6 +196,91 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
             case (3, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Left):
                 skeletalTop.Play("Earth_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            //Fire
+            //Idle
+            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _): 
+                skeletalTop.Play("Fire_T_R_1");
+                skeletalBottom.Play("Fire_B_R_1");
+                break;
+            case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
+                skeletalTop.Play("Fire_T_L_1");
+                skeletalBottom.Play("Fire_B_L_1"); 
+                break;
+
+            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _): 
+                skeletalTop.Play("Fire_T_R_2");
+                skeletalBottom.Play("Fire_B_R_2");
+                break;
+            case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
+                skeletalTop.Play("Fire_T_L_2");
+                skeletalBottom.Play("Fire_B_L_2");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _):
+                skeletalTop.Play("Fire_T_R_3");
+                skeletalBottom.Play("Fire_B_R_3"); 
+                break;
+            case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
+                skeletalTop.Play("Fire_T_L_3");
+                skeletalBottom.Play("Fire_B_L_3"); 
+                break;
+
+            //Strafing | Right
+            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Fire_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Fire_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Fire_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Fire_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Fire_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Fire_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            //Strafing | Left
+            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Fire_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Fire_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Fire_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Fire_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Fire_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Fire_T_L_3");
                 skeletalBottom.Play("PlayerRunB_Left");
                 break;
         }
