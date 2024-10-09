@@ -94,6 +94,7 @@ public class EnemyAction : MonoBehaviour
 
     public virtual void Patrol()
     {
+        /*
         if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {
             if (this.nextPoint + 1 < patrolPoints.Count)    
@@ -128,6 +129,7 @@ public class EnemyAction : MonoBehaviour
 
         this.timeStep += Time.fixedDeltaTime * rotateSpeed;
         if (this.timeStep > 1) this.timeStep = 1;
+        */
     }
 
     public virtual void Attack()
