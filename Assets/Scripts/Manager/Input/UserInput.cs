@@ -61,7 +61,8 @@ public class UserInput : MonoBehaviour
     }
 
     private void Update() {
-        UpdateInputs();
+        if (!PauseMenuScript.isPaused)
+            UpdateInputs();
     }
 
     private void SetupInputActions() {
