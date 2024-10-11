@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenuScript : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject deathOverlay;
 
     public static bool isPaused;
 
@@ -53,7 +54,9 @@ public class PauseMenuScript : MonoBehaviour
 
     public void ResignGame()
     {
-        SceneManager.LoadScene("Lose Screen");
+        PlayerController.Instance.entityState = EntityState.Dead;
+
+        deathOverlay.GetComponent<LoseScreen_Script>().Defeat();
     }
 
     public void ExitGame()

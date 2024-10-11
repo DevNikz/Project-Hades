@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -52,7 +53,6 @@ public class PlayerController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [ReadOnly] [SerializeReference] private Vector3 spawnPoint;
 
-
     void Awake() {
         if(Instance == null) {
             Instance = this;
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
             if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
             if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
             //if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
-            SceneManager.LoadScene("Lose Screen");
+            //SceneManager.LoadScene("Lose Screen");
         }
         else {
             this.gameObject.tag = "Player";
