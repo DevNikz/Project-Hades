@@ -199,7 +199,7 @@ public class Combat : MonoBehaviour
         //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
         detainCooldown = 5.0f;
 
-        fireChargeText = GameObject.Find("/GeneralObjects/UI/FireChargeText").GetComponent<TextMeshProUGUI>();
+        fireChargeText = GameObject.Find("/LevelSystems/UI/FireChargeText").GetComponent<TextMeshProUGUI>();
     }
 
     void OnEnable() {
