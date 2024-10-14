@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class SingletonDoNotDestroy : MonoBehaviour
 {
-    [SerializeField] private string ObjectName;
+    private string ObjectName;
     public static Dictionary<string, GameObject> SingletonObjects = new Dictionary<string, GameObject>();
 
     // Start is called before the first frame update
     void Awake()
     {
-        if(
-            !SingletonDoNotDestroy.SingletonObjects.ContainsKey(ObjectName))
-        {
+        this.ObjectName = this.gameObject.name;
+
+        if(!SingletonDoNotDestroy.SingletonObjects.ContainsKey(ObjectName)){
             SingletonObjects.Add(this.ObjectName, this.gameObject);
             DontDestroyOnLoad(this.gameObject);
         } else {
