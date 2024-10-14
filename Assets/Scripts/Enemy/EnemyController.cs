@@ -90,7 +90,7 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
-    private Combat fireCharge;
+    private PlayerController fireCharge;
 
     void Start() {
         healthUI = this.transform.parent.transform.Find("Health").gameObject;
@@ -202,7 +202,7 @@ public class EnemyController : MonoBehaviour
         //Visual Cue
         hitFX.Play();
         sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
-        fireCharge = FindAnyObjectByType<Combat>();
+        fireCharge = FindAnyObjectByType<PlayerController>();
 
         if (staggered) {
             //Health
@@ -232,7 +232,7 @@ public class EnemyController : MonoBehaviour
         }
 
         //FireStyle - increased damage
-        else if (MenuScript.LastSelection == 1 && fireCharge.GetCurrentFireCharge() > 0)
+        else if (MenuScript.LastSelection == 1 && fireCharge.GetCurrentElementCharge() > 0)
         {
             float fireDamage = damage * 1.5f;
             currentHealth -= fireDamage; //Rudimentary damage increase for now

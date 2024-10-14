@@ -148,26 +148,6 @@ public class Combat : MonoBehaviour
     [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
     [HideLabel] [ReadOnly] [SerializeReference] protected float rotX;
 
-    [PropertySpace, TitleGroup("Elemental Charges", "Elements Properties", TitleAlignments.Centered)]
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField][Range(0, 100)] public int maxFireCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField] private int currentFireCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField][Range(0, 100)] public int maxWaterCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField] private int currentWaterCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField][Range(0, 100)] public int maxEarthCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField] private int currentEarthCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField][Range(0, 100)] public int maxWindCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField] private int currentWindCharge;
-    [BoxGroup("Elemental Charges/Box", ShowLabel = false)]
-    [SerializeField][Range(0, 100)] public int elementChargeDecrement;
-
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
@@ -196,10 +176,7 @@ public class Combat : MonoBehaviour
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
 
-        //fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
         detainCooldown = 5.0f;
-
-        fireChargeText = GameObject.Find("/LevelSystems/UI/FireChargeText").GetComponent<TextMeshProUGUI>();
     }
 
     void OnEnable() {
@@ -214,7 +191,7 @@ public class Combat : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.StateHandler);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.StateHandler);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
-        EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementCharge);
+        EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementChargeOnKill);
     }
 
     void OnDisable() {
@@ -229,7 +206,6 @@ public class Combat : MonoBehaviour
         UpdateTimer();
         UpdateAttackDirection();
         SwitchWeapon();
-        UpdateUI();
 
         animatorController.SetState(entityState);
         animatorController.SetElements(elements);
@@ -237,10 +213,6 @@ public class Combat : MonoBehaviour
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;
-    }
-
-    void UpdateUI() {
-        fireChargeText.text = "Current Fire Charge: " + currentFireCharge.ToString();
     }
 
     void UpdateAttackDirection() {
@@ -293,7 +265,9 @@ public class Combat : MonoBehaviour
                 comboCounter++;
                 lastClickedTime = Time.time;
 
-                if(comboCounter == 1) {
+                gameObject.GetComponent<PlayerController>().UpdateMana(false);
+
+                if (comboCounter == 1) {
                     InitHitBox(hitBoxBasic, "PlayerMelee");
                 }
 
@@ -303,7 +277,7 @@ public class Combat : MonoBehaviour
                 
                 else if(comboCounter == 3) { 
                     InitHitBox(hitBoxBasic, "PlayerMeleeLarge");
-                }       
+                }
             }
         }
     }
@@ -329,22 +303,27 @@ public class Combat : MonoBehaviour
         {
             case 0: //Earth
                 selectedElement = Elements.Earth;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("earth");
                 break;
             
             case 1: //Fire
                 selectedElement = Elements.Fire;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("fire");
                 break;
 
             case 2: //Water
                 selectedElement = Elements.Water;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("water");
                 break;
 
             case 3: //Wind
                 selectedElement = Elements.Wind;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("wind");
                 break;
 
             default:
                 selectedElement = Elements.None;
+                //UpdateManaUI(selectedElement);
                 break;
         }
     }
@@ -415,67 +394,18 @@ public class Combat : MonoBehaviour
         this.playerSeen = param.GetBoolExtra(HIDDEN, false);
     }
 
-    void UpdateElementCharge(Parameters param)
+    void UpdateElementChargeOnKill(Parameters param)
     {
         bool enemyKilled = param.GetBoolExtra(ENEMY_KILLED, false);
         if(enemyKilled) Debug.Log(enemyKilled);
 
-        int lastWeapon = MenuScript.LastSelection;
+        //int lastWeapon = MenuScript.LastSelection;
 
         if (enemyKilled && detainPress)
         {
-            switch (lastWeapon)
-            {
-                case 1:
-                    if (currentWindCharge < maxWindCharge)
-                    {
-                        Debug.Log("Wind charge update!");
-                        currentWindCharge += 20;
-                    }
-                    break;
-                case 2:
-                    if (currentFireCharge < maxFireCharge)
-                    {
-                        Debug.Log("Fire charge update!");
-                        currentFireCharge += 20;
-                    }
-                    break;
-                case 3:
-                    if (currentEarthCharge < maxEarthCharge)
-                    {
-                        Debug.Log("Earth charge update!");
-                        currentEarthCharge += 20;
-                    }
-                    break;
-                case 4:
-                    if (currentWaterCharge < maxWaterCharge)
-                    {
-                        Debug.Log("Water charge update!");
-                        currentWaterCharge += 20;
-                    }
-                    break;
-            }
-                
+            gameObject.GetComponent<PlayerController>().UpdateMana(true);
         }
     }
 
-    public int GetCurrentFireCharge()
-    {
-        return currentFireCharge;
-    }
-
-    public int GetCurrentWaterCharge()
-    {
-        return currentFireCharge;
-    }
-
-    public int GetCurrentEarthCharge()
-    {
-        return currentFireCharge;
-    }
-
-    public int GetCurrentWindCharge()
-    {
-        return currentFireCharge;
-    }
+    
 }
