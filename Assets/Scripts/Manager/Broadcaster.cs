@@ -6,9 +6,17 @@ public class Broadcaster : MonoBehaviour
 {
     public static Broadcaster Instance;
 
-    private void Awake() {
-        if(Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
-        else Destroy(gameObject);
+    public void Start(){
+        Debug.Log("Broadcaster Start");
+        if(Instance == null){
+            Instance = this;
+        }
+    }
+
+    public void OnDestroy(){
+        if(Instance == this){
+            Instance = null;
+        }
     }
 
     public void AddIntParam(string stateName, string eventName, int Value) {

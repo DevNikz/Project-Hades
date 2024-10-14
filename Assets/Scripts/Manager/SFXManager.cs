@@ -16,9 +16,9 @@ public class SFXManager : MonoBehaviour
     void Awake() {
         if(Instance == null) {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
+        // else Destroy(gameObject);
 
         foreach(Sound s in sounds) {
             s.source = this.gameObject.AddComponent<AudioSource>();
