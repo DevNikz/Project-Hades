@@ -11486,8 +11486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8854316e5e74d4f4f8860511b4d6d807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalHealth: 1000
+  totalHealth: 100
   currentHealth: 0
+  totalMana: 100
+  currentMana: 0
   totalPoise: 100
   poiseMultiplier: 0.1
   currentPoise: 0
@@ -11500,8 +11502,11 @@ MonoBehaviour:
   entityState: 0
   ShowReferences: 1
   healthUI: {fileID: 0}
-  detectUI: {fileID: 0}
   healthMeter: {fileID: 0}
+  manaUI: {fileID: 0}
+  manaMeter: {fileID: 0}
+  manaStyleIndicator: {fileID: 0}
+  detectUI: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &5417435276137367245
 MonoBehaviour:
@@ -11594,15 +11599,6 @@ MonoBehaviour:
   angle: 0
   rot: {x: 0, y: 0, z: 0, w: 0}
   rotX: 0
-  maxFireCharge: 100
-  currentFireCharge: 0
-  maxWaterCharge: 0
-  currentWaterCharge: 0
-  maxEarthCharge: 0
-  currentEarthCharge: 0
-  maxWindCharge: 0
-  currentWindCharge: 0
-  elementChargeDecrement: 0
 --- !u!114 &3601372180678940627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11622,6 +11618,7 @@ MonoBehaviour:
   entityState: 0
   entityDirection: 0
   elements: 0
+  selectedElement: 0
   dashing: 0
 --- !u!114 &7795045647855611930
 MonoBehaviour:
