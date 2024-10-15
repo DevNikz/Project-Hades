@@ -11495,11 +11495,16 @@ MonoBehaviour:
   currentPoise: 0
   poiseDamaged: 0
   staggered: 0
-  timerDelay: 2
+  timerDelay: 1
   tempDelay: 0
   timerState: 0
-  isPerformingAction: 1
+  entityMovement: 0
   entityState: 0
+  lookDirection: 0
+  elements: 0
+  selectedElement: 0
+  isDashing: 0
+  isHurt: 0
   ShowReferences: 1
   healthUI: {fileID: 0}
   healthMeter: {fileID: 0}
@@ -11508,6 +11513,7 @@ MonoBehaviour:
   manaStyleIndicator: {fileID: 0}
   detectUI: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
+  animatorController: {fileID: 0}
 --- !u!114 &5417435276137367245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11532,7 +11538,6 @@ MonoBehaviour:
   state: 0
   direction: 2
   lookDirection: 0
-  isDashing: 0
   rigidBody: {fileID: 2498595640253494118}
   model: {fileID: 8073765998928832489}
   animatorController: {fileID: 0}
@@ -11619,7 +11624,6 @@ MonoBehaviour:
   entityDirection: 0
   elements: 0
   selectedElement: 0
-  dashing: 0
 --- !u!114 &7795045647855611930
 MonoBehaviour:
   m_ObjectHideFlags: 0

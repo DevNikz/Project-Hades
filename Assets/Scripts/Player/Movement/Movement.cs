@@ -55,10 +55,6 @@ public class Movement : MonoBehaviour {
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] public LookDirection lookDirection;
 
-        [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public Dashing isDashing;
-
     [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
     [HorizontalGroup("References/Group")]
     [VerticalGroup("References/Group/Left")]
@@ -151,9 +147,9 @@ public class Movement : MonoBehaviour {
         //Init Dash Funcs
         Cooldown();
 
-        animatorController.SetMovement(move);
-        animatorController.SetDirection(lookDirection);
-        animatorController.SetDashing(isDashing);
+        PlayerController.Instance.SetMovement(move);
+        PlayerController.Instance.SetDirection(lookDirection);
+        PlayerController.Instance.SetDashing(dashing);
     }
 
     void Move(Vector3 input) {
@@ -176,7 +172,7 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(moveInput.x != 0 || moveInput.z != 0) {
+        if(moveInput.x != 0 || moveInput.z != 0 && IsHurt() == false) {
             if(dashInput) {
                 Dash();
             }
@@ -198,6 +194,8 @@ public class Movement : MonoBehaviour {
             move = EntityMovement.Idle;
         }
     }
+
+    bool IsHurt() { return PlayerController.Instance.IsHurt(); }
 
     private void CheckDrag() {
         if(move == EntityMovement.Strafing) {
@@ -256,7 +254,6 @@ public class Movement : MonoBehaviour {
 
         //Set Dash To True
         dashing = true;
-        isDashing = Dashing.Yes;
 
         //Convert World View Coords To Iso Coords
         isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
@@ -329,7 +326,6 @@ public class Movement : MonoBehaviour {
 
     private void ResetDash() {
         dashing = false;
-        isDashing = Dashing.No;
     }
 
     private void Cooldown() {

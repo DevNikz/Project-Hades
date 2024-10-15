@@ -207,9 +207,9 @@ public class Combat : MonoBehaviour
         UpdateAttackDirection();
         SwitchWeapon();
 
-        animatorController.SetState(entityState);
-        animatorController.SetElements(elements);
-        animatorController.SetSelectedElements(selectedElement);
+        PlayerController.Instance.SetState(entityState);
+        PlayerController.Instance.SetElements(elements);
+        PlayerController.Instance.SetSelectedElements(selectedElement);
         
         //Temp
         tempPos = new Vector3(tempVector.x, this.transform.position.y, tempVector.y).normalized;

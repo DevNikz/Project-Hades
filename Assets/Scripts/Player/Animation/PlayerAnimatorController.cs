@@ -30,9 +30,6 @@ public class PlayerAnimatorController : MonoBehaviour
     [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private Elements selectedElement;
 
-    [BoxGroup("ShowReferences/Ref")]
-    [SerializeReference] private Dashing dashing;
-
     void Start() {
         skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
         skeletalBottom = transform.Find("SpriteB").GetComponent<Animator>();
@@ -43,12 +40,10 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetDirection(LookDirection value) { entityDirection = value; }
     public void SetElements(Elements value) { elements = value; }
     public void SetSelectedElements(Elements value) { selectedElement = value; }
-    public void SetDashing(Dashing value) { dashing = value; }
 
     void Update() {
-        if(dashing == Dashing.Yes) Debug.Log("Dashing!");
-        SetAnimBottom(entityMovement, entityDirection, entityState, elements, dashing);
-        SetAnimTop(entityMovement, entityDirection, entityState, elements, dashing);
+        SetAnimBottom(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
+        SetAnimTop(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
         UpdateAnimation(selectedElement);
     }
 
@@ -59,6 +54,19 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
             case Elements.Fire:
                 UpdateFireAnimation();
+                break;
+        }
+    }
+
+    public void PlayHurt() {
+        switch(entityDirection, entityState) {
+            case (LookDirection.Left, EntityState.None):
+                skeletalBottom.Play("PlayerHurtB_Left");
+                skeletalTop.Play("PlayerHurtT_Left");
+                break;
+            case (LookDirection.Right, EntityState.None):
+                skeletalBottom.Play("PlayerHurtB_Right");
+                skeletalTop.Play("PlayerHurtT_Right");
                 break;
         }
     }
@@ -110,7 +118,6 @@ public class PlayerAnimatorController : MonoBehaviour
             GetComponent<Combat>().EndCombo();
         }
     }
-
 
     public void PlayAnimation(int counter, AttackDirection dir, Elements element) {
         switch(counter, dir, element, entityMovement, entityDirection) {
@@ -286,59 +293,75 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
-    void SetAnimBottom(EntityMovement move, LookDirection dir, EntityState state, Elements element, Dashing dashing) {
-        switch(move, dir, state, element, dashing) {
+    void SetAnimBottom(EntityMovement move, LookDirection dir, EntityState state, Elements element, bool dash, bool hurt) {
+        switch(move, dir, state, element, dash, hurt) {
             //Idle
-            case (EntityMovement.Idle, LookDirection.Right, EntityState.None, _ , Dashing.No):
+            case (EntityMovement.Idle, LookDirection.Right, EntityState.None, _ , false, false):
                 skeletalBottom.Play("PlayerIdleB_Right");
                 break;
-            case (EntityMovement.Idle, LookDirection.Left, EntityState.None, _ , Dashing.No):
+            case (EntityMovement.Idle, LookDirection.Left, EntityState.None, _ , false, false):
                 skeletalBottom.Play("PlayerIdleB_Left");
                 break;
 
             //Strafing
-            case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , Dashing.No):
+            case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , false, false):
                 skeletalBottom.Play("PlayerRunB_Right");
                 break;
-            case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , Dashing.No):
+            case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , false, false):
                 skeletalBottom.Play("PlayerRunB_Left");
                 break;
 
             //Dashing
-            case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , Dashing.Yes):
+            case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , true, false):
                 skeletalBottom.Play("PlayerDashB_Right");
                 break;
-            case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , Dashing.Yes):
+            case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , true, false):
                 skeletalBottom.Play("PlayerDashB_Left");
+                break;
+
+            //Hurt
+            case (_, LookDirection.Right, EntityState.None, _ , _ , true):
+                skeletalBottom.Play("PlayerHurtB_Right");
+                break;
+            case (_, LookDirection.Left, EntityState.None, _ , _ , true):
+                skeletalBottom.Play("PlayerHurtB_Left");
                 break;
 
         }
     }
 
-    void SetAnimTop(EntityMovement move, LookDirection dir, EntityState state, Elements element, Dashing dashing) {
-        switch(state, move, dir, element, dashing) {
+    void SetAnimTop(EntityMovement move, LookDirection dir, EntityState state, Elements element, bool dash, bool hurt) {
+        switch(state, move, dir, element, dash, hurt) {
             //None | Idle | None
-            case (EntityState.None, EntityMovement.Idle, LookDirection.Right, _ , Dashing.No):
+            case (EntityState.None, EntityMovement.Idle, LookDirection.Right, _ , false, false):
                 skeletalTop.Play("PlayerIdleT_Right");
                 break;
-            case (EntityState.None, EntityMovement.Idle, LookDirection.Left, _ , Dashing.No):
+            case (EntityState.None, EntityMovement.Idle, LookDirection.Left, _ , false, false):
                 skeletalTop.Play("PlayerIdleT_Left");
                 break;
 
             //None | Strafing
-            case (EntityState.None, EntityMovement.Strafing, LookDirection.Right, _ , Dashing.No):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Right, _ , false, false):
                 skeletalTop.Play("PlayerRunT_Right");
                 break;
-            case (EntityState.None, EntityMovement.Strafing, LookDirection.Left, _ , Dashing.No):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Left, _ , false, false):
                 skeletalTop.Play("PlayerRunT_Left");
                 break;
 
             //None | Dashing
-            case (EntityState.None, EntityMovement.Strafing, LookDirection.Right, _ , Dashing.Yes):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Right, _ , true, false):
                 skeletalTop.Play("PlayerDashT_Right");
                 break;
-            case (EntityState.None, EntityMovement.Strafing, LookDirection.Left, _ , Dashing.Yes):
+            case (EntityState.None, EntityMovement.Strafing, LookDirection.Left, _ , true, false):
                 skeletalTop.Play("PlayerDashT_Left");
+                break;    
+
+            //None | Hurt
+            case (EntityState.None, _, LookDirection.Right, _ , _, true):
+                skeletalTop.Play("PlayerHurtT_Right");
+                break;
+            case (EntityState.None, _, LookDirection.Left, _ , _, true):
+                skeletalTop.Play("PlayerHurtT_Left");
                 break;    
         }
     }

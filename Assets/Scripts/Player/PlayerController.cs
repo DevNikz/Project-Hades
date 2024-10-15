@@ -29,17 +29,21 @@ public class PlayerController : MonoBehaviour
     [ReadOnly] [SerializeReference] private bool poiseDamaged;
     [ReadOnly] [SerializeReference] private bool staggered;
 
-    [Title("Timer")]
+    [Title("Hurt Timer (For Animation)")]
     [SerializeField] [Range(0.1f, 5f)] private float timerDelay;
     [ReadOnly] [SerializeReference] private float tempDelay;
     [ReadOnly] [SerializeReference] private TimerState timerState;
 
     [Title("State")]
-    [SerializeReference] public bool isPerformingAction = true;
-    public bool returnAction() { return isPerformingAction; }
-
-    [SerializeReference] public EntityState entityState;
-    public EntityState currentPlayerState() { return entityState; }
+    [ReadOnly, SerializeReference] public EntityMovement entityMovement;
+    [ReadOnly, SerializeReference] public EntityState entityState;
+    [ReadOnly, SerializeReference] public LookDirection lookDirection;
+    [ReadOnly, SerializeReference] public Elements elements;
+    [ReadOnly, SerializeReference] public Elements selectedElement;
+    [ReadOnly, SerializeReference] public bool isDashing;
+    [ReadOnly, SerializeReference] public bool isHurt;
+    [ReadOnly, SerializeReference] public bool curHurt;
+    
 
     //Ref
     [Title("References")]
@@ -66,6 +70,18 @@ public class PlayerController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [ReadOnly] [SerializeReference] private Vector3 spawnPoint;
 
+    [BoxGroup("ShowReferences/Reference")]
+    [ReadOnly] [SerializeReference] private PlayerAnimatorController animatorController;
+
+    public void SetMovement(EntityMovement value) { entityMovement = value; }
+    public void SetState(EntityState value) { entityState = value; }
+    public void SetDirection(LookDirection value) { lookDirection = value; }
+    public void SetElements(Elements value) { elements = value; }
+    public void SetSelectedElements(Elements value) { selectedElement = value; }
+    public void SetDashing(bool value) { isDashing = value; } 
+    public bool IsDashing() { return isDashing; }
+    public bool IsHurt() { return isHurt; }
+
     void Awake() {
         if(Instance == null) {
             Instance = this;
@@ -84,6 +100,10 @@ public class PlayerController : MonoBehaviour
         currentHealth = totalHealth;
         currentMana = totalMana;
         spawnPoint = gameObject.transform.position;
+
+        tempDelay = timerDelay;
+
+        animatorController = GetComponent<PlayerAnimatorController>();
     }
 
     void OnEnable() {
@@ -92,6 +112,15 @@ public class PlayerController : MonoBehaviour
 
     void Update(){
         UpdateHealth();
+        UpdateAnimatorControllerStates();
+    }
+
+    void UpdateAnimatorControllerStates() {
+        animatorController.SetMovement(entityMovement);
+        animatorController.SetDirection(lookDirection);
+        animatorController.SetState(entityState);
+        animatorController.SetElements(elements);
+        animatorController.SetSelectedElements(selectedElement);
     }
 
     void UpdateHealth() {
@@ -104,16 +133,40 @@ public class PlayerController : MonoBehaviour
         }
         else {
             this.gameObject.tag = "Player";
-            if(this.GetComponent<Movement>().isActiveAndEnabled == false) {
-                this.GetComponent<Movement>().enabled = true; 
-            }
-            if(this.GetComponent<Combat>().isActiveAndEnabled == false) {
-                this.GetComponent<Combat>().enabled = true;
-            }
+            UpdateHurt();
+            CheckMovement();
+            CheckCombat();
+            
+            
             // if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
             //     sprite.GetComponent<PlayerAnimation>().enabled = true;
             // }
             //Debug.Log(PlayerData.entityState);
+        }
+    }
+
+    void UpdateHurt() {
+        if(timerState == TimerState.Start) {
+            curHurt = true;
+            tempDelay -= Time.deltaTime;
+            if(tempDelay <= 0f) timerState = TimerState.Stop;
+        }
+        if(timerState == TimerState.Stop) {
+            curHurt = false;
+            isHurt = false;
+            timerState = TimerState.None;
+        }
+    }
+
+    void CheckMovement() {
+        if(this.GetComponent<Movement>().isActiveAndEnabled == false) {
+            this.GetComponent<Movement>().enabled = true; 
+        }
+    }
+
+    void CheckCombat() {
+        if(this.GetComponent<Combat>().isActiveAndEnabled == false) {
+            this.GetComponent<Combat>().enabled = true;
         }
     }
 
@@ -163,19 +216,35 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ReceiveDamage(DamageType damageType, float damage) {
-        if(staggered) {
-            
-        }
-        else {
+        if(!staggered && !curHurt) {
+            TriggerHurt();
             currentHealth -= damage;
         }
-
+        else if(!staggered && curHurt) {
+            isHurt = false;
+            Invoke("TriggerHurt", 0.1f);
+            currentHealth -= damage;
+        }
+        
         healthMeter.value = ToPercent(currentHealth, totalHealth);
+        CheckHealth();
+    }
 
+    void TriggerHurt() {
+        TriggerRandomHurtSFX();
+        isHurt = true;
+        tempDelay = timerDelay;
+        timerState = TimerState.Start;
+    }
+
+    void TriggerRandomHurtSFX() {
+        SFXManager.Instance.Play($"PlayerHurt{Random.Range(1,3)}");
+    }
+
+    void CheckHealth() {
         if(this.currentHealth <= 0) {
             this.GetComponent<PlayerDeath>().KillYourself();
         }
-
     }
 
     float ToPercent(float value, float threshold) {

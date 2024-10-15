@@ -46,7 +46,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9e44dfc4360134eac3e48c07240391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: PlayerHurt1
+    clip: {fileID: 8300000, guid: a8bfe5bed3e14b84fa768d830b35b04c, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerHurt2
+    clip: {fileID: 8300000, guid: a5a82a2aabf96434cbbaecfa35b94485, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerHurt3
+    clip: {fileID: 0}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   fadeThreshold: 0.1
   volumeTemp: 0
 --- !u!1 &2203523930406195202
