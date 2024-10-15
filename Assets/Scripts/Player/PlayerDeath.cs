@@ -32,11 +32,11 @@ public class PlayerDeath : MonoBehaviour
         deathSpriteTemp.SetActive(true);
 
         //Respawn Player to same spot
-        entitySprite = transform.Find("SpriteContainer").gameObject;
-        entitySprite.SetActive(false);
+        //entitySprite = transform.Find("SpriteContainer").gameObject;
+        //entitySprite.SetActive(false);
 
-        pointerSprite = transform.Find("Pointer").gameObject;
-        pointerSprite.SetActive(false);
+        //pointerSprite = transform.Find("Pointer").gameObject;
+        //pointerSprite.SetActive(false);
     
         PlayerController.Instance.entityState = EntityState.Dead;
         tempTimer = timer;
@@ -66,7 +66,7 @@ public class PlayerDeath : MonoBehaviour
             }
         }
 
-        if(timerState == TimerState.Stop) {
+        /*if(timerState == TimerState.Stop) {
             //Init Vars
             entitySprite.SetActive(true);
             pointerSprite.SetActive(true);
@@ -79,6 +79,6 @@ public class PlayerDeath : MonoBehaviour
 
             //Reset Timer
             timerState = TimerState.None;
-        }
+        }*/
     }
 }

@@ -11,11 +11,15 @@ public class Movement : MonoBehaviour {
     [VerticalGroup("Properties/Group/Left")]
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
     [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public float strafeSpeed;
+
+    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
     [ReadOnly, SerializeReference] public float currentSpeed;
 
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
     [LabelWidth(125)]
-    [ReadOnly, SerializeReference, HideLabel] private Vector3 currentSpeedDebug;
+    [SerializeReference, HideLabel] private Vector3 currentInput;
 
     
     [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
@@ -47,6 +51,14 @@ public class Movement : MonoBehaviour {
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] public EntityDirection direction;
 
+    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public LookDirection lookDirection;
+
+        [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
+    [LabelWidth(125)]
+    [ReadOnly, SerializeReference] public Dashing isDashing;
+
     [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
     [HorizontalGroup("References/Group")]
     [VerticalGroup("References/Group/Left")]
@@ -73,6 +85,10 @@ public class Movement : MonoBehaviour {
 
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(125)]
+    [ReadOnly, SerializeReference] protected GameObject pointerUI;
+
+    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(125)]
     [ReadOnly, SerializeReference] private ParticleSystem dashParticle;
 
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
@@ -86,6 +102,11 @@ public class Movement : MonoBehaviour {
     [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(125)]
     [ReadOnly, SerializeReference] private bool dashInput;
+
+    private Vector3 tempVector;
+    Quaternion rot;
+    float angle;
+
     //Broadcaster
     public const string KEY_MOVE = "KEY_MOVE";
     
@@ -96,21 +117,21 @@ public class Movement : MonoBehaviour {
 
     void Awake() {
         animatorController = this.GetComponent<PlayerAnimatorController>();
+        pointerUI = transform.Find("Pointer").gameObject;
         combat = this.GetComponent<Combat>();
         movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
         rigidBody = this.GetComponent<Rigidbody>();
         model = this.GetComponent<Transform>();
         dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
         dust.Play();
+        strafeSpeed = movement.strafeSpeed;
 
         this.GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
 
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
     void OnEnable() {
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.moveEvent);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
     }
 
@@ -119,27 +140,26 @@ public class Movement : MonoBehaviour {
     }
 
     private void Update() {
+        UpdatePointer();
+        UpdateLookDirection();
+
         //Checks
         CheckDrag();
         CheckMove();
         CheckDash();
 
-        animatorController.SetMovement(move);
-        animatorController.SetDirection(direction);
-
         //Init Dash Funcs
         Cooldown();
+
+        animatorController.SetMovement(move);
+        animatorController.SetDirection(lookDirection);
+        animatorController.SetDashing(isDashing);
     }
 
-    private void moveEvent(Parameters parameters) {
-        moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
-        
-        if(dashInput || PlayerData.isAttacking ) return;
-        else{
-            moveInput_normalized = moveInput.normalized.magnitude;
-            currentSpeedDebug = transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
-            rigidBody.MovePosition(transform.localPosition + moveInput.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
-        }
+    void Move(Vector3 input) {
+        moveInput_normalized = input.normalized.magnitude;
+        currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
+        rigidBody.MovePosition(transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     private void CheckMove() {
@@ -149,37 +169,34 @@ public class Movement : MonoBehaviour {
     }
 
     private void CheckDash() {
-        if(move == EntityMovement.Dashing) dashParticle.Play();
+        if(dashing) dashParticle.Play();
     }
 
     private void stateHandlerEvent(Parameters parameters) {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(dashInput == true) {
-            //currentSpeed = movement.dashSpeed;
-            Dash();
+        if(moveInput.x != 0 || moveInput.z != 0) {
+            if(dashInput) {
+                Dash();
+            }
+            else {
+                //Set To Strafing
+                move = EntityMovement.Strafing;
+
+                //Set To Strafing Speed
+                currentSpeed = strafeSpeed;
+
+                //Debug Direction
+                direction = IsoCompass(moveInput.x, moveInput.z);
+
+                Move(moveInput);
+            }
         }
 
-        else if(moveInput.x != 0 || moveInput.z != 0) {
-            //Set To Strafing
-            move = EntityMovement.Strafing;
-
-            //Set To Strafing Speed
-            currentSpeed = movement.strafeSpeed;
-
-            //Debug Direction
-            direction = IsoCompass(moveInput.x, moveInput.z);
-        }
-
-        else if(moveInput.x == 0 && moveInput.z == 0) {
+        else {
             move = EntityMovement.Idle;
         }
-
-        // else if(PlayerData.entityState == EntityState.BasicAttack){
-        //     /tate = EntityState.BasicAttack;
-        //     PlayerData.entityState = EntityState.BasicAttack;
-        // }
     }
 
     private void CheckDrag() {
@@ -239,6 +256,7 @@ public class Movement : MonoBehaviour {
 
         //Set Dash To True
         dashing = true;
+        isDashing = Dashing.Yes;
 
         //Convert World View Coords To Iso Coords
         isoInput = this.ConvertToIso(moveInput.x, moveInput.z);
@@ -285,17 +303,43 @@ public class Movement : MonoBehaviour {
         }
     }
 
+    void UpdateLookDirection() {
+        if(angle >= 0 && angle <= 90) lookDirection = LookDirection.Right;
+        else if(angle <= 0 && angle >= -90) lookDirection = LookDirection.Right;
+        else lookDirection = LookDirection.Left;
+    }
+
+    void UpdatePointer() {
+        pointerUI.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
+        toIsoRotation();
+        rot = Quaternion.Euler(pointerUI.transform.rotation.eulerAngles.x, -angle-45, 0.0f);
+        pointerUI.transform.rotation = rot;
+    }
+
+    void toIsoRotation() {
+        tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
+        tempVector = Input.mousePosition - tempVector;
+        angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
+
     private void DelayedDashForce() {
-        move = EntityMovement.Dashing;
         rigidBody.AddForce(delayedForce * 100 * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     private void ResetDash() {
         dashing = false;
+        isDashing = Dashing.No;
     }
 
     private void Cooldown() {
         if(dashCDTimer > 0) dashCDTimer -= Time.fixedDeltaTime;
     }
+
+    public void SetSpeed(float value) {
+        strafeSpeed = value;
+    }
+
+    public float GetSpeed() { return movement.strafeSpeed; }
 }
 

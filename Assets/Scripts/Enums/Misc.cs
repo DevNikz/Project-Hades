@@ -22,3 +22,8 @@ public enum Elements {
     Water,
     Wind
 }
+
+public enum HazardType {
+    Bog,
+    Pillar
+}

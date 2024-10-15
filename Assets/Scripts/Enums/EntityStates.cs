@@ -1,14 +1,19 @@
 
 public enum EntityMovement {
     Strafing,
-    Dashing,
     Idle,
+}
+
+public enum Dashing {
+    No,
+    Yes
 }
 
 public enum EntityState {
     None,
     Dead,
     Attack,
+    Detain
 }
 
 public enum EntityDirection {
@@ -30,6 +35,12 @@ public enum AnimDirection {
 }
 
 public enum AttackDirection {
+    None,
+    Left,
+    Right
+}
+
+public enum LookDirection {
     None,
     Left,
     Right

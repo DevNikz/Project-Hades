@@ -5,8 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class LoseScreen_Script : MonoBehaviour
 {
-    public void OnButtonClick()
+    [SerializeField] GameObject panel;
+    [SerializeField] GameObject bg;
+
+
+    void Awake()
     {
-        SceneManager.LoadScene("Title Screen");
+        panel.SetActive(false);
+        bg.SetActive(false);
+    }
+
+    public void Update()
+    {
+        if(PlayerController.Instance.entityState == EntityState.Dead)
+        {
+            Defeat();
+
+            if (Input.anyKeyDown)
+                SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
+    }
+
+    public void Defeat()
+    {
+        bg.SetActive(true);
+        panel.SetActive(true);
+        
     }
 }
