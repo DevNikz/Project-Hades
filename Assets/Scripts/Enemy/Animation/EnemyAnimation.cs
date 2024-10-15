@@ -9,19 +9,32 @@ public class EnemyAnimation : MonoBehaviour
     public bool isHit;
     public float timer;
 
+    [SerializeField] GameObject obj;
+    private EnemyAction action;
+
+
     private void Start() {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
+        action = obj.GetComponent<EnemyAction>();
+        entityMovement = EntityMovement.Idle;
     }
 
     private void Update() {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
 
-        if(isHit == false) SetAnimation();
+        if (!action.isPatrolling && !action.isSearching && !action.isAttacking) entityMovement = EntityMovement.Idle;
+        else entityMovement = EntityMovement.Strafing;
+
+        if (isHit == false) SetAnimation();
     }
 
     public void SetAnimation() {
         if(entityMovement == EntityMovement.Strafing) {
             SetRun();
+        }
+        else
+        {
+            spriteAnimator.Play("Idle");
         }
     }
 
