@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour {
     
@@ -111,28 +112,43 @@ public class Movement : MonoBehaviour {
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
-    void Awake() {
-        animatorController = this.GetComponent<PlayerAnimatorController>();
-        pointerUI = transform.Find("Pointer").gameObject;
-        combat = this.GetComponent<Combat>();
-        movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
-        rigidBody = this.GetComponent<Rigidbody>();
-        model = this.GetComponent<Transform>();
-        dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
-        dust.Play();
-        strafeSpeed = movement.strafeSpeed;
-
-        this.GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
-
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+    void LoadData() {
+        LoadUI();
+        LoadComponents();
+        LoadParticles();
+        LoadParams();
     }
 
     void OnEnable() {
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) { LoadData(); }
+
+    void LoadUI() {
+        pointerUI = transform.Find("Pointer").gameObject;
+    }
+
+    void LoadComponents() {
+        combat = this.GetComponent<Combat>();
+        movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
+        rigidBody = this.GetComponent<Rigidbody>();
+        model = this.GetComponent<Transform>();
+        GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
+    }
+
+    void LoadParticles() {
+        dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
+        dust.Play();
+    }
+
+    void LoadParams() {
+        strafeSpeed = movement.strafeSpeed;
     }
 
     private void Update() {
@@ -336,6 +352,9 @@ public class Movement : MonoBehaviour {
         strafeSpeed = value;
     }
 
-    public float GetSpeed() { return movement.strafeSpeed; }
+    public float GetSpeed() { 
+        if(movement != null) return movement.strafeSpeed; 
+        return 0;
+    }
 }
 
