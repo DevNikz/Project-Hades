@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour {
+
+    public static Movement Instance;
     
     [PropertySpace] [TitleGroup("Properties", "General Movement Properties", TitleAlignments.Centered)]
     [AssetSelector]
@@ -69,10 +71,6 @@ public class Movement : MonoBehaviour {
 
     [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
     [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private PlayerAnimatorController animatorController;
-
-    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
-    [LabelWidth(125)]
     [ReadOnly, SerializeReference] private Combat combat;
 
     [VerticalGroup("References/Group/Right")]
@@ -112,6 +110,14 @@ public class Movement : MonoBehaviour {
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
+    void Awake() {
+        if(Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else Destroy(this);
+    }
+
     void LoadData() {
         LoadUI();
         LoadComponents();
@@ -120,7 +126,6 @@ public class Movement : MonoBehaviour {
     }
 
     void OnEnable() {
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -128,22 +133,25 @@ public class Movement : MonoBehaviour {
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) { LoadData(); }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) { 
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+        LoadData(); 
+    }
 
     void LoadUI() {
         pointerUI = transform.Find("Pointer").gameObject;
     }
 
     void LoadComponents() {
-        combat = this.GetComponent<Combat>();
-        movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
-        rigidBody = this.GetComponent<Rigidbody>();
-        model = this.GetComponent<Transform>();
+        if(!combat) combat = this.GetComponent<Combat>();
+        if(!movement) movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
+        if(!rigidBody) rigidBody = this.GetComponent<Rigidbody>();
+        if(!model) model = this.GetComponent<Transform>();
         GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
     }
 
     void LoadParticles() {
-        dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
+        if(!dust) dust = transform.Find("GroundDust").gameObject.GetComponent<ParticleSystem>();
         dust.Play();
     }
 

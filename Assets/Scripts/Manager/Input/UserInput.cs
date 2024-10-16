@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +10,7 @@ public class UserInput : MonoBehaviour
 
     public float Vertical { get; private set; }
 
-    public Vector3 MoveInput { get; private set; }
+    public Vector3 MoveInput;
 
     //Dash
     public bool DashInput { get; private set; }
@@ -51,11 +48,6 @@ public class UserInput : MonoBehaviour
     
     
     private void Awake() {
-        _playerInput = GetComponent<PlayerInput>();
-        SetupInputActions();
-    }
-
-    void OnEnable() {
         _playerInput = GetComponent<PlayerInput>();
         SetupInputActions();
     }
