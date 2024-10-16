@@ -32,13 +32,16 @@ public class OHAnimation : MonoBehaviour
         switch (Enemy.Action)
         {
             case 0:
-                spriteAnimator.Play("OH Trotting");
+                spriteAnimator.Play("Idle");
                 break;
             case 1:
-                spriteAnimator.Play("Attack");
+                spriteAnimator.Play("OH Charging");
                 break;
             case 2:
-                spriteAnimator.Play("OH Charging");
+                spriteAnimator.Play("OH Trotting");
+                break;
+            case 3:
+                spriteAnimator.Play("Attack");
                 break;
             default:
                 spriteAnimator.Play("Idle");

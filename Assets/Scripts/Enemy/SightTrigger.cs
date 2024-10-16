@@ -57,19 +57,9 @@ public class SightTrigger : MonoBehaviour
     {
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
-        if (targetsInViewRadius.Length < 1 && isAttacking)
+        if (targetsInViewRadius.Length > 0)
         {
-            isAttacking = false;
-            if (this.GetComponentInParent<EnemyAction>() != null)
-            {
-                this.GetComponentInParent<EnemyAction>().SetAction(2);
-            }
-            Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
-        }
-
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
-        {
-            Transform target = targetsInViewRadius[i].transform;
+            Transform target = targetsInViewRadius[0].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
@@ -86,6 +76,26 @@ public class SightTrigger : MonoBehaviour
                         Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
                 }
+                else
+                {
+                    if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
+                    {
+                        isAttacking = false;
+                        this.GetComponentInParent<EnemyAction>().SetAction(2);
+                        this.GetComponentInParent<EnemyAction>().SetPlayerPos(target.position);
+                    }
+                    Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
+                }
+            }
+            else
+            {
+                if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
+                {
+                    isAttacking = false;
+                    this.GetComponentInParent<EnemyAction>().SetAction(2);
+                    this.GetComponentInParent<EnemyAction>().SetPlayerPos(target.position);
+                }
+                Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
             }
         }
     }

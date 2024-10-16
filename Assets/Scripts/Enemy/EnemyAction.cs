@@ -59,7 +59,11 @@ public class EnemyAction : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
 
         if (Action != 0) isPatrolling = false;
-        if (Action != 1) isAttacking = false;
+        if (Action != 1)
+        {
+            isAttacking = false;
+            CancelInvoke();
+        }
 
         agent.isStopped = false;
 
@@ -94,6 +98,7 @@ public class EnemyAction : MonoBehaviour
 
     public virtual void Patrol()
     {
+        //agent.destination = Player.transform.position;
         /*
         if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {
@@ -174,7 +179,7 @@ public class EnemyAction : MonoBehaviour
     {
         agent.destination = lastSeenPos;
 
-        if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1)
+        if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1 || agent.velocity.magnitude == 0)
         {
             this.Action = 0;
         }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +8,7 @@ public class OHActions : EnemyAction
 {
 
     public Vector3 attackPos = new Vector3(3,0,-3);
-    public float speedMultiplier = 1.25f;
+    public float speedMultiplier = 1.5f;
     private float fastSpeed;
     private float originalSpeed;
 
@@ -27,7 +28,7 @@ public class OHActions : EnemyAction
         if (isAttacking) return;
 
         if (Action != 0) isPatrolling = false;
-        if (Action != 2) agent.speed = originalSpeed;
+        if (Action != 1) agent.speed = originalSpeed;
 
         agent.isStopped = false;
 
@@ -42,7 +43,6 @@ public class OHActions : EnemyAction
             case 2:
                 if (!isSearching) this.lastSeenPos = Player.transform.position;
                 isSearching = true;
-                agent.speed = fastSpeed;
                 Search();
                 break;
             default:
@@ -56,13 +56,15 @@ public class OHActions : EnemyAction
         if (Player != null)
         {
             agent.destination = Player.transform.position;
+            agent.speed = fastSpeed;
+
             if (agent.remainingDistance <= agent.stoppingDistance)
                 gameObject.transform.LookAt(Player.transform.position);
 
-            if (!isAttacking)
+            if (!isAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
             {
                 isAttacking = true;
-                this.Bullet.transform.SetLocalPositionAndRotation(attackPos, Quaternion.identity);
+                this.SetAction(3);
                 this.Bullet.SetActive(true);
                 agent.isStopped = true;
                 Invoke("Attacking", FireRate);
@@ -81,7 +83,9 @@ public class OHActions : EnemyAction
         if (isAttacking && this.tag == "Enemy")
         {
             this.Bullet.SetActive(false);
+            this.SetAction(0);
             isAttacking = false;
+            agent.isStopped = false;
         }
     }
 }
