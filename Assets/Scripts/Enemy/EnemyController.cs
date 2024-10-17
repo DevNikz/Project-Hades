@@ -102,6 +102,9 @@ public class EnemyController : MonoBehaviour
         spawnPoint = this.transform.position;
         currentPoise = enemyStats.maxPoise;
 
+
+        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
+
         // if(enemyType == EnemyType.Normal) {
         //     totalHealth = 100;
         //     SetHealth();

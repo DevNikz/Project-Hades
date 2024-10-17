@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using Unity.VisualScripting;
@@ -41,12 +43,18 @@ public class EnemyAction : MonoBehaviour
 
     [NonSerialized] public NavMeshAgent agent;
 
+    [SerializeReference] private GameObject sprite;
+
+    private AttackDirection atkDir;
+
     public virtual void OnEnable()
     {
         agent = this.GetComponent<NavMeshAgent>();
 
         this.originalPosition = this.transform.position;
         this.Player = GameObject.Find("Player");
+
+        sprite = transform.Find("SpriteContainer").gameObject;
 
         this.patrolPoints.Add(this.originalPosition);
 
@@ -147,6 +155,7 @@ public class EnemyAction : MonoBehaviour
 
             if (!isAttacking) {
                 isAttacking = true;
+                SetAttackDirection();
                 Invoke("Attacking", FireRate);
             }
             
@@ -154,6 +163,7 @@ public class EnemyAction : MonoBehaviour
         else {
             Debug.Log("Player not in sight");
             isAttacking = false;
+            sprite.GetComponent<EnemyAnimation>().isShooting = false;
         }
     }
 
@@ -170,6 +180,8 @@ public class EnemyAction : MonoBehaviour
                 fire.SetActive(true);
                 if (fire.GetComponent<Rigidbody>() != null)
                     fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * moveSpeed * this.BulletSpeed);
+
+                sprite.GetComponent<EnemyAnimation>().SetShoot(atkDir);
             }
             Invoke("Attacking", FireRate);
         }
@@ -182,6 +194,16 @@ public class EnemyAction : MonoBehaviour
         if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1 || agent.velocity.magnitude == 0)
         {
             this.Action = 0;
+            sprite.GetComponent<EnemyAnimation>().isShooting = false;
+        }
+    }
+
+    void SetAttackDirection()
+    {
+        if (isAttacking)
+        {
+            if(Player.transform.position.x < this.transform.position.x) atkDir = AttackDirection.Left;
+            else atkDir = AttackDirection.Right;
         }
     }
 }

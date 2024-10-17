@@ -530,6 +530,7 @@ MonoBehaviour:
   entityDirection: 4
   entityMovement: 0
   isHit: 0
+  isShooting: 0
   timer: 0.5
   obj: {fileID: 7762131239574803217}
 --- !u!1 &5091405936295816597
@@ -5846,13 +5847,14 @@ MonoBehaviour:
   Action: 0
   Bullet: {fileID: 2251471617857533364}
   BulletSpeed: 100
-  FireRate: 0.5
+  FireRate: 1
   moveSpeed: 3
   rotateSpeed: 1
   patrolPoints: []
   isAttacking: 0
   isPatrolling: 0
   isSearching: 0
+  sprite: {fileID: 0}
 --- !u!114 &7912780096462643877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5898,7 +5900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entitySprite: {fileID: 0}
   deathSprite: {fileID: 0}
-  timer: 5
+  timer: 2
   tempTimer: 0
   timerState: 0
 --- !u!33 &4354481283016872967

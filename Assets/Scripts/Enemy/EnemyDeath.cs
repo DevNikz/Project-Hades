@@ -10,27 +10,22 @@ public class EnemyDeath : MonoBehaviour
     [ReadOnly] private GameObject deathSpriteTemp;
 
     [Space] [Title("Timer")]
-    [SerializeField] [Range(1f,10f)] public float timer = 5f;
+    [SerializeField] [Range(1f,10f)] public float timer = 2f;
     [ReadOnly] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
 
+    private void OnEnable()
+    {
+        entitySprite = transform.Find("SpriteContainer").gameObject;
+    }
 
     public void Die() {
-        //Leave a corpse (maybe)
-        deathSprite = transform.Find("DeathSprite").gameObject;
-        Quaternion rot = Quaternion.Euler(90f, Random.Range(0f,360f), 0f);
-        deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, rot);
-        deathSpriteTemp.SetActive(true);
-        this.tag = "Enemy(Dead)";
+        entitySprite.GetComponent<EnemyAnimation>().SetDeath();
 
-        entitySprite = transform.Find("SpriteContainer").gameObject;
-        entitySprite.SetActive(false);
-
-        // tempTimer = timer;
-        // timerState = TimerState.Start;
+        tempTimer = timer;
+        timerState = TimerState.Start;
 
         Broadcaster.Instance.AddBoolParam(Combat.ENEMY_KILLED, EventNames.Combat.ENEMY_KILLED, true);
-
     }
     void Update() {
         StartTimer();
@@ -46,11 +41,18 @@ public class EnemyDeath : MonoBehaviour
 
         if(timerState == TimerState.Stop) {
             //Init Vars
-            entitySprite.SetActive(true);
-            this.GetComponent<EnemyController>().RevertHealth();
-            this.GetComponent<EnemyController>().RevertPoise();
-            this.transform.position = this.GetComponent<EnemyController>().GetSpawnPoint();
-            this.gameObject.tag = "Enemy";
+            entitySprite.SetActive(false);
+
+            //Leave a corpse (maybe)
+            deathSprite = transform.Find("DeathSprite").gameObject;
+            Quaternion rot = Quaternion.Euler(90f, Random.Range(0f, 360f), 0f);
+            deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, rot);
+            deathSpriteTemp.SetActive(true);
+            this.tag = "Enemy(Dead)";
+            //this.GetComponent<EnemyController>().RevertHealth();
+            //this.GetComponent<EnemyController>().RevertPoise();
+            //this.transform.position = this.GetComponent<EnemyController>().GetSpawnPoint();
+            //this.gameObject.tag = "Enemy";
 
             //Reset Timer
             timerState = TimerState.None;

@@ -7,6 +7,7 @@ public class EnemyAnimation : MonoBehaviour
     public EntityDirection entityDirection;
     public EntityMovement entityMovement;
     public bool isHit;
+    public bool isShooting;
     public float timer;
 
     [SerializeField] GameObject obj;
@@ -25,7 +26,7 @@ public class EnemyAnimation : MonoBehaviour
         if (!action.isPatrolling && !action.isSearching && !action.isAttacking) entityMovement = EntityMovement.Idle;
         else entityMovement = EntityMovement.Strafing;
 
-        if (isHit == false) SetAnimation();
+        if (isHit == false && isShooting == false) SetAnimation();
     }
 
     public void SetAnimation() {
@@ -81,11 +82,33 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
 
+    public void SetShoot(AttackDirection attackDirection)
+    {
+        isShooting = true;
+        switch(attackDirection)
+        {
+            case AttackDirection.Right:
+                spriteAnimator.Play("ShootRight");
+                //ResetHit();
+                break;
+            case AttackDirection.Left:
+                spriteAnimator.Play("ShootLeft");
+                //ResetHit();
+                break;
+        }
+    }
+
+    public void SetDeath()
+    {
+        spriteAnimator.Play("BugeDeath");
+    }
+
     public void ResetHit() {
         Invoke(nameof(ResetAnim), timer);
     }
 
     void ResetAnim() {
         isHit = false;
+        //isShooting = false;
     }
 }
