@@ -5,9 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu_Button_Script : MonoBehaviour
 {
+    [SerializeField] private ASyncLoader asyncLoader;
+
+    [SerializeField] private string sceneToLoad = "Tutorial";
     public void OnStartClick()
     {
-        SceneManager.LoadScene("Tutorial");
+        if (asyncLoader != null)
+        {
+            asyncLoader.LoadLevelBtn(sceneToLoad);
+        }
+        else
+        {
+            Debug.LogError("ASyncLoader is not assigned!");
+        }
     }
 
     public void OnOptionsClick()
