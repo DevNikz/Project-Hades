@@ -327,6 +327,13 @@ public class PlayerAnimatorController : MonoBehaviour
                 skeletalBottom.Play("PlayerHurtB_Left");
                 break;
 
+            case (_, LookDirection.Right, EntityState.Dead, _, _, false):
+                skeletalBottom.Play("Player_DeathB");
+                break;
+            case (_, LookDirection.Left, EntityState.Dead, _, _, false):
+                skeletalBottom.Play("Player_DeathB");
+                break;
+
         }
     }
 
@@ -362,7 +369,15 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
             case (EntityState.None, _, LookDirection.Left, _ , _, true):
                 skeletalTop.Play("PlayerHurtT_Left");
-                break;    
+                break;
+
+            //Dead
+            case (EntityState.Dead, _, LookDirection.Right, _, _, _):
+                skeletalTop.Play("PlayerDeathT");
+                break;
+            case (EntityState.Dead, _, LookDirection.Left, _, _, _):
+                skeletalTop.Play("PlayerDeathT");
+                break;
         }
     }
 }

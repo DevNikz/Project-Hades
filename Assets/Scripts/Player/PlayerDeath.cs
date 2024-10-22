@@ -25,11 +25,11 @@ public class PlayerDeath : MonoBehaviour
         //Play Animation / Game over screen
 
         //Leave a corpse (maybe)
-        deathSprite = transform.Find("DeathSprite").gameObject;
+        /* deathSprite = transform.Find("DeathSprite").gameObject;
         Quaternion rot = Quaternion.Euler(90f, Random.Range(0f,360f), 0f);
         deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, rot);
         deathSpriteTemp.tag = "Player(Dead)";
-        deathSpriteTemp.SetActive(true);
+        deathSpriteTemp.SetActive(true); */
 
         //Respawn Player to same spot
         //entitySprite = transform.Find("SpriteContainer").gameObject;

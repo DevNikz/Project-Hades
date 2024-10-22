@@ -9,6 +9,7 @@ public class LoseScreen_Script : MonoBehaviour
     [SerializeField] GameObject bg;
 
 
+
     void Awake()
     {
         panel.SetActive(false);
