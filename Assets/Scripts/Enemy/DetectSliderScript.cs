@@ -10,7 +10,7 @@ public class DetectSliderScript : MonoBehaviour
 
     Slider slider;
 
-    bool playerSeen = false;
+    bool playerSeen, meterFull = false;
 
     float fillTime = 0f;
 
@@ -42,6 +42,8 @@ public class DetectSliderScript : MonoBehaviour
         if (playerSeen)
         {
             FillSlider();
+
+            if(meterFull) obj.SetActive(false);
         }
             
         else ResetSlider();
@@ -52,6 +54,9 @@ public class DetectSliderScript : MonoBehaviour
         slider.value = Mathf.Lerp(slider.minValue, slider.maxValue, fillTime);
 
         fillTime += 0.375f * Time.deltaTime;
+
+        if(fillTime >= 3.0f) meterFull = true;
+
     }
 
     void ResetSlider()
@@ -59,6 +64,7 @@ public class DetectSliderScript : MonoBehaviour
         slider.value = slider.minValue;
 
         fillTime = 0f;
+        meterFull = false;
     }
 
     void SetPlayerSeen(Parameters param)

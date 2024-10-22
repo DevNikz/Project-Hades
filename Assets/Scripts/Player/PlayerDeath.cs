@@ -65,7 +65,7 @@ public class PlayerDeath : MonoBehaviour
     void Update() {
         StartTimer();
         isDead = PlayerData.isDead;
-        Debug.Log($"Player state is: {PlayerController.Instance.entityState}");
+        //Debug.Log($"Player state is: {PlayerController.Instance.entityState}");
     }
 
     void StartTimer() {
