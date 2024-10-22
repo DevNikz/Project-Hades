@@ -16,6 +16,8 @@ public class PlayerDeath : MonoBehaviour
     [ReadOnly] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
 
+
+
     [PropertySpace] [Title("[Debug]")]
     [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")] 
     public void KillYourself() {
@@ -39,6 +41,11 @@ public class PlayerDeath : MonoBehaviour
         //pointerSprite.SetActive(false);
     
         PlayerController.Instance.entityState = EntityState.Dead;
+        if(PlayerController.Instance.entityState == EntityState.Dead)
+        {
+            Debug.Log("Player death initiated");
+
+        }
         tempTimer = timer;
         timerState = TimerState.Start;
         
@@ -53,9 +60,12 @@ public class PlayerDeath : MonoBehaviour
         }
     }
 
+
+
     void Update() {
         StartTimer();
         isDead = PlayerData.isDead;
+        Debug.Log($"Player state is: {PlayerController.Instance.entityState}");
     }
 
     void StartTimer() {

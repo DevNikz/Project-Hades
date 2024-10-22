@@ -71,6 +71,8 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
+    
+
     void UpdateEarthAnimation() {
         //Right
         if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
@@ -372,10 +374,10 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
 
             //Dead
-            case (EntityState.Dead, _, LookDirection.Right, _, _, _):
+            case (EntityState.Dead, _, LookDirection.Right, _, _, false):
                 skeletalTop.Play("PlayerDeathT");
                 break;
-            case (EntityState.Dead, _, LookDirection.Left, _, _, _):
+            case (EntityState.Dead, _, LookDirection.Left, _, _, false):
                 skeletalTop.Play("PlayerDeathT");
                 break;
         }

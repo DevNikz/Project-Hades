@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,17 +7,15 @@ public class LoseScreen_Script : MonoBehaviour
     [SerializeField] GameObject panel;
     [SerializeField] GameObject bg;
 
-
-
     void Awake()
     {
         panel.SetActive(false);
         bg.SetActive(false);
     }
 
-    public void Update()
+    void Update()
     {
-        if(PlayerController.Instance.entityState == EntityState.Dead)
+        if (PlayerController.Instance.entityState == EntityState.Dead)
         {
             Defeat();
 
@@ -29,8 +26,13 @@ public class LoseScreen_Script : MonoBehaviour
 
     public void Defeat()
     {
+        StartCoroutine(ShowDefeatScreenWithDelay());
+    }
+
+    private IEnumerator ShowDefeatScreenWithDelay()
+    {
+        yield return new WaitForSeconds(5f); 
         bg.SetActive(true);
         panel.SetActive(true);
-        
     }
 }
