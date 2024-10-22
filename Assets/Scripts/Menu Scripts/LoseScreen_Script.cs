@@ -6,6 +6,7 @@ public class LoseScreen_Script : MonoBehaviour
 {
     [SerializeField] GameObject panel;
     [SerializeField] GameObject bg;
+    [SerializeField, Range(0f, 10f)] private float defeatScreenDelay;
 
     void Awake()
     {
@@ -31,7 +32,7 @@ public class LoseScreen_Script : MonoBehaviour
 
     private IEnumerator ShowDefeatScreenWithDelay()
     {
-        yield return new WaitForSeconds(5f); 
+        yield return new WaitForSeconds(defeatScreenDelay); 
         bg.SetActive(true);
         panel.SetActive(true);
     }
