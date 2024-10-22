@@ -81,7 +81,7 @@ public class EnemyAction : MonoBehaviour
                 Patrol();
                 break;
             case 1:
-                Attack();
+                Invoke("Attack", 3.0f);
                 break;
             case 2:
                 if (!isSearching) this.lastSeenPos = Player.transform.position;

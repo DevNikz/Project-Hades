@@ -61,11 +61,11 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private GameObject healthUI;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private GameObject detectUI;
+    [SerializeReference] private Slider healthMeter;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private Slider healthMeter;
-    
+    [SerializeReference] private GameObject detectCone;
+
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Slider bossMeter1;
 
@@ -93,8 +93,8 @@ public class EnemyController : MonoBehaviour
     private PlayerController fireCharge;
 
     void Start() {
-        healthUI = this.transform.parent.transform.Find("Health").gameObject;
-        detectUI = this.transform.Find("Cone").gameObject;
+        healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
+        detectCone = this.transform.Find("Cone").gameObject;
         // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
@@ -102,8 +102,7 @@ public class EnemyController : MonoBehaviour
         spawnPoint = this.transform.position;
         currentPoise = enemyStats.maxPoise;
 
-
-        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
+        healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
         // if(enemyType == EnemyType.Normal) {
         //     totalHealth = 100;
@@ -118,7 +117,7 @@ public class EnemyController : MonoBehaviour
     }
 
     void SetHealth() {
-        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
+        healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
     }
 
     void SetHealthBoss() {
@@ -136,16 +135,16 @@ public class EnemyController : MonoBehaviour
     void UpdateHealth() {
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyAction>().enabled = false;
-            detectUI.GetComponent<SightTrigger>().enabled = false;
+            detectCone.GetComponent<SightTrigger>().enabled = false;
             this.tag = "Enemy(Dead)";
             healthUI.SetActive(false);
-            detectUI.SetActive(false);
+            detectCone.SetActive(false);
         }
         else {
             this.GetComponent<EnemyAction>().enabled = true;
-            detectUI.GetComponent<SightTrigger>().enabled = true;
+            detectCone.GetComponent<SightTrigger>().enabled = true;
             healthUI.SetActive(true);
-            detectUI.SetActive(true);
+            detectCone.SetActive(true);
         }
     }
 

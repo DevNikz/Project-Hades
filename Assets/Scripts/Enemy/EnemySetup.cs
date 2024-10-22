@@ -7,7 +7,7 @@ public class EnemySetup : MonoBehaviour
     private GameObject baseEnemy;
 
     void Start() {
-        healthUI = transform.Find("Health").gameObject;
+        healthUI = transform.Find("HealthAndDetection").gameObject;
         // poiseUI = transform.Find("Poise").gameObject;
         baseEnemy = transform.Find("Base").gameObject;
     }

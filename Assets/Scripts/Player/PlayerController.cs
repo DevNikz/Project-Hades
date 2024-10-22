@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         currentPoise = totalPoise;
         currentHealth = totalHealth;
         currentMana = totalMana;
-        spawnPoint = gameObject.transform.position;
+        //spawnPoint = gameObject.transform.position;
 
         tempDelay = timerDelay;
 
