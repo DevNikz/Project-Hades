@@ -33,18 +33,14 @@ public class SFXManager : MonoBehaviour
     void Start() {
         switch(SceneManager.GetActiveScene().buildIndex) {
             case 0:
-                Play("MenuTheme");
-                Stop("Theme1");
+                Play("TitleMenu");
+                //Stop all music if ever man
+                //Stop("Theme1");
                 break;
             case 1:
-                Play("Theme1");
-                Stop("MenuTheme");
+                Stop("TitleMenu");
                 break;
         }
-    }
-    
-    public void Click() {
-        Play("Click");
     }
 
     public void Play(string name) {
@@ -60,6 +56,7 @@ public class SFXManager : MonoBehaviour
         s.source.Stop();
     }
 
+    //Experimental Features (Warning!!)
     public void FadeIn(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if(s == null) return;

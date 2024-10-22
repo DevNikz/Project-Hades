@@ -32,26 +32,11 @@ public class EnemyController : MonoBehaviour
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private bool hasBeenDetained;
+
+    [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(110)]
     [ReadOnly, SerializeReference] private TimerState timerState;
-
-    // [Title("Type")]
-    // [SerializeField] private EnemyType enemyType;
-
-    // [Title("Health")]
-    // [ReadOnly] [SerializeReference] private float currentHealth;
-
-    // [Title("Poise")]
-    // [SerializeField] [Range(0.1f, 100f)] private float totalPoise;
-    // [SerializeField] [Range(0.1f,1f)] private float poiseMultiplier;
-    // [ReadOnly] [SerializeReference] private float currentPoise;
-    // [ReadOnly] [SerializeReference] private bool poiseDamaged;
-    // [ReadOnly] [SerializeReference] private bool staggered;
-    
-
-    // [Title("Timer")]
-    // [SerializeField] [Range(0.1f, 5f)] private float timerDelay;
-    // [ReadOnly] [SerializeReference] private float tempDelay;
-    // [ReadOnly] [SerializeReference] private TimerState timerState;
 
     //Ref
     [Title("References")]
@@ -104,14 +89,6 @@ public class EnemyController : MonoBehaviour
 
         healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
-        // if(enemyType == EnemyType.Normal) {
-        //     totalHealth = 100;
-        //     SetHealth();
-        // }
-        // else {
-        //     totalHealth = 300;
-        //     SetHealthBoss();
-        // }
 
         currentHealth = enemyStats.maxHP;
     }
@@ -200,7 +177,23 @@ public class EnemyController : MonoBehaviour
         return spawnPoint;
     }
 
-    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection) {
+    void SFXPlayer(Detain detain) {
+        switch(detain) {
+            case Detain.Yes:
+                SFXManager.Instance.Play("RobotDetained");
+                hasBeenDetained = true;
+                break;
+            case Detain.No:
+                SFXManager.Instance.Play("RobotDamaged");
+                hasBeenDetained = false;
+                break;
+        }
+    }
+
+    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain) {
+        //SFX Play
+        SFXPlayer(detain);
+
         //Visual Cue
         hitFX.Play();
         sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
@@ -343,4 +336,6 @@ public class EnemyController : MonoBehaviour
     float CalculatePoiseDamage(float poise) {
         return poise * enemyStats.stunResist;
     }
+
+    public bool GetDetain() { return hasBeenDetained; }
 }
