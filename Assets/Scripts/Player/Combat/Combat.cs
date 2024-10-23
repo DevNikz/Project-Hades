@@ -37,6 +37,10 @@ public class Combat : MonoBehaviour
     [BoxGroup("Timer/TimerSettings", ShowLabel = false)]
     [SerializeField] public float detainCooldown;
 
+    [PropertySpace] [TitleGroup("Debug", "Genreal Debug Stuffs", TitleAlignments.Centered)]
+    [SerializeField] private bool debug;
+
+    //References
     [PropertySpace] [TitleGroup("References", "General References", TitleAlignments.Centered)] 
 
     [BoxGroup("References/Debug", ShowLabel = false)]
@@ -159,7 +163,7 @@ public class Combat : MonoBehaviour
         //Reference
         animatorController = this.GetComponent<PlayerAnimatorController>();
         combat = Resources.Load<PlayerAttackScriptable>("Player/Combat/PlayerAttack");
-        pointerUI = transform.Find("Pointer").gameObject;
+        pointerUI = transform.Find("AttackColliders").gameObject;
         attackUI = transform.Find("AttackUI").gameObject;
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
         attackUIEnd = attackUI.transform.Find("Border").transform.Find("EndBase").transform.Find("End").GetComponent<RectTransform>();
@@ -268,15 +272,15 @@ public class Combat : MonoBehaviour
                 gameObject.GetComponent<PlayerController>().UpdateMana(false);
 
                 if (comboCounter == 1) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee");
+                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
                 }
 
                 else if(comboCounter == 2) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee");
+                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
                 }
                 
                 else if(comboCounter == 3) { 
-                    InitHitBox(hitBoxBasic, "PlayerMeleeLarge");
+                    InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
                 }
             }
         }
@@ -292,7 +296,7 @@ public class Combat : MonoBehaviour
             tempDirection = attackDirection;
             entityState = EntityState.Detain;
 
-            InitHitBox(hitboxDetain, "Detain");
+            InitHitBox(hitboxDetain, "Detain", debug);
         }
     }
 
@@ -336,7 +340,7 @@ public class Combat : MonoBehaviour
     }
 
     
-    void InitHitBox(GameObject hitBoxRef, string attackTag) {
+    void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
         //Instantiate hitbox from selected attack type
         hitboxLeft_Temp = Instantiate(hitBoxRef, hitBoxRef.transform.position, pointerUI.transform.rotation);
 
@@ -354,6 +358,9 @@ public class Combat : MonoBehaviour
         else {
             hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
         }
+
+        //MeshRenderer | True = Debug | False = Release
+        hitboxLeft_Temp.GetComponent<MeshRenderer>().enabled = isDebug;
 
         //Activate it 
         hitboxLeft_Temp.SetActive(true);

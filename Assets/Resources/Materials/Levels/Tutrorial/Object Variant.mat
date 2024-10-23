@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Object Variant
+  m_Shader: {fileID: 4800000, guid: df695d70c539c3d4c87b79de307ab7bb, type: 3}
+  m_Parent: {fileID: 2100000, guid: 614e7cb048fb4a840b395f4d107f0108, type: 2}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MK_ARTISTIC_ANIMATION_STUTTER
+  - _MK_DETAIL_BLEND_MIX
+  - _MK_DIFFUSE_OREN_NAYAR
+  - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+  - _MK_FRESNEL_HIGHLIGHTS
+  - _MK_LIGHT_BANDED
+  - _MK_NORMAL_MAP
+  - _MK_RECEIVE_SHADOWS
+  - _MK_SPECULAR_ISOTROPIC
+  - _MK_THRESHOLD_MAP
+  - _MK_WORKFLOW_SPECULAR
+  - _MK_WRAPPED_DIFFUSE
+  m_InvalidKeywords:
+  - _FRESNELHIGHLIGHTS_ON
+  - _RECEIVESHADOWS_ON
+  - _WRAPPEDLIGHTING_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    IGNOREPROJECTOR: False
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0.2, y: 0.2}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: c7bbdc182bcf89542bba3e7a183e00a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AdvancedTab: 1
+    - _Anisotropy: -0.01
+    - _Artistic: 0
+    - _Diffuse: 1
+    - _DiffuseSmoothness: 0.451
+    - _DiffuseThresholdOffset: 0.561
+    - _Light: 2
+    - _LightBands: 7
+    - _LightBandsScale: 0.23
+    - _LightThreshold: 0.409
+    - _LightTransmission: 0
+    - _LightTransmissionIntensity: 1
+    - _NormalMapIntensity: 0.2
+    - _Smoothness: 0.393
+    - _Specular: 1
+    - _SpecularIntensity: 1
+    - _SpecularSmoothness: 1
+    - _SpecularThresholdOffset: 0.177
+    m_Colors:
+    - _AlbedoColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    - _Color: {r: 0.38679245, g: 0.38679245, b: 0.38679245, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

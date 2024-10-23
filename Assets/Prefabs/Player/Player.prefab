@@ -6361,9 +6361,9 @@ GameObject:
   - component: {fileID: 5182207953478976331}
   - component: {fileID: 140921737298977384}
   - component: {fileID: 6672481771139232210}
-  m_Layer: 6
+  m_Layer: 16
   m_Name: PlayerClip
-  m_TagString: Untagged
+  m_TagString: Mask
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6378,8 +6378,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.16, y: 0.75, z: -0.45}
-  m_LocalScale: {x: 3, y: 1.5, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8073765998928832489}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16398,6 +16398,7 @@ GameObject:
   - component: {fileID: 7191996246000666657}
   - component: {fileID: 2498595640253494118}
   - component: {fileID: 1874759129286193434}
+  - component: {fileID: 7481328132064102987}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -16525,6 +16526,7 @@ MonoBehaviour:
   tempTimer: 0
   detainTimer: 0
   detainCooldown: 0
+  debug: 0
   tempPosition: {x: 0, y: 0, z: 0}
   tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
@@ -16663,6 +16665,23 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &7481328132064102987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730666089872806669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cea13efb6e804e40859e9e2d8cb2ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 8504127553868938849}
+  target: {fileID: 6476314051922448961}
+  myLayerMask:
+    serializedVersion: 2
+    m_Bits: 81920
 --- !u!1 &9028727209518491993
 GameObject:
   m_ObjectHideFlags: 0

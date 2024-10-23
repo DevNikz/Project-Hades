@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class MaskObject : MonoBehaviour
 {
+    [PropertySpace, TitleGroup("Properties", "", TitleAlignments.Centered)] 
+    [InfoBox("Assign Wall / Obstruction Layer and the Mask layer. Walls and Obstruction objects need to be assigned with the same Wall / Obstruction Layer")]
+    [SerializeField] private LayerMask myLayerMask;
+
+    [PropertySpace, TitleGroup("Reference", "", TitleAlignments.Centered)] 
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject target;
-    [SerializeField] private LayerMask myLayerMask;
+
 
     void Update() {
         RaycastHit hit;

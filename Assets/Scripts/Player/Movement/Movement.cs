@@ -138,7 +138,7 @@ public class Movement : MonoBehaviour {
     }
 
     void LoadUI() {
-        pointerUI = transform.Find("Pointer").gameObject;
+        pointerUI = transform.Find("AttackColliders").gameObject;
     }
 
     void LoadComponents() {
