@@ -6161,7 +6161,7 @@ GameObject:
   - component: {fileID: 8259715935461032807}
   - component: {fileID: 784132878627009364}
   m_Layer: 6
-  m_Name: Pointer
+  m_Name: AttackColliders
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16575,8 +16575,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowReferences: 1
-  skeletalTop: {fileID: 0}
-  skeletalBottom: {fileID: 0}
+  skeletalTop: {fileID: 7648104669787157018}
+  skeletalBottom: {fileID: 9216096113911468058}
   entityMovement: 1
   entityState: 0
   entityDirection: 0
@@ -16607,10 +16607,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec84bfb252de7c4caa7c92be2fa7b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deaths: 0
+  deaths: 2
   entitySprite: {fileID: 0}
   pointerSprite: {fileID: 0}
-  deathSprite: {fileID: 0}
+  deathSprite: {fileID: 2359259091497742616}
   isDead: 0
   timer: 2
   tempTimer: 0
@@ -16677,11 +16677,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cea13efb6e804e40859e9e2d8cb2ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 8504127553868938849}
-  target: {fileID: 6476314051922448961}
   myLayerMask:
     serializedVersion: 2
     m_Bits: 81920
+  mainCamera: {fileID: 8504127553868938849}
+  target: {fileID: 6476314051922448961}
 --- !u!1 &9028727209518491993
 GameObject:
   m_ObjectHideFlags: 0
