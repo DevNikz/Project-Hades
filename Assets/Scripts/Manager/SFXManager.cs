@@ -32,13 +32,25 @@ public class SFXManager : MonoBehaviour
 
     void Start() {
         switch(SceneManager.GetActiveScene().buildIndex) {
-            case 0:
+            case 0: //Main Menu
                 Play("TitleMenu");
-                //Stop all music if ever man
-                //Stop("Theme1");
+                Stop("LevelOne");
                 break;
-            case 1:
+            case 1: //Tutorial
                 Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 3: //Level1
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 4: //Level2
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 5: //Level3
+                Stop("TitleMenu");
+                Play("LevelOne");
                 break;
         }
     }
