@@ -22,6 +22,14 @@ public class ItemManager : MonoBehaviour
     [LabelWidth(125)]
     public int steelCount;
 
+    [BoxGroup("References/Group/Left/Level")]
+    [LabelWidth(125)]
+    public int heavyCount;
+
+    [BoxGroup("References/Group/Left/Level")]
+    [LabelWidth(125)]
+    public int vitalityCount;
+
     [VerticalGroup("References/Group/Right")]
     [BoxGroup("References/Group/Right/Player")]
     [LabelWidth(125)]
@@ -29,11 +37,24 @@ public class ItemManager : MonoBehaviour
 
     [BoxGroup("References/Group/Right/Player")]
     [LabelWidth(125)]
+    [OnValueChanged("UpdatePlayerAggro")]
     public int playerAggroCount;
 
     [BoxGroup("References/Group/Right/Player")]
     [LabelWidth(125)]
+    [OnValueChanged("UpdatePlayerSteel")]
     public int playerSteelCount;
+
+    [BoxGroup("References/Group/Right/Player")]
+    [LabelWidth(125)]
+    [OnValueChanged("UpdatePlayerHeavy")]
+    public int playerHeavyCount;
+
+    [BoxGroup("References/Group/Right/Player")]
+    [LabelWidth(125)]
+    [OnValueChanged("UpdatePlayerVitality")]
+    public int playerVitalityCount;
+
     
     void Awake() {
         if(Instance == null) {
@@ -138,6 +159,14 @@ public class ItemManager : MonoBehaviour
         steelCount += value;
     }
 
+    public void AddHeavy(int value) {
+        heavyCount += value;
+    }
+
+    public void AddVitality(int value) {
+        vitalityCount += value;
+    }
+
     //For Player
     public void PAddScrap(int value) {
         playerScrapCount += value;
@@ -149,5 +178,30 @@ public class ItemManager : MonoBehaviour
 
     public void PAddSteel(int value) {
         playerSteelCount += value;
+    }
+
+    public void PAddHeavy(int value) {
+        playerHeavyCount += value;
+    }
+
+    public void PAddVitality(int value) {
+        playerVitalityCount += value;
+    }
+
+    //Stuffs
+    public void UpdatePlayerAggro() {
+        PlayerController.Instance.SetHealthDamage(playerAggroCount * 5);
+    }
+
+    public void UpdatePlayerSteel() {
+        PlayerController.Instance.SetTotalDefense(playerSteelCount * 5);
+    }
+
+    public void UpdatePlayerHeavy() {
+        PlayerController.Instance.SetStunDamage(playerHeavyCount * 5);
+    }
+
+    public void UpdatePlayerVitality() {
+        PlayerController.Instance.SetTotalHealth(playerVitalityCount * 5);
     }
 }

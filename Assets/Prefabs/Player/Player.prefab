@@ -686,6 +686,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: {fileID: 0}
+  healthDamage: 0
+  poiseDamage: 0
   tempTimer: 0.2
   timerState: 0
   defaultScaleX: 1.8
@@ -6037,6 +6039,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: {fileID: 0}
+  healthDamage: 0
+  poiseDamage: 0
   tempTimer: 0.5
   timerState: 0
   defaultScaleX: 1.8
@@ -16443,8 +16447,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8854316e5e74d4f4f8860511b4d6d807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalHealth: 100
+  baseTotalHealth: 100
+  modTotalHealth: 0
   currentHealth: 0
+  baseTotalDefense: 1
+  currentDefense: 0
   totalMana: 100
   currentMana: 0
   totalPoise: 100
@@ -16518,6 +16525,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combat: {fileID: 11400000, guid: 827564af401d6194d995afe9db48f1b9, type: 2}
+  baseHealthDamage: 0
+  modHealthDamage: 0
+  basePoiseDamage: 0
+  modPoiseDamage: 0
   lastClickedTime: 0
   lastComboEnd: 0
   comboCounter: 0
@@ -16887,6 +16898,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: {fileID: 0}
+  healthDamage: 0
+  poiseDamage: 0
   tempTimer: 0.25
   timerState: 0
   defaultScaleX: 1.8

@@ -6,9 +6,26 @@ using UnityEngine.UI;
 public class Combat : MonoBehaviour
 {
     //Basic Attack (Left Click)
-    [PropertySpace] [TitleGroup("Properties", "General Combat Properties", TitleAlignments.Centered)]
+    [PropertySpace] [TitleGroup("Properties (ReadOnly)", "", TitleAlignments.Centered)]
     [AssetSelector]
+
+    //THIS IS FOR ALL THE DEFAULT BASE REFERENCES (AKA READONLY SHIT)
     public PlayerAttackScriptable combat;
+
+    [PropertySpace, TitleGroup("Properties", "Player Combat Properties", TitleAlignments.Centered)]
+    //player damage and stun
+
+    [BoxGroup("Properties/0Box", ShowLabel = false)]
+    [SerializeField] public float baseHealthDamage;
+
+    [BoxGroup("Properties/0Box", ShowLabel = false)]
+    [SerializeField] public float modHealthDamage;
+
+    [BoxGroup("Properties/0Box", ShowLabel = false)]
+    [SerializeField] public float basePoiseDamage;
+
+    [BoxGroup("Properties/0Box", ShowLabel = false)]
+    [SerializeField] public float modPoiseDamage;
 
     [BoxGroup("Properties/Box", ShowLabel = false)]
     [ReadOnly, SerializeReference] private float lastClickedTime;
@@ -184,6 +201,12 @@ public class Combat : MonoBehaviour
     }
 
     void OnEnable() {
+        baseHealthDamage = combat.healthDamage;
+        modHealthDamage = combat.healthDamage;
+
+        basePoiseDamage = combat.poiseDamage;
+        modPoiseDamage = basePoiseDamage;
+
         hitBoxBasic.SetActive(false);
         hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
@@ -347,6 +370,10 @@ public class Combat : MonoBehaviour
         //Init tag based on attack type (i.e. PlayerMelee, etc)
         hitboxLeft_Temp.tag = attackTag;
 
+        //Init Stats
+        hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
+        hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+
         //Start Timer for hitbox (To mimic ticks)
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
         
@@ -414,5 +441,13 @@ public class Combat : MonoBehaviour
         }
     }
 
-    
+    public void SetHealthDamage(float value) {
+        modHealthDamage = baseHealthDamage;
+        modHealthDamage += value;
+    }
+
+    public void SetStunDamage(float value) {
+        modPoiseDamage = basePoiseDamage;
+        modPoiseDamage += value;
+    }
 }

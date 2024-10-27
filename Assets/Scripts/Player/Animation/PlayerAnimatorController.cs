@@ -308,30 +308,30 @@ public class PlayerAnimatorController : MonoBehaviour
             //Water
             //Idle
             case (1, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
-                skeletalTop.Play("Fire_T_R_1");
+                skeletalTop.Play("Water_T_R_1");
                 skeletalBottom.Play("Fire_B_R_1");
                 break;
             case (1, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                skeletalTop.Play("Fire_T_L_1");
-                skeletalBottom.Play("Fire_B_L_1"); 
+                skeletalTop.Play("Water_T_L_1");
+                skeletalBottom.Play("Water_B_L_1"); 
                 break;
 
             case (2, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
-                skeletalTop.Play("Fire_T_R_2");
-                skeletalBottom.Play("Fire_B_R_2");
+                skeletalTop.Play("Water_T_R_2");
+                skeletalBottom.Play("Water_B_R_2");
                 break;
             case (2, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                skeletalTop.Play("Fire_T_L_2");
-                skeletalBottom.Play("Fire_B_L_2");
+                skeletalTop.Play("Water_T_L_2");
+                skeletalBottom.Play("Water_B_L_2");
                 break;
 
             case (3, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _):
-                skeletalTop.Play("Fire_T_R_3");
-                skeletalBottom.Play("Fire_B_R_3"); 
+                skeletalTop.Play("Water_T_R_3");
+                skeletalBottom.Play("Water_B_R_3"); 
                 break;
             case (3, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                skeletalTop.Play("Fire_T_L_3");
-                skeletalBottom.Play("Fire_B_L_3"); 
+                skeletalTop.Play("Water_T_L_3");
+                skeletalBottom.Play("Water_B_L_3"); 
                 break;
 
             //Strafing | Right

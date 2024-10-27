@@ -15,8 +15,13 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     [Title("Health")]
-    [Range(0.1f,1000f)] public float totalHealth;
+    [Range(0.1f,1000f)] public float baseTotalHealth;
+    [ReadOnly] [SerializeReference] private float modTotalHealth;
     [ReadOnly] [SerializeReference] private float currentHealth;
+
+    [Title("Defense")]
+    [Range(0.1f,1000f)] public float baseTotalDefense;
+    [ReadOnly] [SerializeReference] private float currentDefense;
 
     [Title("Mana")]
     [Range(0.1f, 1000f)] public float totalMana;
@@ -97,7 +102,9 @@ public class PlayerController : MonoBehaviour
         manaStyleIndicator = GameObject.Find("StyleIndicator");
 
         currentPoise = totalPoise;
-        currentHealth = totalHealth;
+        modTotalHealth = baseTotalHealth;
+        currentHealth = modTotalHealth;
+        currentDefense = baseTotalDefense;
         currentMana = totalMana;
         //spawnPoint = gameObject.transform.position;
 
@@ -211,22 +218,23 @@ public class PlayerController : MonoBehaviour
     }
 
     public void RevertHealth() {
-        currentHealth = totalHealth;
-        healthMeter.value = ToPercent(currentHealth, totalHealth);
+        modTotalHealth = baseTotalHealth;
+        currentHealth = modTotalHealth;
+        healthMeter.value = ToPercent(currentHealth, modTotalHealth);
     }
 
     public void ReceiveDamage(DamageType damageType, float damage) {
         if(!staggered && !curHurt) {
             TriggerHurt();
-            currentHealth -= damage;
+            currentHealth -= damage / currentDefense;
         }
         else if(!staggered && curHurt) {
             isHurt = false;
             Invoke("TriggerHurt", 0.1f);
-            currentHealth -= damage;
+            currentHealth -= damage / currentDefense;
         }
         
-        healthMeter.value = ToPercent(currentHealth, totalHealth);
+        healthMeter.value = ToPercent(currentHealth, modTotalHealth);
         CheckHealth();
     }
 
@@ -260,7 +268,29 @@ public class PlayerController : MonoBehaviour
         return (int)currentMana;
     }
 
+    //Augment
 
+    //Aggro | Health Dmg
+    public void SetHealthDamage(float value) {
+        GetComponent<Combat>().SetHealthDamage(value);
+    }
+
+    //Steel | Defense
+    public void SetTotalDefense(float value) {
+        currentDefense = baseTotalDefense;
+        currentDefense += value / 100;
+    }
+
+    //Heavy | Stun Dmg
+    public void SetStunDamage(float value) {
+        GetComponent<Combat>().SetStunDamage(value);
+    }
+
+    //Vitality | Total Health
+    public void SetTotalHealth(float value) {
+        modTotalHealth = baseTotalHealth;
+        modTotalHealth += value;
+    }
 
     //KEEPING FOR IF ELEMENT CHARGES ARE STORED SEPARATELY
     /*return element switch

@@ -6,6 +6,10 @@ public class MeleeController : MonoBehaviour
     [Title("AttackType")]
     public AttackType attackType;
 
+    [PropertySpace, TitleGroup("Properties")]
+    [SerializeField] public float healthDamage;
+    [SerializeField] public float poiseDamage;
+
     [Title("Timer")]
     [SerializeField] [Range(0f,2f)] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
@@ -99,7 +103,7 @@ public class MeleeController : MonoBehaviour
     void TriggerAttack(Collider other) {
         if(other.CompareTag("Enemy")) {
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection, Detain.No);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No);
 
             Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
             Vector3 knockback = direction * attackType.knocbackForce;
@@ -109,7 +113,7 @@ public class MeleeController : MonoBehaviour
         if(other.CompareTag("Enemy(Staggered)")) {
             Debug.Log("Enemy Staggered");
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection,  Detain.No);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection,  Detain.No);
         }
 
         if(other.CompareTag("HitHazard")) {
@@ -121,7 +125,7 @@ public class MeleeController : MonoBehaviour
     void TriggerDetain(Collider other) {
         if(other.CompareTag("Enemy")) {
             tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, attackType.damage, attackType.poise, atkdirection,  Detain.Yes);
+            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection,  Detain.Yes);
 
             // No Knockback?
             // Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
@@ -141,4 +145,7 @@ public class MeleeController : MonoBehaviour
     public void SetAttackDirection(AttackDirection attackDirection) {
         this.atkdirection = attackDirection;
     }
+
+    public void SetHealthDamage(float value) { healthDamage = value; }
+    public void SetStunDamage(float value) { poiseDamage = value; }
 }
