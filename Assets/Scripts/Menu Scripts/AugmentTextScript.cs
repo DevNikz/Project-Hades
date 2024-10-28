@@ -8,6 +8,30 @@ public class AugmentTextScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI descText;
 
+    public string hpnameField;
+    public string hpDescField;
+
+    public string atkNameField;
+    public string atkDescField;
+
+    public string defNameField;
+    public string defDescField;
+
+    public string stunNameField;
+    public string stunDescField;
+
+    public string earthNameField;
+    public string earthDescField;
+
+    public string fireNameField;
+    public string fireDescField;
+
+    public string waterNameField;
+    public string waterDescField;
+
+    public string windNameField;
+    public string windDescField;
+
     private void Start()
     {
         nameText.text = "";
@@ -22,38 +46,38 @@ public class AugmentTextScript : MonoBehaviour
         {
             //Stat augments
             case "Vitality":
-                nameText.text = "HP";
-                descText.text = "Increase max health";
+                nameText.text = hpnameField;
+                descText.text = hpDescField;
                 break;
             case "Aggro":
-                nameText.text = "Attack";
-                descText.text = "Increase basic attack";
+                nameText.text = atkNameField;
+                descText.text = atkDescField;
                 break;
             case "Steel":
-                nameText.text = "Defense";
-                descText.text = "Decrease damage received";
+                nameText.text = defNameField;
+                descText.text = defDescField;
                 break;
             case "Heavy":
-                nameText.text = "Stun";
-                descText.text = "Increase stun damage";
+                nameText.text = stunNameField;
+                descText.text = stunDescField;
                 break;
 
             //Elemental augments
             case "Earth":
-                nameText.text = "Gaia";
-                descText.text = "Increase stagger damage";
+                nameText.text = earthNameField;
+                descText.text = earthDescField;
                 break;
             case "Water":
-                nameText.text = "Thalassa";
-                descText.text = "Increase attack range";
+                nameText.text = waterNameField;
+                descText.text = waterDescField;
                 break;
-            case "Air":
-                nameText.text = "Ouranos";
-                descText.text = "Increase attack speed";
+            case "Wind":
+                nameText.text = windNameField;
+                descText.text = windDescField;
                 break;
             case "Fire":
-                nameText.text = "Gehenna";
-                descText.text = "Increase basic attack damage";
+                nameText.text = fireNameField;
+                descText.text = fireDescField;
                 break;
         }
 
