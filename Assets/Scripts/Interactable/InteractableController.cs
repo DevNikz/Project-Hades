@@ -7,6 +7,7 @@ public class InteractableController : MonoBehaviour
     [BoxGroup("Properties/Box1", ShowLabel = false)]
     [InfoBox("Popup Toggle (Disables Popup)"), OnValueChanged("UpdateToggle")]
     public bool toggle;
+    private bool popupActivated = false;
 
     void Awake() {
 
@@ -26,10 +27,22 @@ public class InteractableController : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
             this.GetComponent<PopupController>().Enable();
+            popupActivated = true;
         }
     }
 
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0) && popupActivated)
+        {
+            this.GetComponent<PopupController>().Disable();
+            Destroy(this.gameObject);
+        }
+    }
+
+    /*
     void OnTriggerExit() {
         this.GetComponent<PopupController>().Disable();
     }
+    */
 }

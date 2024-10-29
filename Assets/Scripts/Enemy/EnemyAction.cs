@@ -47,6 +47,8 @@ public class EnemyAction : MonoBehaviour
 
     private AttackDirection atkDir;
 
+    public float wanderRange = 5;
+
     public virtual void OnEnable()
     {
         agent = this.GetComponent<NavMeshAgent>();
@@ -108,7 +110,7 @@ public class EnemyAction : MonoBehaviour
     {
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
-            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * 5;
+            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * wanderRange;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
