@@ -141,6 +141,9 @@ public class Combat : MonoBehaviour
     [BoxGroup("References/Ref", ShowLabel = false)]
     [SerializeField] public TextMeshProUGUI fireChargeText;
 
+    [BoxGroup("References/Ref", ShowLabel = false)]
+    [SerializeReference] public HitboxCall hitBox;
+
     [PropertySpace] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
 
     [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
@@ -187,6 +190,7 @@ public class Combat : MonoBehaviour
         skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
         skeletalBottom = transform.Find("SpriteB").GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
+        hitBox = skeletalTop.GetComponent<HitboxCall>();
 
 
         //Rather than finding it in scene, reference it in the scriptables
@@ -253,7 +257,8 @@ public class Combat : MonoBehaviour
         detainPress = parameters.GetBoolExtra(DETAIN, false);
 
         //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
-        if(IsMouseOverGameWindow) {
+        Debug.Log(MenuScript.weaponWheelCheck);
+        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false) {
             switch(leftClick, detainPress) {
                 case (true, false):
                     switch(selectedElement) {
@@ -364,6 +369,15 @@ public class Combat : MonoBehaviour
 
     
     void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
+        // Call HitBox from animation instead | This will require queued inputs unfortunately
+        // hitBox.hitBox = hitBoxRef;
+        // hitBox.attackTag = attackTag;
+        // hitBox.isDebug = isDebug;
+        // hitBox.pointerRot = pointerUI.transform.rotation;
+        // hitBox.healthDamage = modHealthDamage;
+        // hitBox.poiseDamage = modPoiseDamage;
+        // hitBox.direction = tempDirection;
+
         //Instantiate hitbox from selected attack type
         hitboxLeft_Temp = Instantiate(hitBoxRef, hitBoxRef.transform.position, pointerUI.transform.rotation);
 

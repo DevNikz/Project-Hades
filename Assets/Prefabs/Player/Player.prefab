@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 499077986357990254}
   - component: {fileID: 7648104669787157018}
   - component: {fileID: 1153294114719061929}
+  - component: {fileID: 4059045874301621353}
   m_Layer: 6
   m_Name: SpriteT
   m_TagString: Untagged
@@ -224,6 +225,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5458d49966c8740851ccab42fd67ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4059045874301621353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387202707525113118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3e4c8ec36b9d1469cc8a554a25239f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBox: {fileID: 0}
+  attackTag: 
+  isDebug: 0
+  pointerRot: {x: 0, y: 0, z: 0, w: 0}
+  healthDamage: 0
+  poiseDamage: 0
+  direction: 0
 --- !u!1 &623485291213936346
 GameObject:
   m_ObjectHideFlags: 0
@@ -16565,6 +16585,7 @@ MonoBehaviour:
   deltaState: 0
   deltaDir: 0
   fireChargeText: {fileID: 0}
+  hitBox: {fileID: 0}
   leftClick: 0
   RStickInput: {x: 0, y: 0, z: 0}
   detainPress: 0
