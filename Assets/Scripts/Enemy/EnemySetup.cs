@@ -1,4 +1,6 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySetup : MonoBehaviour
 {
@@ -6,15 +8,26 @@ public class EnemySetup : MonoBehaviour
     private GameObject poiseUI;
     private GameObject baseEnemy;
 
+    [PropertySpace, TitleGroup("Debug", "", TitleAlignments.Centered)] 
+    [SerializeField] private bool isDebug;
+
+    [PropertySpace, TitleGroup("Reference", "", TitleAlignments.Centered)] 
+    [SerializeReference] private GameObject sightDebug; 
+
     void Start() {
-        healthUI = transform.Find("Health").gameObject;
+
+        //UI
+        healthUI = transform.Find("HealthAndDetection").gameObject;
         // poiseUI = transform.Find("Poise").gameObject;
         baseEnemy = transform.Find("Base").gameObject;
+
+        sightDebug = baseEnemy.transform.Find("Cone").gameObject;
     }
 
     void Update()
     {
         UpdateUI();
+        ToggleSightDebug();
     }
 
     void UpdateUI() {
@@ -23,5 +36,9 @@ public class EnemySetup : MonoBehaviour
 
         healthUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
         // poiseUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);
+    }
+
+    void ToggleSightDebug() {
+        sightDebug.GetComponent<MeshRenderer>().enabled = isDebug;
     }
 }

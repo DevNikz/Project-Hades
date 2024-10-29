@@ -27,3 +27,8 @@ public enum HazardType {
     Bog,
     Pillar
 }
+
+public enum Detain {
+    No,
+    Yes
+}

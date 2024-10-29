@@ -31,12 +31,11 @@ Material:
   - _MK_DIFFUSE_OREN_NAYAR
   - _MK_EMISSION
   - _MK_EMISSION_MAP
-  - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+  - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_HEIGHT_MAP
   - _MK_INDEX_OF_REFRACTION
   - _MK_LIGHT_CEL
-  - _MK_LIGHT_TRANSMISSION_TRANSLUCENT
   - _MK_NORMAL_MAP
   - _MK_PARALLAX
   - _MK_RECEIVE_SHADOWS
@@ -271,7 +270,7 @@ Material:
     - _DrawnMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EnvironmentReflections: 2
+    - _EnvironmentReflections: 1
     - _FresnelHighlights: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -290,7 +289,7 @@ Material:
     - _LightBands: 4
     - _LightBandsScale: 0.5
     - _LightThreshold: 0.5
-    - _LightTransmission: 1
+    - _LightTransmission: 0
     - _LightTransmissionDistortion: 1
     - _LightTransmissionIntensity: 1
     - _LightTransmissionSmoothness: 0.5
@@ -343,7 +342,7 @@ Material:
     - _Surface: 1
     - _ThresholdMapScale: 1
     - _VertexAnimation: 1
-    - _VertexAnimationIntensity: 0.2
+    - _VertexAnimationIntensity: 0.1
     - _VertexAnimationStutter: 0
     - _Workflow: 0
     - _WorkflowMode: 1

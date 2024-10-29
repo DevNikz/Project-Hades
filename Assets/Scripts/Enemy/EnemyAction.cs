@@ -47,6 +47,8 @@ public class EnemyAction : MonoBehaviour
 
     private AttackDirection atkDir;
 
+    public float wanderRange = 5;
+
     public virtual void OnEnable()
     {
         agent = this.GetComponent<NavMeshAgent>();
@@ -81,7 +83,7 @@ public class EnemyAction : MonoBehaviour
                 Patrol();
                 break;
             case 1:
-                Attack();
+                Invoke("Attack", 3.0f);
                 break;
             case 2:
                 if (!isSearching) this.lastSeenPos = Player.transform.position;
@@ -106,7 +108,16 @@ public class EnemyAction : MonoBehaviour
 
     public virtual void Patrol()
     {
-        //agent.destination = Player.transform.position;
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * wanderRange;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+        }
+
         /*
         if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {

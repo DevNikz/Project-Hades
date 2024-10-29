@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _MK_ALPHA_CLIPPING
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_ARTISTIC_SKETCH
   - _MK_DETAIL_BLEND_MIX
@@ -23,16 +24,17 @@ Material:
   - _MK_SPECULAR_ISOTROPIC
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
+  - _ALPHACLIPPING_ON
   - _FRESNELHIGHLIGHTS_ON
   - _RECEIVESHADOWS_ON
   - _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    IGNOREPROJECTOR: False
-    RenderType: Opaque
+    IGNOREPROJECTOR: true
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -209,8 +211,8 @@ Material:
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlphaClip: 0
-    - _AlphaClipping: 0
-    - _AlphaCutoff: 0.5
+    - _AlphaClipping: 1
+    - _AlphaCutoff: 0.536
     - _AlphaToMask: 0
     - _Anisotropy: 0
     - _Artistic: 3
@@ -229,7 +231,7 @@ Material:
     - _ColorGrading: 0
     - _Contrast: 1
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.536
     - _DetailAlbedoMapScale: 1
     - _DetailBlend: 0
     - _DetailMix: 0.5
@@ -308,12 +310,12 @@ Material:
     - _SpecularThresholdOffset: 0.25
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
-    - _Stencil: 1
-    - _StencilComp: 8
+    - _Stencil: 2
+    - _StencilComp: 5
     - _StencilFail: 0
-    - _StencilPass: 0
+    - _StencilPass: 1
     - _StencilReadMask: 255
-    - _StencilRef: 0
+    - _StencilRef: 1
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1

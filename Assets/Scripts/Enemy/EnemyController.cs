@@ -32,26 +32,11 @@ public class EnemyController : MonoBehaviour
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
+    [ReadOnly, SerializeReference] private bool hasBeenDetained;
+
+    [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
+    [LabelWidth(110)]
     [ReadOnly, SerializeReference] private TimerState timerState;
-
-    // [Title("Type")]
-    // [SerializeField] private EnemyType enemyType;
-
-    // [Title("Health")]
-    // [ReadOnly] [SerializeReference] private float currentHealth;
-
-    // [Title("Poise")]
-    // [SerializeField] [Range(0.1f, 100f)] private float totalPoise;
-    // [SerializeField] [Range(0.1f,1f)] private float poiseMultiplier;
-    // [ReadOnly] [SerializeReference] private float currentPoise;
-    // [ReadOnly] [SerializeReference] private bool poiseDamaged;
-    // [ReadOnly] [SerializeReference] private bool staggered;
-    
-
-    // [Title("Timer")]
-    // [SerializeField] [Range(0.1f, 5f)] private float timerDelay;
-    // [ReadOnly] [SerializeReference] private float tempDelay;
-    // [ReadOnly] [SerializeReference] private TimerState timerState;
 
     //Ref
     [Title("References")]
@@ -61,11 +46,11 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private GameObject healthUI;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private GameObject detectUI;
+    [SerializeReference] private Slider healthMeter;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private Slider healthMeter;
-    
+    [SerializeReference] private GameObject detectCone;
+
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Slider bossMeter1;
 
@@ -93,8 +78,8 @@ public class EnemyController : MonoBehaviour
     private PlayerController fireCharge;
 
     void Start() {
-        healthUI = this.transform.parent.transform.Find("Health").gameObject;
-        detectUI = this.transform.Find("Cone").gameObject;
+        healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
+        detectCone = this.transform.Find("Cone").gameObject;
         // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
@@ -102,23 +87,14 @@ public class EnemyController : MonoBehaviour
         spawnPoint = this.transform.position;
         currentPoise = enemyStats.maxPoise;
 
+        healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
-        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
-
-        // if(enemyType == EnemyType.Normal) {
-        //     totalHealth = 100;
-        //     SetHealth();
-        // }
-        // else {
-        //     totalHealth = 300;
-        //     SetHealthBoss();
-        // }
 
         currentHealth = enemyStats.maxHP;
     }
 
     void SetHealth() {
-        healthMeter = healthUI.transform.Find("Slider").GetComponent<Slider>();
+        healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
     }
 
     void SetHealthBoss() {
@@ -136,16 +112,16 @@ public class EnemyController : MonoBehaviour
     void UpdateHealth() {
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyAction>().enabled = false;
-            detectUI.GetComponent<SightTrigger>().enabled = false;
+            detectCone.GetComponent<SightTrigger>().enabled = false;
             this.tag = "Enemy(Dead)";
             healthUI.SetActive(false);
-            detectUI.SetActive(false);
+            detectCone.SetActive(false);
         }
         else {
             this.GetComponent<EnemyAction>().enabled = true;
-            detectUI.GetComponent<SightTrigger>().enabled = true;
+            detectCone.GetComponent<SightTrigger>().enabled = true;
             healthUI.SetActive(true);
-            detectUI.SetActive(true);
+            detectCone.SetActive(true);
         }
     }
 
@@ -201,7 +177,23 @@ public class EnemyController : MonoBehaviour
         return spawnPoint;
     }
 
-    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection) {
+    void SFXPlayer(Detain detain) {
+        switch(detain) {
+            case Detain.Yes:
+                SFXManager.Instance.Play("RobotDetained");
+                hasBeenDetained = true;
+                break;
+            case Detain.No:
+                SFXManager.Instance.Play("RobotDamaged");
+                hasBeenDetained = false;
+                break;
+        }
+    }
+
+    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain) {
+        //SFX Play
+        SFXPlayer(detain);
+
         //Visual Cue
         hitFX.Play();
         sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
@@ -344,4 +336,6 @@ public class EnemyController : MonoBehaviour
     float CalculatePoiseDamage(float poise) {
         return poise * enemyStats.stunResist;
     }
+
+    public bool GetDetain() { return hasBeenDetained; }
 }

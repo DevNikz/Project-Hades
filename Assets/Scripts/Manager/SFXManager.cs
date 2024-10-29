@@ -32,19 +32,27 @@ public class SFXManager : MonoBehaviour
 
     void Start() {
         switch(SceneManager.GetActiveScene().buildIndex) {
-            case 0:
-                Play("MenuTheme");
-                Stop("Theme1");
+            case 0: //Main Menu
+                Play("TitleMenu");
+                Stop("LevelOne");
                 break;
-            case 1:
-                Play("Theme1");
-                Stop("MenuTheme");
+            case 1: //Tutorial
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 3: //Level1
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 4: //Level2
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+            case 5: //Level3
+                Stop("TitleMenu");
+                Play("LevelOne");
                 break;
         }
-    }
-    
-    public void Click() {
-        Play("Click");
     }
 
     public void Play(string name) {
@@ -60,6 +68,7 @@ public class SFXManager : MonoBehaviour
         s.source.Stop();
     }
 
+    //Experimental Features (Warning!!)
     public void FadeIn(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if(s == null) return;

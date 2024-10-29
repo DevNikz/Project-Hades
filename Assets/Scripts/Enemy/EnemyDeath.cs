@@ -19,7 +19,17 @@ public class EnemyDeath : MonoBehaviour
         entitySprite = transform.Find("SpriteContainer").gameObject;
     }
 
+    void SFXPlayer() {
+        //will check for enemy type later
+        switch(GetComponent<EnemyController>().GetDetain()) {
+            case false:
+                SFXManager.Instance.Play("RobotKilled");
+                break;
+        }
+    }
+
     public void Die() {
+        SFXPlayer();
         entitySprite.GetComponent<EnemyAnimation>().SetDeath();
 
         tempTimer = timer;
@@ -49,6 +59,8 @@ public class EnemyDeath : MonoBehaviour
             deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, rot);
             deathSpriteTemp.SetActive(true);
             this.tag = "Enemy(Dead)";
+
+            // Respawn Mechanic
             //this.GetComponent<EnemyController>().RevertHealth();
             //this.GetComponent<EnemyController>().RevertPoise();
             //this.transform.position = this.GetComponent<EnemyController>().GetSpawnPoint();

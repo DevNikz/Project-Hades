@@ -55,23 +55,14 @@ public class PlayerAnimatorController : MonoBehaviour
             case Elements.Fire:
                 UpdateFireAnimation();
                 break;
-        }
-    }
-
-    public void PlayHurt() {
-        switch(entityDirection, entityState) {
-            case (LookDirection.Left, EntityState.None):
-                skeletalBottom.Play("PlayerHurtB_Left");
-                skeletalTop.Play("PlayerHurtT_Left");
+            case Elements.Water:
+                UpdateWaterAnimation();
                 break;
-            case (LookDirection.Right, EntityState.None):
-                skeletalBottom.Play("PlayerHurtB_Right");
-                skeletalTop.Play("PlayerHurtT_Right");
+            case Elements.Wind:
+                UpdateWindAnimation();
                 break;
         }
     }
-
-    
 
     void UpdateEarthAnimation() {
         //Right
@@ -117,6 +108,54 @@ public class PlayerAnimatorController : MonoBehaviour
             GetComponent<Combat>().EndCombo();
         }
         if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+    }
+
+    void UpdateWaterAnimation() {
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+    }
+    
+    void UpdateWindAnimation() {
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_3")) {
+            GetComponent<Combat>().EndCombo();
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_1")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_2")) {
+            GetComponent<Combat>().EndCombo();
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_3")) {
             GetComponent<Combat>().EndCombo();
         }
     }
@@ -290,6 +329,176 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
             case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
                 skeletalTop.Play("Fire_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            
+            //Water
+            //Idle
+            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
+                skeletalTop.Play("Water_T_R_1");
+                skeletalBottom.Play("Water_B_R_1");
+                break;
+            case (1, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
+                skeletalTop.Play("Water_T_L_1");
+                skeletalBottom.Play("Water_B_L_1"); 
+                break;
+
+            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
+                skeletalTop.Play("Water_T_R_2");
+                skeletalBottom.Play("Water_B_R_2");
+                break;
+            case (2, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
+                skeletalTop.Play("Water_T_L_2");
+                skeletalBottom.Play("Water_B_L_2");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _):
+                skeletalTop.Play("Water_T_R_3");
+                skeletalBottom.Play("Water_B_R_3"); 
+                break;
+            case (3, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
+                skeletalTop.Play("Water_T_L_3");
+                skeletalBottom.Play("Water_B_L_3"); 
+                break;
+
+            //Strafing | Right
+            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Water_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (1, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Water_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Water_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (2, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Water_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Water_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (3, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Water_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            //Strafing | Left
+            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Water_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (1, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Water_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Water_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (2, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Water_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Water_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (3, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Water_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            //Wind
+            //Idle
+            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _): 
+                skeletalTop.Play("Wind_T_R_1");
+                skeletalBottom.Play("Wind_B_R_1");
+                break;
+            case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
+                skeletalTop.Play("Wind_T_L_1");
+                skeletalBottom.Play("Wind_B_L_1"); 
+                break;
+
+            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _): 
+                skeletalTop.Play("Wind_T_R_2");
+                skeletalBottom.Play("Wind_B_R_2");
+                break;
+            case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
+                skeletalTop.Play("Wind_T_L_2");
+                skeletalBottom.Play("Wind_B_L_2");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _):
+                skeletalTop.Play("Wind_T_R_3");
+                skeletalBottom.Play("Wind_B_R_3"); 
+                break;
+            case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
+                skeletalTop.Play("Wind_T_L_3");
+                skeletalBottom.Play("Wind_B_L_3"); 
+                break;
+
+            //Strafing | Right
+            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Wind_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Wind_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right): 
+                skeletalTop.Play("Wind_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Wind_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Wind_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+            case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
+                skeletalTop.Play("Wind_T_L_3");
+                skeletalBottom.Play("PlayerRunB_Right");
+                break;
+
+            //Strafing | Left
+            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Wind_T_R_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Wind_T_L_1");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left): 
+                skeletalTop.Play("Wind_T_R_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Wind_T_L_2");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+
+            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Wind_T_R_3");
+                skeletalBottom.Play("PlayerRunB_Left");
+                break;
+            case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
+                skeletalTop.Play("Wind_T_L_3");
                 skeletalBottom.Play("PlayerRunB_Left");
                 break;
         }
