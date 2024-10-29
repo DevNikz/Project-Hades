@@ -106,7 +106,16 @@ public class EnemyAction : MonoBehaviour
 
     public virtual void Patrol()
     {
-        //agent.destination = Player.transform.position;
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * 5;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+        }
+
         /*
         if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
         {
