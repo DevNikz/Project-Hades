@@ -253,7 +253,8 @@ public class Combat : MonoBehaviour
         detainPress = parameters.GetBoolExtra(DETAIN, false);
 
         //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
-        if(IsMouseOverGameWindow) {
+        Debug.Log(MenuScript.weaponWheelCheck);
+        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false) {
             switch(leftClick, detainPress) {
                 case (true, false):
                     switch(selectedElement) {

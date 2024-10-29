@@ -195,7 +195,7 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(moveInput.x != 0 || moveInput.z != 0 && IsHurt() == false) {
+        if(moveInput.x != 0 || moveInput.z != 0) {
             if(dashInput) {
                 Dash();
             }
@@ -285,7 +285,8 @@ public class Movement : MonoBehaviour {
         delayedForce = isoInput * movement.dashForce; 
 
         //Duration
-        Invoke(nameof(DelayedDashForce), movement.dashDuration);
+        DelayedDashForce();
+        //Invoke(nameof(DelayedDashForce), movement.dashDuration);
 
         //Cooldown
         Invoke(nameof(ResetDash), movement.dashDuration);

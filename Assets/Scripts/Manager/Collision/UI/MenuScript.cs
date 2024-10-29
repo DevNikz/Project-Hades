@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MenuScript : MonoBehaviour
 {
+    
     public Vector2 normalisedMousePosition;
     public float currentAngle;
     public int selection;
@@ -19,7 +20,7 @@ public class MenuScript : MonoBehaviour
     private MenuItemScript menuItemSc;
     private MenuItemScript previousMenuItemSc;
 
-    private bool isTabHeld = false;
+    protected static bool isTabHeld = false;
     public bool wheelHeld;
     public bool wheelReleased;
 
@@ -27,6 +28,11 @@ public class MenuScript : MonoBehaviour
     public const string WHEEL_HOLD = "WHEEL_HOLD";
 
     protected static int lastSelected = 0;
+
+    public static bool weaponWheelCheck {
+        get { return isTabHeld; }
+        set { isTabHeld = value; }
+    }
 
     public static int LastSelection {
         get { return lastSelected; }
