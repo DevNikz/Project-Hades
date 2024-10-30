@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private Vector3 spawnPoint;
 
     private PlayerController fireCharge;
-
+    private float maxHP;
     void Start() {
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
@@ -89,7 +89,7 @@ public class EnemyController : MonoBehaviour
 
         healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
-
+        maxHP = enemyStats.maxHP;
         currentHealth = enemyStats.maxHP;
     }
 
@@ -312,7 +312,7 @@ public class EnemyController : MonoBehaviour
     }
 
     void UpdateNormalHP() {
-        healthMeter.value = ToPercent(currentHealth, 100);
+        healthMeter.value = ToPercent(currentHealth, maxHP);
     }
 
     void UpdateBossHP() {
