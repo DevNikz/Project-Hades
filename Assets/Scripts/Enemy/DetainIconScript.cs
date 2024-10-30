@@ -17,7 +17,7 @@ public class DetainIconScript : MonoBehaviour
     {
         playerSeen = false;
 
-        ui = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
+        ui = this.transform.parent.transform.parent.transform.Find("HealthAndDetection").gameObject;
 
         icon = ui.transform.Find("DetainIcon").gameObject.GetComponent<Image>();
 
