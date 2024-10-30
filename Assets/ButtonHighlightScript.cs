@@ -15,6 +15,7 @@ public class ButtonHighlightScript : MonoBehaviour
         image.enabled = false;
     }
 
+    //Augment Tree
     public void OnButtonClick()
     {
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
@@ -36,5 +37,15 @@ public class ButtonHighlightScript : MonoBehaviour
         gameObject.transform.position = button.transform.position;
         image.enabled = true;
 
+    }
+
+    //Reward Screen
+    public void OnRewardScreenClick()
+    {
+        GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+
+        image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 250);
+        gameObject.transform.position = button.transform.position;
+        image.enabled = true;
     }
 }

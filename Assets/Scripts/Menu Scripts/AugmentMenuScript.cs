@@ -15,9 +15,9 @@ public class AugmentMenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.LeftAlt))
             augmentMenu.SetActive(true);
-        else if (Input.GetKeyUp(KeyCode.Tab))
+        else if (Input.GetKeyUp(KeyCode.LeftAlt))
             augmentMenu.SetActive(false);
     }
 }
