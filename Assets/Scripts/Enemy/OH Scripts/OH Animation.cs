@@ -13,22 +13,50 @@ public class OHAnimation : MonoBehaviour
     public bool run;
     public float attackTime;
     private EnemyAction Enemy;
+    private float xScale;
+    private Vector3 Scale;
 
     private void Start()
     {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
         Enemy = this.gameObject.GetComponentInParent<EnemyAction>();
+
+        xScale = spriteAnimator.gameObject.transform.localScale.x;
+        Scale = spriteAnimator.gameObject.transform.localScale;
     }
 
     private void Update()
     {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        spriteAnimator.SetBool("PFound", run);
         if (!isHit && !isStun) SetAnimation();
+    }
+
+    public void SetDirection()
+    {
+        entityDirection = IsoCompass(this.transform.forward.x, this.transform.forward.z);
+
+        switch (entityDirection)
+        {
+            case EntityDirection.East:
+            case EntityDirection.NorthEast:
+            case EntityDirection.SouthEast:
+            case EntityDirection.North:
+                xScale = Math.Abs(xScale);
+                break;
+            case EntityDirection.West:
+            case EntityDirection.NorthWest:
+            case EntityDirection.SouthWest:
+            case EntityDirection.South:
+                xScale = Math.Abs(xScale) * -1;
+                break;
+        }
+
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
     }
 
     public void SetAnimation()
     {
+        SetDirection();
         switch (Enemy.Action)
         {
             case 0:
@@ -49,28 +77,26 @@ public class OHAnimation : MonoBehaviour
         }
     }
 
-    public void Hurt()
+    public void SetHit(AttackDirection attackDirection)
     {
-        spriteAnimator.Play("Hurt");
+        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
+        else xScale = Math.Abs(xScale);
+
         isHit = true;
-        Invoke("UnHurt", 1);
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        spriteAnimator.Play("Hit");
+        ResetHit();
     }
 
-    public void UnHurt()
+    public void SetStun(AttackDirection attackDirection)
     {
-        isHit = false;
-    }
+        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
+        else xScale = Math.Abs(xScale);
 
-    public void Stun(float time)
-    {
-        spriteAnimator.Play("Stun");
         isStun = true;
-        Invoke("UnStun", time);
-    }
-
-    public void UnStun()
-    {
-        isStun = false;
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        spriteAnimator.Play("Stun");
+        ResetHit();
     }
 
     public void ResetHit()
@@ -81,6 +107,60 @@ public class OHAnimation : MonoBehaviour
     void ResetAnim()
     {
         isHit = false;
+        isStun = false;
+    }
+
+    private EntityDirection IsoCompass(float x, float z)
+    {
+        //North
+        if (x == 0 && (z <= 1 && z > 0))
+        {
+            return EntityDirection.North;
+        }
+
+        //North East
+        else if ((x <= 1 && x > 0) && (z <= 1 && z > 0))
+        {
+            return EntityDirection.NorthEast;
+        }
+
+        //East
+        else if ((x <= 1 && x > 0) && z == 0)
+        {
+            return EntityDirection.East;
+        }
+
+        //South East
+        else if ((x <= 1 && x > 0) && (z >= -1 && z < 0))
+        {
+            return EntityDirection.SouthEast;
+        }
+
+        //South
+        else if (x == 0 && (z >= -1 && z < 0))
+        {
+            return EntityDirection.South;
+        }
+
+        //South West
+        else if ((x >= -1 && x < 0) && (z >= -1 && z < 0))
+        {
+            return EntityDirection.SouthWest;
+        }
+
+        //West
+        else if ((x >= -1 && x < 0) && z == 0)
+        {
+            return EntityDirection.West;
+        }
+
+        //North West
+        else if ((x >= -1 && x < 0) && (z <= 1 && z > 0))
+        {
+            return EntityDirection.NorthWest;
+        }
+
+        else return EntityDirection.East;
     }
 }
 

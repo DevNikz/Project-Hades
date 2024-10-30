@@ -21,7 +21,7 @@ public class MaskObject : MonoBehaviour
         if(Physics.Raycast(mainCamera.transform.position, 
         (target.transform.position - mainCamera.transform.position).normalized, 
         out hit, Mathf.Infinity, myLayerMask)) {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
 
             if (hit.collider.gameObject.tag == "Mask") {
                 target.transform.DOScale(0, 2);

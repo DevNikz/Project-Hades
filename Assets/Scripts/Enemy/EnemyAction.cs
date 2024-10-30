@@ -117,43 +117,6 @@ public class EnemyAction : MonoBehaviour
                 agent.SetDestination(hit.position);
             }
         }
-
-        /*
-        if (Vector3.Distance(this.transform.position, patrolPoints[nextPoint]) <= 0.1)
-        {
-            if (this.nextPoint + 1 < patrolPoints.Count)    
-                this.nextPoint++;
-            else this.nextPoint = 0;
-
-            isPatrolling = false;
-        }
-
-        if(!isPatrolling)
-        {
-            direction = patrolPoints[nextPoint] - this.transform.position;
-
-            prevRotation = this.transform.rotation;
-
-            if (direction != Vector3.zero) //was printing an "error" message in console
-                toRotation = Quaternion.LookRotation(direction);
-
-            this.timeStep = 0;
-            this.isTurning = true;
-            isPatrolling = true;
-        }
-
-        if (isTurning)
-        {
-            agent.isStopped = true;
-            this.transform.rotation = Quaternion.Slerp(prevRotation, toRotation, timeStep);
-            if (timeStep == 1) isTurning = false;
-        }
-        else
-            agent.destination = patrolPoints[nextPoint];
-
-        this.timeStep += Time.fixedDeltaTime * rotateSpeed;
-        if (this.timeStep > 1) this.timeStep = 1;
-        */
     }
 
     public virtual void Attack()
@@ -209,7 +172,7 @@ public class EnemyAction : MonoBehaviour
         }
     }
 
-    void SetAttackDirection()
+    public void SetAttackDirection()
     {
         if (isAttacking)
         {
