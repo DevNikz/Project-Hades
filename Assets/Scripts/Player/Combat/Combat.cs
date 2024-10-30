@@ -385,8 +385,15 @@ public class Combat : MonoBehaviour
         hitboxLeft_Temp.tag = attackTag;
 
         //Init Stats
-        hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
-        hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        if (hitboxLeft_Temp.CompareTag("Detain")){
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(120);
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        }
+        else {
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        }
+
 
         //Start Timer for hitbox (To mimic ticks)
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();

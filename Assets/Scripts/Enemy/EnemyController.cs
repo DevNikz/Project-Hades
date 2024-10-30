@@ -211,8 +211,8 @@ public class EnemyController : MonoBehaviour
         //EarthStyle. Basic attacks will be defaulted to EarthStyle - increased stun damage
         else if (MenuScript.LastSelection == 0)
         {
-            float waterDamage = damage * 0.8f;
-            currentHealth -= waterDamage; //Rudimentary damage increase for now
+            float earthDamage = damage;
+            currentHealth -= earthDamage; //Rudimentary damage increase for now
 
             //Poise
             poise = CalculatePoiseDamage(poise);
