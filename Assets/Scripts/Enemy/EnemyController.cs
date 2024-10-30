@@ -303,6 +303,7 @@ public class EnemyController : MonoBehaviour
 
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyDeath>().Die();
+
             //Add Scrap if ded
             if(ItemManager.Instance != null) {
                 ItemManager.Instance.PAddScrap(enemyStats.scrapCount);

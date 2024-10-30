@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
-    private Animator spriteAnimator;
+    public Animator spriteAnimator;
     public float rotation = 45f;
     public EntityDirection entityDirection;
     public EntityMovement entityMovement;
-    public bool isHit;
+    public bool isHit = false;
+    public bool isStun = false;
     public bool isShooting;
     public float timer;
 
@@ -14,13 +15,13 @@ public class EnemyAnimation : MonoBehaviour
     private EnemyAction action;
 
 
-    private void Start() {
+    public virtual void Start() {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
         action = obj.GetComponent<EnemyAction>();
         entityMovement = EntityMovement.Idle;
     }
 
-    private void Update() {
+    public virtual void Update() {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
 
         if (!action.isPatrolling && !action.isSearching && !action.isAttacking) entityMovement = EntityMovement.Idle;
@@ -29,7 +30,7 @@ public class EnemyAnimation : MonoBehaviour
         if (isHit == false && isShooting == false) SetAnimation();
     }
 
-    public void SetAnimation() {
+    public virtual void SetAnimation() {
         if(entityMovement == EntityMovement.Strafing) {
             SetRun();
         }
@@ -39,7 +40,7 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
 
-    public void SetRun() {
+    public virtual void SetRun() {
         switch(entityDirection) {
             case EntityDirection.East:
                 spriteAnimator.Play("MoveRight");
@@ -68,7 +69,7 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
 
-    public void SetHit(AttackDirection attackDirection) {
+    public virtual void SetHit(AttackDirection attackDirection) {
         isHit = true;
         switch(attackDirection) {
             case AttackDirection.Right:
@@ -82,7 +83,7 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
 
-    public void SetShoot(AttackDirection attackDirection)
+    public virtual void SetShoot(AttackDirection attackDirection)
     {
         isShooting = true;
         switch(attackDirection)
@@ -98,7 +99,7 @@ public class EnemyAnimation : MonoBehaviour
         }
     }
 
-    public void SetDeath()
+    public virtual void SetDeath()
     {
         spriteAnimator.Play("BugeDeath");
     }
@@ -107,8 +108,61 @@ public class EnemyAnimation : MonoBehaviour
         Invoke(nameof(ResetAnim), timer);
     }
 
-    void ResetAnim() {
+    public virtual void ResetAnim() {
         isHit = false;
         //isShooting = false;
+    }
+
+    public EntityDirection IsoCompass(float x, float z)
+    {
+        //North
+        if (x == 0 && (z <= 1 && z > 0))
+        {
+            return EntityDirection.North;
+        }
+
+        //North East
+        else if ((x <= 1 && x > 0) && (z <= 1 && z > 0))
+        {
+            return EntityDirection.NorthEast;
+        }
+
+        //East
+        else if ((x <= 1 && x > 0) && z == 0)
+        {
+            return EntityDirection.East;
+        }
+
+        //South East
+        else if ((x <= 1 && x > 0) && (z >= -1 && z < 0))
+        {
+            return EntityDirection.SouthEast;
+        }
+
+        //South
+        else if (x == 0 && (z >= -1 && z < 0))
+        {
+            return EntityDirection.South;
+        }
+
+        //South West
+        else if ((x >= -1 && x < 0) && (z >= -1 && z < 0))
+        {
+            return EntityDirection.SouthWest;
+        }
+
+        //West
+        else if ((x >= -1 && x < 0) && z == 0)
+        {
+            return EntityDirection.West;
+        }
+
+        //North West
+        else if ((x >= -1 && x < 0) && (z <= 1 && z > 0))
+        {
+            return EntityDirection.NorthWest;
+        }
+
+        else return EntityDirection.East;
     }
 }

@@ -1,22 +1,16 @@
 using System;
 using UnityEngine;
 
-public class LCAnimation : MonoBehaviour
+public class LCAnimation : EnemyAnimation
 {
-    private Animator spriteAnimator;
-    public float rotation = 45f;
-    public EntityDirection entityDirection;
-    public EntityMovement entityMovement;
-    public bool isHit;
-    public bool isStun;
-    public float timer;
     public bool run;
     public float attackTime;
     private EnemyAction Enemy;
     private float xScale;
     private Vector3 Scale;
+    private bool isDead = false;
 
-    private void Start()
+    public override void Start()
     {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
         Enemy = this.gameObject.GetComponentInParent<EnemyAction>();
@@ -26,10 +20,10 @@ public class LCAnimation : MonoBehaviour
         spriteAnimator.SetFloat("ComboSpeed", 1 / Enemy.FireRate);
     }
 
-    private void Update()
+    public override void Update()
     {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        if (!isHit && !isStun) SetAnimation();
+        if (!isHit && !isStun && !isDead) SetAnimation();
     }
 
     public void SetDirection()
@@ -55,7 +49,7 @@ public class LCAnimation : MonoBehaviour
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
     }
 
-    public void SetAnimation()
+    public override void SetAnimation()
     {
         SetDirection();
         switch (Enemy.Action)
@@ -80,17 +74,20 @@ public class LCAnimation : MonoBehaviour
                 break;
             case 6:
                 break;
+            case 10:
+                spriteAnimator.Play("Death");
+                break;
             default:
                 spriteAnimator.Play("Idle");
                 break;
         }
     }
 
-    public void SetHit(AttackDirection attackDirection)
+    public override void SetHit(AttackDirection attackDirection)
     {
-        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
+        if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
         else xScale = Math.Abs(xScale);
-
+        Enemy.agent.isStopped = true;
         isHit = true;
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         spriteAnimator.Play("Hit");
@@ -108,68 +105,20 @@ public class LCAnimation : MonoBehaviour
         ResetHit();
     }
 
-    public void ResetHit()
+    public override void SetDeath()
     {
-        Invoke(nameof(ResetAnim), timer);
+        isDead = true;
+        Enemy.SetAction(10);
+        spriteAnimator.Play("Death");
+        this.enabled = false;
+        Enemy.agent.isStopped = true;
     }
 
-    void ResetAnim()
+    public override void ResetAnim()
     {
         isHit = false;
         isStun = false;
-    }
-
-    private EntityDirection IsoCompass(float x, float z)
-    {
-        //North
-        if (x == 0 && (z <= 1 && z > 0))
-        {
-            return EntityDirection.North;
-        }
-
-        //North East
-        else if ((x <= 1 && x > 0) && (z <= 1 && z > 0))
-        {
-            return EntityDirection.NorthEast;
-        }
-
-        //East
-        else if ((x <= 1 && x > 0) && z == 0)
-        {
-            return EntityDirection.East;
-        }
-
-        //South East
-        else if ((x <= 1 && x > 0) && (z >= -1 && z < 0))
-        {
-            return EntityDirection.SouthEast;
-        }
-
-        //South
-        else if (x == 0 && (z >= -1 && z < 0))
-        {
-            return EntityDirection.South;
-        }
-
-        //South West
-        else if ((x >= -1 && x < 0) && (z >= -1 && z < 0))
-        {
-            return EntityDirection.SouthWest;
-        }
-
-        //West
-        else if ((x >= -1 && x < 0) && z == 0)
-        {
-            return EntityDirection.West;
-        }
-
-        //North West
-        else if ((x >= -1 && x < 0) && (z <= 1 && z > 0))
-        {
-            return EntityDirection.NorthWest;
-        }
-
-        else return EntityDirection.East;
+        Enemy.agent.isStopped = false;
     }
 }
 

@@ -37,7 +37,7 @@ public class LC_Actions : EnemyAction
         if (Action != 0) isPatrolling = false;
         if (Action != 1) agent.speed = originalSpeed;
 
-        agent.isStopped = false;
+        //agent.isStopped = false;
 
         switch (Action)
         {
