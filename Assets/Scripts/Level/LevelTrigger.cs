@@ -32,6 +32,7 @@ public class LevelTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
+            this.playerInputManager = GameObject.Find("PlayerInputManager");
             if(ToggleTrigger && playerInputManager != null) {
 
                 playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
