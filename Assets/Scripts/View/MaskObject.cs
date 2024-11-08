@@ -13,10 +13,23 @@ public class MaskObject : MonoBehaviour
     [PropertySpace, TitleGroup("Reference", "", TitleAlignments.Centered)] 
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject target;
+    [SerializeField] private string maskTagName;
+    [SerializeField] private float fadedAlpha;
 
 
     void Update() {
         this.OldPeakSystem();
+        // this.NewPeakSystem();
+    }
+
+    void NewPeakSystem(){
+        GameObject[] maskObjects = GameObject.FindGameObjectsWithTag(maskTagName);
+        foreach(GameObject maskObject in maskObjects){
+            if(maskObject.TryGetComponent<Renderer>(out var renderer)){
+                Color oldColor = renderer.material.GetColor("_AlbedoColor");
+                oldColor.a = fadedAlpha;
+            }
+        }
     }
 
     void OldPeakSystem(){
