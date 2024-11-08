@@ -111,6 +111,8 @@ public class PlayerController : MonoBehaviour
         tempDelay = timerDelay;
 
         animatorController = GetComponent<PlayerAnimatorController>();
+        
+        healthMeter.value = ToPercent(currentHealth, modTotalHealth);
     }
 
     void OnEnable() {
@@ -150,6 +152,8 @@ public class PlayerController : MonoBehaviour
             // }
             //Debug.Log(PlayerData.entityState);
         }
+        
+        healthMeter.value = ToPercent(currentHealth, modTotalHealth);
     }
 
     void UpdateHurt() {
