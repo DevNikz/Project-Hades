@@ -16,6 +16,10 @@ public class MaskObject : MonoBehaviour
 
 
     void Update() {
+        this.OldPeakSystem();
+    }
+
+    void OldPeakSystem(){
         RaycastHit hit;
 
         if(Physics.Raycast(mainCamera.transform.position, 
