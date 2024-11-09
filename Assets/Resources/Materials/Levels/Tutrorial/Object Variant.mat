@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _MK_ALPHA_CLIPPING
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_ARTISTIC_SKETCH
   - _MK_DETAIL_BLEND_MIX
@@ -23,22 +22,23 @@ Material:
   - _MK_NORMAL_MAP
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
+  - _MK_SURFACE_TYPE_TRANSPARENT
   - _MK_THRESHOLD_MAP
   - _MK_WORKFLOW_SPECULAR
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
-  - _ALPHACLIPPING_ON
   - _FRESNELHIGHLIGHTS_ON
   - _RECEIVESHADOWS_ON
   - _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3000
   stringTagMap:
     IGNOREPROJECTOR: true
-    RenderType: TransparentCutout
-  disabledShaderPasses: []
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -209,7 +209,7 @@ Material:
     - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlphaClip: 0
-    - _AlphaClipping: 1
+    - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _Anisotropy: -0.01
@@ -217,10 +217,10 @@ Material:
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 0
     - _Blend: 0
-    - _BlendDst: 0
-    - _BlendDstAlpha: 0
+    - _BlendDst: 10
+    - _BlendDstAlpha: 10
     - _BlendModePreserveSpecular: 1
-    - _BlendSrc: 1
+    - _BlendSrc: 5
     - _BlendSrcAlpha: 1
     - _Brightness: 1
     - _BumpScale: 1
@@ -312,7 +312,7 @@ Material:
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1
-    - _Surface: 0
+    - _Surface: 1
     - _ThresholdMapScale: 1
     - _VertexAnimation: 0
     - _VertexAnimationIntensity: 1
@@ -321,11 +321,11 @@ Material:
     - _WorkflowMode: 0
     - _WrappedLighting: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _AlbedoColor: {r: 0.38679245, g: 0.38679245, b: 0.38679245, a: 1}
+    - _AlbedoColor: {r: 0.38679233, g: 0.38679233, b: 0.38679233, a: 1}
     - _BaseColor: {r: 0.23807405, g: 0.4716981, b: 0.25825855, a: 1}
-    - _Color: {r: 0.38679242, g: 0.38679242, b: 0.38679242, a: 1}
+    - _Color: {r: 0.3867923, g: 0.3867923, b: 0.3867923, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

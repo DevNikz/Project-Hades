@@ -27,6 +27,7 @@ Material:
   - _MK_PBS_MAP_0
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
+  - _MK_SURFACE_TYPE_TRANSPARENT
   - _MK_WORKFLOW_SPECULAR
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
@@ -43,12 +44,13 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: 3000
   stringTagMap:
     IGNOREPROJECTOR: true
-    RenderType: TransparentCutout
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -231,10 +233,10 @@ Material:
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 0
     - _Blend: 0
-    - _BlendDst: 0
-    - _BlendDstAlpha: 0
+    - _BlendDst: 10
+    - _BlendDstAlpha: 10
     - _BlendModePreserveSpecular: 1
-    - _BlendSrc: 1
+    - _BlendSrc: 5
     - _BlendSrcAlpha: 1
     - _Brightness: 1
     - _BumpScale: 2.96
@@ -328,7 +330,7 @@ Material:
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1
-    - _Surface: 0
+    - _Surface: 1
     - _ThresholdMapScale: 1
     - _UVSec: 0
     - _VertexAnimation: 0
@@ -338,7 +340,7 @@ Material:
     - _WorkflowMode: 0
     - _WrappedLighting: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _AlbedoColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
     - _BaseColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
