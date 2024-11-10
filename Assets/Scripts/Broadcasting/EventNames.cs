@@ -37,6 +37,13 @@ public class EventNames {
         public const string PLAYER_SEEN = "PLAYER_SEEN";
 		public const string ENEMY_KILLED = "ENEMY_KILLED";
     }
+
+	public class Augment
+	{
+		public const string WATER_UNLOCKED = "WATER_UNLOCKED";
+        public const string WIND_UNLOCKED = "WIND_UNLOCKED";
+        public const string FIRE_UNLOCKED = "FIRE_UNLOCKED";
+    }
 }
 
 

@@ -32,9 +32,9 @@ public class MaskObject : MonoBehaviour
 
     void NewPeakSystem(){
         GameObject[] fadingObjects = GameObject.FindGameObjectsWithTag(maskTagName);
-        Debug.Log("Found Object Size: " + fadingObjects.Length);
+        //Debug.Log("Found Object Size: " + fadingObjects.Length);
         foreach(GameObject fadingObject in fadingObjects){
-            Debug.Log("Found Fading Target: " + fadingObject.name);
+            //Debug.Log("Found Fading Target: " + fadingObject.name);
             if(fadingObject == target) continue;
 
             Renderer renderer = fadingObject.GetComponent<Renderer>();
@@ -44,7 +44,7 @@ public class MaskObject : MonoBehaviour
                 continue;
             } 
                 
-            Debug.Log("Found Renderer for " + fadingObject.name + ": True");
+            //Debug.Log("Found Renderer for " + fadingObject.name + ": True");
 
             float objectDist = Vector3.SqrMagnitude(this.mainCamera.transform.position - fadingObject.transform.position);
             // Debug.Log(fadingObject.name + " is " + objectDist + "; Player is " + playerSqrdDist);

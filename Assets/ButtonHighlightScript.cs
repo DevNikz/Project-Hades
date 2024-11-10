@@ -24,10 +24,10 @@ public class ButtonHighlightScript : MonoBehaviour
             button.name == "Aggro" ||
             button.name == "Steel" ||
             button.name == "Heavy" ||
-            button.name == "Earth" ||
-            button.name == "Wind" ||
-            button.name == "Water" ||
-            button.name == "Fire")
+            button.name == "Gaia" ||
+            button.name == "Ouranos" ||
+            button.name == "Thalassa" ||
+            button.name == "Gehenna")
         {
             image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
         }

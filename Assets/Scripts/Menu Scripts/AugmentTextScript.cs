@@ -63,19 +63,19 @@ public class AugmentTextScript : MonoBehaviour
                 break;
 
             //Elemental augments
-            case "Earth":
+            case "Gaia":
                 nameText.text = earthNameField;
                 descText.text = earthDescField;
                 break;
-            case "Water":
+            case "Thalassa":
                 nameText.text = waterNameField;
                 descText.text = waterDescField;
                 break;
-            case "Wind":
+            case "Ouranos":
                 nameText.text = windNameField;
                 descText.text = windDescField;
                 break;
-            case "Fire":
+            case "Gehenna":
                 nameText.text = fireNameField;
                 descText.text = fireDescField;
                 break;

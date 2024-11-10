@@ -83,6 +83,28 @@ public class MenuScript : MonoBehaviour
                         previousMenuItemSc.Deselect();
                     }
 
+                    switch(selection)
+                    {
+                        case 1:
+                            if (!ItemManager.Instance.Water)
+                                selection = 0;
+                            break;
+                        case 2:
+                            if (!ItemManager.Instance.Wind && previousSelection >= 0)
+                                selection = previousSelection;
+                            else if (previousSelection == -1)
+                                selection = 0;
+                            break;
+                        case 3:
+                            if(!ItemManager.Instance.Fire && previousSelection >= 0)
+                                selection = previousSelection;
+                            else if (previousSelection == -1)
+                                selection = 0;
+                            break;
+                    }
+
+                    Debug.Log(selection);
+
                     previousSelection = selection;
                     menuItemSc = menuItems[selection].GetComponent<MenuItemScript>();
                     menuItemSc.Select();

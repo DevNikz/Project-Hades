@@ -338,19 +338,19 @@ public class Combat : MonoBehaviour
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("earth");
                 break;
             
-            case 1: //Fire
-                selectedElement = Elements.Fire;
-                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("fire");
-                break;
-
-            case 2: //Water
+            case 1: //Water
                 selectedElement = Elements.Water;
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("water");
                 break;
 
-            case 3: //Wind
+            case 2: //Wind
                 selectedElement = Elements.Wind;
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("wind");
+                break;
+
+            case 3: //Fire
+                selectedElement = Elements.Fire;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("fire");
                 break;
 
             default:
