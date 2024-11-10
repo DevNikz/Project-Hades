@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private Vector3 spawnPoint;
 
     private PlayerController fireCharge;
-
+    private float maxHP;
     void Start() {
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
@@ -89,7 +89,7 @@ public class EnemyController : MonoBehaviour
 
         healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
-
+        maxHP = enemyStats.maxHP;
         currentHealth = enemyStats.maxHP;
     }
 
@@ -211,8 +211,8 @@ public class EnemyController : MonoBehaviour
         //EarthStyle. Basic attacks will be defaulted to EarthStyle - increased stun damage
         else if (MenuScript.LastSelection == 0)
         {
-            float waterDamage = damage * 0.8f;
-            currentHealth -= waterDamage; //Rudimentary damage increase for now
+            float earthDamage = damage;
+            currentHealth -= earthDamage; //Rudimentary damage increase for now
 
             //Poise
             poise = CalculatePoiseDamage(poise);
@@ -303,6 +303,7 @@ public class EnemyController : MonoBehaviour
 
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyDeath>().Die();
+
             //Add Scrap if ded
             if(ItemManager.Instance != null) {
                 ItemManager.Instance.PAddScrap(enemyStats.scrapCount);
@@ -311,7 +312,7 @@ public class EnemyController : MonoBehaviour
     }
 
     void UpdateNormalHP() {
-        healthMeter.value = ToPercent(currentHealth, 100);
+        healthMeter.value = ToPercent(currentHealth, maxHP);
     }
 
     void UpdateBossHP() {

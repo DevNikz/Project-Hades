@@ -15,6 +15,7 @@ public class ButtonHighlightScript : MonoBehaviour
         image.enabled = false;
     }
 
+    //Augment Tree
     public void OnButtonClick()
     {
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
@@ -23,10 +24,10 @@ public class ButtonHighlightScript : MonoBehaviour
             button.name == "Aggro" ||
             button.name == "Steel" ||
             button.name == "Heavy" ||
-            button.name == "Earth" ||
-            button.name == "Wind" ||
-            button.name == "Water" ||
-            button.name == "Fire")
+            button.name == "Gaia" ||
+            button.name == "Ouranos" ||
+            button.name == "Thalassa" ||
+            button.name == "Gehenna")
         {
             image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
         }
@@ -36,5 +37,15 @@ public class ButtonHighlightScript : MonoBehaviour
         gameObject.transform.position = button.transform.position;
         image.enabled = true;
 
+    }
+
+    //Reward Screen
+    public void OnRewardScreenClick()
+    {
+        GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+
+        image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 250);
+        gameObject.transform.position = button.transform.position;
+        image.enabled = true;
     }
 }

@@ -257,7 +257,7 @@ public class Combat : MonoBehaviour
         detainPress = parameters.GetBoolExtra(DETAIN, false);
 
         //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
-        Debug.Log(MenuScript.weaponWheelCheck);
+        //Debug.Log(MenuScript.weaponWheelCheck);
         if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false) {
             switch(leftClick, detainPress) {
                 case (true, false):
@@ -338,19 +338,19 @@ public class Combat : MonoBehaviour
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("earth");
                 break;
             
-            case 1: //Fire
-                selectedElement = Elements.Fire;
-                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("fire");
-                break;
-
-            case 2: //Water
+            case 1: //Water
                 selectedElement = Elements.Water;
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("water");
                 break;
 
-            case 3: //Wind
+            case 2: //Wind
                 selectedElement = Elements.Wind;
                 gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("wind");
+                break;
+
+            case 3: //Fire
+                selectedElement = Elements.Fire;
+                gameObject.GetComponent<PlayerController>().UpdateStyleIndicator("fire");
                 break;
 
             default:
@@ -385,8 +385,15 @@ public class Combat : MonoBehaviour
         hitboxLeft_Temp.tag = attackTag;
 
         //Init Stats
-        hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
-        hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        if (hitboxLeft_Temp.CompareTag("Detain")){
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(120);
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        }
+        else {
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
+            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+        }
+
 
         //Start Timer for hitbox (To mimic ticks)
         hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();

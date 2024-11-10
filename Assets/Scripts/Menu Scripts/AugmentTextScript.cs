@@ -8,7 +8,7 @@ public class AugmentTextScript : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI descText;
 
-    public string hpnameField;
+    public string hpNameField;
     public string hpDescField;
 
     public string atkNameField;
@@ -46,7 +46,7 @@ public class AugmentTextScript : MonoBehaviour
         {
             //Stat augments
             case "Vitality":
-                nameText.text = hpnameField;
+                nameText.text = hpNameField;
                 descText.text = hpDescField;
                 break;
             case "Aggro":
@@ -63,19 +63,19 @@ public class AugmentTextScript : MonoBehaviour
                 break;
 
             //Elemental augments
-            case "Earth":
+            case "Gaia":
                 nameText.text = earthNameField;
                 descText.text = earthDescField;
                 break;
-            case "Water":
+            case "Thalassa":
                 nameText.text = waterNameField;
                 descText.text = waterDescField;
                 break;
-            case "Wind":
+            case "Ouranos":
                 nameText.text = windNameField;
                 descText.text = windDescField;
                 break;
-            case "Fire":
+            case "Gehenna":
                 nameText.text = fireNameField;
                 descText.text = fireDescField;
                 break;

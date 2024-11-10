@@ -7,6 +7,7 @@ public class EnemySetup : MonoBehaviour
     private GameObject healthUI;
     private GameObject poiseUI;
     private GameObject baseEnemy;
+    public float height = 1.7f;
 
     [PropertySpace, TitleGroup("Debug", "", TitleAlignments.Centered)] 
     [SerializeField] private bool isDebug;
@@ -31,7 +32,7 @@ public class EnemySetup : MonoBehaviour
     }
 
     void UpdateUI() {
-        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.7f, baseEnemy.transform.position.z);
+        healthUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, height, baseEnemy.transform.position.z);
         // poiseUI.GetComponent<RectTransform>().position = new Vector3(baseEnemy.transform.position.x, 1.9f, baseEnemy.transform.position.z);
 
         healthUI.GetComponent<RectTransform>().localRotation = Quaternion.Euler(45f,45f,0f);

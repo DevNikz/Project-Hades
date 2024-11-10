@@ -8,6 +8,8 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
 
+    [SerializeField] GameObject playerInputManager;
+
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
     
     [HorizontalGroup("Properties/base")]
@@ -30,8 +32,13 @@ public class LevelTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
-            if(ToggleTrigger) {
-                TransitionLevel();
+            this.playerInputManager = GameObject.Find("PlayerInputManager");
+            if(ToggleTrigger && playerInputManager != null) {
+
+                playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
+                playerInputManager.GetComponent<LevelRewardScript>().Activate();
+
+                //TransitionLevel();
                 Destroy(this.GetComponent<Rigidbody>());
                 Destroy(this.GetComponent<Collider>());
             }

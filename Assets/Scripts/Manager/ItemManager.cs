@@ -55,13 +55,35 @@ public class ItemManager : MonoBehaviour
     [OnValueChanged("UpdatePlayerVitality")]
     public int playerVitalityCount;
 
-    
+    bool isWaterUnlocked;
+    bool isWindUnlocked;
+    bool isFireUnlocked;
+
+    public bool Water{
+        get { return this.isWaterUnlocked; }
+        set { this.isWaterUnlocked = value; }
+    }
+
+    public bool Wind{
+        get { return this.isWindUnlocked; }
+        set { this.isWindUnlocked = value; }
+    }
+
+    public bool Fire{
+        get { return this.isFireUnlocked; }
+        set { this.isFireUnlocked = value; }
+    }
+
     void Awake() {
         if(Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        isWaterUnlocked = false;
+        isFireUnlocked = false;
+        isWindUnlocked = false;
     }
     
     //Debug (Level)
