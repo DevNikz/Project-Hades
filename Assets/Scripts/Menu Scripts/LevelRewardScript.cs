@@ -113,7 +113,8 @@ public class LevelRewardScript : MonoBehaviour
     public void TransitionLevel()
     {
         //Time.timeScale = 1f;
-        SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
+        GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(nextLevel);
+        //SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
         levelRewardMenu.SetActive(false);
         //StartCoroutine(Deactivate());
     }

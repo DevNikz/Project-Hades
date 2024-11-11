@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
-                this.transform.position = new Vector3(-60f, 0.6f, 145f);
+                //this.transform.position = new Vector3(-60f, 0.6f, 145f);
 
                 //LoadData
                 ReloadData();

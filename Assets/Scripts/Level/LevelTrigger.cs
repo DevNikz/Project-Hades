@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
-
     [SerializeField] GameObject playerInputManager;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
@@ -24,10 +23,6 @@ public class LevelTrigger : MonoBehaviour
     void Update() {
         enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if(enemyCounter <= 0) ToggleTrigger = true; 
-    }
-
-    public void TransitionLevel() {
-        SceneManager.LoadScene(NextLevel, LoadSceneMode.Single);
     }
 
     void OnTriggerEnter(Collider other) {
