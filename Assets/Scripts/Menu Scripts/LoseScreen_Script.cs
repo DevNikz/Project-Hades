@@ -18,11 +18,29 @@ public class LoseScreen_Script : MonoBehaviour
     {
         if (PlayerController.Instance.gameObject.tag == "Player(Dead)")
         {
-            Defeat();
+            Debug.Log("Player dead.");
 
-            if (Input.anyKeyDown && IsMouseOverGameWindow)
-                SceneManager.LoadScene("Title Screen", LoadSceneMode.Single);
+            bg.SetActive(true);
+            panel.SetActive(true);
+            //Defeat();
+
+            if (Input.anyKeyDown && IsMouseOverGameWindow) {
+                Debug.Log("Pressed");
+                Reset();
+
+                //Disable
+                panel.SetActive(false);
+                bg.SetActive(false);
+
+                GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("Title Screen");
+            }
         }
+    }
+
+    void Reset() {
+        PlayerController.Instance.gameObject.tag = "Player";
+        PlayerController.Instance.RevertHealth();
+        PlayerController.Instance.RevertMana();
     }
 
     bool IsMouseOverGameWindow

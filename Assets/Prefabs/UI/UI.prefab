@@ -612,15 +612,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115198802bfd6b844b277c819494af30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 987977481053b99428ff8304c5dc3c9f, type: 3}
-  - {fileID: 21300000, guid: 7a26cea2fb3d317409d460e1e310dbbf, type: 3}
-  - {fileID: 21300000, guid: d455815029765164989042dd1c8633e9, type: 3}
-  - {fileID: 21300000, guid: 66c7ce7c8a101c14da51a0353da7fd7f, type: 3}
-  buttons:
-  - {fileID: 8191608635368730963}
-  - {fileID: 6343908986140095663}
-  - {fileID: 4088331174249675021}
+  levelRewardMenu: {fileID: 0}
+  augmentSprites: []
+  stanceSprites: []
+  augmentButtons: []
+  stanceButton: {fileID: 0}
   nextLevel: 
 --- !u!1 &591164575776172425
 GameObject:
@@ -2666,8 +2662,8 @@ RectTransform:
   - {fileID: 7718148924096760712}
   - {fileID: 1242702230419849408}
   - {fileID: 3236301689026747134}
-  - {fileID: 7684498209997740093}
   - {fileID: 6307594938706892988}
+  - {fileID: 7684498209997740093}
   - {fileID: 3551878572617963775}
   - {fileID: 9030996250217998759}
   m_Father: {fileID: 0}
@@ -3014,7 +3010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 2944653079927333401}
   bg: {fileID: 6843124886935268202}
-  defeatScreenDelay: 0
+  delay: 1
 --- !u!1 &3409094821091600141
 GameObject:
   m_ObjectHideFlags: 0

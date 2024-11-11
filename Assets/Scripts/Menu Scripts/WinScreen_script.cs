@@ -7,6 +7,13 @@ public class WinScreen_script : MonoBehaviour
 {
     public void OnButtonClick()
     {
+        Reset();
         SceneManager.LoadScene("Title Screen");
+    }
+
+    public void Reset() {
+        PlayerController.Instance.gameObject.tag = "Player";
+        PlayerController.Instance.RevertHealth();
+        PlayerController.Instance.RevertMana();
     }
 }
