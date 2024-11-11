@@ -7,12 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TempWall Variant
+  m_Name: Brick 1 Variant
   m_Shader: {fileID: 4800000, guid: df695d70c539c3d4c87b79de307ab7bb, type: 3}
-  m_Parent: {fileID: 2100000, guid: bc75f3b8b3a43b444a8fdc0055fee928, type: 2}
-  m_ModifiedSerializedProperties: 16
+  m_Parent: {fileID: 2100000, guid: 1d5939a464acf6647805c9f9dbfaa20b, type: 2}
+  m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
+  - _MK_ALBEDO_MAP
+  - _MK_ALPHA_CLIPPING
   - _MK_ARTISTIC_ANIMATION_STUTTER
+  - _MK_ARTISTIC_SKETCH
   - _MK_DETAIL_BLEND_MIX
   - _MK_DIFFUSE_OREN_NAYAR
   - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
@@ -20,42 +23,42 @@ Material:
   - _MK_HEIGHT_MAP
   - _MK_LIGHT_CEL
   - _MK_NORMAL_MAP
-  - _MK_OCCLUSION_MAP
   - _MK_PARALLAX
+  - _MK_PBS_MAP_0
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
-  - _MK_SURFACE_TYPE_TRANSPARENT
+  - _MK_WORKFLOW_SPECULAR
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
+  - _ALPHACLIPPING_ON
+  - _EMISSION
   - _FRESNELHIGHLIGHTS_ON
+  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
-  - _OCCLUSIONMAP
   - _PARALLAXMAP
   - _RECEIVESHADOWS_ON
+  - _SPECGLOSSMAP
+  - _SPECULAR_SETUP
   - _WRAPPEDLIGHTING_ON
-  m_LightmapFlags: 4
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
     IGNOREPROJECTOR: true
-    RenderType: Transparent
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _AlbedoMap:
+        m_Texture: {fileID: 2800000, guid: 05b36941d386b344cabb84d439fd5da5, type: 3}
+        m_Scale: {x: 0.6, y: 0.6}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _BlendDst: 10
-    - _BlendDstAlpha: 10
-    - _BlendSrc: 5
-    - _Surface: 1
-    - _ZWrite: 0
-    m_Colors:
-    - _AlbedoColor: {r: 1, g: 0.80159056, b: 0.59099996, a: 1}
-    - _Color: {r: 1, g: 0.80159056, b: 0.59099996, a: 1}
+    m_Floats: []
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
