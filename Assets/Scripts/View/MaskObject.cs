@@ -18,11 +18,17 @@ public class MaskObject : MonoBehaviour
     [SerializeField] private string maskTagName;
     [SerializeField] private float fadedAlpha;
     [SerializeField] private float fadeTime;
+    [SerializeField] private float FadeOffsetDistance;
 
-    private float playerSqrdDist;
+    private float playerSqrdDistAtFloor;
+    private Vector3 cameraAtFloor;
 
     void Start (){
-        this.playerSqrdDist = Vector3.SqrMagnitude(this.mainCamera.transform.position - this.target.transform.position);
+        /* Calculates the camera's distance from the player at the floor level */
+        cameraAtFloor = this.mainCamera.transform.position;
+        cameraAtFloor.y = this.target.transform.position.y;
+
+        this.playerSqrdDistAtFloor = Vector3.SqrMagnitude(cameraAtFloor - this.target.transform.position);
     }
 
     void Update() {
@@ -31,62 +37,31 @@ public class MaskObject : MonoBehaviour
     }
 
     void NewPeakSystem(){
+        /* Calculates the camera's distance from the player at the floor level */
+        cameraAtFloor = this.mainCamera.transform.position;
+        cameraAtFloor.y = this.target.transform.position.y;
+
+        /* Finds all objects that could be seen through */
         GameObject[] fadingObjects = GameObject.FindGameObjectsWithTag(maskTagName);
-        //Debug.Log("Found Object Size: " + fadingObjects.Length);
         foreach(GameObject fadingObject in fadingObjects){
-            //Debug.Log("Found Fading Target: " + fadingObject.name);
+            /* Skips the player check mask and objects wihtout renderers */
             if(fadingObject == target) continue;
-
-            Renderer renderer = fadingObject.GetComponent<Renderer>();
-            
-            if(renderer == null){
-                Debug.Log("Found Renderer for " + fadingObject.name + ": False");
-                continue;
-            } 
+            if(!fadingObject.TryGetComponent<Renderer>(out var renderer)) continue;
                 
-            //Debug.Log("Found Renderer for " + fadingObject.name + ": True");
-
-            float objectDist = Vector3.SqrMagnitude(this.mainCamera.transform.position - fadingObject.transform.position);
-            // Debug.Log(fadingObject.name + " is " + objectDist + "; Player is " + playerSqrdDist);
-
+            /* Calculates the ground distance of the object from the camera */
+            Vector3 objectAtFloor = fadingObject.transform.position;
+            objectAtFloor.y = cameraAtFloor.y;
+            float objectDist = Vector3.SqrMagnitude(cameraAtFloor - objectAtFloor);
+            
+            /* Selects Alpha between faded or not faded if the object is closer to the cam than the player w/ offset*/
             Color newColor = renderer.material.color;
-            if(objectDist <= playerSqrdDist)
+            if(objectDist <= playerSqrdDistAtFloor + (FadeOffsetDistance * FadeOffsetDistance))
                 newColor.a = fadedAlpha;
-            else 
-                newColor.a = 1.0f;
-            StartCoroutine(TransitionFade(renderer, renderer.material.color, newColor));
+            else newColor.a = 1.0f;
             
+            /* Starts the fader */
+            StartCoroutine(TransitionFade(renderer, renderer.material.color, newColor));   
         }
-
-        // RaycastHit hit;
-
-        // if(Physics.Raycast(mainCamera.transform.position, 
-        // (target.transform.position - mainCamera.transform.position).normalized, 
-        // out hit, Mathf.Infinity, myLayerMask)) {
-        //     //Debug.Log(hit.collider.name);
-
-        //     if (hit.collider.gameObject.tag == "Mask") {
-        //         if(hit.collider.gameObject.TryGetComponent<Renderer>(out var renderer)){
-        //             if(renderer == null) return;
-        //             Color fadedColor = renderer.material.color;
-        //             fadedColor.a = fadedAlpha;
-        //             Debug.Log("FirstColor: " + renderer.material.color);
-        //             Debug.Log("TargetColor: " + fadedColor);
-        //             StartCoroutine(TransitionFade(renderer, renderer.material.color, fadedColor));
-        //             fadeTarget = hit.collider.gameObject;
-        //         }
-        //     } else if (hit.collider.gameObject == target) {
-        //         if(fadeTarget.TryGetComponent<Renderer>(out var renderer)){
-        //             if(renderer == null) return;
-        //             Color solidColor = renderer.material.color;
-        //             solidColor.a = 1.0f;
-        //             Debug.Log("FirstColor: " + renderer.material.color);
-        //             Debug.Log("TargetColor: " + solidColor);
-        //             StartCoroutine(TransitionFade(renderer, renderer.material.color, solidColor));
-        //         }
-        //     }
-            
-        // }
     }
 
     IEnumerator TransitionFade(Renderer tar, Color startColor, Color endColor){
