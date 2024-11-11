@@ -23,7 +23,13 @@ public class AugmentScriptable : ScriptableObject
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
     [LabelWidth(100)]
     [HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
-    [Required] public string augmentDescription;
+    public string augmentDescription;
+
+    [VerticalGroup("Attributes/base/right")]
+    [BoxGroup("Attributes/base/right/box2", showLabel: false)]
+    [LabelWidth(100)]
+    [HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    public string augmentLore;
 
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
     [LabelWidth(100)]
