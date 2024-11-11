@@ -8,13 +8,11 @@ public class BulletController : MonoBehaviour
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
 
-    [Range(0.1f, 10f)] private float timer;
+    [SerializeField][Range(0.1f, 100f)] private float timer;
     private TimerState timerState = TimerState.None;
 
     void Start() {
-        //Old Version. Will be updated to new version
-        if(this.tag == "EnemyBullet") attackType = Resources.Load<AttackType>("Enemy/Deprecated/BasicEnemy"); 
-        timer = 1.5f;
+        // attackType = Resources.Load<AttackType>(this.attackType.); 
     }
 
     void OnEnable() {
