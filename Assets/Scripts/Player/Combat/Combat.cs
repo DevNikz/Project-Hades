@@ -258,7 +258,7 @@ public class Combat : MonoBehaviour
 
         //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
         //Debug.Log(MenuScript.weaponWheelCheck);
-        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false) {
+        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player") {
             switch(leftClick, detainPress) {
                 case (true, false):
                     switch(selectedElement) {

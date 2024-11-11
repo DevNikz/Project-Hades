@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour {
-
-    public static Movement Instance;
     
     [PropertySpace] [TitleGroup("Properties", "General Movement Properties", TitleAlignments.Centered)]
     [AssetSelector]
@@ -110,13 +108,6 @@ public class Movement : MonoBehaviour {
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
-    void Awake() {
-        if(Instance == null) {
-            Instance = this;
-        }
-        else Destroy(this);
-    }
-
     void LoadData() {
         LoadUI();
         LoadComponents();
@@ -125,17 +116,14 @@ public class Movement : MonoBehaviour {
     }
 
     void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+        LoadData(); 
     }
 
     void OnDisable() {
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) { 
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
-        LoadData(); 
-    }
 
     void LoadUI() {
         pointerUI = transform.Find("AttackColliders").gameObject;
@@ -178,7 +166,7 @@ public class Movement : MonoBehaviour {
     void Move(Vector3 input) {
         moveInput_normalized = input.normalized.magnitude;
         currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
-        rigidBody.AddForce(100 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
+        rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     private void CheckMove() {
@@ -195,7 +183,7 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(moveInput.x != 0 || moveInput.z != 0) {
+        if(moveInput.x != 0 || moveInput.z != 0 && gameObject.tag == "Player") {
             if(dashInput) {
                 Dash();
             }

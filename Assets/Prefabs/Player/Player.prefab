@@ -16656,8 +16656,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8730666089872806669}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 10
+  m_Mass: 1000
+  m_Drag: 100
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -16719,6 +16719,7 @@ MonoBehaviour:
   fadedAlpha: 0.5
   fadeTime: 1
   FadeOffsetDistance: 40
+  fadeableObjects: []
 --- !u!1 &9028727209518491993
 GameObject:
   m_ObjectHideFlags: 0

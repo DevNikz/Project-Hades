@@ -16,12 +16,12 @@ public class LoseScreen_Script : MonoBehaviour
 
     void Update()
     {
-        if (PlayerController.Instance.entityState == EntityState.Dead)
+        if (PlayerController.Instance.gameObject.tag == "Player(Dead)")
         {
             Defeat();
 
             if (Input.anyKeyDown)
-                SceneManager.LoadScene(0, LoadSceneMode.Single);
+                SceneManager.LoadScene("Title Screen", LoadSceneMode.Single);
         }
     }
 
