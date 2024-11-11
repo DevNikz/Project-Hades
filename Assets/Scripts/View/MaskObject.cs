@@ -20,6 +20,8 @@ public class MaskObject : MonoBehaviour
     [SerializeField] private float fadeTime;
     [SerializeField] private float FadeOffsetDistance;
 
+    [SerializeField, HideInInspector] public List<GameObject> fadeableObjects;
+
     private float playerSqrdDistAtFloor;
     private Vector3 cameraAtFloor;
 
@@ -43,11 +45,10 @@ public class MaskObject : MonoBehaviour
         cameraAtFloor = this.mainCamera.transform.position;
         cameraAtFloor.y = this.target.transform.position.y;
 
-        /* Finds all objects that could be seen through */
-        GameObject[] fadingObjects = GameObject.FindGameObjectsWithTag(maskTagName);
-        foreach(GameObject fadingObject in fadingObjects){
-            /* Skips the player check mask and objects wihtout fadeable script */
-            if(fadingObject == target) continue;
+        /* Iterates through all objects that could be seen through */
+        foreach(GameObject fadingObject in fadeableObjects){
+            /* Skips null objects or objects missing the fadeablescript */
+            if(fadingObject == null) continue;
             if(!fadingObject.TryGetComponent<FadeableObject>(out var fadeableRef)) continue;
                 
             /* Calculates the ground distance of the object from the camera */

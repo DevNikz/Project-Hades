@@ -8,6 +8,8 @@ public class FadeableObject : MonoBehaviour
     [SerializeField] private GameObject transparentModel;
     [SerializeField, HideInInspector] private Renderer[] renderers;
 
+    private MaskObject maskObjectScriptRef;
+
     bool lerping = false;
     bool fadedout = false;
 
@@ -23,6 +25,15 @@ public class FadeableObject : MonoBehaviour
 
         this.transparentModel.SetActive(false);
         this.solidModel.SetActive(true);
+        maskObjectScriptRef = GameObject.Find("Player")?.GetComponent<MaskObject>();
+        if(maskObjectScriptRef != null){
+            maskObjectScriptRef.fadeableObjects.Add(this.gameObject);
+        }
+    }
+
+    void OnDestroy(){
+        if(maskObjectScriptRef != null)
+            maskObjectScriptRef.fadeableObjects.Remove(this.gameObject);
     }
 
     public void StartTransition(bool isFadeout, float time, float fadeoutAlpha){
