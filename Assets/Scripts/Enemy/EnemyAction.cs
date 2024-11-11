@@ -114,6 +114,8 @@ public class EnemyAction : MonoBehaviour
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
+                gameObject.transform.LookAt(hit.position);
+                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
                 agent.SetDestination(hit.position);
             }
         }
@@ -167,8 +169,10 @@ public class EnemyAction : MonoBehaviour
     public virtual void Search()
     {
         agent.destination = lastSeenPos;
+        gameObject.transform.LookAt(lastSeenPos);
+        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
-        if(Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1 || agent.velocity.magnitude == 0)
+        if (Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1 || agent.velocity.magnitude == 0)
         {
             this.Action = 0;
             sprite.GetComponent<EnemyAnimation>().isShooting = false;

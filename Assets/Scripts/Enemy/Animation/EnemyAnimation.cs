@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
@@ -10,19 +11,29 @@ public class EnemyAnimation : MonoBehaviour
     public bool isStun = false;
     public bool isShooting;
     public float timer;
+    public float xScale;
+    public Vector3 Scale;
 
     [SerializeField] GameObject obj;
-    private EnemyAction action;
+    public EnemyAction action;
 
 
-    public virtual void Start() {
+    public void Start() {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
-        action = obj.GetComponent<EnemyAction>();
+        action = this.gameObject.GetComponentInParent<EnemyAction>();
         entityMovement = EntityMovement.Idle;
+        spriteAnimator.Play("Idle");
+
+        xScale = spriteAnimator.gameObject.transform.localScale.x;
+        Scale = spriteAnimator.gameObject.transform.localScale;
+        ExtraStart();
     }
+
+    public virtual void ExtraStart() {}
 
     public virtual void Update() {
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+        SetDirection();
 
         if (!action.isPatrolling && !action.isSearching && !action.isAttacking) entityMovement = EntityMovement.Idle;
         else entityMovement = EntityMovement.Strafing;
@@ -41,64 +52,26 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public virtual void SetRun() {
-        switch(entityDirection) {
-            case EntityDirection.East:
-                spriteAnimator.Play("MoveRight");
-                break;
-            case EntityDirection.NorthEast:
-                spriteAnimator.Play("MoveRight");
-                break;
-            case EntityDirection.SouthEast:
-                spriteAnimator.Play("MoveRight");
-                break;
-            case EntityDirection.West:
-                spriteAnimator.Play("MoveLeft");
-                break;
-            case EntityDirection.NorthWest:
-                spriteAnimator.Play("MoveLeft");
-                break;
-            case EntityDirection.SouthWest:
-                spriteAnimator.Play("MoveLeft");
-                break;
-            case EntityDirection.North:
-                spriteAnimator.Play("MoveUp");
-                break;
-            case EntityDirection.South:
-                spriteAnimator.Play("MoveDown");
-                break;
-        }
+        spriteAnimator.Play("MoveRight");
     }
 
     public virtual void SetHit(AttackDirection attackDirection) {
-        isHit = true;
-        switch(attackDirection) {
-            case AttackDirection.Right:
-                spriteAnimator.Play("HitRight");
-                ResetHit();
-                break;
-            case AttackDirection.Left:
-                spriteAnimator.Play("HitLeft");
-                ResetHit();
-                break;
-        }
         action.SetAction(1);
         action.Attack();
+
+        if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
+        else xScale = Math.Abs(xScale);
+        action.agent.isStopped = true;
+        isHit = true;
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        spriteAnimator.Play("HitRight");
+        ResetHit();
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)
     {
         isShooting = true;
-        switch(attackDirection)
-        {
-            case AttackDirection.Right:
-                spriteAnimator.Play("ShootRight");
-                //ResetHit();
-                break;
-            case AttackDirection.Left:
-                spriteAnimator.Play("ShootLeft");
-                //ResetHit();
-                break;
-        }
+        spriteAnimator.Play("ShootRight");
     }
 
     public virtual void SetDeath()
@@ -113,6 +86,29 @@ public class EnemyAnimation : MonoBehaviour
     public virtual void ResetAnim() {
         isHit = false;
         //isShooting = false;
+    }
+
+    public void SetDirection()
+    {
+        entityDirection = IsoCompass(this.transform.forward.x, this.transform.forward.z);
+
+        switch (entityDirection)
+        {
+            case EntityDirection.East:
+            case EntityDirection.NorthEast:
+            case EntityDirection.SouthEast:
+            case EntityDirection.North:
+                xScale = Math.Abs(xScale);
+                break;
+            case EntityDirection.West:
+            case EntityDirection.NorthWest:
+            case EntityDirection.SouthWest:
+            case EntityDirection.South:
+                xScale = Math.Abs(xScale) * -1;
+                break;
+        }
+
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
     }
 
     public EntityDirection IsoCompass(float x, float z)
