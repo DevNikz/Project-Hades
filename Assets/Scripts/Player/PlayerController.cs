@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
-                //this.transform.position = new Vector3(-60f, 0.6f, 145f);
+                this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
 
                 //LoadData
                 ReloadData();
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
-                //this.transform.position = new Vector3(-60f, 0.6f, 145f);
+                this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
 
                 //LoadData
                 //ReloadData();
@@ -204,6 +204,12 @@ public class PlayerController : MonoBehaviour
         }
         else if(gameObject.tag == "Player") {
             UpdateHurt();
+            transform.Find("SpriteT").gameObject.SetActive(true);
+            transform.Find("SpriteB").gameObject.SetActive(true);
+            GetComponent<Movement>().enabled = true;
+            GetComponent<Combat>().enabled = true;
+            GetComponent<PlayerAnimatorController>().enabled = true;
+            GetComponent<PlayerHazard>().enabled = true;
         }
         
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);
@@ -274,6 +280,11 @@ public class PlayerController : MonoBehaviour
         modTotalHealth = baseTotalHealth;
         currentHealth = modTotalHealth;
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);
+    }
+
+    public void RevertMana() {
+        currentMana = totalMana;
+        manaMeter.value = ToPercent(currentMana, totalMana);
     }
 
     public void ReceiveDamage(DamageType damageType, float damage) {

@@ -35,6 +35,6 @@ public class PlayerSpawner : MonoBehaviour
         
         player.transform.position = this.transform.position;
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }
