@@ -81,6 +81,8 @@ public class EnemyAnimation : MonoBehaviour
                 ResetHit();
                 break;
         }
+        action.SetAction(1);
+        action.Attack();
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)
