@@ -265,7 +265,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 93a5f44c048006e4592cc5fb3395d70b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eece1e43aa92e4144892a643b2d8c049, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewRadius: 5
+  AreaViewRadius: 3
   viewAngle: 140
   targetMask:
     serializedVersion: 2
@@ -436,7 +437,10 @@ MonoBehaviour:
   isStun: 0
   isShooting: 0
   timer: 0.5
+  xScale: 0
+  Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 7762131239574803217}
+  action: {fileID: 0}
 --- !u!1 &5091405936295816597
 GameObject:
   m_ObjectHideFlags: 0
