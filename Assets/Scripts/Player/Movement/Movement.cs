@@ -178,7 +178,7 @@ public class Movement : MonoBehaviour {
     void Move(Vector3 input) {
         moveInput_normalized = input.normalized.magnitude;
         currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
-        rigidBody.MovePosition(transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
+        rigidBody.AddForce(100 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     private void CheckMove() {
