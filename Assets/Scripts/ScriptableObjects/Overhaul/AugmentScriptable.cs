@@ -22,6 +22,11 @@ public class AugmentScriptable : ScriptableObject
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
     [LabelWidth(100)]
+    [HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [Required] public string augmentDescription;
+
+    [BoxGroup("Attributes/base/right/box2", showLabel: false)]
+    [LabelWidth(100)]
     [InfoBox("Augment Rarity (Default = Common)")]
     [Required] public Rarity augmentRarity = Rarity.Common;
     
