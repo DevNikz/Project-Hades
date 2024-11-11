@@ -36,6 +36,8 @@ public class MaskObject : MonoBehaviour
         this.NewPeakSystem();
     }
 
+
+
     void NewPeakSystem(){
         /* Calculates the camera's distance from the player at the floor level */
         cameraAtFloor = this.mainCamera.transform.position;
@@ -44,54 +46,21 @@ public class MaskObject : MonoBehaviour
         /* Finds all objects that could be seen through */
         GameObject[] fadingObjects = GameObject.FindGameObjectsWithTag(maskTagName);
         foreach(GameObject fadingObject in fadingObjects){
-            /* Skips the player check mask and objects wihtout renderers */
+            /* Skips the player check mask and objects wihtout fadeable script */
             if(fadingObject == target) continue;
-            if(!fadingObject.TryGetComponent<Renderer>(out var renderer)) continue;
+            if(!fadingObject.TryGetComponent<FadeableObject>(out var fadeableRef)) continue;
                 
             /* Calculates the ground distance of the object from the camera */
             Vector3 objectAtFloor = fadingObject.transform.position;
             objectAtFloor.y = cameraAtFloor.y;
             float objectDist = Vector3.SqrMagnitude(cameraAtFloor - objectAtFloor);
             
-            /* Selects Alpha between faded or not faded if the object is closer to the cam than the player w/ offset*/
-            Color newColor = renderer.material.color;
+            /* Starts fadeout if the object is closer to the cam than the player w/ offset and fadein otherwise */
             if(objectDist <= playerSqrdDistAtFloor + (FadeOffsetDistance * FadeOffsetDistance))
-                newColor.a = fadedAlpha;
-            else newColor.a = 1.0f;
-            
-            /* Starts the fader */
-            StartCoroutine(TransitionFade(renderer, renderer.material.color, newColor));   
+                fadeableRef.StartTransition(true, fadeTime, fadedAlpha);
+            else
+                fadeableRef.StartTransition(false, fadeTime, fadedAlpha);
         }
-    }
-
-    IEnumerator TransitionFade(Renderer tar, Color startColor, Color endColor){
-        float lerpStartTime = Time.time;
-        float lerpProgress;
-        bool lerping = true;
-
-        while(lerping){
-            yield return new WaitForEndOfFrame();
-
-            lerpProgress = Time.time - lerpStartTime;
-
-            if(tar != null){
-                if(fadeTime == 0.0f){
-                    tar.material.color = endColor;
-                    lerping = false;
-                } else {
-                    tar.material.color = Color.Lerp(startColor, endColor, lerpProgress/fadeTime);
-                }
-                
-            } else {
-                lerping = false;
-            }
-
-            if(lerpProgress >= fadeTime){
-                lerping = false;
-            }
-        }
-
-        yield break;
     }
 
     void OldPeakSystem(){
