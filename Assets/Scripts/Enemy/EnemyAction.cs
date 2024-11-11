@@ -46,6 +46,7 @@ public class EnemyAction : MonoBehaviour
     [SerializeReference] private GameObject sprite;
 
     private AttackDirection atkDir;
+    public Rigidbody rgbody;
 
     public float wanderRange = 5;
 

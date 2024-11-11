@@ -14,13 +14,14 @@ public class LCAnimation : EnemyAnimation
 
     public override void Update()
     {
+        SetDirection();
+        if (isDead) entityMovement = EntityMovement.Idle;
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         if (!isHit && !isStun && !isDead) SetAnimation();
     }
 
     public override void SetAnimation()
     {
-        SetDirection();
         switch (action.Action)
         {
             case 0:
@@ -66,10 +67,8 @@ public class LCAnimation : EnemyAnimation
     public override void SetDeath()
     {
         isDead = true;
-        action.SetAction(10);
+        action.CancelInvoke();
         spriteAnimator.Play("Death");
-        this.enabled = false;
-        action.agent.isStopped = true;
     }
 
     public override void ResetAnim()

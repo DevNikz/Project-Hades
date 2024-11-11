@@ -12,7 +12,6 @@ public class LC_Actions : EnemyAction
     public float speedMultiplier = 1.5f;
     private float fastSpeed;
     private float originalSpeed;
-    Rigidbody rgbody;
     public float dash = 20;
     public float dashStr = 50;
     [NonSerialized] public int comboNum = 0;
