@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BogNew
-  m_Shader: {fileID: 4800000, guid: d99e0f389b1a84a4c8ac98863b78095b, type: 3}
+  m_Shader: {fileID: 4800000, guid: df695d70c539c3d4c87b79de307ab7bb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -34,30 +34,28 @@ Material:
   - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_HEIGHT_MAP
-  - _MK_INDEX_OF_REFRACTION
   - _MK_LIGHT_CEL
   - _MK_NORMAL_MAP
   - _MK_PARALLAX
   - _MK_RECEIVE_SHADOWS
-  - _MK_REFRACTION_DISTORTION_MAP
   - _MK_SPECULAR_ISOTROPIC
-  - _MK_SURFACE_TYPE_TRANSPARENT
   - _MK_VERTEX_ANIMATION_SINE
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
   - _FRESNELHIGHLIGHTS_ON
+  - _MK_INDEX_OF_REFRACTION
+  - _MK_REFRACTION_DISTORTION_MAP
   - _RECEIVESHADOWS_ON
   - _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap:
-    IGNOREPROJECTOR: true
-    RenderType: Transparent
+    IGNOREPROJECTOR: False
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -240,10 +238,10 @@ Material:
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 0
     - _Blend: 0
-    - _BlendDst: 10
-    - _BlendDstAlpha: 10
+    - _BlendDst: 0
+    - _BlendDstAlpha: 0
     - _BlendModePreserveSpecular: 1
-    - _BlendSrc: 5
+    - _BlendSrc: 1
     - _BlendSrcAlpha: 1
     - _Brightness: 1
     - _BumpScale: 1
@@ -339,7 +337,7 @@ Material:
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1
-    - _Surface: 1
+    - _Surface: 0
     - _ThresholdMapScale: 1
     - _VertexAnimation: 1
     - _VertexAnimationIntensity: 0.1
@@ -348,7 +346,7 @@ Material:
     - _WorkflowMode: 1
     - _WrappedLighting: 1
     - _ZTest: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     m_Colors:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
