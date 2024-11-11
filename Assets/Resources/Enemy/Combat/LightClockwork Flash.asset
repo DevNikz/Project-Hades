@@ -9,15 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18703038c75d31c43a5c1ae39c7d7e40, type: 3}
-  m_Name: PlayerAttack
+  m_Script: {fileID: 11500000, guid: 6c1e9b7020a8b394aafe5292eb4d7891, type: 3}
+  m_Name: LightClockwork Flash
   m_EditorClassIdentifier: 
-  lungeForce: 25
-  lungeForceMod: 1
-  healthDamage: 35
-  poiseDamage: 10
-  knockbackForce: 0.2
-  EnableOptionals: 0
-  quickLungeForce: 6
-  flicktime: 0.27
-  attackAnimationClips: []
+  damageType: 0
+  damage: 25
+  poise: 25
+  knocbackForce: 50
