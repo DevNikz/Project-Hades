@@ -108,6 +108,10 @@ public class Movement : MonoBehaviour {
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
+    void Start() {
+        LoadData();
+    }
+
     void LoadData() {
         LoadUI();
         LoadComponents();
@@ -139,7 +143,7 @@ public class Movement : MonoBehaviour {
         if(!movement) movement = Resources.Load<PlayerStatsScriptable>("Player/General/PlayerMovement");
         if(!rigidBody) rigidBody = this.GetComponent<Rigidbody>();
         if(!model) model = this.GetComponent<Transform>();
-        GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
+        //GetComponent<CapsuleCollider>().material = Resources.Load<PhysicMaterial>("Player/Player");
     }
 
     void LoadParticles() {

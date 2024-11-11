@@ -29,6 +29,7 @@ public class LevelTrigger : MonoBehaviour
 
     void Awake() {
         if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
+        hudCheck = false;
     }
 
 
