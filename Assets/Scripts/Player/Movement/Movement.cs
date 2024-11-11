@@ -116,12 +116,17 @@ public class Movement : MonoBehaviour {
     }
 
     void OnEnable() {
-        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
-        LoadData(); 
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         EventBroadcaster.Instance.RemoveObserver(EventNames.KeyboardInput.KEY_INPUTS);
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
+        LoadData(); 
     }
 
 
@@ -183,26 +188,28 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(moveInput.x != 0 || moveInput.z != 0 && gameObject.tag == "Player") {
-            if(dashInput) {
-                Dash();
+        if(LevelTrigger.HudCheck == false) {
+            if(moveInput.x != 0 || moveInput.z != 0 && gameObject.tag == "Player") {
+                if(dashInput) {
+                    Dash();
+                }
+                else {
+                    //Set To Strafing
+                    move = EntityMovement.Strafing;
+
+                    //Set To Strafing Speed
+                    currentSpeed = strafeSpeed;
+
+                    //Debug Direction
+                    direction = IsoCompass(moveInput.x, moveInput.z);
+
+                    Move(moveInput);
+                }
             }
+
             else {
-                //Set To Strafing
-                move = EntityMovement.Strafing;
-
-                //Set To Strafing Speed
-                currentSpeed = strafeSpeed;
-
-                //Debug Direction
-                direction = IsoCompass(moveInput.x, moveInput.z);
-
-                Move(moveInput);
+                move = EntityMovement.Idle;
             }
-        }
-
-        else {
-            move = EntityMovement.Idle;
         }
     }
 

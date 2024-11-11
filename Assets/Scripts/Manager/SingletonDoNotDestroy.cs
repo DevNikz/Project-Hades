@@ -34,6 +34,12 @@ public class SingletonDoNotDestroy : MonoBehaviour
         }
     }
 
+     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+
+
 
     void OnDestroy()
     {

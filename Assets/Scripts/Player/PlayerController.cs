@@ -121,6 +121,10 @@ public class PlayerController : MonoBehaviour
         spawnPoint = gameObject.transform.position;
     }
 
+    void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         switch(scene.name) {
             case "Title Screen":
@@ -134,6 +138,15 @@ public class PlayerController : MonoBehaviour
 
                 //LoadData
                 ReloadData();
+                break;
+            case "Level 1":
+                this.gameObject.tag = "Player";
+
+                //SpawnPoint Loc
+                //this.transform.position = new Vector3(-60f, 0.6f, 145f);
+
+                //LoadData
+                //ReloadData();
                 break;
         }
     }

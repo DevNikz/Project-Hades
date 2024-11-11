@@ -20,6 +20,18 @@ public class LevelTrigger : MonoBehaviour
     [InfoBox("Current Enemy Counter")]
     public int enemyCounter;
 
+    private static bool hudCheck;
+
+    public static bool HudCheck {
+        get { return hudCheck; }
+        set { hudCheck = value; }
+    }
+
+    void Awake() {
+        if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
+    }
+
+
     void Update() {
         enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if(enemyCounter <= 0) ToggleTrigger = true; 
@@ -29,6 +41,8 @@ public class LevelTrigger : MonoBehaviour
         if(other.CompareTag("Player")) {
             this.playerInputManager = GameObject.Find("PlayerInputManager");
             if(ToggleTrigger && playerInputManager != null) {
+
+                hudCheck = true;
 
                 playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
                 playerInputManager.GetComponent<LevelRewardScript>().Activate();

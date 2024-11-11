@@ -20,8 +20,17 @@ public class LoseScreen_Script : MonoBehaviour
         {
             Defeat();
 
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown && IsMouseOverGameWindow)
                 SceneManager.LoadScene("Title Screen", LoadSceneMode.Single);
+        }
+    }
+
+    bool IsMouseOverGameWindow
+    {
+        get
+        {
+            Vector3 mp = Input.mousePosition;
+            return !( 0>mp.x || 0>mp.y || Screen.width<mp.x || Screen.height<mp.y );
         }
     }
 
