@@ -125,7 +125,10 @@ public class EnemyAction : MonoBehaviour
         {
             agent.destination = Player.transform.position;
             if (agent.remainingDistance <= agent.stoppingDistance)
+            {
                 gameObject.transform.LookAt(Player.transform.position);
+                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+            }
 
             if (!isAttacking) {
                 isAttacking = true;

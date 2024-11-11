@@ -66,7 +66,10 @@ public class LC_Actions : EnemyAction
             agent.speed = fastSpeed;
 
             if (agent.remainingDistance <= agent.stoppingDistance)
+            {
                 gameObject.transform.LookAt(Player.transform.position);
+                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+            }
 
             if (!isAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
             {
