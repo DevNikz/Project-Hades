@@ -29,17 +29,14 @@ public class SingletonDoNotDestroy : MonoBehaviour
     }
     
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if(scene.buildIndex == 0) {
-            Destroy(gameObject);
-        }
+        // if(scene.buildIndex == 0) {
+        //     Destroy(gameObject);
+        // }
     }
 
      void OnDisable() {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
-
-
 
     void OnDestroy()
     {

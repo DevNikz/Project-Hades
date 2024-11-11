@@ -20,19 +20,21 @@ public class LevelLoader : MonoBehaviour
         //Init
         loadingScreen.SetActive(true);
 
-        if(PlayerController.Instance != null) {
-            Destroy(PlayerController.Instance.gameObject);
-        }
+        // if(PlayerController.Instance != null) {
+        //     Destroy(PlayerController.Instance.gameObject);
+        // }
 
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        Resources.UnloadUnusedAssets();
-        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
+        
+        //SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
 
-        //StartCoroutine(LoadLevelAsync(levelToLoad));
+        StartCoroutine(LoadLevelAsync(levelToLoad));
     }
 
     IEnumerator LoadLevelAsync(string levelToLoad)
     {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        Resources.UnloadUnusedAssets();
+        
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Single);
         isLoading = true;
         string baseText = "Loading";
