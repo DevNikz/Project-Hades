@@ -346,8 +346,12 @@ public class PlayerController : MonoBehaviour
 
     //Vitality | Total Health
     public void SetTotalHealth(float value) {
+        //Set Total Health
         modTotalHealth = baseTotalHealth;
         modTotalHealth += value;
+
+        //Set Current Health
+        currentHealth += value;
     }
 
     //KEEPING FOR IF ELEMENT CHARGES ARE STORED SEPARATELY

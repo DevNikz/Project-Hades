@@ -30,6 +30,8 @@ public class PlayerHazard : MonoBehaviour
     }
 
     void OnTriggerExit() {
+        transform.Find("SpriteT").GetComponent<Animator>().speed = 1f;
+        transform.Find("SpriteB").GetComponent<Animator>().speed = 1f;
         GetComponent<Movement>().SetSpeed(playerSpeed);
     }
 }

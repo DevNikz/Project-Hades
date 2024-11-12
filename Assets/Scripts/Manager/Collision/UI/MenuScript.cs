@@ -53,7 +53,7 @@ public class MenuScript : MonoBehaviour
 
     private void Update()
     {
-        if(AugmentMenuScript.augmentMenuCheck == false) DoAction();
+        if(AugmentMenuScript.augmentMenuCheck == false && PlayerController.Instance.entityState != EntityState.Attack) DoAction();
     }
 
     void DoAction() {

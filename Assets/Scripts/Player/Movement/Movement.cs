@@ -175,7 +175,10 @@ public class Movement : MonoBehaviour {
     void Move(Vector3 input) {
         moveInput_normalized = input.normalized.magnitude;
         currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
-        rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
+
+        //Hardcoded slow down for now.
+        if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.fixedDeltaTime);
+        else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
     }
 
     private void CheckMove() {

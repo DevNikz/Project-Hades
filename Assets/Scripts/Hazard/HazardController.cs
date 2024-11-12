@@ -122,8 +122,10 @@ public class HazardController : MonoBehaviour
         } 
     }
 
-    void InitBog(GameObject gameObject) {
-       gameObject.GetComponent<Movement>().SetSpeed(entitySpeed * debuffBogScalar);
+    void InitBog(GameObject other) {
+        other.transform.Find("SpriteT").GetComponent<Animator>().speed = 0.75f;
+        other.transform.Find("SpriteB").GetComponent<Animator>().speed = 0.75f;
+        other.GetComponent<Movement>().SetSpeed(entitySpeed * debuffBogScalar);
     }
 
     void InitPillar() {
