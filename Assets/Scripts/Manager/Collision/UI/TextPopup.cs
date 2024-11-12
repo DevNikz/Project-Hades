@@ -8,6 +8,8 @@ public class PopupTextController : MonoBehaviour
 {
 
     public TextMeshProUGUI popupText;
+    [TextArea] public string message;
+
 
     public void ShowPopupText(string message)
     {
