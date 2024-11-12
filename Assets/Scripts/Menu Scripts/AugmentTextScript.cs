@@ -38,8 +38,11 @@ public class AugmentTextScript : MonoBehaviour
         descText.text = "";
     }
 
-    public void OnButtonClick(AugmentScriptable augmentInfo)
+    public void OnButtonClick(AugmentIconUpdater augmentUpdater)
     {
+        AugmentScriptable augmentInfo = augmentUpdater.GetAugment();
+        if(augmentInfo == null) return;
+
         nameText.text = augmentInfo.augmentName;
         descText.text = augmentInfo.augmentDescription;
     }

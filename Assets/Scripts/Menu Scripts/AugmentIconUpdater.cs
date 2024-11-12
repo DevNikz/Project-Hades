@@ -27,5 +27,9 @@ public class AugmentIconUpdater : MonoBehaviour
             this.targetUIImage.sprite = this.currentAugment.augmentIcon;
         } 
     }
+
+    public AugmentScriptable GetAugment(){
+        return this.currentAugment;
+    }
     
 }
