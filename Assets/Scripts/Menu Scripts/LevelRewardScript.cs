@@ -11,6 +11,11 @@ public class LevelRewardScript : MonoBehaviour
     [SerializeField] Sprite[] stanceSprites;
     [SerializeField] GameObject[] augmentButtons;
     [SerializeField] GameObject stanceButton;
+    [SerializeField] AugmentScriptable[] augments;
+    [SerializeField] private AugmentScriptable gaiaGear;
+    [SerializeField] private AugmentScriptable thalassaGear;
+    [SerializeField] private AugmentScriptable ouranosGear;
+    [SerializeField] private AugmentScriptable gehennaGear;
 
     string choice = null;
     bool choiceMade = false;
@@ -40,24 +45,25 @@ public class LevelRewardScript : MonoBehaviour
     {
         foreach (var button in augmentButtons)
         {
-            int n = Random.Range(0, augmentSprites.Length - 1);
-            button.GetComponent<UnityEngine.UI.Image>().sprite = augmentSprites[n];
-
-            button.name = augmentSprites[n].name;
+            int n = Random.Range(0, augments.Length - 1);
+            button.GetComponent<AugmentIconUpdater>().SetAugment(augments[n]);
         }
 
         if(!ItemManager.Instance.Water)
         {
+            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(thalassaGear);
             stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[0];
             stanceButton.name = stanceSprites[0].name;  
         }
         else if(!ItemManager.Instance.Wind)
         {
+            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(ouranosGear);
             stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[1];
             stanceButton.name = stanceSprites[1].name;
         }
         else if (!ItemManager.Instance.Fire)
         {
+            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(gehennaGear);
             stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[2];
             stanceButton.name = stanceSprites[2].name;
         }
