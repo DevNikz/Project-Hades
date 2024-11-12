@@ -43,5 +43,6 @@ public class LevelLoader : MonoBehaviour
             loadingText.text = baseText + "...";
         }
         isLoading = false;
+        this.loadingScreen.SetActive(false);
     }
 }
