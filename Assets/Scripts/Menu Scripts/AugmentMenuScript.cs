@@ -12,6 +12,14 @@ public class AugmentMenuScript : MonoBehaviour
     public const string WIND_UNLOCKED = "WIND_UNLOCKED";
     public const string FIRE_UNLOCKED = "FIRE_UNLOCKED";
 
+    protected static bool isAltHeld = false;
+    [SerializeReference] bool debug = false;
+
+    public static bool augmentMenuCheck {
+        get { return isAltHeld; }
+        set { isAltHeld = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +43,21 @@ public class AugmentMenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.LeftAlt))
-            augmentMenu.SetActive(true);
-        else if (Input.GetKeyUp(KeyCode.LeftAlt))
-            augmentMenu.SetActive(false);
+        if(MenuScript.weaponWheelCheck == false) DoAction();
+
+        if(debug) augmentMenu.SetActive(true);
+        else augmentMenu.SetActive(false);
+    }
+
+    void DoAction() {
+        if (Input.GetKey(KeyCode.LeftAlt)) {
+            isAltHeld = true;
+            debug = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftAlt)) {
+            isAltHeld = false;
+            debug = false;
+        }
     }
 
     void SetWaterAugmentSprite(Parameters param)

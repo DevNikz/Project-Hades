@@ -38,49 +38,12 @@ public class AugmentTextScript : MonoBehaviour
         descText.text = "";
     }
 
-    public void OnButtonClick()
+    public void OnButtonClick(AugmentIconUpdater augmentUpdater)
     {
-        GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        AugmentScriptable augmentInfo = augmentUpdater.GetAugment();
+        if(augmentInfo == null) return;
 
-        switch (button.name)
-        {
-            //Stat augments
-            case "Vitality":
-                nameText.text = hpNameField;
-                descText.text = hpDescField;
-                break;
-            case "Aggro":
-                nameText.text = atkNameField;
-                descText.text = atkDescField;
-                break;
-            case "Steel":
-                nameText.text = defNameField;
-                descText.text = defDescField;
-                break;
-            case "Heavy":
-                nameText.text = stunNameField;
-                descText.text = stunDescField;
-                break;
-
-            //Elemental augments
-            case "Gaia":
-                nameText.text = earthNameField;
-                descText.text = earthDescField;
-                break;
-            case "Thalassa":
-                nameText.text = waterNameField;
-                descText.text = waterDescField;
-                break;
-            case "Ouranos":
-                nameText.text = windNameField;
-                descText.text = windDescField;
-                break;
-            case "Gehenna":
-                nameText.text = fireNameField;
-                descText.text = fireDescField;
-                break;
-        }
-
-
+        nameText.text = augmentInfo.augmentName;
+        descText.text = augmentInfo.augmentDescription;
     }
 }

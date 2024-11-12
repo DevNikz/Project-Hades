@@ -21,7 +21,7 @@ public class PlayerAttackScriptable : ScriptableObject
     [Range(1f, 100f)] public float poiseDamage = 1f;
 
     [PropertySpace] [InfoBox("Knockback Force Value", InfoMessageType.None)]
-    [Range(1f, 1000f)] public float knockbackForce = 1f;
+    [Range(0f, 1000f)] public float knockbackForce = 1f;
 
     
     [PropertySpace] [TitleGroup("Optionals", "Quick Lunge", alignment: TitleAlignments.Centered)]

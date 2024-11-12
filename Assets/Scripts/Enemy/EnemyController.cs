@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
@@ -91,6 +92,11 @@ public class EnemyController : MonoBehaviour
 
         maxHP = enemyStats.maxHP;
         currentHealth = enemyStats.maxHP;
+
+        if(this.gameObject.TryGetComponent<NavMeshAgent>(out var agent)){
+            agent.speed = enemyStats.moveSpeed;
+            agent.stoppingDistance = enemyStats.stoppingDistance;
+        }
     }
 
     void SetHealth() {

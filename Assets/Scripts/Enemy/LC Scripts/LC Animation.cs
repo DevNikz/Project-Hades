@@ -1,58 +1,36 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LCAnimation : EnemyAnimation
 {
     public bool run;
     public float attackTime;
-    private EnemyAction Enemy;
-    private float xScale;
-    private Vector3 Scale;
     private bool isDead = false;
 
-    public override void Start()
+    public override void ExtraStart()
     {
-        spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
-        Enemy = this.gameObject.GetComponentInParent<EnemyAction>();
-
-        xScale = spriteAnimator.gameObject.transform.localScale.x;
-        Scale = spriteAnimator.gameObject.transform.localScale;
-        spriteAnimator.SetFloat("ComboSpeed", 1 / Enemy.FireRate);
+        spriteAnimator.SetFloat("ComboSpeed", 1 / action.FireRate);
     }
 
     public override void Update()
     {
+        SetDirection();
+        if (isDead) entityMovement = EntityMovement.Idle;
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         if (!isHit && !isStun && !isDead) SetAnimation();
     }
 
-    public void SetDirection()
-    {
-        entityDirection = IsoCompass(this.transform.forward.x, this.transform.forward.z);
-
-        switch (entityDirection)
-        {
-            case EntityDirection.East:
-            case EntityDirection.NorthEast:
-            case EntityDirection.SouthEast:
-            case EntityDirection.North:
-                xScale = Math.Abs(xScale);
-                break;
-            case EntityDirection.West:
-            case EntityDirection.NorthWest:
-            case EntityDirection.SouthWest:
-            case EntityDirection.South:
-                xScale = Math.Abs(xScale) * -1;
-                break;
-        }
-
-        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
-    }
-
     public override void SetAnimation()
     {
-        SetDirection();
-        switch (Enemy.Action)
+
+        if (action.cooldown > 0)
+        {
+            spriteAnimator.Play("Idle");
+            return;
+        }
+
+        switch (action.Action)
         {
             case 0:
                 spriteAnimator.Play("Run");
@@ -83,17 +61,6 @@ public class LCAnimation : EnemyAnimation
         }
     }
 
-    public override void SetHit(AttackDirection attackDirection)
-    {
-        if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
-        else xScale = Math.Abs(xScale);
-        Enemy.agent.isStopped = true;
-        isHit = true;
-        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
-        spriteAnimator.Play("Hit");
-        ResetHit();
-    }
-
     public void SetStun(AttackDirection attackDirection)
     {
         if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
@@ -108,17 +75,15 @@ public class LCAnimation : EnemyAnimation
     public override void SetDeath()
     {
         isDead = true;
-        Enemy.SetAction(10);
+        action.CancelInvoke();
         spriteAnimator.Play("Death");
-        this.enabled = false;
-        Enemy.agent.isStopped = true;
     }
 
     public override void ResetAnim()
     {
         isHit = false;
         isStun = false;
-        Enemy.agent.isStopped = false;
+        action.agent.isStopped = false;
     }
 }
 

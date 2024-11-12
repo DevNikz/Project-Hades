@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
-
     [SerializeField] GameObject playerInputManager;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
@@ -21,19 +20,32 @@ public class LevelTrigger : MonoBehaviour
     [InfoBox("Current Enemy Counter")]
     public int enemyCounter;
 
+    private static bool hudCheck;
+
+    public static bool HudCheck {
+        get { return hudCheck; }
+        set { hudCheck = value; }
+    }
+
+    void Awake() {
+        if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
+        hudCheck = false;
+    }
+
+
     void Update() {
         enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if(enemyCounter <= 0) ToggleTrigger = true; 
-    }
-
-    public void TransitionLevel() {
-        SceneManager.LoadScene(NextLevel, LoadSceneMode.Single);
     }
 
     void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
             this.playerInputManager = GameObject.Find("PlayerInputManager");
             if(ToggleTrigger && playerInputManager != null) {
+
+                hudCheck = true;
+
+                //if(NextLevel == "Win Screen") Destroy(GameObject.Find("LevelSystems"));
 
                 playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
                 playerInputManager.GetComponent<LevelRewardScript>().Activate();

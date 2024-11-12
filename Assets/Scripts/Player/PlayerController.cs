@@ -9,6 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Combat))]
 [RequireComponent(typeof(PlayerAnimatorController))]
 [RequireComponent(typeof(PlayerDeath))]
+[RequireComponent(typeof(PlayerHazard))]
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour
 {
@@ -116,8 +117,68 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         spawnPoint = gameObject.transform.position;
     }
+
+    void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        switch(scene.name) {
+            case "Title Screen":
+                this.gameObject.tag = "Player(Heaven)";
+                break;
+            case "Tutorial":
+                this.gameObject.tag = "Player";
+
+                //SpawnPoint Loc
+                this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
+
+                //LoadData
+                ReloadData();
+                break;
+            case "Level 1":
+                this.gameObject.tag = "Player";
+
+                //SpawnPoint Loc
+                this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
+
+                //LoadData
+                //ReloadData();
+                break;
+        }
+    }
+
+    void ReloadData() {
+        this.gameObject.tag = "Player";
+        transform.Find("SpriteT").gameObject.SetActive(true);
+        transform.Find("SpriteB").gameObject.SetActive(true);
+        GetComponent<Movement>().enabled = true;
+        GetComponent<Combat>().enabled = true;
+        GetComponent<PlayerAnimatorController>().enabled = true;
+        GetComponent<PlayerHazard>().enabled = true;
+
+        healthUI = GameObject.Find("PlayerHealth");
+        healthMeter = healthUI.GetComponent<Slider>();
+
+        manaUI = GameObject.Find("PlayerMana");
+        manaMeter = manaUI.GetComponent<Slider>();
+        manaStyleIndicator = GameObject.Find("StyleIndicator");
+
+        currentPoise = totalPoise;
+        modTotalHealth = baseTotalHealth;
+        currentHealth = modTotalHealth;
+        currentDefense = baseTotalDefense;
+        currentMana = totalMana;
+        //spawnPoint = gameObject.transform.position;
+
+        tempDelay = timerDelay;
+
+        animatorController = GetComponent<PlayerAnimatorController>();
+    }
+
 
     void Update(){
         UpdateHealth();
@@ -133,27 +194,31 @@ public class PlayerController : MonoBehaviour
     }
 
     void UpdateHealth() {
-        if(entityState == EntityState.Dead) {
-            this.gameObject.tag = "Player(Dead)";
-            if(this.GetComponent<Movement>().isActiveAndEnabled == true) this.GetComponent<Movement>().enabled = false;
-            if(this.GetComponent<Combat>().isActiveAndEnabled == true) this.GetComponent<Combat>().enabled = false;
-            //if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == true) sprite.GetComponent<PlayerAnimation>().enabled = false;
-            //SceneManager.LoadScene("Lose Screen");
+        if(gameObject.tag == "Player(Dead)") {
+            transform.Find("SpriteT").gameObject.SetActive(false);
+            transform.Find("SpriteB").gameObject.SetActive(false);
+            GetComponent<Movement>().enabled = false;
+            GetComponent<Combat>().enabled = false;
+            GetComponent<PlayerAnimatorController>().enabled = false;
+            GetComponent<PlayerHazard>().enabled = false;
         }
-        else {
-            this.gameObject.tag = "Player";
+        else if(gameObject.tag == "Player") {
             UpdateHurt();
-            CheckMovement();
-            CheckCombat();
-            
-            
-            // if(sprite.GetComponent<PlayerAnimation>().isActiveAndEnabled == false) {
-            //     sprite.GetComponent<PlayerAnimation>().enabled = true;
-            // }
-            //Debug.Log(PlayerData.entityState);
+            transform.Find("SpriteT").gameObject.SetActive(true);
+            transform.Find("SpriteB").gameObject.SetActive(true);
+            GetComponent<Movement>().enabled = true;
+            GetComponent<Combat>().enabled = true;
+            GetComponent<PlayerAnimatorController>().enabled = true;
+            GetComponent<PlayerHazard>().enabled = true;
         }
         
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);
+    }
+    
+    void CheckHealth() {
+        if(this.currentHealth <= 0) {
+            this.GetComponent<PlayerDeath>().KillYourself();
+        }
     }
 
     void UpdateHurt() {
@@ -166,18 +231,6 @@ public class PlayerController : MonoBehaviour
             curHurt = false;
             isHurt = false;
             timerState = TimerState.None;
-        }
-    }
-
-    void CheckMovement() {
-        if(this.GetComponent<Movement>().isActiveAndEnabled == false) {
-            this.GetComponent<Movement>().enabled = true; 
-        }
-    }
-
-    void CheckCombat() {
-        if(this.GetComponent<Combat>().isActiveAndEnabled == false) {
-            this.GetComponent<Combat>().enabled = true;
         }
     }
 
@@ -200,20 +253,22 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateStyleIndicator(string element)
     {
-        switch (element)
-        {
-            case "earth":
-                manaStyleIndicator.GetComponent<Image>().color = Color.green;
-                break;
-            case "fire":
-                manaStyleIndicator.GetComponent<Image>().color = Color.red;
-                break;
-            case "water":
-                manaStyleIndicator.GetComponent<Image>().color = Color.cyan;
-                break;
-            case "wind":
-                manaStyleIndicator.GetComponent<Image>().color = Color.yellow;
-                break;
+        if(gameObject.tag == "Player") {
+            switch (element)
+            {
+                case "earth":
+                    manaStyleIndicator.GetComponent<Image>().color = Color.green;
+                    break;
+                case "fire":
+                    manaStyleIndicator.GetComponent<Image>().color = Color.red;
+                    break;
+                case "water":
+                    manaStyleIndicator.GetComponent<Image>().color = Color.cyan;
+                    break;
+                case "wind":
+                    manaStyleIndicator.GetComponent<Image>().color = Color.yellow;
+                    break;
+            }
         }
     }
 
@@ -225,6 +280,11 @@ public class PlayerController : MonoBehaviour
         modTotalHealth = baseTotalHealth;
         currentHealth = modTotalHealth;
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);
+    }
+
+    public void RevertMana() {
+        currentMana = totalMana;
+        manaMeter.value = ToPercent(currentMana, totalMana);
     }
 
     public void ReceiveDamage(DamageType damageType, float damage) {
@@ -251,12 +311,6 @@ public class PlayerController : MonoBehaviour
 
     void TriggerRandomHurtSFX() {
         SFXManager.Instance.Play($"PlayerHurt{Random.Range(1,3)}");
-    }
-
-    void CheckHealth() {
-        if(this.currentHealth <= 0) {
-            this.GetComponent<PlayerDeath>().KillYourself();
-        }
     }
 
     float ToPercent(float value, float threshold) {
@@ -292,8 +346,12 @@ public class PlayerController : MonoBehaviour
 
     //Vitality | Total Health
     public void SetTotalHealth(float value) {
+        //Set Total Health
         modTotalHealth = baseTotalHealth;
         modTotalHealth += value;
+
+        //Set Current Health
+        currentHealth += value;
     }
 
     //KEEPING FOR IF ELEMENT CHARGES ARE STORED SEPARATELY

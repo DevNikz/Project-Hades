@@ -23,7 +23,7 @@ public class HazardController : MonoBehaviour
     public bool EnableBog;
     [ShowIfGroup("EnableBog")]
     [BoxGroup("EnableBog/Bog", ShowLabel = false)]
-    [Range(0.1f, 10f)] public float debuffBogScalar = 1.35f;
+    [Range(0.0f, 2.0f)] public float debuffBogScalar = 1.35f;
 
     public bool EnablePillar;
     [ShowIfGroup("EnablePillar")]
@@ -122,8 +122,10 @@ public class HazardController : MonoBehaviour
         } 
     }
 
-    void InitBog(GameObject gameObject) {
-       gameObject.GetComponent<Movement>().SetSpeed(entitySpeed / debuffBogScalar);
+    void InitBog(GameObject other) {
+        other.transform.Find("SpriteT").GetComponent<Animator>().speed = 0.75f;
+        other.transform.Find("SpriteB").GetComponent<Animator>().speed = 0.75f;
+        other.GetComponent<Movement>().SetSpeed(entitySpeed * debuffBogScalar);
     }
 
     void InitPillar() {

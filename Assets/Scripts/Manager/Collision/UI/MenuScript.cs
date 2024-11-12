@@ -29,6 +29,8 @@ public class MenuScript : MonoBehaviour
 
     protected static int lastSelected = 0;
 
+    [SerializeReference] bool debug = false;
+
     public static bool weaponWheelCheck {
         get { return isTabHeld; }
         set { isTabHeld = value; }
@@ -51,6 +53,10 @@ public class MenuScript : MonoBehaviour
 
     private void Update()
     {
+        if(AugmentMenuScript.augmentMenuCheck == false && PlayerController.Instance.entityState != EntityState.Attack) DoAction();
+    }
+
+    void DoAction() {
         // Check if Tab key is pressed
         if (Input.GetKeyDown(KeyCode.Tab))
         {

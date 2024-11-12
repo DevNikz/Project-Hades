@@ -9,6 +9,7 @@ public class SightTrigger : MonoBehaviour
 {
 
     public float viewRadius = 5;
+    public float AreaViewRadius = 3;
     [Range(0, 360)]
     public float viewAngle = 140;
 
@@ -89,7 +90,22 @@ public class SightTrigger : MonoBehaviour
             }
             else
             {
-                if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
+                targetsInViewRadius = Physics.OverlapSphere(transform.position, AreaViewRadius, targetMask);
+                if (targetsInViewRadius.Length > 0)
+                {
+                    if (!isAttacking)
+                    {
+                        isAttacking = true;
+                        if (this.GetComponentInParent<EnemyAction>() != null)
+                        {
+                            this.GetComponentInParent<EnemyAction>().SetAction(1);
+                        }
+                        Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
+                    }
+                }
+
+
+                else if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
                 {
                     isAttacking = false;
                     this.GetComponentInParent<EnemyAction>().SetAction(2);

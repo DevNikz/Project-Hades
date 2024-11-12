@@ -43,7 +43,11 @@ public class DetectSliderScript : MonoBehaviour
         {
             FillSlider();
 
-            if(meterFull) obj.SetActive(false);
+            if (meterFull)
+            {
+                slider.image.color = Color.red;
+                Invoke(nameof(Deactivate), 0.5f);
+            }
         }
             
         else ResetSlider();
@@ -51,9 +55,9 @@ public class DetectSliderScript : MonoBehaviour
 
     void FillSlider()
     {
-        slider.value = Mathf.Lerp(slider.minValue, slider.maxValue, fillTime);
+        slider.value = Mathf.Lerp(slider.minValue, slider.maxValue, fillTime / 3);
 
-        fillTime += 0.375f * Time.deltaTime;
+        fillTime += Time.deltaTime;
 
         if(fillTime >= 3.0f) meterFull = true;
 
@@ -72,5 +76,11 @@ public class DetectSliderScript : MonoBehaviour
         playerSeen = param.GetBoolExtra("HIDDEN", false);
 
         if(playerSeen) obj.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        obj.SetActive(false);
+        slider.image.color = Color.white;
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,9 +10,13 @@ public class PlayerHazard : MonoBehaviour
         playerSpeed = GetComponent<Movement>().GetSpeed();
     }
 
-    void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        //playerSpeed = GetComponent<Movement>().GetSpeed();
+    void Awake() {
+        playerSpeed = GetComponent<Movement>().GetSpeed();
+        //SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable() {
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
@@ -28,6 +30,8 @@ public class PlayerHazard : MonoBehaviour
     }
 
     void OnTriggerExit() {
+        transform.Find("SpriteT").GetComponent<Animator>().speed = 1f;
+        transform.Find("SpriteB").GetComponent<Animator>().speed = 1f;
         GetComponent<Movement>().SetSpeed(playerSpeed);
     }
 }

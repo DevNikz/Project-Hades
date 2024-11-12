@@ -42,9 +42,28 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetSelectedElements(Elements value) { selectedElement = value; }
 
     void Update() {
-        SetAnimBottom(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
-        SetAnimTop(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
-        UpdateAnimation(selectedElement);
+        if(LevelTrigger.HudCheck == false) {
+            SetAnimBottom(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
+            SetAnimTop(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
+            UpdateAnimation(selectedElement);
+        }
+
+        else {
+            SetPause(entityDirection);
+        }
+    }
+
+    void SetPause(LookDirection look) {
+        switch(look) {
+            case LookDirection.Right:
+                skeletalTop.Play("PlayerIdleT_Right");
+                skeletalBottom.Play("PlayerIdleB_Right");
+                break;
+            case LookDirection.Left:
+                skeletalTop.Play("PlayerIdleT_Left");
+                skeletalBottom.Play("PlayerIdleB_Left");
+                break;
+        }
     }
 
     void UpdateAnimation(Elements elements) {

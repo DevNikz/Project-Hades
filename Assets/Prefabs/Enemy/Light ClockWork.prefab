@@ -529,7 +529,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9773f55c9c34f95468ce54ee66ca4411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 5
+  viewRadius: 7
+  AreaViewRadius: 3
   viewAngle: 140
   targetMask:
     serializedVersion: 2
@@ -5714,7 +5715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d747b1415b8f3946998b83db20dd144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: {fileID: 11400000, guid: 3a70aa943264d6e41a39601ae793236b, type: 2}
+  attackType: {fileID: 11400000, guid: 6dc82a68675afe0479e7c971316b0e4b, type: 2}
 --- !u!1 &5459395659219152265
 GameObject:
   m_ObjectHideFlags: 0
@@ -6002,7 +6003,10 @@ MonoBehaviour:
   isStun: 0
   isShooting: 0
   timer: 1
+  xScale: 0
+  Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
+  action: {fileID: 0}
   run: 0
   attackTime: 0
 --- !u!1 &8452506964679612444
@@ -6073,11 +6077,13 @@ MonoBehaviour:
   isPatrolling: 0
   isSearching: 0
   sprite: {fileID: 0}
+  rgbody: {fileID: 0}
   wanderRange: 5
   attackPos: {x: 3, y: 0, z: -3}
   speedMultiplier: 1.5
   dash: 20
   dashStr: 50
+  maxCooldown: 5
 --- !u!114 &8658319985127969158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6090,7 +6096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86f15eb2c300054d8f86cfe18544806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: {fileID: 11400000, guid: d649728195c32e947819f0b0c15ea1a9, type: 2}
+  enemyStats: {fileID: 11400000, guid: 76629736ad2da32419565b695fa15fa1, type: 2}
   currentHealth: 0
   currentPoise: 0
   currentTimer: 0

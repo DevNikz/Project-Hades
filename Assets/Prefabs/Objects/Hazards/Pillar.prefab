@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 5791125938281950552}
   - component: {fileID: 8670243566881200512}
   - component: {fileID: 8168633860521398313}
+  - component: {fileID: 8342266661962079596}
   m_Layer: 0
   m_Name: Pillar
   m_TagString: HitHazard
@@ -490,6 +491,22 @@ MonoBehaviour:
   pillar3: {fileID: 0}
   pillar4: {fileID: 0}
   pillar5: {fileID: 0}
+--- !u!208 &8342266661962079596
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074935759764025669}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.91, y: 1.5, z: 0.91}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.1, y: 1.01, z: 0.1}
+  m_TimeToStationary: 0.5
 --- !u!1 &3107760837470495155
 GameObject:
   m_ObjectHideFlags: 0

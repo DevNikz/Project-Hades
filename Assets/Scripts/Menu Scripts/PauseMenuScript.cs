@@ -61,6 +61,7 @@ public class PauseMenuScript : MonoBehaviour
 
     public void ExitGame()
     {
+        ResumeGame(); //Should fix the menu thingy
         SceneManager.LoadScene("Title Screen");
     }
 }

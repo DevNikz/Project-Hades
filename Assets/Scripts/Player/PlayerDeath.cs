@@ -21,6 +21,8 @@ public class PlayerDeath : MonoBehaviour
     [PropertySpace] [Title("[Debug]")]
     [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")] 
     public void KillYourself() {
+        this.gameObject.tag = "Player(Dead)";
+
         //Tick Counter
         deaths += 1;
 
@@ -40,14 +42,14 @@ public class PlayerDeath : MonoBehaviour
         //pointerSprite = transform.Find("Pointer").gameObject;
         //pointerSprite.SetActive(false);
     
-        PlayerController.Instance.entityState = EntityState.Dead;
-        if(PlayerController.Instance.entityState == EntityState.Dead)
-        {
-            Debug.Log("Player death initiated");
+        // PlayerController.Instance.entityState = EntityState.Dead;
+        // if(PlayerController.Instance.entityState == EntityState.Dead)
+        // {
+        //     Debug.Log("Player death initiated");
 
-        }
-        tempTimer = timer;
-        timerState = TimerState.Start;
+        // }
+        // tempTimer = timer;
+        // timerState = TimerState.Start;
         
     }
 

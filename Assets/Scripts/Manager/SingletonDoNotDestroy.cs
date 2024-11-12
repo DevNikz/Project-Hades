@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SingletonDoNotDestroy : MonoBehaviour
 {
@@ -21,6 +22,20 @@ public class SingletonDoNotDestroy : MonoBehaviour
             SingletonDoNotDestroy.ClearingDupe = true;
             Destroy(this.gameObject);
         } 
+    }
+
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        // if(scene.buildIndex == 0) {
+        //     Destroy(gameObject);
+        // }
+    }
+
+     void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnDestroy()
