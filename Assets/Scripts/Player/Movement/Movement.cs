@@ -168,7 +168,7 @@ public class Movement : MonoBehaviour {
         Cooldown();
 
         PlayerController.Instance.SetMovement(move);
-        PlayerController.Instance.SetDirection(lookDirection);
+        if(LevelTrigger.HudCheck == false) PlayerController.Instance.SetDirection(lookDirection);
         PlayerController.Instance.SetDashing(dashing);
     }
 
