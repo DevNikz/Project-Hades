@@ -89,7 +89,7 @@ public class MenuScript : MonoBehaviour
                         previousMenuItemSc.Deselect();
                     }
 
-                    /*switch(selection)
+                    switch(selection)
                     {
                         case 1:
                             if (!ItemManager.Instance.Water)
@@ -107,7 +107,7 @@ public class MenuScript : MonoBehaviour
                             else if (previousSelection == -1)
                                 selection = 0;
                             break;
-                    }*/
+                    }
 
                     Debug.Log(selection);
 
