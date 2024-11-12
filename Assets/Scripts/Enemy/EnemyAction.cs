@@ -49,6 +49,7 @@ public class EnemyAction : MonoBehaviour
     public Rigidbody rgbody;
 
     public float wanderRange = 5;
+    public float cooldown = 0;
 
     public virtual void OnEnable()
     {

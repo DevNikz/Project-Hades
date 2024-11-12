@@ -10,10 +10,9 @@ public class LC_Actions : EnemyAction
 
     public Vector3 attackPos = new Vector3(3, 0, -3);
     public float speedMultiplier = 1.5f;
-    private float fastSpeed;
-    private float originalSpeed;
     public float dash = 20;
     public float dashStr = 50;
+    public float maxCooldown = 3;
     [NonSerialized] public int comboNum = 0;
 
 
@@ -24,9 +23,6 @@ public class LC_Actions : EnemyAction
 
         this.originalPosition = this.transform.position;
         this.Player = GameObject.Find("Player");
-
-        fastSpeed = agent.speed * speedMultiplier;
-        originalSpeed = agent.speed;
     }
 
     public override void Update()
@@ -34,9 +30,14 @@ public class LC_Actions : EnemyAction
         if (isAttacking) return;
 
         if (Action != 0) isPatrolling = false;
-        if (Action != 1) agent.speed = originalSpeed;
 
         //agent.isStopped = false;
+
+        cooldown -= Time.deltaTime;
+        if (cooldown > 0)
+        {
+            return;
+        }
 
         switch (Action)
         {
@@ -61,8 +62,7 @@ public class LC_Actions : EnemyAction
     {
         if (Player != null)
         {
-            agent.destination = Player.transform.position;
-            agent.speed = fastSpeed;
+            if(!agent.isStopped) agent.destination = Player.transform.position;
 
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
@@ -120,6 +120,7 @@ public class LC_Actions : EnemyAction
             this.SetAction(1);
             isAttacking = false;
             agent.isStopped = false;
+            cooldown = maxCooldown;
         }
     }
 }

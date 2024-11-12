@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LCAnimation : EnemyAnimation
@@ -22,6 +23,13 @@ public class LCAnimation : EnemyAnimation
 
     public override void SetAnimation()
     {
+
+        if (action.cooldown > 0)
+        {
+            spriteAnimator.Play("Idle");
+            return;
+        }
+
         switch (action.Action)
         {
             case 0:
