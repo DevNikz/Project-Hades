@@ -12,6 +12,15 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private TextMeshProUGUI loadingText;
     private bool isLoading = false;
 
+    void OnEnable(){
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    void OnSceneLoad(Scene scene, LoadSceneMode mode){
+        this.loadingScreen.SetActive(false);
+        isLoading = false;
+    }
+
     public void LoadLevel(string levelToLoad) {
         Debug.Log("Loading Level...");
 
@@ -42,7 +51,5 @@ public class LevelLoader : MonoBehaviour
             }
             loadingText.text = baseText + "...";
         }
-        isLoading = false;
-        this.loadingScreen.SetActive(false);
     }
 }
