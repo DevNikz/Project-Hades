@@ -158,6 +158,23 @@ public class MenuScript : MonoBehaviour
         if (selection >= 0 && selection < images.Length)
         {
             displayImage.sprite = images[selection];
+
+            switch (selection)
+            {
+                case 0:
+                    displayImage.rectTransform.localPosition = new Vector2(125, 125);
+                    break;
+                case 1:
+                    displayImage.rectTransform.localPosition = new Vector2(-125, 125);
+                    break;
+                case 2:
+                    displayImage.rectTransform.localPosition = new Vector2(-125, -125);
+                    break;
+                case 3:
+                    displayImage.rectTransform.localPosition = new Vector2(125, -125);
+                    break;
+
+            }
         }
     }
 }
