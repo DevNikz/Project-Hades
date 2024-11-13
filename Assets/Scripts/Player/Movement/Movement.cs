@@ -3,108 +3,85 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour {
+
+    [PropertySpace][TitleGroup("Properties", "General Movement Properties", TitleAlignments.Centered)]
+        [AssetSelector] public PlayerStatsScriptable movement;
+
+        [HorizontalGroup("Properties/Group")]
+            [VerticalGroup("Properties/Group/Left")]
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public float strafeSpeed;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public float currentSpeed;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [SerializeReference, HideLabel] private Vector3 currentInput;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private bool dashing;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private float dashCDTimer;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference, HideLabel] private Vector3 delayedForce;
+
+                [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference, HideLabel] private Vector3 isoInput;
+
+            [VerticalGroup("Properties/Group/Right")]
+                [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public EntityMovement move = EntityMovement.Idle;
+
+                [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public EntityState state;
+
+                [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public EntityDirection direction;
+
+                [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] public LookDirection lookDirection;
+
+    [PropertySpace][TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
+        [HorizontalGroup("References/Group")]
+            [VerticalGroup("References/Group/Left")]
+                [BoxGroup("References/Group/Left/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private Rigidbody rigidBody;
+
+                [BoxGroup("References/Group/Left/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private Transform model;
+
+                [BoxGroup("References/Group/Left/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private Combat combat;
+
+            [VerticalGroup("References/Group/Right")]
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private ParticleSystem dust;
+
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] protected GameObject pointerUI;
+
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private ParticleSystem dashParticle;
+
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private Vector3 moveInput;
+
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference, HideLabel] private float moveInput_normalized;
+
+                [BoxGroup("References/Group/Right/Box", ShowLabel = false)][LabelWidth(125)]
+                [ReadOnly, SerializeReference] private bool dashInput;
+
     
-    [PropertySpace] [TitleGroup("Properties", "General Movement Properties", TitleAlignments.Centered)]
-    [AssetSelector]
-    public PlayerStatsScriptable movement;
-
-    [HorizontalGroup("Properties/Group")]
-    [VerticalGroup("Properties/Group/Left")]
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public float strafeSpeed;
-
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public float currentSpeed;
-
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [SerializeReference, HideLabel] private Vector3 currentInput;
-
-    
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private bool dashing;
-
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private float dashCDTimer;
-
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference, HideLabel] private Vector3 delayedForce;
-
-    [BoxGroup("Properties/Group/Left/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference, HideLabel] private Vector3 isoInput;
-
-    [VerticalGroup("Properties/Group/Right")]
-    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public EntityMovement move = EntityMovement.Idle;
-
-    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public EntityState state;
-
-    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public EntityDirection direction;
-
-    [BoxGroup("Properties/Group/Right/Box1", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] public LookDirection lookDirection;
-
-    [PropertySpace] [TitleGroup("References", "General Movement References", TitleAlignments.Centered)]
-    [HorizontalGroup("References/Group")]
-    [VerticalGroup("References/Group/Left")]
-    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private Rigidbody rigidBody;
-
-    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private Transform model;
-
-    [BoxGroup("References/Group/Left/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private Combat combat;
-
-    [VerticalGroup("References/Group/Right")]
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private ParticleSystem dust;
-
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] protected GameObject pointerUI;
-
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private ParticleSystem dashParticle;
-
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private Vector3 moveInput;
-
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference, HideLabel] private float moveInput_normalized;
-
-    [BoxGroup("References/Group/Right/Box", ShowLabel = false)]
-    [LabelWidth(125)]
-    [ReadOnly, SerializeReference] private bool dashInput;
-
     private Vector3 tempVector;
     Quaternion rot;
     float angle;
 
-    //Broadcaster
+    /* Broadcaster */
     public const string KEY_MOVE = "KEY_MOVE";
-    
     public const string KEY_DASH = "KEY_DASH";
-
     public const string KEY_MOVE_HELD = "KEY_MOVE_HELD";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
 
@@ -132,7 +109,6 @@ public class Movement : MonoBehaviour {
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.KEY_INPUTS, this.stateHandlerEvent);
         LoadData(); 
     }
-
 
     void LoadUI() {
         pointerUI = transform.Find("AttackColliders").gameObject;
