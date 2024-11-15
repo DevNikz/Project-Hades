@@ -24,7 +24,14 @@ public class LevelRewardScript : MonoBehaviour
 
     void Start()
     {
+        ResetMenu();
+    }
+
+    private void ResetMenu(){
         AssignSprites();
+
+        choice = null;
+        choiceMade = false;
         levelRewardMenu.SetActive(false);
     }
 
@@ -121,7 +128,7 @@ public class LevelRewardScript : MonoBehaviour
         //Time.timeScale = 1f;
         GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(nextLevel);
         //SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
-        levelRewardMenu.SetActive(false);
+        ResetMenu();
         //StartCoroutine(Deactivate());
     }
 
