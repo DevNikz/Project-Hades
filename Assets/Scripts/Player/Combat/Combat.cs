@@ -297,7 +297,7 @@ public class Combat : MonoBehaviour
                 comboCounter++;
                 lastClickedTime = Time.time;
 
-                gameObject.GetComponent<PlayerController>().UpdateMana(false);
+                gameObject.GetComponent<PlayerController>().UpdateMana(-combat.manaCost);
 
                 if (comboCounter == 1) {
                     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
@@ -458,7 +458,7 @@ public class Combat : MonoBehaviour
 
         if (enemyKilled && detainPress)
         {
-            gameObject.GetComponent<PlayerController>().UpdateMana(true);
+            gameObject.GetComponent<PlayerController>().UpdateMana(combat.detainManaRecovery);
         }
     }
 

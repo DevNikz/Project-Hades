@@ -234,19 +234,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void UpdateMana(bool b)
+    public void UpdateMana(float amount)
     {
-        if (b)
-        {
-            if (currentMana < totalMana)
-                currentMana += 30;
-        }
-            
-        else
-        {
-            if (currentMana > 0)
-                currentMana -= 10;
-        }
+        if(currentMana + amount > totalMana) 
+            currentMana = totalMana;
+        else if (currentMana + amount < 0)
+            currentMana = 0;
+        else 
+            currentMana += amount;
             
         manaMeter.value = ToPercent(currentMana, totalMana);
     }
