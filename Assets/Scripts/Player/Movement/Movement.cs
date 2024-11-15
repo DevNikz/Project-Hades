@@ -167,12 +167,6 @@ public class Movement : MonoBehaviour {
         //Hardcoded slow down for now.
         if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.deltaTime);
         else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime);
-
-        Debug.Log("Add Force: " + (1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime));
-        Debug.Log("Move Speed: " + currentSpeed);
-        Debug.Log("Input Iso: " + input.ToIso());
-        Debug.Log("Normalized Move Input: " + moveInput_normalized);
-        Debug.Log("Fixed Delta Time: " + Time.deltaTime);
     }
 
     private void CheckMove() {
