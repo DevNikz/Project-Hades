@@ -6,9 +6,11 @@ public class BulletController : MonoBehaviour
     public AttackType attackType;
     private GameObject tempObject;
     private Rigidbody rb;
+    private Rigidbody bulletBody;
     private MeshRenderer meshRenderer;
 
     [SerializeField][Range(0.1f, 100f)] private float timer;
+    private float timerProgress;
     private TimerState timerState = TimerState.None;
     private ObjectPool objectPool;
 
@@ -21,13 +23,20 @@ public class BulletController : MonoBehaviour
     }
 
     void OnEnable() {
+        this.bulletBody = this.gameObject.GetComponent<Rigidbody>();
         timerState = TimerState.Start;
+        timerProgress = timer;
+    }
+
+    private void OnDisable() {
+        this.bulletBody.velocity = Vector3.zero;    
+        this.bulletBody.angularVelocity = Vector3.zero;
     }
 
     void Update() {
         if(timerState == TimerState.Start) {
-            timer -= Time.fixedDeltaTime;
-            if(timer <= 0) {
+            timerProgress -= Time.fixedDeltaTime;
+            if(timerProgress <= 0) {
                 timerState = TimerState.Stop;
             }
         }
