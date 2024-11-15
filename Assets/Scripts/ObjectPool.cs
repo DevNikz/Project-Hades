@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] private GameObject poolObject;
+    [SerializeField, AssetSelector] private GameObject poolObject;
     [SerializeField] private int poolSize;
     
     [SerializeField, HideInInspector] private List<GameObject> availableObjects = new List<GameObject>();
@@ -13,45 +14,45 @@ public class ObjectPool : MonoBehaviour
     void Start()
     {
         for (int i = 0; i < poolSize; i++){
-            GameObject gameObject = Instantiate(poolObject);
-            gameObject.SetActive(false);
-            this.availableObjects.Add(gameObject);
+            GameObject obj = Instantiate(poolObject);
+            obj.SetActive(false);
+            this.availableObjects.Add(obj);
         }
     }
 
-    public void ReturnObject(GameObject gameObject){
-        if(!this.releasedObjects.Contains(gameObject)) return;
+    public void ReturnObject(GameObject obj){
+        if(!this.releasedObjects.Contains(obj)) return;
 
-        this.gameObject.SetActive(false);
+        obj.SetActive(false);
 
-        this.releasedObjects.Remove(gameObject);
-        this.availableObjects.Add(gameObject);
+        this.releasedObjects.Remove(obj);
+        this.availableObjects.Add(obj);
     }
 
     public GameObject ReleaseObject(){
         if(this.availableObjects.Count <= 0) return null;
 
-        GameObject gameObject = this.availableObjects[this.availableObjects.Count - 1];
-        this.gameObject.SetActive(true);
+        GameObject obj = this.availableObjects[this.availableObjects.Count - 1];
+        obj.SetActive(true);
 
-        this.availableObjects.Remove(gameObject);
-        this.releasedObjects.Add(gameObject);
+        this.availableObjects.Remove(obj);
+        this.releasedObjects.Add(obj);
 
-        return gameObject;  
+        return obj;  
     }
 
     public GameObject ReleaseObjectAt(Vector3 location){
-        GameObject gameObject = ReleaseObject();
-        if(gameObject != null)
-            gameObject.transform.position = location;
-        return gameObject;
+        GameObject obj = ReleaseObject();
+        if(obj != null)
+            obj.transform.position = location;
+        return obj;
     }
 
     public GameObject ReleaseObjectAt(Transform transform){
-        GameObject gameObject = ReleaseObject();
-        if(gameObject != null)
-            gameObject.transform.SetLocalPositionAndRotation(transform.position, transform.rotation);
-        return gameObject;
+        GameObject obj = ReleaseObject();
+        if(obj != null)
+            obj.transform.SetLocalPositionAndRotation(transform.position, transform.rotation);
+        return obj;
     }
 
     // Update is called once per frame

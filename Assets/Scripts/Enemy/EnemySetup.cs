@@ -14,9 +14,10 @@ public class EnemySetup : MonoBehaviour
 
     [PropertySpace, TitleGroup("Reference", "", TitleAlignments.Centered)] 
     [SerializeReference] private GameObject sightDebug; 
+    private ObjectPool bulletPool;
 
     void Start() {
-
+        bulletPool = GetComponent<ObjectPool>();
         //UI
         healthUI = transform.Find("HealthAndDetection").gameObject;
         // poiseUI = transform.Find("Poise").gameObject;

@@ -10,6 +10,11 @@ public class BulletController : MonoBehaviour
 
     [SerializeField][Range(0.1f, 100f)] private float timer;
     private TimerState timerState = TimerState.None;
+    private ObjectPool objectPool;
+
+    public void passPoolRef(ObjectPool pool){
+        objectPool = pool;
+    }
 
     void Start() {
         // attackType = Resources.Load<AttackType>(this.attackType.); 
@@ -27,7 +32,7 @@ public class BulletController : MonoBehaviour
             }
         }
         else if(timerState == TimerState.Stop) {
-            Destroy(gameObject);
+            this.objectPool.ReturnObject(gameObject);
         }
     }
 
@@ -42,7 +47,7 @@ public class BulletController : MonoBehaviour
             Vector3 knockback = direction * attackType.knocbackForce;
             rb.AddForce(knockback, ForceMode.Impulse);
 
-            Destroy(this.gameObject);
+            this.objectPool.ReturnObject(this.gameObject);
         }
 
         if (other.CompareTag("Player")) {
@@ -53,11 +58,11 @@ public class BulletController : MonoBehaviour
             rb.AddForce(knockback, ForceMode.Impulse);
 
             other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
-            Destroy(this.gameObject);
+            this.objectPool.ReturnObject(this.gameObject);
         }
 
         if(other.CompareTag("Bounds")) {
-            Destroy(this.gameObject);
+            this.objectPool.ReturnObject(this.gameObject);
         }
     }
 }

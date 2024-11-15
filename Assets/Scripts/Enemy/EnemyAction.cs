@@ -44,6 +44,7 @@ public class EnemyAction : MonoBehaviour
     [NonSerialized] public NavMeshAgent agent;
 
     [SerializeReference] private GameObject sprite;
+    private ObjectPool bulletPool;
 
     private AttackDirection atkDir;
     public Rigidbody rgbody;
@@ -63,6 +64,8 @@ public class EnemyAction : MonoBehaviour
         this.patrolPoints.Add(this.originalPosition);
 
         if (this.patrolPoints.Count >= 1) patrolPoints[0] = new Vector3(this.patrolPoints[0].x, this.originalPosition.y, this.patrolPoints[0].z);
+        
+        bulletPool = GetComponent<ObjectPool>();
     }
 
     // Update is called once per frame
@@ -151,9 +154,12 @@ public class EnemyAction : MonoBehaviour
     public virtual void Attacking()
     {
         if(isAttacking && this.tag == "Enemy") {
-            GameObject fire = GameObject.Instantiate(Bullet);
+            // GameObject fire = GameObject.Instantiate(Bullet);
+            
+            GameObject fire = bulletPool.ReleaseObject();
             if (fire != null)
             {
+                fire.GetComponent<BulletController>().passPoolRef(this.bulletPool);
                 fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);
                 fire.transform.rotation = this.transform.rotation;
                 fire.transform.Rotate(90, 0, 0);
