@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -78,6 +79,7 @@ public class Movement : MonoBehaviour {
     private Vector3 tempVector;
     Quaternion rot;
     float angle;
+    private Vector3 targetMoveIso;
 
     /* Broadcaster */
     public const string KEY_MOVE = "KEY_MOVE";
@@ -148,13 +150,29 @@ public class Movement : MonoBehaviour {
         PlayerController.Instance.SetDashing(dashing);
     }
 
+    private void FixedUpdate() {
+        if(this.move == EntityMovement.Strafing)
+            this.Move(targetMoveIso);
+    }
+
+    void SetMoveIso(Vector3 moveIso){
+        this.targetMoveIso = moveIso;
+    }
+
     void Move(Vector3 input) {
+
         moveInput_normalized = input.normalized.magnitude;
-        currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime;
+        currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime;
 
         //Hardcoded slow down for now.
-        if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.fixedDeltaTime);
-        else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.fixedDeltaTime);
+        if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.deltaTime);
+        else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime);
+
+        Debug.Log("Add Force: " + (1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime));
+        Debug.Log("Move Speed: " + currentSpeed);
+        Debug.Log("Input Iso: " + input.ToIso());
+        Debug.Log("Normalized Move Input: " + moveInput_normalized);
+        Debug.Log("Fixed Delta Time: " + Time.deltaTime);
     }
 
     private void CheckMove() {
@@ -186,7 +204,7 @@ public class Movement : MonoBehaviour {
                     //Debug Direction
                     direction = IsoCompass(moveInput.x, moveInput.z);
 
-                    Move(moveInput);
+                    SetMoveIso(moveInput);
                 }
             }
 
