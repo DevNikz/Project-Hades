@@ -10,14 +10,12 @@ public class DetainIconScript : MonoBehaviour
     bool playerSeen;
 
     private Image icon = null;
-    private GameObject ui = null;
+    [SerializeField] private GameObject ui = null;
 
     // Start is called before the first frame update
     void Start()
     {
         playerSeen = false;
-
-        ui = this.transform.parent.transform.parent.transform.Find("HealthAndDetection").gameObject;
 
         icon = ui.transform.Find("DetainIcon").gameObject.GetComponent<Image>();
 
@@ -30,6 +28,7 @@ public class DetainIconScript : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            Debug.Log("Player Seen: " + playerSeen);
             if(!playerSeen) icon.enabled = true;
         }
     }
