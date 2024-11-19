@@ -346,7 +346,8 @@ public class PlayerController : MonoBehaviour
         modTotalHealth += value;
 
         //Set Current Health
-        currentHealth += value;
+        if(currentHealth < modTotalHealth)
+            currentHealth += 25;
     }
 
     //KEEPING FOR IF ELEMENT CHARGES ARE STORED SEPARATELY

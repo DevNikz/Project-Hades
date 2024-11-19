@@ -42,6 +42,21 @@ public class AugmentScriptable : ScriptableObject
     [PropertySpace] [InfoBox("Augment Kind (Default = None)")]
     [Required] public Kind augmentKind = Kind.None;
 
+    [Range(0, 100)]
+    [InfoBox("Whole number increase")]
+    public int healthIncrease;
+
+    [Range(0.0f, 100f)]
+    [InfoBox("Percentage increase")]
+    public float damageIncrease;
+
+    [Range(0.0f, 100f)]
+    public float defenseIncrease;
+
+    [Range(0.0f, 100f)]
+    public float staggerIncrease;
+
+
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [LabelWidth(50)]
     public bool Toggle;

@@ -55,6 +55,11 @@ public class ItemManager : MonoBehaviour
     [OnValueChanged("UpdatePlayerVitality")]
     public int playerVitalityCount;
 
+    public AugmentScriptable vitalityScriptable;
+    public AugmentScriptable aggroScriptable;
+    public AugmentScriptable steelScriptable;
+    public AugmentScriptable heavyScriptable;
+
     bool isWaterUnlocked;
     bool isWindUnlocked;
     bool isFireUnlocked;
@@ -119,13 +124,15 @@ public class ItemManager : MonoBehaviour
     [VerticalGroup("Player Debug/Buttons2/2")]
     [Button("Add Aggro (Player)", ButtonSizes.Large)]
     public void DPAddAggro() {
-        playerAggroCount++;
+        //playerAggroCount++;
+        PAddAggro(1);
     }
 
     [VerticalGroup("Player Debug/Buttons2/3")]
-    [Button("Add Steel (Player)", ButtonSizes.Large)]
-    public void DPAddSteel() {
-        playerSteelCount++;
+    [Button("Add Vitality (Player)", ButtonSizes.Large)] //changed from steel to vita
+    public void DPAddVitality() {
+        //playerSteelCount++;
+        PAddVitality(1);
     }
 
     //DebugReset (Level)
@@ -196,34 +203,38 @@ public class ItemManager : MonoBehaviour
 
     public void PAddAggro(int value) {
         playerAggroCount += value;
+        UpdatePlayerAggro();
     }
 
     public void PAddSteel(int value) {
         playerSteelCount += value;
+        UpdatePlayerSteel();
     }
 
     public void PAddHeavy(int value) {
         playerHeavyCount += value;
+        UpdatePlayerHeavy();
     }
 
     public void PAddVitality(int value) {
         playerVitalityCount += value;
+        UpdatePlayerVitality();
     }
 
     //Stuffs
     public void UpdatePlayerAggro() {
-        PlayerController.Instance.SetHealthDamage(playerAggroCount * 5);
+        PlayerController.Instance.SetHealthDamage(playerAggroCount * (aggroScriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerSteel() {
-        PlayerController.Instance.SetTotalDefense(playerSteelCount * 5);
+        PlayerController.Instance.SetTotalDefense(playerSteelCount * (steelScriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerHeavy() {
-        PlayerController.Instance.SetStunDamage(playerHeavyCount * 5);
+        PlayerController.Instance.SetStunDamage(playerHeavyCount * (heavyScriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerVitality() {
-        PlayerController.Instance.SetTotalHealth(playerVitalityCount * 5);
+        PlayerController.Instance.SetTotalHealth(playerVitalityCount * vitalityScriptable.healthIncrease);
     }
 }

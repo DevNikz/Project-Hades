@@ -464,11 +464,11 @@ public class Combat : MonoBehaviour
 
     public void SetHealthDamage(float value) {
         modHealthDamage = baseHealthDamage;
-        modHealthDamage += value;
+        modHealthDamage += (modHealthDamage * value);
     }
 
     public void SetStunDamage(float value) {
         modPoiseDamage = basePoiseDamage;
-        modPoiseDamage += value;
+        modPoiseDamage += (modPoiseDamage * value);
     }
 }
