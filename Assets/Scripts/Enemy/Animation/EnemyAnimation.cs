@@ -38,7 +38,7 @@ public class EnemyAnimation : MonoBehaviour
         if (!action.isPatrolling && !action.isSearching && !action.isAttacking) entityMovement = EntityMovement.Idle;
         else entityMovement = EntityMovement.Strafing;
 
-        if (isHit == false && isShooting == false) SetAnimation();
+        if (isHit == false && isShooting == false && isStun == false) SetAnimation();
     }
 
     public virtual void SetAnimation() {
@@ -56,8 +56,8 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public virtual void SetHit(AttackDirection attackDirection) {
-        action.SetAction(1);
-        action.Attack();
+        //action.SetAction(1);
+        //action.Attack();
 
         if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
         else xScale = Math.Abs(xScale);
@@ -65,6 +65,17 @@ public class EnemyAnimation : MonoBehaviour
         isHit = true;
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         spriteAnimator.Play("HitRight");
+        ResetHit();
+    }
+
+    public virtual void SetStun(AttackDirection attackDirection, float duration)
+    {
+        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
+        else xScale = Math.Abs(xScale);
+
+        isStun = true;
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        spriteAnimator.Play("Stun");
         ResetHit();
     }
 
@@ -85,6 +96,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public virtual void ResetAnim() {
         isHit = false;
+        isStun = false;
         //isShooting = false;
     }
 

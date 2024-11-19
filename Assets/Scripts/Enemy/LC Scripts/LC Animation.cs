@@ -61,7 +61,7 @@ public class LCAnimation : EnemyAnimation
         }
     }
 
-    public void SetStun(AttackDirection attackDirection)
+    public override void SetStun(AttackDirection attackDirection, float duration)
     {
         if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
         else xScale = Math.Abs(xScale);

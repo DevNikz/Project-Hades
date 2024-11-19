@@ -8,6 +8,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.Controls;
 using static UnityEngine.GraphicsBuffer;
 
 public class EnemyAction : MonoBehaviour
@@ -16,6 +17,7 @@ public class EnemyAction : MonoBehaviour
     [SerializeField] public GameObject Bullet = null;
     [SerializeField] public int BulletSpeed = 100;
     [SerializeField] public float FireRate = .5f;
+    private float curFire = 0;
     [NonSerialized] public Vector3 originalPosition = Vector3.zero;
     [NonSerialized] public GameObject Player = null;
 
@@ -72,6 +74,7 @@ public class EnemyAction : MonoBehaviour
     public virtual void Update()
     {
         this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
+        curFire -= Time.deltaTime;
 
         if (Action != 0) isPatrolling = false;
         if (Action != 1)
@@ -137,11 +140,21 @@ public class EnemyAction : MonoBehaviour
                 this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
             }
 
+            if (curFire <= 0)
+            {
+                SetAttackDirection();
+                Attacking();
+                isAttacking = true;
+                curFire = FireRate;
+            }
+
+            /*
             if (!isAttacking) {
                 isAttacking = true;
                 SetAttackDirection();
                 Invoke("Attacking", FireRate);
             }
+            */
             
         }
         else {
@@ -170,7 +183,7 @@ public class EnemyAction : MonoBehaviour
 
                 sprite.GetComponent<EnemyAnimation>().SetShoot(atkDir);
             }
-            Invoke("Attacking", FireRate);
+            //Invoke("Attacking", FireRate);
         }
     }
 

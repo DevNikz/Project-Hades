@@ -222,12 +222,12 @@ public class EnemyController : MonoBehaviour
 
             //Poise
             poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise * 1.5f;
+            currentPoise -= poise * 150f;
 
             //RegenPoise
             poiseDamaged = true;
             currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
+            //poiseMeter.value = ToPercent(currentPoise, enemyStats.maxPoise);
 
             Debug.Log("Using earth damage");
         }
@@ -299,8 +299,10 @@ public class EnemyController : MonoBehaviour
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
         }
 
+        if (currentPoise <= 0) sprite.GetComponent<EnemyAnimation>().SetStun(attackDirection, enemyStats.timerDelay);
+
         //UI
-        switch(enemyStats.enemyType) {
+        switch (enemyStats.enemyType) {
             case EnemyType.Normal: UpdateNormalHP();
                 break;
             case EnemyType.Boss: UpdateBossHP();
