@@ -76,7 +76,10 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
-    private PlayerController fireCharge;
+    [SerializeReference] private PlayerElementScriptable earthStanceStats;
+    [SerializeReference] private PlayerElementScriptable fireStanceStats;
+
+    private PlayerController manaCharge;
     private float maxHP;
     void Start() {
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
@@ -203,7 +206,7 @@ public class EnemyController : MonoBehaviour
         //Visual Cue
         hitFX.Play();
         sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
-        fireCharge = FindAnyObjectByType<PlayerController>();
+        manaCharge = FindAnyObjectByType<PlayerController>();
 
         if (staggered) {
             //Health
@@ -222,7 +225,10 @@ public class EnemyController : MonoBehaviour
 
             //Poise
             poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise * 150f;
+
+            if(manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
+                currentPoise -= poise * earthStanceStats.staggerDamageCharged;
+            else currentPoise -= poise * earthStanceStats.staggerDamage;
 
             //RegenPoise
             poiseDamaged = true;
@@ -233,10 +239,15 @@ public class EnemyController : MonoBehaviour
         }
 
         //FireStyle - increased damage
-        else if (MenuScript.LastSelection == 1 && fireCharge.GetCurrentElementCharge() > 0)
+        else if (MenuScript.LastSelection == 1 && manaCharge.GetCurrentElementCharge() > 0)
         {
-            float fireDamage = damage * 1.5f;
-            currentHealth -= fireDamage; //Rudimentary damage increase for now
+            float fireDamage;
+
+            if (manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
+                fireDamage = damage * fireStanceStats.attackDamageCharged;
+            else fireDamage = damage * fireStanceStats.attackDamage;
+
+            currentHealth -= fireDamage;
 
             //Poise
             poise = CalculatePoiseDamage(poise);
@@ -269,7 +280,7 @@ public class EnemyController : MonoBehaviour
         }
 
         //WindStyle - decreased damage, higher attack speed ()
-        else if (MenuScript.LastSelection == 3) //&& fireCharge.GetCurrentFireCharge() > 0) - change to windcharge
+        else if (MenuScript.LastSelection == 3)
         {
             float windDamage = damage * 0.8f;
             currentHealth -= windDamage; //Rudimentary damage increase for now

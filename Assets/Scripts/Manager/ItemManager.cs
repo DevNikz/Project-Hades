@@ -55,10 +55,10 @@ public class ItemManager : MonoBehaviour
     [OnValueChanged("UpdatePlayerVitality")]
     public int playerVitalityCount;
 
-    public AugmentScriptable vitalityScriptable;
-    public AugmentScriptable aggroScriptable;
-    public AugmentScriptable steelScriptable;
-    public AugmentScriptable heavyScriptable;
+    [SerializeReference] private AugmentScriptable vitalityScriptable;
+    [SerializeReference] private AugmentScriptable aggroScriptable;
+    [SerializeReference] private AugmentScriptable steelScriptable;
+    [SerializeReference] private AugmentScriptable heavyScriptable;
 
     bool isWaterUnlocked;
     bool isWindUnlocked;
