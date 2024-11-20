@@ -227,8 +227,8 @@ public class EnemyController : MonoBehaviour
             poise = CalculatePoiseDamage(poise);
 
             if(manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                currentPoise -= poise * earthStanceStats.staggerDamageCharged;
-            else currentPoise -= poise * earthStanceStats.staggerDamage;
+                currentPoise -= poise * (earthStanceStats.staggerDamageCharged * 0.01f);
+            else currentPoise -= poise * (earthStanceStats.staggerDamage * 0.01f);
 
             //RegenPoise
             poiseDamaged = true;
@@ -244,8 +244,8 @@ public class EnemyController : MonoBehaviour
             float fireDamage;
 
             if (manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                fireDamage = damage * fireStanceStats.attackDamageCharged;
-            else fireDamage = damage * fireStanceStats.attackDamage;
+                fireDamage = damage * (fireStanceStats.attackDamageCharged * 0.01f);
+            else fireDamage = damage * (fireStanceStats.attackDamage * 0.01f);
 
             currentHealth -= fireDamage;
 
