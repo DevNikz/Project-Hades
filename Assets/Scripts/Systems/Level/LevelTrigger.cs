@@ -8,6 +8,7 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
     [SerializeField] GameObject playerInputManager;
+    [SerializeField] Spawner spawner;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
     
@@ -34,8 +35,16 @@ public class LevelTrigger : MonoBehaviour
 
 
     void Update() {
-        enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if(enemyCounter <= 0) ToggleTrigger = true; 
+        if (spawner == null)
+        {
+            enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            if (enemyCounter <= 0) ToggleTrigger = true;
+        }
+        else if (spawner.FinalWave)
+        {
+            enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            if (enemyCounter <= 0) ToggleTrigger = true;
+        }
     }
 
     void OnTriggerEnter(Collider other) {

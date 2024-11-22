@@ -22,7 +22,7 @@ public class PatrolEditor : Editor
     void OnSceneGUI()
     {
         EnemyAction example = (EnemyAction)target;
-        Handles.color = UnityEngine.Color.yellow;
+        Handles.color = UnityEngine.Color.red;
 
         List<Vector3> points = example.patrolPoints;
 
