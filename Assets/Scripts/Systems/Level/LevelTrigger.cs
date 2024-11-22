@@ -8,7 +8,7 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
     [SerializeField] GameObject playerInputManager;
-    [SerializeField] Spawner spawner;
+    private Spawner spawner;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
     
@@ -31,6 +31,8 @@ public class LevelTrigger : MonoBehaviour
     void Awake() {
         if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
         hudCheck = false;
+
+        spawner = FindAnyObjectByType<Spawner>();
     }
 
 
