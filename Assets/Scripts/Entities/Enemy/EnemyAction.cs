@@ -76,7 +76,15 @@ public class EnemyAction : MonoBehaviour
         this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
         curFire -= Time.deltaTime;
 
-        if (Action != 0) isPatrolling = false;
+        cooldown -= Time.deltaTime;
+        if (cooldown > 0)
+        {
+            Action = 0;
+            agent.isStopped = true;
+            isAttacking = false;
+            return;
+        }
+
         if (Action != 1)
         {
             isAttacking = false;

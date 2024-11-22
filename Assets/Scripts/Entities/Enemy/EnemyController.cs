@@ -230,6 +230,9 @@ public class EnemyController : MonoBehaviour
                 currentPoise -= poise * (earthStanceStats.staggerDamageCharged * 0.01f);
             else currentPoise -= poise * (earthStanceStats.staggerDamage * 0.01f);
 
+            //For Stun Testing
+            //currentPoise -= poise * 100;
+
             //RegenPoise
             poiseDamaged = true;
             currentTimer = enemyStats.timerDelay;

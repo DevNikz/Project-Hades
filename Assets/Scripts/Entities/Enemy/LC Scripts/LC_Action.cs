@@ -27,17 +27,18 @@ public class LC_Actions : EnemyAction
 
     public override void Update()
     {
-        if (isAttacking) return;
-
-        if (Action != 0) isPatrolling = false;
-
-        //agent.isStopped = false;
-
         cooldown -= Time.deltaTime;
         if (cooldown > 0)
         {
+            Action = 0;
+            isAttacking = false;
+            agent.isStopped = true;
             return;
         }
+
+        if (isAttacking) return;
+
+        if(Action != 1) agent.isStopped = false;
 
         switch (Action)
         {
@@ -119,7 +120,6 @@ public class LC_Actions : EnemyAction
         if (comboNum == 6) {
             this.SetAction(1);
             isAttacking = false;
-            agent.isStopped = false;
             cooldown = maxCooldown;
         }
     }

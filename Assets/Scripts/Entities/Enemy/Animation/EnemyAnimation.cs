@@ -9,6 +9,7 @@ public class EnemyAnimation : MonoBehaviour
     public EntityMovement entityMovement;
     public bool isHit = false;
     public bool isStun = false;
+    public bool isDead = false;
     public bool isShooting;
     public float timer;
     public float xScale;
@@ -56,16 +57,13 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public virtual void SetHit(AttackDirection attackDirection) {
-        //action.SetAction(1);
-        //action.Attack();
-
         if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
         else xScale = Math.Abs(xScale);
         action.agent.isStopped = true;
         isHit = true;
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
-        spriteAnimator.Play("HitRight");
-        ResetHit();
+        spriteAnimator.Play("Hit");
+        Invoke(nameof(ResetHit), timer);
     }
 
     public virtual void SetStun(AttackDirection attackDirection, float duration)
@@ -76,7 +74,10 @@ public class EnemyAnimation : MonoBehaviour
         isStun = true;
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         spriteAnimator.Play("Stun");
-        ResetHit();
+        action.CancelInvoke();
+
+        action.cooldown = duration;
+        Invoke(nameof(ResetStun), duration);
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)
@@ -87,16 +88,25 @@ public class EnemyAnimation : MonoBehaviour
 
     public virtual void SetDeath()
     {
-        spriteAnimator.Play("BugeDeath");
+        isDead = true;
+        action.CancelInvoke();
+        spriteAnimator.Play("Death");
     }
 
     public void ResetHit() {
-        Invoke(nameof(ResetAnim), timer);
+        isHit = false;
+    }
+
+    public void ResetStun()
+    {
+        isStun = false;
+        spriteAnimator.Play("Idle");
     }
 
     public virtual void ResetAnim() {
         isHit = false;
         isStun = false;
+        spriteAnimator.Play("Idle");
         //isShooting = false;
     }
 

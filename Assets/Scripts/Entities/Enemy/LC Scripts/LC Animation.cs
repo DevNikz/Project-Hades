@@ -1,12 +1,12 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LCAnimation : EnemyAnimation
 {
     public bool run;
     public float attackTime;
-    private bool isDead = false;
 
     public override void ExtraStart()
     {
@@ -18,18 +18,11 @@ public class LCAnimation : EnemyAnimation
         SetDirection();
         if (isDead) entityMovement = EntityMovement.Idle;
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        if (!isHit && !isStun && !isDead) SetAnimation();
+        if (!isHit && !isDead && !isStun) SetAnimation();
     }
 
     public override void SetAnimation()
     {
-
-        if (action.cooldown > 0)
-        {
-            spriteAnimator.Play("Idle");
-            return;
-        }
-
         switch (action.Action)
         {
             case 0:
@@ -59,31 +52,6 @@ public class LCAnimation : EnemyAnimation
                 spriteAnimator.Play("Idle");
                 break;
         }
-    }
-
-    public override void SetStun(AttackDirection attackDirection, float duration)
-    {
-        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
-        else xScale = Math.Abs(xScale);
-
-        isStun = true;
-        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
-        spriteAnimator.Play("Stun");
-        ResetHit();
-    }
-
-    public override void SetDeath()
-    {
-        isDead = true;
-        action.CancelInvoke();
-        spriteAnimator.Play("Death");
-    }
-
-    public override void ResetAnim()
-    {
-        isHit = false;
-        isStun = false;
-        action.agent.isStopped = false;
     }
 }
 
