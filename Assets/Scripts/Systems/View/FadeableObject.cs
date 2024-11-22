@@ -13,7 +13,7 @@ public class FadeableObject : MonoBehaviour
     bool lerping = false;
     bool fadedout = false;
 
-    void Start(){
+    void OnEnable(){
         if(this.solidModel == null || this.transparentModel == null){
             Destroy(this);
         }
@@ -28,10 +28,10 @@ public class FadeableObject : MonoBehaviour
         maskObjectScriptRef = GameObject.Find("Player")?.GetComponent<MaskObject>();
         if(maskObjectScriptRef != null){
             maskObjectScriptRef.fadeableObjects.Add(this.gameObject);
-        }
+        } 
     }
 
-    void OnDestroy(){
+    void OnDisable(){
         if(maskObjectScriptRef != null)
             maskObjectScriptRef.fadeableObjects.Remove(this.gameObject);
     }
