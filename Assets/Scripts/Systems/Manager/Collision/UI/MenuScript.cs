@@ -109,8 +109,6 @@ public class MenuScript : MonoBehaviour
                             break;
                     }
 
-                    Debug.Log(selection);
-
                     previousSelection = selection;
                     menuItemSc = menuItems[selection].GetComponent<MenuItemScript>();
                     menuItemSc.Select();

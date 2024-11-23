@@ -139,9 +139,6 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
-    [SerializeField] public TextMeshProUGUI fireChargeText;
-
-    [BoxGroup("References/Ref", ShowLabel = false)]
     [SerializeReference] public HitboxCall hitBox;
 
     [PropertySpace] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
@@ -195,11 +192,14 @@ public class Combat : MonoBehaviour
 
         //Rather than finding it in scene, reference it in the scriptables
         hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
-        hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
-        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
+        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitboxDetain.SetActive(false);
+
+        //Not used?
+        /*hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
+        /hitboxLunge.SetActive(false);
+        */
 
         detainCooldown = 5.0f;
     }
@@ -212,7 +212,7 @@ public class Combat : MonoBehaviour
         modPoiseDamage = basePoiseDamage;
 
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
+        //hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         tempTimer = 0;
@@ -384,27 +384,29 @@ public class Combat : MonoBehaviour
         //Init tag based on attack type (i.e. PlayerMelee, etc)
         hitboxLeft_Temp.tag = attackTag;
 
+        MeleeController tempMeleeController = hitboxLeft_Temp.GetComponent<MeleeController>();
+
         //Init Stats
         if (hitboxLeft_Temp.CompareTag("Detain")){
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(120);
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetHealthDamage(120);
+            tempMeleeController.SetStunDamage(modPoiseDamage);
         }
         else {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetHealthDamage(modHealthDamage);
+            tempMeleeController.SetStunDamage(modPoiseDamage);
         }
 
 
         //Start Timer for hitbox (To mimic ticks)
-        hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
+        tempMeleeController.StartTimer();
         
         //Set Pos of hitbox
         if(tempDirection == AttackDirection.Right) {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
+            tempMeleeController.SetAttackDirection(AttackDirection.Right);
         }
 
         else {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
+            tempMeleeController.SetAttackDirection(AttackDirection.Left);
         }
 
         //MeshRenderer | True = Debug | False = Release
