@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PipesVariant Variant 1
+  m_Shader: {fileID: 4800000, guid: df695d70c539c3d4c87b79de307ab7bb, type: 3}
+  m_Parent: {fileID: 2100000, guid: a1ce827541f9461409ec3faf97d3b114, type: 2}
+  m_ModifiedSerializedProperties: 16
+  m_ValidKeywords:
+  - _MK_ARTISTIC_ANIMATION_STUTTER
+  - _MK_DETAIL_BLEND_MIX
+  - _MK_DIFFUSE_OREN_NAYAR
+  - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+  - _MK_FRESNEL_HIGHLIGHTS
+  - _MK_LIGHT_BANDED
+  - _MK_NORMAL_MAP
+  - _MK_RECEIVE_SHADOWS
+  - _MK_SPECULAR_ISOTROPIC
+  - _MK_SURFACE_TYPE_TRANSPARENT
+  - _MK_THRESHOLD_MAP
+  - _MK_WRAPPED_DIFFUSE
+  m_InvalidKeywords:
+  - _FRESNELHIGHLIGHTS_ON
+  - _RECEIVESHADOWS_ON
+  - _WRAPPEDLIGHTING_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    IGNOREPROJECTOR: true
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 0.2, y: 0.2}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveMap:
+        m_Texture: {fileID: 2800000, guid: f5349b58fd2e80d4e9c05d6704b6c635, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 44af216fa7d0add49985bb91b30f7bae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ThresholdMap:
+        m_Texture: {fileID: 2800000, guid: 2892d50d942eebf45ae470d621e4b104, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AdvancedTab: 1
+    - _Artistic: 0
+    - _ArtisticFrequency: 1
+    - _BlendDst: 10
+    - _BlendDstAlpha: 10
+    - _BlendSrc: 5
+    - _Diffuse: 1
+    - _DiffuseSmoothness: 1
+    - _DiffuseThresholdOffset: 1
+    - _Dissolve: 0
+    - _DissolveAmount: 0.04
+    - _DissolveBorderSize: 1
+    - _Light: 2
+    - _LightBands: 12
+    - _LightThreshold: 0.731
+    - _LightTransmission: 0
+    - _LightTransmissionDistortion: 0
+    - _Metallic: 0.238
+    - _NormalMapIntensity: 1
+    - _Smoothness: 0.757
+    - _SpecularIntensity: 2
+    - _SpecularSmoothness: 1
+    - _SpecularThresholdOffset: 1
+    - _Surface: 1
+    - _ThresholdMapScale: 1
+    - _Workflow: 0
+    - _ZWrite: 0
+    m_Colors:
+    - _AlbedoColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    - _Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

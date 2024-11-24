@@ -23,6 +23,11 @@ public class PlayerAttackScriptable : ScriptableObject
     [PropertySpace] [InfoBox("Knockback Force Value", InfoMessageType.None)]
     [Range(0f, 1000f)] public float knockbackForce = 1f;
 
+    [PropertySpace] [InfoBox("Mana Cost", InfoMessageType.None)]
+    [Range(0f, 1000f)] public float manaCost = 1f;
+    [PropertySpace] [InfoBox("Detain Mana Recovery", InfoMessageType.None)]
+    [Range(0f, 1000f)] public float detainManaRecovery = 1f;
+
     
     [PropertySpace] [TitleGroup("Optionals", "Quick Lunge", alignment: TitleAlignments.Centered)]
     public bool EnableOptionals;

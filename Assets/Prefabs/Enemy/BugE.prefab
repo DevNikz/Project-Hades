@@ -5876,6 +5876,7 @@ GameObject:
   - component: {fileID: 3834532974830418721}
   - component: {fileID: 2811799466518090972}
   - component: {fileID: 3531643762332650172}
+  - component: {fileID: 8139042829468095190}
   m_Layer: 8
   m_Name: Base
   m_TagString: Enemy
@@ -5926,7 +5927,9 @@ MonoBehaviour:
   isPatrolling: 0
   isSearching: 0
   sprite: {fileID: 0}
+  rgbody: {fileID: 0}
   wanderRange: 10
+  cooldown: 0
 --- !u!114 &7912780096462643877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5959,6 +5962,8 @@ MonoBehaviour:
   hitFX: {fileID: 0}
   sprite: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
+  earthStanceStats: {fileID: 11400000, guid: 829c275a6783c93499e14f5ceb6a08d0, type: 2}
+  fireStanceStats: {fileID: 11400000, guid: 5f8b9dd75a87a0e4d9401f27da4459f1, type: 2}
 --- !u!114 &366992361210127141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6097,6 +6102,23 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8139042829468095190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762131239574803217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7540dd52f6b22dc4cbffe4720889e606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolObject: {fileID: 7788820813251866877, guid: 7658a2bdbe1a2794b967a153e395c040,
+    type: 3}
+  poolSize: 3
+  availableObjects: []
+  releasedObjects: []
 --- !u!1 &7975870582735388577
 GameObject:
   m_ObjectHideFlags: 0
@@ -6123,7 +6145,7 @@ Transform:
   m_GameObject: {fileID: 7975870582735388577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.98, y: 0, z: 7.25}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6273,7 +6295,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.5, y: 1, z: 2.5}
+  m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4841878135229860055
 MonoBehaviour:
@@ -6287,3 +6309,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38cebd6a6777ce442858642ce6e018c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 3580367074186903775}
