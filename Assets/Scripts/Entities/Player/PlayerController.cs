@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
-                this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
+                //if(GameObject.Find("PlayerSpawn").gameObject != null) this.transform.position = GameObject.Find("PlayerSpawn").transform.position;
 
                 //LoadData
                 ReloadData();

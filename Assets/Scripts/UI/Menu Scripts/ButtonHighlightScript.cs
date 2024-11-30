@@ -25,9 +25,9 @@ public class ButtonHighlightScript : MonoBehaviour
             button.name == "Steel" ||
             button.name == "Heavy" ||
             button.name == "Gaia" ||
-            button.name == "Ouranos" ||
-            button.name == "Thalassa" ||
-            button.name == "Gehenna")
+            button.name == "Ouranos" || button.name == "Ouranos(Locked)" ||
+            button.name == "Thalassa" || button.name == "Thalassa(Locked)" ||
+            button.name == "Gehenna" || button.name == "Gehenna(Locked)" )
         {
             image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
         }

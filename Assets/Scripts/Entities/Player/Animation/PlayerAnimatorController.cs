@@ -69,17 +69,229 @@ public class PlayerAnimatorController : MonoBehaviour
     void UpdateAnimation(Elements elements) {
         switch(elements) {
             case Elements.Earth:
+                CheckEarthAnimation();
                 UpdateEarthAnimation();
                 break;
             case Elements.Fire:
+                CheckFireAnimation();
                 UpdateFireAnimation();
                 break;
             case Elements.Water:
+                CheckWaterAnimation();
                 UpdateWaterAnimation();
                 break;
             case Elements.Wind:
+                CheckWindAnimation();
                 UpdateWindAnimation();
                 break;
+        }
+    }
+
+    void CheckEarthAnimation() {
+        var clipLength = skeletalTop.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        var clipSpeed = skeletalTop.GetCurrentAnimatorStateInfo(0).speed;
+        var normTime = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_R_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.7f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.7f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+    }
+
+    void CheckFireAnimation() {
+        var clipLength = skeletalTop.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        var clipSpeed = skeletalTop.GetCurrentAnimatorStateInfo(0).speed;
+        var normTime = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_R_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+    }
+
+    void CheckWaterAnimation() {
+        var clipLength = skeletalTop.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        var clipSpeed = skeletalTop.GetCurrentAnimatorStateInfo(0).speed;
+        var normTime = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_R_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+    }
+
+    void CheckWindAnimation() {
+        var clipLength = skeletalTop.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        var clipSpeed = skeletalTop.GetCurrentAnimatorStateInfo(0).speed;
+        var normTime = skeletalTop.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
+        //Right
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_R_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+
+        //Left
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_1")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_2")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
+        }
+        if(skeletalTop.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_3")) {
+            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
+            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
+                GetComponent<Combat>().leftClickAttacked = false;
+            }
         }
     }
 

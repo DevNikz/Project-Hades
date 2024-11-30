@@ -55,7 +55,7 @@ public class Combat : MonoBehaviour
     [SerializeField] public float detainCooldown;
 
     [PropertySpace] [TitleGroup("Debug", "Genreal Debug Stuffs", TitleAlignments.Centered)]
-    [SerializeField] private bool debug;
+    [SerializeField] public bool debug;
 
     //References
     [PropertySpace] [TitleGroup("References", "General References", TitleAlignments.Centered)] 
@@ -139,9 +139,6 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected EntityDirection deltaDir;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
-    [SerializeField] public TextMeshProUGUI fireChargeText;
-
-    [BoxGroup("References/Ref", ShowLabel = false)]
     [SerializeReference] public HitboxCall hitBox;
 
     [PropertySpace] [TitleGroup("Miscallaneous", "[For Debug Purposes]", alignment: TitleAlignments.Split)]
@@ -159,6 +156,7 @@ public class Combat : MonoBehaviour
     [ReadOnly] public bool playerSeen = false;
 
     [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public bool leftClickAttacked;
 
     [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
     [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
@@ -195,11 +193,14 @@ public class Combat : MonoBehaviour
 
         //Rather than finding it in scene, reference it in the scriptables
         hitBoxBasic = pointerUI.transform.Find("Melee").gameObject;
-        hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
-        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
+        hitboxDetain = pointerUI.transform.Find("Detain").gameObject;
         hitboxDetain.SetActive(false);
+
+        //Not used?
+        /*hitboxLunge = pointerUI.transform.Find("Lunge").gameObject;
+        /hitboxLunge.SetActive(false);
+        */
 
         detainCooldown = 5.0f;
     }
@@ -212,7 +213,7 @@ public class Combat : MonoBehaviour
         modPoiseDamage = basePoiseDamage;
 
         hitBoxBasic.SetActive(false);
-        hitboxLunge.SetActive(false);
+        //hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
         rotX = pointerUI.transform.rotation.eulerAngles.x;
         tempTimer = 0;
@@ -286,7 +287,8 @@ public class Combat : MonoBehaviour
 
     void InitAttack(Elements selectedElement) {
         if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
-            if(Time.time - lastClickedTime >= 0.2f) {
+            if(Time.time - lastClickedTime >= 0.25f) {
+                leftClickAttacked = true;
                 tempDirection = attackDirection;
                 deltaState = entityState;
                 deltaDir = entityDir;
@@ -299,17 +301,17 @@ public class Combat : MonoBehaviour
 
                 gameObject.GetComponent<PlayerController>().UpdateMana(-combat.manaCost);
 
-                if (comboCounter == 1) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                }
+                // if (comboCounter == 1) {
+                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+                // }
 
-                else if(comboCounter == 2) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                }
+                // else if(comboCounter == 2) {
+                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+                // }
                 
-                else if(comboCounter == 3) { 
-                    InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
-                }
+                // else if(comboCounter == 3) { 
+                //     InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
+                // }
             }
         }
     }
@@ -368,7 +370,7 @@ public class Combat : MonoBehaviour
     }
 
     
-    void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
+    public void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
         // Call HitBox from animation instead | This will require queued inputs unfortunately
         // hitBox.hitBox = hitBoxRef;
         // hitBox.attackTag = attackTag;
@@ -384,27 +386,29 @@ public class Combat : MonoBehaviour
         //Init tag based on attack type (i.e. PlayerMelee, etc)
         hitboxLeft_Temp.tag = attackTag;
 
+        MeleeController tempMeleeController = hitboxLeft_Temp.GetComponent<MeleeController>();
+
         //Init Stats
         if (hitboxLeft_Temp.CompareTag("Detain")){
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(120);
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetHealthDamage(120);
+            tempMeleeController.SetStunDamage(modPoiseDamage);
         }
         else {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetHealthDamage(modHealthDamage);
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetHealthDamage(modHealthDamage);
+            tempMeleeController.SetStunDamage(modPoiseDamage);
         }
 
 
         //Start Timer for hitbox (To mimic ticks)
-        hitboxLeft_Temp.GetComponent<MeleeController>().StartTimer();
+        tempMeleeController.StartTimer();
         
         //Set Pos of hitbox
         if(tempDirection == AttackDirection.Right) {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Right);
+            tempMeleeController.SetAttackDirection(AttackDirection.Right);
         }
 
         else {
-            hitboxLeft_Temp.GetComponent<MeleeController>().SetAttackDirection(AttackDirection.Left);
+            tempMeleeController.SetAttackDirection(AttackDirection.Left);
         }
 
         //MeshRenderer | True = Debug | False = Release
