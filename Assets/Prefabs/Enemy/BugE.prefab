@@ -435,6 +435,7 @@ MonoBehaviour:
   entityMovement: 0
   isHit: 0
   isStun: 0
+  isDead: 0
   isShooting: 0
   timer: 0.5
   xScale: 0
@@ -584,8 +585,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.18, y: 0.29}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -0.186, y: 0.257}
+  m_SizeDelta: {x: 22, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7827162042447408644
 CanvasRenderer:
@@ -615,7 +616,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 92d198e455e011241887b13884bd1e36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11835811183c8d54984e37a20a0d84c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
