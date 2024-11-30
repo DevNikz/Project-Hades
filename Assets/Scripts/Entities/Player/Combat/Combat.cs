@@ -55,7 +55,7 @@ public class Combat : MonoBehaviour
     [SerializeField] public float detainCooldown;
 
     [PropertySpace] [TitleGroup("Debug", "Genreal Debug Stuffs", TitleAlignments.Centered)]
-    [SerializeField] private bool debug;
+    [SerializeField] public bool debug;
 
     //References
     [PropertySpace] [TitleGroup("References", "General References", TitleAlignments.Centered)] 
@@ -156,6 +156,7 @@ public class Combat : MonoBehaviour
     [ReadOnly] public bool playerSeen = false;
 
     [BoxGroup("Miscallaneous/BasicAttack", ShowLabel = false)]
+    [ReadOnly] public bool leftClickAttacked;
 
     [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
     [HideLabel] [ReadOnly] [SerializeReference] protected Vector3 tempVector;
@@ -286,7 +287,8 @@ public class Combat : MonoBehaviour
 
     void InitAttack(Elements selectedElement) {
         if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
-            if(Time.time - lastClickedTime >= 0.2f) {
+            if(Time.time - lastClickedTime >= 0.25f) {
+                leftClickAttacked = true;
                 tempDirection = attackDirection;
                 deltaState = entityState;
                 deltaDir = entityDir;
@@ -299,17 +301,17 @@ public class Combat : MonoBehaviour
 
                 gameObject.GetComponent<PlayerController>().UpdateMana(-combat.manaCost);
 
-                if (comboCounter == 1) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                }
+                // if (comboCounter == 1) {
+                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+                // }
 
-                else if(comboCounter == 2) {
-                    InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                }
+                // else if(comboCounter == 2) {
+                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+                // }
                 
-                else if(comboCounter == 3) { 
-                    InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
-                }
+                // else if(comboCounter == 3) { 
+                //     InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
+                // }
             }
         }
     }
@@ -368,7 +370,7 @@ public class Combat : MonoBehaviour
     }
 
     
-    void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
+    public void InitHitBox(GameObject hitBoxRef, string attackTag, bool isDebug) {       
         // Call HitBox from animation instead | This will require queued inputs unfortunately
         // hitBox.hitBox = hitBoxRef;
         // hitBox.attackTag = attackTag;
