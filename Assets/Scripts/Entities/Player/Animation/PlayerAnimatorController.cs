@@ -33,8 +33,6 @@ public class PlayerAnimatorController : MonoBehaviour
     public float xScale;
     public Vector3 Scale;
 
-    bool hasDetained;
-
     void Start() {
         animator = transform.Find("Anims").GetComponent<Animator>();
 
@@ -340,8 +338,6 @@ public class PlayerAnimatorController : MonoBehaviour
                 animator.Play("Player_Wind3rd");
                 break;
         }
-
-        animator.gameObject.transform.localScale = Scale;
     }
 
     void PlayMovementAnim(EntityMovement move, EntityState state, bool dash, bool hurt)
