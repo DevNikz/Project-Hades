@@ -5,17 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject playerPrefab;
-
     void Awake(){
-        if(this.playerPrefab != null)
-            this.playerPrefab.SetActive(false);
-        Debug.Log("Spawn Awoken");
+        //Debug.Log("Spawn Awoken");
     }
 
     void OnEnable() {
         // SceneManager.sceneLoaded += OnSceneLoaded;
-        Debug.Log("Spawn Enabled");
+        //Debug.Log("Spawn Enabled");
         this.StartCoroutine(DelayedSpawn());
     }
 
@@ -25,7 +21,7 @@ public class PlayerSpawner : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Spawn();
-        Debug.Log("Try TP Player");
+        //Debug.Log("Try TP Player");
     }
 
     private IEnumerator DelayedSpawn(){

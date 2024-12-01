@@ -99,7 +99,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckEarthAnimation() {
-        var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
         var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
@@ -128,7 +128,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckFireAnimation() {
-        var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
         var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
@@ -157,7 +157,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckWaterAnimation() {
-        var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
         var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
@@ -186,7 +186,7 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckWindAnimation() {
-        var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
         var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
         var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 

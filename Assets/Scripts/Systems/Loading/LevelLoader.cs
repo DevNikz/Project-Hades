@@ -17,7 +17,8 @@ public class LevelLoader : MonoBehaviour
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode){
-        this.loadingScreen.SetActive(false);
+        if(loadingScreen != null)
+            this.loadingScreen.SetActive(false);
         isLoading = false;
     }
 
