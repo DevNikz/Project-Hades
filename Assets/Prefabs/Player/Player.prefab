@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 1153294114719061929}
   - component: {fileID: 4059045874301621353}
   m_Layer: 6
-  m_Name: SpriteT
+  m_Name: Anims
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,7 +132,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.92387956, z: -0, w: 0.38268343}
   m_LocalPosition: {x: 0, y: 1.4, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8073765998928832489}
@@ -180,12 +180,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 135db7f364a3d6949849579a18f2b220, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9810c9fba94ed7343bea4c9007a84a8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 24.75, y: 24.75}
+  m_Size: {x: 20, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -201,7 +201,7 @@ Animator:
   m_GameObject: {fileID: 387202707525113118}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0dc2949f2735a03448a093245c515ab7, type: 2}
+  m_Controller: {fileID: 9100000, guid: cdbe6d68c20270540bc4e53ae12b69dd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6265,115 +6265,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!1 &5420919757216993960
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2598700811151900784}
-  - component: {fileID: 1932886338681780610}
-  - component: {fileID: 9216096113911468058}
-  m_Layer: 6
-  m_Name: SpriteB
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2598700811151900784
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5420919757216993960}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.92387956, z: -0, w: 0.38268343}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 8073765998928832489}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!212 &1932886338681780610
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5420919757216993960}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c00f03415b079df449da353a21c7d774, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b76ddf6fcd9a53f43b46ae27ba759934, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 7.2, y: 5.4}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!95 &9216096113911468058
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5420919757216993960}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a5cd0509ea8af6c4dba50614f2cc64aa, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6476314051922448961
 GameObject:
   m_ObjectHideFlags: 0
@@ -16450,7 +16341,6 @@ Transform:
   - {fileID: 7408546571713987714}
   - {fileID: 8259715935461032807}
   - {fileID: 537120898419610646}
-  - {fileID: 2598700811151900784}
   - {fileID: 2254384915208597777}
   - {fileID: 400012415452913998}
   - {fileID: 4376593265914944174}
@@ -16558,7 +16448,7 @@ MonoBehaviour:
   tempTimer: 0
   detainTimer: 0
   detainCooldown: 0
-  debug: 0
+  debug: 1
   tempPosition: {x: 0, y: 0, z: 0}
   tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
@@ -16574,8 +16464,7 @@ MonoBehaviour:
   attackUI: {fileID: 0}
   attackUISlider: {fileID: 0}
   attackUIEnd: {fileID: 0}
-  skeletalTop: {fileID: 0}
-  skeletalBottom: {fileID: 0}
+  animator: {fileID: 0}
   attackDirection: 0
   tempDirection: 0
   entityMovement: 2
@@ -16585,12 +16474,12 @@ MonoBehaviour:
   selectedElement: 0
   deltaState: 0
   deltaDir: 0
-  fireChargeText: {fileID: 0}
   hitBox: {fileID: 0}
   leftClick: 0
   RStickInput: {x: 0, y: 0, z: 0}
   detainPress: 0
   playerSeen: 0
+  leftClickAttacked: 0
   tempVector: {x: 0, y: 0, z: 0}
   angle: 0
   rot: {x: 0, y: 0, z: 0, w: 0}
@@ -16608,13 +16497,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowReferences: 1
-  skeletalTop: {fileID: 7648104669787157018}
-  skeletalBottom: {fileID: 9216096113911468058}
+  animator: {fileID: 0}
   entityMovement: 1
   entityState: 0
   entityDirection: 0
-  elements: 0
+  element: 0
   selectedElement: 0
+  xScale: 0
+  Scale: {x: 0, y: 0, z: 0}
 --- !u!114 &7795045647855611930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16717,7 +16607,7 @@ MonoBehaviour:
   target: {fileID: 6476314051922448961}
   maskTagName: Mask
   fadedAlpha: 0.3
-  fadeTime: 1
+  fadeTime: 0
   FadeOffsetDistance: 40
   fadeableObjects: []
 --- !u!1 &9028727209518491993

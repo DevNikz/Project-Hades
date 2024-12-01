@@ -153,8 +153,7 @@ public class PlayerController : MonoBehaviour
 
     void ReloadData() {
         this.gameObject.tag = "Player";
-        transform.Find("SpriteT").gameObject.SetActive(true);
-        transform.Find("SpriteB").gameObject.SetActive(true);
+        transform.Find("Anims").gameObject.SetActive(true);
         GetComponent<Movement>().enabled = true;
         GetComponent<Combat>().enabled = true;
         GetComponent<PlayerAnimatorController>().enabled = true;
@@ -189,14 +188,13 @@ public class PlayerController : MonoBehaviour
         animatorController.SetMovement(entityMovement);
         animatorController.SetDirection(lookDirection);
         animatorController.SetState(entityState);
-        animatorController.SetElements(elements);
+        //animatorController.SetElements(elements);
         animatorController.SetSelectedElements(selectedElement);
     }
 
     void UpdateHealth() {
         if(gameObject.tag == "Player(Dead)") {
-            transform.Find("SpriteT").gameObject.SetActive(false);
-            transform.Find("SpriteB").gameObject.SetActive(false);
+            transform.Find("Anims").gameObject.SetActive(false);
             GetComponent<Movement>().enabled = false;
             GetComponent<Combat>().enabled = false;
             GetComponent<PlayerAnimatorController>().enabled = false;
@@ -204,8 +202,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(gameObject.tag == "Player") {
             UpdateHurt();
-            transform.Find("SpriteT").gameObject.SetActive(true);
-            transform.Find("SpriteB").gameObject.SetActive(true);
+            transform.Find("Anims").gameObject.SetActive(true);
             GetComponent<Movement>().enabled = true;
             GetComponent<Combat>().enabled = true;
             GetComponent<PlayerAnimatorController>().enabled = true;

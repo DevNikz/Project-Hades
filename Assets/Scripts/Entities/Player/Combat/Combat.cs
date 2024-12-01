@@ -106,10 +106,7 @@ public class Combat : MonoBehaviour
     [ReadOnly] [SerializeReference] protected RectTransform attackUIEnd;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] [SerializeReference] protected Animator skeletalTop;
-
-    [BoxGroup("References/Ref", ShowLabel = false)]
-    [ReadOnly] [SerializeReference] protected Animator skeletalBottom;
+    [ReadOnly] [SerializeReference] protected Animator animator;
 
     [BoxGroup("References/Ref", ShowLabel = false)]
     [ReadOnly] [SerializeReference] protected AttackDirection attackDirection;
@@ -185,10 +182,9 @@ public class Combat : MonoBehaviour
         attackUI = transform.Find("AttackUI").gameObject;
         attackUISlider = attackUI.transform.Find("Border").transform.Find("StartBase").transform.Find("Slider").GetComponent<Slider>();
         attackUIEnd = attackUI.transform.Find("Border").transform.Find("EndBase").transform.Find("End").GetComponent<RectTransform>();
-        skeletalTop = transform.Find("SpriteT").GetComponent<Animator>();
-        skeletalBottom = transform.Find("SpriteB").GetComponent<Animator>();
+        animator = transform.Find("Anims").GetComponent<Animator>();
         rotX = pointerUI.transform.rotation.eulerAngles.x;
-        hitBox = skeletalTop.GetComponent<HitboxCall>();
+        hitBox = animator.GetComponent<HitboxCall>();
 
 
         //Rather than finding it in scene, reference it in the scriptables
@@ -282,7 +278,7 @@ public class Combat : MonoBehaviour
                     break;
             }
         }
-        animatorController.PlayAnimation(comboCounter, tempDirection, elements);
+        animatorController.PlayAttackAnim(comboCounter, elements);
     }
 
     void InitAttack(Elements selectedElement) {
@@ -320,8 +316,6 @@ public class Combat : MonoBehaviour
         if(detainTimer >= detainCooldown)
         {
             detainTimer = 0;
-                
-            comboCounter = 0;
 
             tempDirection = attackDirection;
             entityState = EntityState.Detain;
