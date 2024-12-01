@@ -32,7 +32,8 @@ public class PlayerAnimatorController : MonoBehaviour
 
     public float xScale;
     public Vector3 Scale;
-    private int comboCount;
+
+    bool hasDetained;
 
     void Start() {
         animator = transform.Find("Anims").GetComponent<Animator>();
@@ -49,9 +50,8 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void Update() {
         if(LevelTrigger.HudCheck == false) {
-            //SetAnimBottom(entityMovement, entityDirection, entityState, elements, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
             SetDir(entityDirection);
-            SetAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
+            PlayMovementAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
             UpdateAnimation(selectedElement);
         }
 
@@ -105,8 +105,6 @@ public class PlayerAnimatorController : MonoBehaviour
         var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
         var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-        Debug.Log(normTime);
-
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth1st")) {
             //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
@@ -129,29 +127,6 @@ public class PlayerAnimatorController : MonoBehaviour
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.7f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }*/
     }
 
     void CheckFireAnimation() {
@@ -181,29 +156,6 @@ public class PlayerAnimatorController : MonoBehaviour
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_1")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_2")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_3")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }*/
     }
 
     void CheckWaterAnimation() {
@@ -233,29 +185,6 @@ public class PlayerAnimatorController : MonoBehaviour
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_1")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_2")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_3")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }*/
     }
 
     void CheckWindAnimation() {
@@ -285,150 +214,140 @@ public class PlayerAnimatorController : MonoBehaviour
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_1")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_2")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_3")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
-                GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
-                GetComponent<Combat>().leftClickAttacked = false;
-            }
-        }*/
     }
 
     void UpdateEarthAnimation() {
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth1st")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth2nd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth3rd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_1")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_2")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Earth_T_L_3")) {
-            GetComponent<Combat>().EndCombo();
-        }*/
     }
 
     void UpdateFireAnimation() {
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire1st")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire2nd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire3rd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_1")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_2")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Fire_T_L_3")) {
-            GetComponent<Combat>().EndCombo();
-        }*/
     }
 
     void UpdateWaterAnimation() {
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water1st")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water2nd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water3rd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_1")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_2")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Water_T_L_3")) {
-            GetComponent<Combat>().EndCombo();
-        }*/
     }
     
     void UpdateWindAnimation() {
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind1st")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind2nd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind3rd")) {
+            animator.SetBool("isAttacking", false);
             GetComponent<Combat>().EndCombo();
         }
-
-        //Left
-        /*if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_1")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_2")) {
-            GetComponent<Combat>().EndCombo();
-        }
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsName("Wind_T_L_3")) {
-            GetComponent<Combat>().EndCombo();
-        }*/
     }
 
-    public void SetData(int counter, Elements element)
+    public void PlayAttackAnim(int counter, Elements element)
     {
-        switch(element)
+        switch (counter, element)
         {
-            case Elements.Earth:
-                this.element = 1;
+            //Earth
+            case (1, Elements.Earth):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Earth1st");
                 break;
-            case Elements.Fire:
-                this.element = 2;
+            case (2, Elements.Earth):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Earth2nd");
                 break;
-            case Elements.Water:
-                this.element = 3;
+            case (3, Elements.Earth):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Earth3rd");
                 break;
-            case Elements.Wind:
-                this.element = 4;
+
+            //Fire
+            case (1, Elements.Fire):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Fire1st");
+                break;
+            case (2, Elements.Fire):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Fire2nd");
+                break;
+            case (3, Elements.Fire):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Fire3rd");
+                break;
+
+            //Water
+            case (1, Elements.Water):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Water1st");
+                break;
+            case (2, Elements.Water):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Water2nd");
+                break;
+            case (3, Elements.Water):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Water3rd");
+                break;
+
+            //Wind
+            case (1, Elements.Wind):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Wind1st");
+                break;
+            case (2, Elements.Wind):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Wind2nd");
+                break;
+            case (3, Elements.Wind):
+                animator.SetBool("isAttacking", true);
+                animator.Play("Player_Wind3rd");
                 break;
         }
 
-        comboCount = counter;
+        animator.gameObject.transform.localScale = Scale;
     }
 
-    void SetAnim(EntityMovement move, EntityState state, bool dash, bool hurt) {
-        switch (state, move, hurt) {
+    void PlayMovementAnim(EntityMovement move, EntityState state, bool dash, bool hurt)
+    {
+        switch (state, move, hurt)
+        {
             //None | Idle | None
             case (EntityState.None, EntityMovement.Idle, false):
                 animator.SetBool("isMoving", false);
@@ -446,380 +365,22 @@ public class PlayerAnimatorController : MonoBehaviour
 
             //Dead
             case (EntityState.Dead, _, false):
-                animator.Play("PlayerDeathT");
-                break;
-
-            //Attacking
-            case (EntityState.Attack, _, false):
-                animator.SetInteger("ComboCount", comboCount);
-                animator.SetInteger("Element", element);
-                break;
-        }
-
-        if (dash) animator.SetBool("isDashing", dash); //animator.Play("Player_Dashing");
-        else animator.SetBool("isDashing", dash);  //animator.Play("Player_Dashing");
-    }
-
-    public void ResetComboCount()
-    {
-        comboCount = 0;
-    }
-
-    /*void SetAnimBottom(EntityMovement move, LookDirection dir, EntityState state, Elements element, bool dash, bool hurt) {
-       switch(move, dir, state, element, dash, hurt) {
-           //Idle
-           case (EntityMovement.Idle, LookDirection.Right, EntityState.None, _ , false, false):
-               animator.Play("PlayerIdleB_Right");
-               break;
-           case (EntityMovement.Idle, LookDirection.Left, EntityState.None, _ , false, false):
-               animator.Play("PlayerIdleB_Left");
-               break;
-
-           //Strafing
-           case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , false, false):
-               
-               break;
-           case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , false, false):
-               
-               break;
-
-           //Dashing
-           case (EntityMovement.Strafing, LookDirection.Right, EntityState.None, _ , true, false):
-               animator.Play("PlayerDashB_Right");
-               break;
-           case (EntityMovement.Strafing, LookDirection.Left, EntityState.None, _ , true, false):
-               animator.Play("PlayerDashB_Left");
-               break;
-
-           //Hurt
-           case (_, LookDirection.Right, EntityState.None, _ , _ , true):
-               animator.Play("PlayerHurtB_Right");
-               break;
-           case (_, LookDirection.Left, EntityState.None, _ , _ , true):
-               animator.Play("PlayerHurtB_Left");
-               break;
-
-           case (_, LookDirection.Right, EntityState.Dead, _, _, false):
-               animator.Play("Player_DeathB");
-               break;
-           case (_, LookDirection.Left, EntityState.Dead, _, _, false):
-               animator.Play("Player_DeathB");
-               break;
-
-       }
-   }*/
-
-    /*switch(counter, dir, element, entityMovement, entityDirection) {
-            //Earth
-            //Idle
-            case (1, AttackDirection.Right, Elements.Earth, EntityMovement.Idle, _): 
-                break;
-            /*case (1, AttackDirection.Left, Elements.Earth, EntityMovement.Idle, _):
-                animator.Play("Earth_T_L_1");
-                animator.Play("Earth_B_L_1"); 
-                break;
-
-            case (2, AttackDirection.Right, Elements.Earth, EntityMovement.Idle, _): 
-                animator.Play("Player_Earth2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Earth, EntityMovement.Idle, _):
-                animator.Play("Earth_T_L_2");
-                animator.Play("Earth_B_L_2");
-                break;
-
-            case (3, AttackDirection.Right, Elements.Earth, EntityMovement.Idle, _):
-                animator.Play("Player_Earth3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Earth, EntityMovement.Idle, _):
-                animator.Play("Earth_T_L_3");
-                animator.Play("Earth_B_L_3"); 
-                break;
-
-            //Strafing | Right
-            case (1, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Earth1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Earth_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Earth2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Earth_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Player_Earth3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Earth_T_L_3");
-                
-                break;
-
-            //Strafing | Left
-            case (1, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Earth1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Earth_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Earth2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Earth_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Earth, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Player_Earth3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Earth, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Earth_T_L_3");
-                
-                break;
-
-            //Fire
-            //Idle
-            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _): 
-                animator.Play("Player_Fire1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
-                animator.Play("Fire_T_L_1");
-                animator.Play("Fire_B_L_1"); 
-                break;
-
-            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _): 
-                animator.Play("Player_Fire2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
-                animator.Play("Fire_T_L_2");
-                animator.Play("Fire_B_L_2");
-                break;
-
-            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Idle, _):
-                animator.Play("Player_Fire3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Idle, _):
-                animator.Play("Fire_T_L_3");
-                animator.Play("Fire_B_L_3"); 
-                break;
-
-            //Strafing | Right
-            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Fire1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Fire_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Fire2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Fire_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Player_Fire3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Fire_T_L_3");
-                
-                break;
-
-            //Strafing | Left
-            case (1, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Fire1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Fire_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Fire2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Fire_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Player_Fire3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Fire, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Fire_T_L_3");
-                
+                animator.SetBool("isDead", true);
                 break;
             
-            //Water
-            //Idle
-            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
-                animator.Play("Player_Water1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                animator.Play("Water_T_L_1");
-                animator.Play("Water_B_L_1"); 
-                break;
-
-            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _): 
-                animator.Play("Player_Water2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                animator.Play("Water_T_L_2");
-                animator.Play("Water_B_L_2");
-                break;
-
-            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Idle, _):
-                animator.Play("Player_Water3rd");                break;
-            /*case (3, AttackDirection.Left, Elements.Water, EntityMovement.Idle, _):
-                animator.Play("Water_T_L_3");
-                animator.Play("Water_B_L_3"); 
-                break;
-
-            //Strafing | Right
-            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Water1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Water_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Water2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Water_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Player_Water3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Water_T_L_3");
-                
-                break;
-
-            //Strafing | Left
-            case (1, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Water1st");
-                break;
-            /*case (1, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Water_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Water2nd");
-                break;
-            /*case (2, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Water_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Player_Water3rd");
-                break;
-            /*case (3, AttackDirection.Left, Elements.Water, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Water_T_L_3");
-                
-                break;
-
-            //Wind
-            //Idle
-            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _): 
-                animator.Play("Player_Wind1st");
-                
-                break;
-            /*case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
-                animator.Play("Wind_T_L_1");
-                animator.Play("Wind_B_L_1"); 
-                break;
-
-            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _): 
-                animator.Play("Player_Wind2nd");
-                
-                break;
-            /*case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
-                animator.Play("Wind_T_L_2");
-                animator.Play("Wind_B_L_2");
-                break;
-
-            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Idle, _):
-                animator.Play("Player_Wind3rd");
-
-                break;
-            /*case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Idle, _):
-                animator.Play("Wind_T_L_3");
-                animator.Play("Wind_B_L_3"); 
-                break;
-
-            //Strafing | Right
-            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Wind1st");
-                
-                break;
-            /*case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Wind_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right): 
-                animator.Play("Player_Wind2nd");
-                
-                break;
-            /*case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Wind_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Player_Wind3rd");
-                
-                break;
-            /*case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Right):
-                animator.Play("Wind_T_L_3");
-                
-                break;
-
-            //Strafing | Left
-            case (1, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Wind1st");
-                
-                break;
-            /*case (1, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Wind_T_L_1");
-                
-                break;
-
-            case (2, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left): 
-                animator.Play("Player_Wind2nd");
-                
-                break;
-            /*case (2, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Wind_T_L_2");
-                
-                break;
-
-            case (3, AttackDirection.Right, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Player_Wind3rd");
-                
-                break;
-            /*case (3, AttackDirection.Left, Elements.Wind, EntityMovement.Strafing, LookDirection.Left):
-                animator.Play("Wind_T_L_3");
-                
+            //Detaining
+            case (EntityState.Detain, _, false):
+                animator.SetBool("isDetaining", true);
                 break;
         }
-        */
+
+        if (dash) animator.SetBool("isDashing", dash);
+        else animator.SetBool("isDashing", dash);
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f && animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Detain"))
+        {
+            animator.SetBool("isDetaining", false);
+            GetComponent<Combat>().EndCombo();
+        }
+    }
 }

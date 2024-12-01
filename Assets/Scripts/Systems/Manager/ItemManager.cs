@@ -60,9 +60,9 @@ public class ItemManager : MonoBehaviour
     [SerializeReference] private AugmentScriptable steelScriptable;
     [SerializeReference] private AugmentScriptable heavyScriptable;
 
-    bool isWaterUnlocked;
-    bool isWindUnlocked;
-    bool isFireUnlocked;
+    [SerializeField] private bool isWaterUnlocked;
+    [SerializeField] private bool isWindUnlocked;
+    [SerializeField] private bool isFireUnlocked;
 
     public bool Water{
         get { return this.isWaterUnlocked; }

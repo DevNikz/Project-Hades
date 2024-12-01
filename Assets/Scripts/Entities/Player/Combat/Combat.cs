@@ -278,7 +278,7 @@ public class Combat : MonoBehaviour
                     break;
             }
         }
-        animatorController.SetData(comboCounter, elements);
+        animatorController.PlayAttackAnim(comboCounter, elements);
     }
 
     void InitAttack(Elements selectedElement) {
@@ -316,8 +316,6 @@ public class Combat : MonoBehaviour
         if(detainTimer >= detainCooldown)
         {
             detainTimer = 0;
-                
-            comboCounter = 0;
 
             tempDirection = attackDirection;
             entityState = EntityState.Detain;
@@ -363,8 +361,6 @@ public class Combat : MonoBehaviour
         lastComboEnd = Time.time;
         entityState = EntityState.None;
         elements = Elements.None;
-
-        animatorController.ResetComboCount();
     }
 
     
