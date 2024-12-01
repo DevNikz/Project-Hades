@@ -10,19 +10,31 @@ public class PlayerSpawner : MonoBehaviour
     void Awake(){
         if(this.playerPrefab != null)
             this.playerPrefab.SetActive(false);
+        Debug.Log("Spawn Awoken");
     }
 
     void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
+        Debug.Log("Spawn Enabled");
+        this.StartCoroutine(DelayedSpawn());
     }
 
     void OnDestroy() {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        // SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Spawn();
         Debug.Log("Try TP Player");
+    }
+
+    private IEnumerator DelayedSpawn(){
+        yield return new WaitWhile(didFindPlayer);
+        Spawn();
+    }
+
+    private bool didFindPlayer(){
+        return GameObject.Find("Player") == null;
     }
 
     void Spawn() {
