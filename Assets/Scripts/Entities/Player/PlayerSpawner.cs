@@ -8,7 +8,8 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
 
     void Awake(){
-        this.playerPrefab.SetActive(false);
+        if(this.playerPrefab != null)
+            this.playerPrefab.SetActive(false);
     }
 
     void OnEnable() {
@@ -21,6 +22,7 @@ public class PlayerSpawner : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Spawn();
+        Debug.Log("Try TP Player");
     }
 
     void Spawn() {
