@@ -1,3 +1,4 @@
+using System.IO;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting;
@@ -49,7 +50,14 @@ public class PlayerController : MonoBehaviour
     [ReadOnly, SerializeReference] public bool isDashing;
     [ReadOnly, SerializeReference] public bool isHurt;
     [ReadOnly, SerializeReference] public bool curHurt;
-    
+
+    [Title("Stats")]
+
+    [ReadOnly, SerializeReference] public int Runs;
+    [ReadOnly, SerializeReference] public int DepthLevel;
+    [ReadOnly, SerializeReference] public int Wins;
+    [ReadOnly, SerializeReference] public int Deaths;
+    [ReadOnly, SerializeReference] public bool hasPlayed;
 
     //Ref
     [Title("References")]
@@ -95,6 +103,7 @@ public class PlayerController : MonoBehaviour
         }
         else Destroy(gameObject);
 
+        //Components
         healthUI = GameObject.Find("PlayerHealth");
         healthMeter = healthUI.GetComponent<Slider>();
 
@@ -102,6 +111,15 @@ public class PlayerController : MonoBehaviour
         manaMeter = manaUI.GetComponent<Slider>();
         manaStyleIndicator = GameObject.Find("StyleIndicator");
 
+        /* Save
+            - persistentDataPath = "Users/{Name}/Appdata/LocalLow/{CompanyName}/{AppName}"
+        */
+        string path = Application.persistentDataPath + "/playerSave.sav";
+        if(File.Exists(path)) {
+            LoadStats();
+        }
+
+        //Stats
         currentPoise = totalPoise;
         modTotalHealth = baseTotalHealth;
         currentHealth = modTotalHealth;
@@ -131,6 +149,8 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player(Heaven)";
                 break;
             case "Tutorial":
+                hasPlayed = true;
+                DepthLevel = 0;
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
@@ -138,8 +158,13 @@ public class PlayerController : MonoBehaviour
 
                 //LoadData
                 ReloadData();
+
+                //Save
+                SavePlayer();
                 break;
             case "Level 1":
+                Runs++;
+                DepthLevel = 1;
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
@@ -147,6 +172,33 @@ public class PlayerController : MonoBehaviour
 
                 //LoadData
                 //ReloadData();
+
+                //Save
+                SavePlayer();
+                break;
+            case "Level 2":
+                DepthLevel = 2;
+
+                //Save
+                SavePlayer();
+                break;
+            case "Level 3":
+                DepthLevel = 3;
+
+                //Save
+                SavePlayer();
+                break;
+            case "Level 4":
+                DepthLevel = 4;
+
+                //Save
+                SavePlayer();
+                break;
+            case "Level 5":
+                DepthLevel = 5;
+
+                //Save
+                SavePlayer();
                 break;
         }
     }
@@ -176,6 +228,23 @@ public class PlayerController : MonoBehaviour
         tempDelay = timerDelay;
 
         animatorController = GetComponent<PlayerAnimatorController>();
+    }
+
+    //Autosaves every level / depth for now
+    public void SavePlayer() {
+        SaveSystem.SavePlayer(this);
+    }
+
+    void LoadStats() {
+        PlayerStats data = SaveSystem.LoadPlayer();
+
+        //Stats
+        Runs = data.Runs;
+        DepthLevel = data.DepthLevel;
+        Wins = data.Wins;
+        Deaths = data.Deaths;
+        if(data.hasPlayed == 1) hasPlayed = true;
+        else hasPlayed = false;
     }
 
 
@@ -215,6 +284,7 @@ public class PlayerController : MonoBehaviour
     void CheckHealth() {
         if(this.currentHealth <= 0) {
             this.GetComponent<PlayerDeath>().KillYourself();
+            Deaths = this.GetComponent<PlayerDeath>().deaths;
         }
     }
 
