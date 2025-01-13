@@ -199,21 +199,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  Bullet: {fileID: 0}
-  BulletSpeed: 100
-  FireRate: 0.5
-  moveSpeed: 3
-  rotateSpeed: 0.6
-  patrolPoints: []
-  isAttacking: 0
-  isPatrolling: 0
-  isSearching: 0
-  sprite: {fileID: 0}
-  rgbody: {fileID: 0}
-  wanderRange: 5
-  cooldown: 0
-  attackPos: {x: 3, y: 0, z: -3}
-  speedMultiplier: 1.5
+  AttackRate: 0.5
+  PatrolPoints: []
+  IsAttacking: 0
+  IsPatrolling: 0
+  IsSearching: 0
+  _enemyStats: {fileID: 11400000, guid: 5b51bbfe9c97f4d4ab48461ab29e107f, type: 2}
+  _attackHitbox: {fileID: 0}
+  _sprite: {fileID: 0}
+  Cooldown: 0
 --- !u!114 &7772870927763855666
 MonoBehaviour:
   m_ObjectHideFlags: 0

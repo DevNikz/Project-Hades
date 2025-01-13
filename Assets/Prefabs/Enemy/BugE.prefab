@@ -5869,7 +5869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1000233576505955864}
-  - component: {fileID: 4760775280815432108}
+  - component: {fileID: 8224126836784815249}
   - component: {fileID: 7912780096462643877}
   - component: {fileID: 366992361210127141}
   - component: {fileID: 4354481283016872967}
@@ -5905,7 +5905,7 @@ Transform:
   - {fileID: 5852553688758227219}
   m_Father: {fileID: 3908951029606954949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4760775280815432108
+--- !u!114 &8224126836784815249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5914,23 +5914,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7762131239574803217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a575a42ede3664eb32e9e1d7fa61b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3af35b3f7f5bd1048aebd7bfe71d876b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  Bullet: {fileID: 7788820813251866877, guid: 7658a2bdbe1a2794b967a153e395c040, type: 3}
-  BulletSpeed: 65
-  FireRate: 1.8
-  moveSpeed: 3
-  rotateSpeed: 1
-  patrolPoints: []
-  isAttacking: 0
-  isPatrolling: 0
-  isSearching: 0
-  sprite: {fileID: 0}
-  rgbody: {fileID: 0}
-  wanderRange: 10
-  cooldown: 0
+  PatrolPoints: []
+  IsAttacking: 0
+  IsPatrolling: 0
+  IsSearching: 0
+  _enemyStats: {fileID: 11400000, guid: f5483ae7d9cc4c143bff594fd6e121f1, type: 2}
+  _attackHitbox: {fileID: 0}
+  _sprite: {fileID: 4396782836296675038}
+  Cooldown: 0
+  _bulletSpeed: 20
 --- !u!114 &7912780096462643877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6132,7 +6128,7 @@ GameObject:
   - component: {fileID: 3296718471434926805}
   m_Layer: 0
   m_Name: BugE
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

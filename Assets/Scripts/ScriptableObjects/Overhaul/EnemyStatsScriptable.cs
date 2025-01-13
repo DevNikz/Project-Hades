@@ -21,6 +21,9 @@ public class EnemyStatsScriptable : ScriptableObject
     [PropertySpace] [InfoBox("Damage Resist (Default = 1)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float damageResist = 1f;
     
+    [PropertySpace] [InfoBox("Attack Rate (Default = 0.5)", InfoMessageType.None)]
+    [Required] [Range(0f, 100f)] public float attackRate = 0.5f;
+    
     [PropertySpace] [InfoBox("Movement Speed (Default = 10)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float moveSpeed = 10f;
     

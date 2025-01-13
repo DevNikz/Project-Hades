@@ -1,97 +1,106 @@
-using DG.Tweening;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Controls;
-using static UnityEngine.GraphicsBuffer;
 
-public class EnemyAction : MonoBehaviour
+public abstract class EnemyAction : MonoBehaviour
 {
     [SerializeField] public int Action = 0;
-    [SerializeField] public GameObject Bullet = null;
-    [SerializeField] public int BulletSpeed = 100;
-    [SerializeField] public float FireRate = .5f;
-    private float curFire = 0;
-    [NonSerialized] public Vector3 originalPosition = Vector3.zero;
+    [SerializeField] public List<Vector3> PatrolPoints = new();
+    [NonSerialized] public float AttackRate;
     [NonSerialized] public GameObject Player = null;
+    [NonSerialized] public NavMeshAgent Agent;
+    public bool IsAttacking = false;
+    public bool IsPatrolling = false;
+    public bool IsSearching = false;
 
-    [SerializeField] public float moveSpeed = 3;
-    [SerializeField] public float rotateSpeed = .6f;
-    [SerializeField] public List<Vector3> patrolPoints = new List<Vector3>();
+    [SerializeField] protected EnemyStatsScriptable _enemyStats;
+    [SerializeField] protected GameObject _attackHitbox = null;
+    [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
+    [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
+    private float _wanderRange = 5;
+    protected GameObject _sprite;
+    protected Rigidbody _rgBody;
+    protected AttackDirection _atkDir;
+    public float Cooldown = 0;
 
-    [NonSerialized] public int nextPoint = 0;
-    [NonSerialized]public float timeStep = 0;
+    protected virtual void BonusOnEnable(){}
+    /// <summary>
+    /// Called every update before calling correct action logic, use to specify behavior of choosing actions
+    /// </summary>
+    protected abstract void ProcessAILogic();
+    protected abstract void Attack();
+    protected abstract void Attacking();
+
+    protected virtual void Search()
+    {
+        Agent.destination = _lastSeenPos;
+        gameObject.transform.LookAt(_lastSeenPos);
+        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+
+        if (Vector3.Distance(this.transform.position, _lastSeenPos) <= 0.1 || Agent.velocity.magnitude == 0)
+        {
+            this.Action = 0;
+            _sprite.GetComponent<EnemyAnimation>().isShooting = false;
+        }
+    }
     
-    [NonSerialized] public Quaternion toRotation = Quaternion.identity;
-    [NonSerialized] public Quaternion prevRotation = Quaternion.identity;
-    [NonSerialized] public Vector3 direction;
-
-    public bool isAttacking = false;
-    public bool isPatrolling = false;
-    [NonSerialized] public bool isTurning = false;
-    public bool isSearching = false;
-
-    [NonSerialized] public Vector3 lastSeenPos = Vector3.zero;
-
-    [NonSerialized] public Vector3 tempVector;
-    [NonSerialized] public float angle;
-    [NonSerialized] public Quaternion rot;
-
-    [NonSerialized] public NavMeshAgent agent;
-
-    [SerializeReference] private GameObject sprite;
-    private ObjectPool bulletPool;
-
-    private AttackDirection atkDir;
-    public Rigidbody rgbody;
-
-    public float wanderRange = 5;
-    public float cooldown = 0;
-
+    protected virtual void Patrol()
+    {
+        if (Agent.remainingDistance <= Agent.stoppingDistance)
+        {
+            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * _wanderRange;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                gameObject.transform.LookAt(hit.position);
+                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+                Agent.SetDestination(hit.position);
+            }
+        }
+    }
+    
+    /* LIFECYCLE METHODS */
     public virtual void OnEnable()
     {
-        agent = this.GetComponent<NavMeshAgent>();
+        _sprite = transform.Find("SpriteContainer").gameObject;
+        Agent = this.GetComponent<NavMeshAgent>();
+        _rgBody = this.GetComponent<Rigidbody>();
+        AttackRate = _enemyStats.attackRate;
 
-        this.originalPosition = this.transform.position;
-        this.Player = GameObject.Find("Player");
+        _originalPosition = this.transform.position;
+        Player = GameObject.Find("Player");
 
-        sprite = transform.Find("SpriteContainer").gameObject;
-
-        this.patrolPoints.Add(this.originalPosition);
-
-        if (this.patrolPoints.Count >= 1) patrolPoints[0] = new Vector3(this.patrolPoints[0].x, this.originalPosition.y, this.patrolPoints[0].z);
-        
-        bulletPool = GetComponent<ObjectPool>();
+        this.PatrolPoints.Add(this._originalPosition);
+        if (this.PatrolPoints.Count >= 1) 
+            PatrolPoints[0] = new Vector3(this.PatrolPoints[0].x, this._originalPosition.y, this.PatrolPoints[0].z);
+    
+        BonusOnEnable();
     }
 
-    // Update is called once per frame
-    public virtual void Update()
+    public void Update()
     {
-        this.transform.position = new Vector3(this.transform.position.x, this.originalPosition.y, this.transform.position.z);
-        curFire -= Time.deltaTime;
+        this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
+        ProcessAILogic();
 
-        cooldown -= Time.deltaTime;
-        if (cooldown > 0)
+        Cooldown -= Time.deltaTime;
+        if (Cooldown > 0)
         {
             Action = 0;
-            agent.isStopped = true;
-            isAttacking = false;
+            Agent.isStopped = true;
+            IsAttacking = false;
             return;
         }
 
+        if(Action != 0) IsPatrolling = false;
         if (Action != 1)
         {
-            isAttacking = false;
-            CancelInvoke();
+            IsAttacking = false;
+            // CancelInvoke();
         }
 
-        agent.isStopped = false;
+        if(Action != 1) Agent.isStopped = false;
 
         switch (Action)
         {
@@ -99,11 +108,15 @@ public class EnemyAction : MonoBehaviour
                 Patrol();
                 break;
             case 1:
-                Invoke("Attack", 3.0f);
+                if(Player != null) Attack();
+                else {
+                    Player = GameObject.Find("Player");
+                    IsAttacking = false;
+                }
                 break;
             case 2:
-                if (!isSearching) this.lastSeenPos = Player.transform.position;
-                isSearching = true;
+                if (!IsSearching) this._lastSeenPos = Player.transform.position;
+                IsSearching = true;
                 Search();
                 break;
             default:
@@ -112,6 +125,7 @@ public class EnemyAction : MonoBehaviour
         }
     }
 
+    /* HELPER FUNCTIONS */
     public void SetAction(int num)
     {
         this.Action = num;
@@ -119,101 +133,16 @@ public class EnemyAction : MonoBehaviour
 
     public void SetPlayerPos(Vector3 pos)
     {
-        this.lastSeenPos = pos;
+        this._lastSeenPos = pos;
     }
 
-    public virtual void Patrol()
+    protected void SetAttackDirection()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (IsAttacking)
         {
-            Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * wanderRange;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-            {
-                gameObject.transform.LookAt(hit.position);
-                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-                agent.SetDestination(hit.position);
-            }
+            if(Player.transform.position.x < this.transform.position.x) _atkDir = AttackDirection.Left;
+            else _atkDir = AttackDirection.Right;
         }
     }
 
-    public virtual void Attack()
-    {
-        if (Player != null)
-        {
-            agent.destination = Player.transform.position;
-            if (agent.remainingDistance <= agent.stoppingDistance)
-            {
-                gameObject.transform.LookAt(Player.transform.position);
-                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-            }
-
-            if (curFire <= 0)
-            {
-                SetAttackDirection();
-                Attacking();
-                isAttacking = true;
-                curFire = FireRate;
-            }
-
-            /*
-            if (!isAttacking) {
-                isAttacking = true;
-                SetAttackDirection();
-                Invoke("Attacking", FireRate);
-            }
-            */
-            
-        }
-        else {
-            Debug.Log("Player not in sight");
-            isAttacking = false;
-            sprite.GetComponent<EnemyAnimation>().isShooting = false;
-        }
-    }
-
-    public virtual void Attacking()
-    {
-        if(isAttacking && this.tag == "Enemy") {
-            // GameObject fire = GameObject.Instantiate(Bullet);
-            
-            GameObject fire = bulletPool.ReleaseObject();
-            if (fire != null)
-            {
-                fire.GetComponent<BulletController>().passPoolRef(this.bulletPool);
-                fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);
-                fire.transform.rotation = this.transform.rotation;
-                fire.transform.Rotate(90, 0, 0);
-
-                fire.SetActive(true);
-                if (fire.GetComponent<Rigidbody>() != null)
-                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * moveSpeed * this.BulletSpeed);
-
-                sprite.GetComponent<EnemyAnimation>().SetShoot(atkDir);
-            }
-            //Invoke("Attacking", FireRate);
-        }
-    }
-
-    public virtual void Search()
-    {
-        agent.destination = lastSeenPos;
-        gameObject.transform.LookAt(lastSeenPos);
-        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-
-        if (Vector3.Distance(this.transform.position, lastSeenPos) <= 0.1 || agent.velocity.magnitude == 0)
-        {
-            this.Action = 0;
-            sprite.GetComponent<EnemyAnimation>().isShooting = false;
-        }
-    }
-
-    public void SetAttackDirection()
-    {
-        if (isAttacking)
-        {
-            if(Player.transform.position.x < this.transform.position.x) atkDir = AttackDirection.Left;
-            else atkDir = AttackDirection.Right;
-        }
-    }
 }

@@ -7,89 +7,49 @@ using UnityStandardAssets.Cameras;
 
 public class OHActions : EnemyAction
 {
+    [SerializeField] private readonly float _speedMultiplier;
+    private float _fastSpeed;
+    private float _originalSpeed;
 
-    public Vector3 attackPos = new Vector3(3,0,-3);
-    public float speedMultiplier = 1.5f;
-    private float fastSpeed;
-    private float originalSpeed;
-
-    public override void OnEnable()
+    protected override void BonusOnEnable()
     {
-        agent = this.GetComponent<NavMeshAgent>();
-
-        this.originalPosition = this.transform.position;
-        this.Player = GameObject.Find("Player");
-
-        fastSpeed = agent.speed * speedMultiplier;
-        originalSpeed = agent.speed;
+        _fastSpeed = Agent.speed * _speedMultiplier;
+        _originalSpeed = Agent.speed;
+    }
+    protected override void ProcessAILogic(){
+        
+        if (Action != 1) Agent.speed = _originalSpeed;
     }
 
-    public override void Update()
+    protected override void Attack()
     {
-        if (isAttacking) return;
+        Agent.destination = Player.transform.position;
+            Agent.speed = _fastSpeed;
 
-        if (Action != 0) isPatrolling = false;
-        if (Action != 1) agent.speed = originalSpeed;
-
-        agent.isStopped = false;
-
-        switch (Action)
-        {
-            case 0:
-                Patrol();
-                break;
-            case 1:
-                Attack();
-                break;
-            case 2:
-                if (!isSearching) this.lastSeenPos = Player.transform.position;
-                isSearching = true;
-                Search();
-                break;
-            default:
-                this.Action = 0;
-                break;
-        }
-    }
-
-    public override void Attack()
-    {
-        if (Player != null)
-        {
-            agent.destination = Player.transform.position;
-            agent.speed = fastSpeed;
-
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (Agent.remainingDistance <= Agent.stoppingDistance)
             {
                 gameObject.transform.LookAt(Player.transform.position);
                 this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
             }
 
-            if (!isAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
+            if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
             {
-                isAttacking = true;
+                IsAttacking = true;
                 this.SetAction(3);
-                this.Bullet.SetActive(true);
-                agent.isStopped = true;
-                Invoke("Attacking", FireRate);
+                this._attackHitbox.SetActive(true);
+                Agent.isStopped = true;
+                Invoke("Attacking", AttackRate);
             }
-
-        }
-        else
-        {
-            Debug.Log("Player not in sight");
-            isAttacking = false;
-        }
     }
 
-    public override void Attacking()
+    protected override void Attacking()
     {
-        if (isAttacking && this.tag == "Enemy")
+        if (IsAttacking && this.tag == "Enemy")
         {
-            this.Bullet.SetActive(false);
+            this._attackHitbox.SetActive(false);
             this.SetAction(0);
-            isAttacking = false;
-            agent.isStopped = false;
+            IsAttacking = false;
+            Agent.isStopped = false;
         }
     }
 }
