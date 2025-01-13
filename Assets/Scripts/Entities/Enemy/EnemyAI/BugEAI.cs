@@ -12,11 +12,12 @@ public class BugEAI : EnemyAction
     }
 
     protected override void ProcessAILogic(){
-        
+        _currFire -= Time.deltaTime;
     }
 
     protected override void Attack()
     {
+
         Agent.destination = Player.transform.position;
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
@@ -26,6 +27,7 @@ public class BugEAI : EnemyAction
 
         if (_currFire <= 0)
         {
+            Debug.Log("Attempt to attack");
             IsAttacking = true;
             SetAttackDirection();
             Attacking();
