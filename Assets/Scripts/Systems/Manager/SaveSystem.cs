@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SavePlayer(PlayerController player) {
+    public static void SavePlayer(SaveManager player) {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playerSave.sav";
         FileStream stream = new FileStream(path, FileMode.Create);

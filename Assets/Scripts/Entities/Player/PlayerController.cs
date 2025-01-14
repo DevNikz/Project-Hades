@@ -51,14 +51,6 @@ public class PlayerController : MonoBehaviour
     [ReadOnly, SerializeReference] public bool isHurt;
     [ReadOnly, SerializeReference] public bool curHurt;
 
-    [Title("Stats")]
-
-    [ReadOnly, SerializeReference] public int Runs;
-    [ReadOnly, SerializeReference] public int DepthLevel;
-    [ReadOnly, SerializeReference] public int Wins;
-    [ReadOnly, SerializeReference] public int Deaths;
-    [ReadOnly, SerializeReference] public bool hasPlayed;
-
     //Ref
     [Title("References")]
     public bool ShowReferences;
@@ -114,10 +106,10 @@ public class PlayerController : MonoBehaviour
         /* Save
             - persistentDataPath = "Users/{Name}/Appdata/LocalLow/{CompanyName}/{AppName}"
         */
-        string path = Application.persistentDataPath + "/playerSave.sav";
-        if(File.Exists(path)) {
-            LoadStats();
-        }
+        // string path = Application.persistentDataPath + "/playerSave.sav";
+        // if(File.Exists(path)) {
+        //     LoadStats();
+        // }
 
         //Stats
         currentPoise = totalPoise;
@@ -149,8 +141,8 @@ public class PlayerController : MonoBehaviour
                 this.gameObject.tag = "Player(Heaven)";
                 break;
             case "Tutorial":
-                hasPlayed = true;
-                DepthLevel = 0;
+                SaveManager.Instance.SetPlay(true);
+                SaveManager.Instance.SetDepth(0);
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
@@ -158,13 +150,10 @@ public class PlayerController : MonoBehaviour
 
                 //LoadData
                 ReloadData();
-
-                //Save
-                SavePlayer();
                 break;
             case "Level 1":
-                Runs++;
-                DepthLevel = 1;
+                SaveManager.Instance.AddRun();
+                SaveManager.Instance.SetDepth(1);
                 this.gameObject.tag = "Player";
 
                 //SpawnPoint Loc
@@ -172,33 +161,18 @@ public class PlayerController : MonoBehaviour
 
                 //LoadData
                 //ReloadData();
-
-                //Save
-                SavePlayer();
                 break;
             case "Level 2":
-                DepthLevel = 2;
-
-                //Save
-                SavePlayer();
+                SaveManager.Instance.SetDepth(2);
                 break;
             case "Level 3":
-                DepthLevel = 3;
-
-                //Save
-                SavePlayer();
+                SaveManager.Instance.SetDepth(3);
                 break;
             case "Level 4":
-                DepthLevel = 4;
-
-                //Save
-                SavePlayer();
+                SaveManager.Instance.SetDepth(4);
                 break;
             case "Level 5":
-                DepthLevel = 5;
-
-                //Save
-                SavePlayer();
+                SaveManager.Instance.SetDepth(5);
                 break;
         }
     }
@@ -229,24 +203,6 @@ public class PlayerController : MonoBehaviour
 
         animatorController = GetComponent<PlayerAnimatorController>();
     }
-
-    //Autosaves every level / depth for now
-    public void SavePlayer() {
-        SaveSystem.SavePlayer(this);
-    }
-
-    void LoadStats() {
-        PlayerStats data = SaveSystem.LoadPlayer();
-
-        //Stats
-        Runs = data.Runs;
-        DepthLevel = data.DepthLevel;
-        Wins = data.Wins;
-        Deaths = data.Deaths;
-        if(data.hasPlayed == 1) hasPlayed = true;
-        else hasPlayed = false;
-    }
-
 
     void Update(){
         UpdateHealth();
@@ -284,7 +240,6 @@ public class PlayerController : MonoBehaviour
     void CheckHealth() {
         if(this.currentHealth <= 0) {
             this.GetComponent<PlayerDeath>().KillYourself();
-            Deaths = this.GetComponent<PlayerDeath>().deaths;
         }
     }
 

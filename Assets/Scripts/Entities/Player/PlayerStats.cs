@@ -9,7 +9,7 @@ public class PlayerStats {
     public int Deaths;
     public int hasPlayed;
 
-    public PlayerStats(PlayerController player) {
+    public PlayerStats(SaveManager player) {
         Runs = player.Runs;
         DepthLevel = player.DepthLevel;
         Wins = player.Wins;

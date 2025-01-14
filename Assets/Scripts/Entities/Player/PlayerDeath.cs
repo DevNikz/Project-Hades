@@ -25,6 +25,7 @@ public class PlayerDeath : MonoBehaviour
 
         //Tick Counter
         deaths += 1;
+        SaveManager.Instance.AddDeath();
 
         //Play Animation / Game over screen
 
