@@ -8,9 +8,9 @@ using UnityEngine.AI;
 public class LC_Actions : EnemyAction
 {
     [NonSerialized] private int _comboNum = 0;
-    [SerializeField] private readonly float _dash = 20;
-    [SerializeField] private readonly float _dashStr = 50;
-    [SerializeField] private readonly float _maxCooldown = 3;
+    [SerializeField] private float _dash = 20;
+    [SerializeField] private float _dashStr = 50;
+    [SerializeField] private float _maxCooldown = 3;
 
     protected override void ProcessAILogic(){
         
@@ -41,8 +41,6 @@ public class LC_Actions : EnemyAction
 
     protected override void Attacking()
     {
-        Debug.Log("Tried Attack");
-
         this.transform.LookAt(Player.transform.position);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 

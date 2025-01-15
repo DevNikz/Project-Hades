@@ -19,7 +19,7 @@ public abstract class EnemyAction : MonoBehaviour
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
-    private float _wanderRange = 5;
+    private float _wanderRange;
     protected GameObject _sprite;
     protected Rigidbody _rgBody;
     protected AttackDirection _atkDir;
@@ -68,6 +68,7 @@ public abstract class EnemyAction : MonoBehaviour
         Agent = this.GetComponent<NavMeshAgent>();
         _rgBody = this.GetComponent<Rigidbody>();
         AttackRate = _enemyStats.attackRate;
+        _wanderRange = _enemyStats.wanderRange;
 
         _originalPosition = this.transform.position;
         Player = GameObject.Find("Player");

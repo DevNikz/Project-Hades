@@ -7,7 +7,7 @@ using UnityStandardAssets.Cameras;
 
 public class OHActions : EnemyAction
 {
-    [SerializeField] private readonly float _speedMultiplier;
+    [SerializeField] private float _speedMultiplier;
     private float _fastSpeed;
     private float _originalSpeed;
 

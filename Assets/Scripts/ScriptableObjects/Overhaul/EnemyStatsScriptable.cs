@@ -29,6 +29,9 @@ public class EnemyStatsScriptable : ScriptableObject
     
     [PropertySpace] [InfoBox("Stopping Distance (Default = 5)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float stoppingDistance = 5f;
+    
+    [PropertySpace] [InfoBox("Wander Range (Default = 5)", InfoMessageType.None)]
+    [Required] [Range(0f, 100f)] public float wanderRange = 5f;
 
     [PropertySpace] [TitleGroup("Timer Properties", "Enemy Timer Properties", alignment: TitleAlignments.Centered)]
     [InfoBox("Timer Delay", InfoMessageType.None)]
