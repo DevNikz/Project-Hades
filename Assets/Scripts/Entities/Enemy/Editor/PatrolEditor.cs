@@ -24,14 +24,14 @@ public class PatrolEditor : Editor
         EnemyAction example = (EnemyAction)target;
         Handles.color = UnityEngine.Color.red;
 
-        List<Vector3> points = example.patrolPoints;
+        List<Vector3> points = example.PatrolPoints;
 
         if (points == null) return;
 
         for (int i = 0; i < points.Count - 1; i++)
         {
             Handles.DrawLine(points[i], points[i + 1]);
-            if (i == points.Count - 2) Handles.DrawLine(points[i + 1], example.patrolPoints[0]);
+            if (i == points.Count - 2) Handles.DrawLine(points[i + 1], example.PatrolPoints[0]);
         }
 
         Vector3 snap = Vector3.one;
@@ -42,7 +42,7 @@ public class PatrolEditor : Editor
 
         for (int i = 0; i < points.Count; i++)
         {
-            newPosition.Add(Handles.FreeMoveHandle(example.patrolPoints[i], 0.5f, snap, Handles.SphereHandleCap));
+            newPosition.Add(Handles.FreeMoveHandle(example.PatrolPoints[i], 0.5f, snap, Handles.SphereHandleCap));
             holder = newPosition[i];
             holder.y = example.transform.position.y;
             newPosition[i] = holder;
@@ -51,7 +51,7 @@ public class PatrolEditor : Editor
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(example, "Change patrolPoints");
-            example.patrolPoints = newPosition;
+            example.PatrolPoints = newPosition;
             if (newPosition.Count > 0) example.transform.position = newPosition[0];
             if (newPosition.Count > 1) example.transform.LookAt(newPosition[1]);
         }

@@ -15,29 +15,31 @@ public class LightClockworkAI : EnemyAIBase
 
     protected override void Attack()
     {
+        Debug.Log("Attack Start");
         if(!Agent.isStopped) Agent.destination = Player.transform.position;
 
-            if (Agent.remainingDistance <= Agent.stoppingDistance)
-            {
-                gameObject.transform.LookAt(Player.transform.position);
-                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-            }
+        if (Agent.remainingDistance <= Agent.stoppingDistance)
+        {
+            gameObject.transform.LookAt(Player.transform.position);
+            this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+        }
 
-            if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
-            {
-                _comboNum = 3;
-                IsAttacking = true;
-                Agent.isStopped = true;
-                this.SetAction(_comboNum);
+        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
+        {
+            _comboNum = 3;
+            IsAttacking = true;
+            Agent.isStopped = true;
+            this.SetAction(_comboNum);
 
-                Invoke("Attacking", AttackRate);
-                Invoke("Attacking", AttackRate * 2);
-                Invoke("Attacking", AttackRate * 3);
-            }
+            Invoke("Attacking", AttackRate);
+            Invoke("Attacking", AttackRate * 2);
+            Invoke("Attacking", AttackRate * 3);
+        }
     }
 
     protected override void Attacking()
     {
+        Debug.Log("Tried Attack");
         this.transform.LookAt(Player.transform.position);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 

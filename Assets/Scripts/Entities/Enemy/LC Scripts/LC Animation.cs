@@ -10,7 +10,7 @@ public class LCAnimation : EnemyAnimation
 
     public override void ExtraStart()
     {
-        spriteAnimator.SetFloat("ComboSpeed", 1 / action.FireRate);
+        spriteAnimator.SetFloat("ComboSpeed", 1 / action.AttackRate);
     }
 
     public override void Update()

@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7128030132f2be84c9b7562cb47cc7f0, type: 3}
-  m_Name: EnemyStats
+  m_Name: BugE Stats
   m_EditorClassIdentifier: 
   enemyType: 0
   maxHP: 100
   maxPoise: 100
   stunResist: 1
   damageResist: 1
-  moveSpeed: 10
+  attackRate: 1.8
+  moveSpeed: 3
   stoppingDistance: 5
+  wanderRange: 10
   timerDelay: 2
   lootDetained: []
   lootKilled: []
