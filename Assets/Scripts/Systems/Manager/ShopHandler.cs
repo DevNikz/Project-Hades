@@ -41,14 +41,14 @@ public class ShopHandler : MonoBehaviour
     }
 
     public void BuyItem() {
-        switch(itemType) {
-            case AugmentType.AGGRO:
-                ItemManager.Instance.PAddAggro(1);
-                break;
-            case AugmentType.STEEL:
-                ItemManager.Instance.PAddSteel(1);
-                break;
-        }
+        // switch(itemType) {
+        //     case AugmentType.AGGRO:
+        //         ItemManager.Instance.PAddAggro(1);
+        //         break;
+        //     case AugmentType.STEEL:
+        //         ItemManager.Instance.PAddSteel(1);
+        //         break;
+        // }
     }
 
     public void ExitMenu() {

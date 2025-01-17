@@ -327,9 +327,9 @@ public class EnemyController : MonoBehaviour
             this.GetComponent<EnemyDeath>().Die();
 
             //Add Scrap if ded
-            if(ItemManager.Instance != null) {
-                ItemManager.Instance.PAddScrap(enemyStats.scrapCount);
-            }
+            // if(ItemManager.Instance != null) {
+            //     ItemManager.Instance.PAddScrap(enemyStats.scrapCount);
+            // }
         }
     }
 
