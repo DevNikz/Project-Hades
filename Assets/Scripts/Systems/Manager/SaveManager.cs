@@ -10,11 +10,16 @@ public class SaveManager : MonoBehaviour
 
     [Title("Stats")]
 
-    [ReadOnly, SerializeReference] public int Runs;
-    [ReadOnly, SerializeReference] public int DepthLevel;
-    [ReadOnly, SerializeReference] public int Wins;
-    [ReadOnly, SerializeReference] public int Deaths;
-    [ReadOnly, SerializeReference] public bool hasPlayed;
+    [SerializeReference] public int Runs;
+    [SerializeReference] public int DepthLevel;
+    [SerializeReference] public int Wins;
+    [SerializeReference] public int Deaths;
+    [SerializeReference] public bool hasPlayed;
+
+    [PropertySpace, Title("Debug")]
+    [ReadOnly, SerializeReference] public bool save1;
+    [ReadOnly, SerializeReference] public bool save2;
+    [ReadOnly, SerializeReference] public bool save3;
 
     void Awake() {
         if(Instance == null) {
@@ -26,18 +31,31 @@ public class SaveManager : MonoBehaviour
         /* Save
             - persistentDataPath = "Users/{Name}/Appdata/LocalLow/{CompanyName}/{AppName}"
         */
-        string path = Application.persistentDataPath + "/playerSave.sav";
-        if(File.Exists(path)) {
-            LoadStats();
-        }
+        // string path = Application.persistentDataPath + "/playerSave.sav";
+        // if(File.Exists(path)) {
+        //     LoadStats();
+        // }
+
+        //Checks if save has been created after exiting game.
+        string path1 = Application.persistentDataPath + "/playerSave1.sav";
+        string path2 = Application.persistentDataPath + "/playerSave2.sav";
+        string path3 = Application.persistentDataPath + "/playerSave3.sav";
+        if(File.Exists(path1)) save1 = true;
+        if(File.Exists(path2)) save2 = true;
+        if(File.Exists(path3)) save3 = true;
+        
     }
 
-    public void SavePlayer() {
-        SaveSystem.SavePlayer(this);
+    public void SavePlayer(int index) {
+        SaveSystem.SavePlayer(this, index);
     }
 
-    void LoadStats() {
-        PlayerStats data = SaveSystem.LoadPlayer();
+    public void LoadPlayer(int index) {
+        LoadStats(index);
+    }
+
+    void LoadStats(int index) {
+        PlayerStats data = SaveSystem.LoadPlayer(index);
 
         //Stats
         Runs = data.Runs;

@@ -4,9 +4,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    public static void SavePlayer(SaveManager player) {
+    public static void SavePlayer(SaveManager player, int index) {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/playerSave.sav";
+        string path = Application.persistentDataPath + $"/playerSave{index}.sav";
         FileStream stream = new FileStream(path, FileMode.Create);
 
         PlayerStats data = new PlayerStats(player); 
@@ -17,8 +17,8 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static PlayerStats LoadPlayer() {
-        string path = Application.persistentDataPath + "/player.kek";
+    public static PlayerStats LoadPlayer(int index) {
+        string path = Application.persistentDataPath + $"/playerSave{index}.sav";
         if(File.Exists(path)) {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
