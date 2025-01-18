@@ -32,7 +32,7 @@ public class LoseScreen_Script : MonoBehaviour
                 panel.SetActive(false);
                 bg.SetActive(false);
 
-                GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("Title Screen");
+                GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("HubLevel");
             }
         }
     }
