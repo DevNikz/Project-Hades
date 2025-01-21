@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,21 +16,24 @@ public class AugmentScriptable : ScriptableObject
     public string augmentName;
 
     [VerticalGroup("Attributes/base/left")]
+    [BoxGroup("Attributes/base/left/box1", showLabel: false)]
+    [LabelWidth(100)][HideLabel] [Title("Type", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    public AugmentType augmentType;
+
+    [VerticalGroup("Attributes/base/left")]
     [BoxGroup("Attributes/base/left/box1")]
-    [PreviewField(125, Alignment = ObjectFieldAlignment.Center, FilterMode = FilterMode.Point)] 
-    [HideLabel] [Title("Icon", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)] 
+    [PreviewField(125, Alignment = ObjectFieldAlignment.Center, FilterMode = FilterMode.Point)] [HideLabel] [Title("Icon", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)] 
     public Sprite augmentIcon;
+
     
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)]
-    [HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentDescription;
 
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)]
-    [HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentLore;
 
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
