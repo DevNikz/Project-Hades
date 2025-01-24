@@ -138,15 +138,20 @@ public class ItemManager : MonoBehaviour
 
     //For Player
     public void AddAugment(AugmentType type, int amount = 1) { 
+        if(amount <= 0) return;
+
         StackableAugment stackAugment = getStackableAugment(type);
         if(stackAugment != null){
             stackAugment.Count += amount;
+            for(int i = 0; i < amount; i++)
+                stackAugment.Augment.OnActivate();
             return;
         }
 
         UnlockableAugment unlockAugment = getUnlockableAugment(type);
         if(unlockAugment != null){
             unlockAugment.Unlocked = true;
+            unlockAugment.Augment.OnActivate();
             return;
         }
         
@@ -154,8 +159,12 @@ public class ItemManager : MonoBehaviour
     }
 
     public void RemoveAugment(AugmentType type, int amount = 1) { 
+        if(amount <= 0) return;
+
         StackableAugment stackAugment = getStackableAugment(type);
         if(stackAugment != null){
+            if(stackAugment.Count >= 1)
+                stackAugment.Augment.OnDeactivate();
             stackAugment.Count -= amount;
             if(stackAugment.Count < 0)
                 stackAugment.Count = 0;
@@ -165,6 +174,7 @@ public class ItemManager : MonoBehaviour
         UnlockableAugment unlockAugment = getUnlockableAugment(type);
         if(unlockAugment != null){
             unlockAugment.Unlocked = false;
+            unlockAugment.Augment.OnDeactivate();
             return;
         }
     }
@@ -172,6 +182,8 @@ public class ItemManager : MonoBehaviour
     public void ClearAugment(AugmentType type){
         StackableAugment stackAugment = getStackableAugment(type);
         if(stackAugment != null){
+            for(int i = 0; i < stackAugment.Count; i++)
+                stackAugment.Augment.OnDeactivate();
             stackAugment.Count = 0;
             return;
         }
@@ -179,6 +191,7 @@ public class ItemManager : MonoBehaviour
         UnlockableAugment unlockAugment = getUnlockableAugment(type);
         if(unlockAugment != null){
             unlockAugment.Unlocked = false;
+            unlockAugment.Augment.OnDeactivate();
             return;
         }
     }
@@ -235,5 +248,21 @@ public class ItemManager : MonoBehaviour
         int count = augment.Count;
 
         PlayerController.Instance.SetTotalHealth(count * scriptable.healthIncrease);
+    }
+
+    private void Update() {
+        // Play the Active Effect of all augments, skipping over disable augments
+        foreach (var augment in stackableAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
+        foreach (var augment in stanceAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
+        foreach (var augment in stanceSubAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
     }
 }

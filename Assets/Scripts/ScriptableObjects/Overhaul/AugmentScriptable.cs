@@ -63,19 +63,24 @@ public class AugmentScriptable : ScriptableObject
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [LabelWidth(50)]
-    public bool Toggle;
+    public bool IsActive {get; private set;}
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [HorizontalGroup("Attributes/base/right/box3/split", 0.5f)]
     [Button("Call", ButtonSizes.Large)]
-    private void TestCall() {
-        this.Toggle = true;
+    public virtual void OnActivate() {
+        this.IsActive = true;
     }
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [VerticalGroup("Attributes/base/right/box3/split/right")]
     [Button("Clear", ButtonSizes.Large)]
-    private void TestClear() {
-        this.Toggle = false;
+    public virtual void OnDeactivate() {
+        this.IsActive = false;
+    }
+
+    public virtual void ActiveEffect(){
+        if(!this.IsActive) return;
+
     }
 }
