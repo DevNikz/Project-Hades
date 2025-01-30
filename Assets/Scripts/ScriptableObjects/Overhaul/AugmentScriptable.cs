@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,21 +16,24 @@ public class AugmentScriptable : ScriptableObject
     public string augmentName;
 
     [VerticalGroup("Attributes/base/left")]
+    [BoxGroup("Attributes/base/left/box1", showLabel: false)]
+    [LabelWidth(100)][HideLabel] [Title("Type", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    public AugmentType augmentType;
+
+    [VerticalGroup("Attributes/base/left")]
     [BoxGroup("Attributes/base/left/box1")]
-    [PreviewField(125, Alignment = ObjectFieldAlignment.Center, FilterMode = FilterMode.Point)] 
-    [HideLabel] [Title("Icon", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)] 
+    [PreviewField(125, Alignment = ObjectFieldAlignment.Center, FilterMode = FilterMode.Point)] [HideLabel] [Title("Icon", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)] 
     public Sprite augmentIcon;
+
     
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)]
-    [HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentDescription;
 
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)]
-    [HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentLore;
 
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
@@ -59,19 +63,24 @@ public class AugmentScriptable : ScriptableObject
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [LabelWidth(50)]
-    public bool Toggle;
+    public bool IsActive {get; private set;}
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [HorizontalGroup("Attributes/base/right/box3/split", 0.5f)]
     [Button("Call", ButtonSizes.Large)]
-    private void TestCall() {
-        this.Toggle = true;
+    public virtual void OnActivate() {
+        this.IsActive = true;
     }
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [VerticalGroup("Attributes/base/right/box3/split/right")]
     [Button("Clear", ButtonSizes.Large)]
-    private void TestClear() {
-        this.Toggle = false;
+    public virtual void OnDeactivate() {
+        this.IsActive = false;
+    }
+
+    public virtual void ActiveEffect(){
+        if(!this.IsActive) return;
+
     }
 }

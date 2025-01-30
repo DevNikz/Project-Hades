@@ -17,7 +17,11 @@ public class LevelRewardScript : MonoBehaviour
     [SerializeField] private AugmentScriptable ouranosGear;
     [SerializeField] private AugmentScriptable gehennaGear;
 
-    string choice = null;
+    [SerializeField] private int maxAugmentRewards = 3;
+    [SerializeField] private List<AugmentScriptable> chosenAugments;
+
+
+    AugmentType choice = AugmentType.None;
     bool choiceMade = false;
 
     public string nextLevel = null;
@@ -30,7 +34,7 @@ public class LevelRewardScript : MonoBehaviour
     private void ResetMenu(){
         AssignSprites();
 
-        choice = null;
+        choice = AugmentType.None;
         choiceMade = false;
         levelRewardMenu.SetActive(false);
     }
@@ -45,6 +49,14 @@ public class LevelRewardScript : MonoBehaviour
             {
                 TransitionLevel();
             }
+        }
+    }
+
+    void ChooseRewards(){
+        chosenAugments.Clear();
+
+        while(chosenAugments.Count < maxAugmentRewards){
+            
         }
     }
 
@@ -79,40 +91,30 @@ public class LevelRewardScript : MonoBehaviour
     public void ButtonSelected()
     {
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        choice = AugmentType.None;
 
-        choice = button.name;
+        AugmentIconUpdater updater = button.GetComponent<AugmentIconUpdater>();
+        if(updater != null){
+            choice = updater.GetAugment().augmentType;
+        }
 
         Debug.Log(choice);
     }
 
     public void ChoiceMade()
     {
-        if (choice != null)
+        if (choice != AugmentType.None)
         {
+            ItemManager.Instance.AddAugment(choice);
             switch (choice)
             {
-                case "Aggro":
-                    ItemManager.Instance.PAddAggro(1);
-                    break;
-                case "Vitality":
-                    ItemManager.Instance.PAddVitality(1);
-                    break;
-                case "Heavy":
-                    ItemManager.Instance.PAddHeavy(1);
-                    break;
-                case "Steel":
-                    ItemManager.Instance.PAddSteel(1);
-                    break;
-                case "Thalassa":
-                    ItemManager.Instance.Water = true;
+                case AugmentType.Water:
                     Broadcaster.Instance.AddBoolParam(AugmentMenuScript.WATER_UNLOCKED, EventNames.Augment.WATER_UNLOCKED, true);
                     break;
-                case "Ouranos":
-                    ItemManager.Instance.Wind = true;
+                case AugmentType.Air:
                     Broadcaster.Instance.AddBoolParam(AugmentMenuScript.WIND_UNLOCKED, EventNames.Augment.WIND_UNLOCKED, true);
                     break;
-                case "Gehenna":
-                    ItemManager.Instance.Fire = true;
+                case AugmentType.Fire:
                     Broadcaster.Instance.AddBoolParam(AugmentMenuScript.FIRE_UNLOCKED, EventNames.Augment.FIRE_UNLOCKED, true);
                     break;
 

@@ -11,8 +11,8 @@ public enum Kind {
 }
 
 public enum AugmentType {
-    AGGRO,
-    STEEL
+    None, Earth, Water, Air, Fire,
+    Aggro, Steel, Vitality, Heavy
 }
 
 public enum Elements {

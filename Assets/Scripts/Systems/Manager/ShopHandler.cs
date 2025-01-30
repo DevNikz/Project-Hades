@@ -42,10 +42,10 @@ public class ShopHandler : MonoBehaviour
 
     public void BuyItem() {
         switch(itemType) {
-            case AugmentType.AGGRO:
+            case AugmentType.Aggro:
                 ItemManager.Instance.PAddAggro(1);
                 break;
-            case AugmentType.STEEL:
+            case AugmentType.Steel:
                 ItemManager.Instance.PAddSteel(1);
                 break;
         }

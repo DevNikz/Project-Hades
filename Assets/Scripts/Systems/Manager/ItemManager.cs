@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -7,234 +8,261 @@ public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance;
 
+    // Definitions for ease of tracking
+    [Serializable] public class StackableAugment{
+        [HorizontalGroup("Row")]
+            [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
+            
+            [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int Count;
+    }
+    [Serializable] public class UnlockableAugment{
+        [HorizontalGroup("Row")]
+            [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
+            
+            [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public bool Unlocked;
+    }
+    [Serializable] public class StanceSubAugment : UnlockableAugment{
+        [VerticalGroup("Row/StanceIndex"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceIndex;
+        [VerticalGroup("Row/StanceSubtree"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceSubtree;
+    }
+
+    // References
     [TitleGroup("References", "General Manager References", Alignment = TitleAlignments.Centered)]
-    [HorizontalGroup("References/Group")]
-    [VerticalGroup("References/Group/Left")]
-    [BoxGroup("References/Group/Left/Level")]
-    [LabelWidth(125)]
-    public int scrapCount;
+        [TitleGroup("References/Augments")]
+            [TabGroup("References/Augments/TabGroup", "Stackable Augments")]
+                [SerializeField] private List<StackableAugment> stackableAugments = new();
+            [TabGroup("References/Augments/TabGroup", "Stances")]
+                [SerializeField] private List<UnlockableAugment> stanceAugments = new();
+            [TabGroup("References/Augments/TabGroup", "Stance Sub Augments")]
+                [SerializeField] private List<StanceSubAugment> stanceSubAugments = new();
 
-    [BoxGroup("References/Group/Left/Level")]
-    [LabelWidth(125)]
-    public int aggroCount;
+    // Debug (Player)
+    [BoxGroup("Player Debug")]
+        [HorizontalGroup("Player Debug/Button")]
+            [VerticalGroup("Player Debug/Button/Right")]
+            [Button("Add/Unlock Chosen Augment", ButtonSizes.Medium)]
+            public void DebugAddAugment(){
+                AddAugment(debugAugmentType);
+            }
 
-    [BoxGroup("References/Group/Left/Level")]
-    [LabelWidth(125)]
-    public int steelCount;
+            [VerticalGroup("Player Debug/Button/Right")]
+            [Button("Add/Remove Chosen Augment", ButtonSizes.Medium)]
+            public void DebugRemoveAugment(){
+                RemoveAugment(debugAugmentType);
+            }
 
-    [BoxGroup("References/Group/Left/Level")]
-    [LabelWidth(125)]
-    public int heavyCount;
+            [VerticalGroup("Player Debug/Button/Left")]
+            [SerializeField, LabelText("Type")] private AugmentType debugAugmentType;
 
-    [BoxGroup("References/Group/Left/Level")]
-    [LabelWidth(125)]
-    public int vitalityCount;
+    // Helper Fields
+    private Dictionary<AugmentType, int> augmentIndexRef = new Dictionary<AugmentType, int>();
 
-    [VerticalGroup("References/Group/Right")]
-    [BoxGroup("References/Group/Right/Player")]
-    [LabelWidth(125)]
-    public int playerScrapCount;
-
-    [BoxGroup("References/Group/Right/Player")]
-    [LabelWidth(125)]
-    [OnValueChanged("UpdatePlayerAggro")]
-    public int playerAggroCount;
-
-    [BoxGroup("References/Group/Right/Player")]
-    [LabelWidth(125)]
-    [OnValueChanged("UpdatePlayerSteel")]
-    public int playerSteelCount;
-
-    [BoxGroup("References/Group/Right/Player")]
-    [LabelWidth(125)]
-    [OnValueChanged("UpdatePlayerHeavy")]
-    public int playerHeavyCount;
-
-    [BoxGroup("References/Group/Right/Player")]
-    [LabelWidth(125)]
-    [OnValueChanged("UpdatePlayerVitality")]
-    public int playerVitalityCount;
-
-    [SerializeReference] private AugmentScriptable vitalityScriptable;
-    [SerializeReference] private AugmentScriptable aggroScriptable;
-    [SerializeReference] private AugmentScriptable steelScriptable;
-    [SerializeReference] private AugmentScriptable heavyScriptable;
-
-    [SerializeField] private bool isWaterUnlocked;
-    [SerializeField] private bool isWindUnlocked;
-    [SerializeField] private bool isFireUnlocked;
-
-    public bool Water{
-        get { return this.isWaterUnlocked; }
-        set { this.isWaterUnlocked = value; }
-    }
-
-    public bool Wind{
-        get { return this.isWindUnlocked; }
-        set { this.isWindUnlocked = value; }
-    }
-
-    public bool Fire{
-        get { return this.isFireUnlocked; }
-        set { this.isFireUnlocked = value; }
-    }
-
-    void Awake() {
+    private void Awake() {
         if(Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
-        isWaterUnlocked = false;
-        isFireUnlocked = false;
-        isWindUnlocked = false;
+        // Make aure all stackable augment counts are reset to 0
+        foreach (var augment in stackableAugments)
+            augment.Count = 0;
+        
+        // Remove unlock of all other augments as both stance and stance sub augments
+        foreach (var augment in stanceAugments)
+            augment.Unlocked = false;
+        foreach (var augment in stanceSubAugments)
+            augment.Unlocked = false;
+
+        // Unlock the first stance
+        stanceAugments[0].Unlocked = true;
+
+        // Make sure that all augment indecies are correct
+        augmentIndexRef.Clear();
+
+        int stackableAugmentCount = stackableAugments.Count;
+        int stanceAugmentCount = stanceAugments.Count;
+        int stanceSubAugmentCount = stanceSubAugments.Count;
+
+        for(int i = 0; i < stackableAugmentCount; i++)
+            augmentIndexRef.Add(stackableAugments[i].Augment.augmentType, i);
+        for(int i = 0; i < stanceAugmentCount; i++)
+            augmentIndexRef.Add(stanceAugments[i].Augment.augmentType, i);
+        for(int i = 0; i < stanceSubAugmentCount; i++)
+            augmentIndexRef.Add(stanceSubAugments[i].Augment.augmentType, i);
+    }
+
+    public bool Water{
+        get { return stanceAugments[1].Unlocked; }
+        set { stanceAugments[1].Unlocked = value; }
+    }
+
+    public bool Wind{
+        get { return stanceAugments[2].Unlocked; }
+        set { stanceAugments[2].Unlocked = value; }
+    }
+
+    public bool Fire{
+        get { return stanceAugments[3].Unlocked; }
+        set { stanceAugments[3].Unlocked = value; }
+    }
+
+    private StackableAugment getStackableAugment (AugmentType type){
+        if(!augmentIndexRef.ContainsKey(type))
+            return null;
+
+        if(stackableAugments.Count > augmentIndexRef[type]){
+            if(stackableAugments[augmentIndexRef[type]].Augment.augmentType == type)
+                return stackableAugments[augmentIndexRef[type]];
+        }
+
+        return null;
     }
     
-    //Debug (Level)
-    [BoxGroup("Level Debug")]
-    [HorizontalGroup("Level Debug/Buttons")]
-    [VerticalGroup("Level Debug/Buttons/1")]
-    [Button("Add Scrap (Level)", ButtonSizes.Large)]
-    public void DAddScrap() {
-        scrapCount++;
-    }
+    private UnlockableAugment getUnlockableAugment (AugmentType type){
+        if(!augmentIndexRef.ContainsKey(type))
+            return null;
 
-    [VerticalGroup("Level Debug/Buttons/2")]
-    [Button("Add Aggro (Level)", ButtonSizes.Large)]
-    public void DAddAggro() {
-        aggroCount++;
-    }
+        if(stanceAugments.Count > augmentIndexRef[type]){
+            if(stanceAugments[augmentIndexRef[type]].Augment.augmentType == type)
+                return stanceAugments[augmentIndexRef[type]];
+        }
 
-    [VerticalGroup("Level Debug/Buttons/3")]
-    [Button("Add Steel (Level)", ButtonSizes.Large)]
-    public void DAddSteel() {
-        steelCount++;
-    }
+        if(stanceSubAugments.Count > augmentIndexRef[type]){
+            if(stanceSubAugments[augmentIndexRef[type]].Augment.augmentType == type)
+                return stanceSubAugments[augmentIndexRef[type]];
+        }
 
-    //Debug (Player)
-    [BoxGroup("Player Debug")]
-    [HorizontalGroup("Player Debug/Buttons2")]
-    [VerticalGroup("Player Debug/Buttons2/1")]
-    [Button("Add Scrap (Player)", ButtonSizes.Large)]
-    public void DPAddScrap() {
-        playerScrapCount++;
-    }
-
-    [VerticalGroup("Player Debug/Buttons2/2")]
-    [Button("Add Aggro (Player)", ButtonSizes.Large)]
-    public void DPAddAggro() {
-        //playerAggroCount++;
-        PAddAggro(1);
-    }
-
-    [VerticalGroup("Player Debug/Buttons2/3")]
-    [Button("Add Vitality (Player)", ButtonSizes.Large)] //changed from steel to vita
-    public void DPAddVitality() {
-        //playerSteelCount++;
-        PAddVitality(1);
-    }
-
-    //DebugReset (Level)
-    [HorizontalGroup("Level Debug/Buttons3")]
-    [VerticalGroup("Level Debug/Buttons3/1")]
-    [Button("Reset Scrap (Level)", ButtonSizes.Large)]
-    public void ResetScrapL() {
-        scrapCount = 0;
-    }
-
-    [VerticalGroup("Level Debug/Buttons3/2")]
-    [Button("Reset Aggro (Level)", ButtonSizes.Large)]
-    public void ResetAggroL() {
-        aggroCount = 0;
-    }
-
-    [VerticalGroup("Level Debug/Buttons3/3")]
-    [Button("Reset Steel (Level)", ButtonSizes.Large)]
-    public void ResetSteelL() {
-        steelCount = 0;
-    }
-
-    //DebugReset (Player)
-    [HorizontalGroup("Player Debug/Buttons4")]
-    [VerticalGroup("Player Debug/Buttons4/1")]
-    [Button("Reset Scrap (Player)", ButtonSizes.Large)]
-    public void ResetScrapP() {
-        playerScrapCount = 0;
-    }
-
-    [VerticalGroup("Player Debug/Buttons4/2")]
-    [Button("Reset Aggro (Player)", ButtonSizes.Large)]
-    public void ResetAggroP() {
-        playerAggroCount = 0;
-    }
-
-    [VerticalGroup("Player Debug/Buttons4/3")]
-    [Button("Reset Steel (Player)", ButtonSizes.Large)]
-    public void ResetSteelP() {
-        playerSteelCount = 0;
-    }
-
-    //For Levels
-    public void AddScrap(int value) {
-        scrapCount += value;
-    }
-
-    public void AddAggro(int value) {
-        aggroCount += value;
-    }
-
-    public void AddSteel(int value) {
-        steelCount += value;
-    }
-
-    public void AddHeavy(int value) {
-        heavyCount += value;
-    }
-
-    public void AddVitality(int value) {
-        vitalityCount += value;
+        return null;
     }
 
     //For Player
-    public void PAddScrap(int value) {
-        playerScrapCount += value;
+    public void AddAugment(AugmentType type, int amount = 1) { 
+        if(amount <= 0) return;
+
+        StackableAugment stackAugment = getStackableAugment(type);
+        if(stackAugment != null){
+            stackAugment.Count += amount;
+            for(int i = 0; i < amount; i++)
+                stackAugment.Augment.OnActivate();
+            return;
+        }
+
+        UnlockableAugment unlockAugment = getUnlockableAugment(type);
+        if(unlockAugment != null){
+            unlockAugment.Unlocked = true;
+            unlockAugment.Augment.OnActivate();
+            return;
+        }
+        
+        Debug.Log($"Added a {type}");
+    }
+
+    public void RemoveAugment(AugmentType type, int amount = 1) { 
+        if(amount <= 0) return;
+
+        StackableAugment stackAugment = getStackableAugment(type);
+        if(stackAugment != null){
+            if(stackAugment.Count >= 1)
+                stackAugment.Augment.OnDeactivate();
+            stackAugment.Count -= amount;
+            if(stackAugment.Count < 0)
+                stackAugment.Count = 0;
+            return;
+        }
+
+        UnlockableAugment unlockAugment = getUnlockableAugment(type);
+        if(unlockAugment != null){
+            unlockAugment.Unlocked = false;
+            unlockAugment.Augment.OnDeactivate();
+            return;
+        }
+    }
+
+    public void ClearAugment(AugmentType type){
+        StackableAugment stackAugment = getStackableAugment(type);
+        if(stackAugment != null){
+            for(int i = 0; i < stackAugment.Count; i++)
+                stackAugment.Augment.OnDeactivate();
+            stackAugment.Count = 0;
+            return;
+        }
+
+        UnlockableAugment unlockAugment = getUnlockableAugment(type);
+        if(unlockAugment != null){
+            unlockAugment.Unlocked = false;
+            unlockAugment.Augment.OnDeactivate();
+            return;
+        }
     }
 
     public void PAddAggro(int value) {
-        playerAggroCount += value;
+        AddAugment(AugmentType.Aggro, value);
         UpdatePlayerAggro();
     }
 
     public void PAddSteel(int value) {
-        playerSteelCount += value;
+        AddAugment(AugmentType.Steel, value);
         UpdatePlayerSteel();
     }
 
     public void PAddHeavy(int value) {
-        playerHeavyCount += value;
+        AddAugment(AugmentType.Heavy, value);
         UpdatePlayerHeavy();
     }
 
     public void PAddVitality(int value) {
-        playerVitalityCount += value;
+        AddAugment(AugmentType.Vitality, value);
         UpdatePlayerVitality();
     }
 
     //Stuffs
     public void UpdatePlayerAggro() {
-        PlayerController.Instance.SetHealthDamage(playerAggroCount * (aggroScriptable.damageIncrease * 0.01f));
+        StackableAugment augment = getStackableAugment(AugmentType.Aggro);
+        AugmentScriptable scriptable = augment.Augment;
+        int count = augment.Count;
+
+        PlayerController.Instance.SetHealthDamage(count * (scriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerSteel() {
-        PlayerController.Instance.SetTotalDefense(playerSteelCount * (steelScriptable.damageIncrease * 0.01f));
+        StackableAugment augment = getStackableAugment(AugmentType.Steel);
+        AugmentScriptable scriptable = augment.Augment;
+        int count = augment.Count;
+        
+
+        PlayerController.Instance.SetTotalDefense(count * (scriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerHeavy() {
-        PlayerController.Instance.SetStunDamage(playerHeavyCount * (heavyScriptable.damageIncrease * 0.01f));
+        StackableAugment augment = getStackableAugment(AugmentType.Heavy);
+        AugmentScriptable scriptable = augment.Augment;
+        int count = augment.Count;
+
+        PlayerController.Instance.SetStunDamage(count * (scriptable.damageIncrease * 0.01f));
     }
 
     public void UpdatePlayerVitality() {
-        PlayerController.Instance.SetTotalHealth(playerVitalityCount * vitalityScriptable.healthIncrease);
+        StackableAugment augment = getStackableAugment(AugmentType.Vitality);
+        AugmentScriptable scriptable = augment.Augment;
+        int count = augment.Count;
+
+        PlayerController.Instance.SetTotalHealth(count * scriptable.healthIncrease);
+    }
+
+    private void Update() {
+        // Play the Active Effect of all augments, skipping over disable augments
+        foreach (var augment in stackableAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
+        foreach (var augment in stanceAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
+        foreach (var augment in stanceSubAugments){
+            if(augment.Augment.IsActive)
+                augment.Augment.ActiveEffect();
+        }
     }
 }
