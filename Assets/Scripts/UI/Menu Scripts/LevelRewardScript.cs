@@ -7,19 +7,17 @@ using UnityEngine.UI;
 public class LevelRewardScript : MonoBehaviour
 {
     [SerializeField] GameObject levelRewardMenu;
-    [SerializeField] Sprite[] augmentSprites;
     [SerializeField] Sprite[] stanceSprites;
     [SerializeField] GameObject[] augmentButtons;
     [SerializeField] GameObject stanceButton;
-    [SerializeField] AugmentScriptable[] augments;
     [SerializeField] private AugmentScriptable gaiaGear;
     [SerializeField] private AugmentScriptable thalassaGear;
     [SerializeField] private AugmentScriptable ouranosGear;
     [SerializeField] private AugmentScriptable gehennaGear;
 
-    [SerializeField] private int maxAugmentRewards = 3;
     [SerializeField] private List<AugmentScriptable> chosenAugments;
 
+    [SerializeField] private LootpoolScriptable lootpool;
 
     AugmentType choice = AugmentType.None;
     bool choiceMade = false;
@@ -52,20 +50,22 @@ public class LevelRewardScript : MonoBehaviour
         }
     }
 
-    void ChooseRewards(){
-        chosenAugments.Clear();
-
-        while(chosenAugments.Count < maxAugmentRewards){
-            
-        }
-    }
-
     void AssignSprites()
     {
+        chosenAugments.Clear();
+
         foreach (var button in augmentButtons)
         {
-            int n = Random.Range(0, augments.Length - 1);
-            button.GetComponent<AugmentIconUpdater>().SetAugment(augments[n]);
+            AugmentScriptable chosenAugment = null;
+            
+            while(chosenAugment == null || chosenAugments.Contains(chosenAugment)){
+                chosenAugment = ItemManager.Instance.getAugment(
+                    lootpool.returnRandomizedItem()
+                );
+            }
+
+            chosenAugments.Add(chosenAugment);
+            button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
         }
 
         if(!ItemManager.Instance.Water)

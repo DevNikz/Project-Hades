@@ -107,6 +107,18 @@ public class ItemManager : MonoBehaviour
         set { stanceAugments[3].Unlocked = value; }
     }
 
+    public AugmentScriptable getAugment(AugmentType type){
+        StackableAugment stackableAugment = getStackableAugment(type);
+        if(stackableAugment != null)
+            return stackableAugment.Augment;
+
+        UnlockableAugment unlockableAugment = getUnlockableAugment(type);
+        if(unlockableAugment != null)
+            return unlockableAugment.Augment;
+        
+        return null;
+    }
+
     private StackableAugment getStackableAugment (AugmentType type){
         if(!augmentIndexRef.ContainsKey(type))
             return null;
