@@ -20,6 +20,7 @@ public class LevelRewardScript : MonoBehaviour
 
     [SerializeReference] private LootpoolScriptable lootpool;
     [SerializeField] private int maxRetryAugmentGenerate = 100;
+    private int currentAugmentGenRetries = 0;
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
     public void ReloadAugments(){
@@ -39,6 +40,8 @@ public class LevelRewardScript : MonoBehaviour
     private void ResetMenu(){
         lootpool.initialize();
         AssignSprites();
+
+        currentAugmentGenRetries = 0;
 
         choice = AugmentType.None;
         choiceMade = false;
@@ -66,6 +69,8 @@ public class LevelRewardScript : MonoBehaviour
         {
             AugmentScriptable chosenAugment = null;
             
+            currentAugmentGenRetries = 0;
+
             do{
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
@@ -74,8 +79,9 @@ public class LevelRewardScript : MonoBehaviour
                 if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                     chosenAugment = null;
                 
-            } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (maxRetryAugmentGenerate-- > 0));
+            } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ > maxRetryAugmentGenerate));
 
+            currentAugmentGenRetries = maxRetryAugmentGenerate;
             // Debug.Log(chosenAugments.Contains(chosenAugment));
 
             chosenAugments.Add(chosenAugment);
