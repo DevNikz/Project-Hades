@@ -17,16 +17,13 @@ public class LootpoolScriptable : ScriptableObject
     }
 
     [SerializeField] private List<LootpoolItemDroprate> LootpoolItems = new();
-    [SerializeField] private Dictionary<float, AugmentType> upperLimitAugmentMap = new();
-    private float totalRate = 0.0f;
-    private bool isInitialized = false;
-    
+    [SerializeField] private Dictionary<int, AugmentType> upperLimitAugmentMap = new();
+    private int totalRate = 0;
     public AugmentType returnRandomizedItem(){
-        if(!isInitialized) initializeLootpool();
 
         AugmentType chosenAugment = upperLimitAugmentMap[totalRate];
 
-        float threshold = ((float)UnityEngine.Random.Range(0, 100) / 100.0f) * totalRate;
+        int threshold = (int)(((float)UnityEngine.Random.Range(0, 100) / 100.0f) * (float)totalRate);
         foreach(var map in upperLimitAugmentMap){
             if(threshold > map.Key){
                 chosenAugment = map.Value;
@@ -37,18 +34,18 @@ public class LootpoolScriptable : ScriptableObject
         return chosenAugment;
     }
 
-    private void initializeLootpool(){
-        totalRate = 0.0f;
+    public void initialize(){
+        totalRate = 0;
         upperLimitAugmentMap.Clear();
 
         // Compute total probability and map upperlimits
-        float runningTotal = 0.0f;
+        int runningTotal = 0;
         foreach(var item in LootpoolItems){
-            runningTotal += item.dropRate;
+            runningTotal += (int)(item.dropRate * 100);
             upperLimitAugmentMap.Add(runningTotal, item.Augment.augmentType);
+            Debug.Log(runningTotal);
         }
 
         totalRate = runningTotal;
-        isInitialized = true;
     }
 }

@@ -17,7 +17,7 @@ public class LevelRewardScript : MonoBehaviour
 
     [SerializeField] private List<AugmentScriptable> chosenAugments;
 
-    [SerializeField] private LootpoolScriptable lootpool;
+    [SerializeReference] private LootpoolScriptable lootpool;
 
     AugmentType choice = AugmentType.None;
     bool choiceMade = false;
@@ -30,6 +30,7 @@ public class LevelRewardScript : MonoBehaviour
     }
 
     private void ResetMenu(){
+        lootpool.initialize();
         AssignSprites();
 
         choice = AugmentType.None;
@@ -58,7 +59,7 @@ public class LevelRewardScript : MonoBehaviour
         {
             AugmentScriptable chosenAugment = null;
             
-            while(chosenAugment == null || chosenAugments.Contains(chosenAugment)){
+            // while(chosenAugment == null || chosenAugments.Contains(chosenAugment)){
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
                 );
@@ -75,7 +76,7 @@ public class LevelRewardScript : MonoBehaviour
                 if(chosenAugment.augmentType == AugmentType.Fire &&
                     ItemManager.Instance.hasAugment(AugmentType.Fire))
                     chosenAugment = null;
-            }
+            // }
 
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
