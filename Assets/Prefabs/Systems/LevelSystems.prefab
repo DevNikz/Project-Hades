@@ -496,28 +496,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelRewardMenu: {fileID: 5200664485406754792}
-  augmentSprites:
-  - {fileID: 21300000, guid: 20d4ce8c842cff64bb8e0cb150220dad, type: 3}
-  - {fileID: 21300000, guid: 76a090ba020d2384092f2e70c25d26a4, type: 3}
-  - {fileID: 21300000, guid: f362b239314266a4681b8f9062dde04f, type: 3}
-  - {fileID: 21300000, guid: fd63452a007fc2f4daee72c77715559f, type: 3}
-  stanceSprites:
-  - {fileID: 21300000, guid: d0bf03b359a94eb4b9f27ffe24fbe900, type: 3}
-  - {fileID: 21300000, guid: edaa5d75058eacd43b9d4fe3433de323, type: 3}
-  - {fileID: 21300000, guid: 0985e945dd1e5d44e9b3ae113a4244a3, type: 3}
   augmentButtons:
   - {fileID: 4593095062856681484}
   - {fileID: 8552098963414450258}
-  stanceButton: {fileID: 1592467377449684464}
-  augments:
-  - {fileID: 11400000, guid: ba06a12687b624e46b4c5bad25f8628b, type: 2}
-  - {fileID: 11400000, guid: 18a2db7ca8082b14e916e32bf5ae4f27, type: 2}
-  - {fileID: 11400000, guid: daa24bb31914e424882568b878b669a2, type: 2}
-  - {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
-  gaiaGear: {fileID: 11400000, guid: 3eac95e50562629488c90a1cb8281ef9, type: 2}
-  thalassaGear: {fileID: 11400000, guid: b9400f75c8f333b45909d5694cebc3b2, type: 2}
-  ouranosGear: {fileID: 11400000, guid: d1aff34c2f35f0b439a7e66201a9631e, type: 2}
-  gehennaGear: {fileID: 11400000, guid: 435bef6d3966851428e8260736aaf415, type: 2}
+  - {fileID: 1592467377449684464}
+  chosenAugments: []
+  lootpool: {fileID: 11400000, guid: 1cdf4ba7be009f14e8adfe74877698b6, type: 2}
   nextLevel: 
 --- !u!1 &2613647080134423726
 GameObject:
@@ -2538,7 +2522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6176347003280432272}
-  - component: {fileID: 2790611213193356085}
+  - component: {fileID: 4903457453433174270}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -2561,7 +2545,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3555006036682300655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2790611213193356085
+--- !u!114 &4903457453433174270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2576,11 +2560,11 @@ MonoBehaviour:
   stackableAugments:
   - Augment: {fileID: 11400000, guid: ba06a12687b624e46b4c5bad25f8628b, type: 2}
     Count: 0
-  - Augment: {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
+  - Augment: {fileID: 11400000, guid: 18a2db7ca8082b14e916e32bf5ae4f27, type: 2}
     Count: 0
   - Augment: {fileID: 11400000, guid: daa24bb31914e424882568b878b669a2, type: 2}
     Count: 0
-  - Augment: {fileID: 11400000, guid: 18a2db7ca8082b14e916e32bf5ae4f27, type: 2}
+  - Augment: {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
     Count: 0
   stanceAugments:
   - Augment: {fileID: 11400000, guid: 3eac95e50562629488c90a1cb8281ef9, type: 2}
@@ -2591,7 +2575,11 @@ MonoBehaviour:
     Unlocked: 0
   - Augment: {fileID: 11400000, guid: 435bef6d3966851428e8260736aaf415, type: 2}
     Unlocked: 0
-  stanceSubAugments: []
+  stanceSubAugments:
+  - Augment: {fileID: 11400000, guid: ba06a12687b624e46b4c5bad25f8628b, type: 2}
+    Unlocked: 0
+    StanceIndex: 0
+    StanceSubtree: 0
   debugAugmentType: 0
 --- !u!1 &7487434177496318640
 GameObject:

@@ -92,6 +92,10 @@ public class ItemManager : MonoBehaviour
             augmentIndexRef.Add(stanceSubAugments[i].Augment.augmentType, i);
     }
 
+    public bool Earth{
+        get { return stanceAugments[0].Unlocked; }
+        set { stanceAugments[0].Unlocked = value; }
+    }
     public bool Water{
         get { return stanceAugments[1].Unlocked; }
         set { stanceAugments[1].Unlocked = value; }
@@ -119,6 +123,21 @@ public class ItemManager : MonoBehaviour
         return null;
     }
 
+    public int getAugmentCount(AugmentType type){
+        StackableAugment stackbleAugment = getStackableAugment(type);
+        if (stackbleAugment == null) return -1;
+
+        return stackbleAugment.Count;
+    }
+
+    public bool hasAugment(AugmentType type){
+        UnlockableAugment unlockableAugment = getUnlockableAugment(type);
+        if(unlockableAugment == null) return false;
+
+
+        return unlockableAugment.Unlocked;
+    }
+
     private StackableAugment getStackableAugment (AugmentType type){
         if(!augmentIndexRef.ContainsKey(type))
             return null;
@@ -129,6 +148,7 @@ public class ItemManager : MonoBehaviour
         }
 
         return null;
+    
     }
     
     private UnlockableAugment getUnlockableAugment (AugmentType type){

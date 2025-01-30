@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class LevelRewardScript : MonoBehaviour
 {
     [SerializeField] GameObject levelRewardMenu;
-    [SerializeField] Sprite[] stanceSprites;
+    // [SerializeField] Sprite[] stanceSprites;
     [SerializeField] GameObject[] augmentButtons;
-    [SerializeField] GameObject stanceButton;
-    [SerializeField] private AugmentScriptable gaiaGear;
-    [SerializeField] private AugmentScriptable thalassaGear;
-    [SerializeField] private AugmentScriptable ouranosGear;
-    [SerializeField] private AugmentScriptable gehennaGear;
+    // [SerializeField] GameObject stanceButton;
+    // [SerializeField] private AugmentScriptable gaiaGear;
+    // [SerializeField] private AugmentScriptable thalassaGear;
+    // [SerializeField] private AugmentScriptable ouranosGear;
+    // [SerializeField] private AugmentScriptable gehennaGear;
 
     [SerializeField] private List<AugmentScriptable> chosenAugments;
 
@@ -62,30 +62,43 @@ public class LevelRewardScript : MonoBehaviour
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
                 );
+
+                if(chosenAugment.augmentType == AugmentType.Earth &&
+                    ItemManager.Instance.hasAugment(AugmentType.Earth))
+                    chosenAugment = null;
+                if(chosenAugment.augmentType == AugmentType.Water &&
+                    ItemManager.Instance.hasAugment(AugmentType.Water))
+                    chosenAugment = null;
+                if(chosenAugment.augmentType == AugmentType.Air &&
+                    ItemManager.Instance.hasAugment(AugmentType.Air))
+                    chosenAugment = null;
+                if(chosenAugment.augmentType == AugmentType.Fire &&
+                    ItemManager.Instance.hasAugment(AugmentType.Fire))
+                    chosenAugment = null;
             }
 
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
         }
 
-        if(!ItemManager.Instance.Water)
-        {
-            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(thalassaGear);
-            stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[0];
-            stanceButton.name = stanceSprites[0].name;  
-        }
-        else if(!ItemManager.Instance.Wind)
-        {
-            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(ouranosGear);
-            stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[1];
-            stanceButton.name = stanceSprites[1].name;
-        }
-        else if (!ItemManager.Instance.Fire)
-        {
-            stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(gehennaGear);
-            stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[2];
-            stanceButton.name = stanceSprites[2].name;
-        }
+        // if(!ItemManager.Instance.Water)
+        // {
+        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(thalassaGear);
+        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[0];
+        //     stanceButton.name = stanceSprites[0].name;  
+        // }
+        // else if(!ItemManager.Instance.Wind)
+        // {
+        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(ouranosGear);
+        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[1];
+        //     stanceButton.name = stanceSprites[1].name;
+        // }
+        // else if (!ItemManager.Instance.Fire)
+        // {
+        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(gehennaGear);
+        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[2];
+        //     stanceButton.name = stanceSprites[2].name;
+        // }
     }
 
     public void ButtonSelected()
