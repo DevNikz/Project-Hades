@@ -55,7 +55,9 @@ public class LevelRewardScript : MonoBehaviour
     void ChooseRewards(){
         chosenAugments.Clear();
 
-
+        while(chosenAugments.Count < maxAugmentRewards){
+            
+        }
     }
 
     void AssignSprites()
