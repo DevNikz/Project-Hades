@@ -24,6 +24,7 @@ public class LevelRewardScript : MonoBehaviour
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
     public void ReloadAugments(){
+        lootpool.initialize();
         AssignSprites();
     }
 
@@ -79,7 +80,7 @@ public class LevelRewardScript : MonoBehaviour
                 if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                     chosenAugment = null;
                 
-            } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ > maxRetryAugmentGenerate));
+            } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
 
             currentAugmentGenRetries = maxRetryAugmentGenerate;
             // Debug.Log(chosenAugments.Contains(chosenAugment));
