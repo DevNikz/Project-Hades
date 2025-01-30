@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,9 +16,15 @@ public class LevelRewardScript : MonoBehaviour
     // [SerializeField] private AugmentScriptable ouranosGear;
     // [SerializeField] private AugmentScriptable gehennaGear;
 
-    [SerializeField] private List<AugmentScriptable> chosenAugments;
+    [SerializeField] private List<AugmentScriptable> chosenAugments = new();
 
     [SerializeReference] private LootpoolScriptable lootpool;
+    [SerializeField] private int maxRetryAugmentGenerate = 100;
+
+    [Button("Reload Augment Rewards", ButtonSizes.Large)]
+    public void ReloadAugments(){
+        AssignSprites();
+    }
 
     AugmentType choice = AugmentType.None;
     bool choiceMade = false;
@@ -59,24 +66,17 @@ public class LevelRewardScript : MonoBehaviour
         {
             AugmentScriptable chosenAugment = null;
             
-            // while(chosenAugment == null || chosenAugments.Contains(chosenAugment)){
+            do{
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
                 );
 
-                if(chosenAugment.augmentType == AugmentType.Earth &&
-                    ItemManager.Instance.hasAugment(AugmentType.Earth))
+                if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                     chosenAugment = null;
-                if(chosenAugment.augmentType == AugmentType.Water &&
-                    ItemManager.Instance.hasAugment(AugmentType.Water))
-                    chosenAugment = null;
-                if(chosenAugment.augmentType == AugmentType.Air &&
-                    ItemManager.Instance.hasAugment(AugmentType.Air))
-                    chosenAugment = null;
-                if(chosenAugment.augmentType == AugmentType.Fire &&
-                    ItemManager.Instance.hasAugment(AugmentType.Fire))
-                    chosenAugment = null;
-            // }
+                
+            } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (maxRetryAugmentGenerate-- > 0));
+
+            // Debug.Log(chosenAugments.Contains(chosenAugment));
 
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);

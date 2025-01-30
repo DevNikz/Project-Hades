@@ -130,10 +130,11 @@ public class ItemManager : MonoBehaviour
         return stackbleAugment.Count;
     }
 
-    public bool hasAugment(AugmentType type){
+    public bool hasUnlocked(AugmentType type){
+        Debug.Log("Checking for " + type);
+
         UnlockableAugment unlockableAugment = getUnlockableAugment(type);
         if(unlockableAugment == null) return false;
-
 
         return unlockableAugment.Unlocked;
     }

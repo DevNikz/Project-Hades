@@ -18,18 +18,23 @@ public class LootpoolScriptable : ScriptableObject
 
     [SerializeField] private List<LootpoolItemDroprate> LootpoolItems = new();
     [SerializeField] private Dictionary<int, AugmentType> upperLimitAugmentMap = new();
-    private int totalRate = 0;
+    [SerializeField, ReadOnly] private int totalRate = 0;
     public AugmentType returnRandomizedItem(){
 
         AugmentType chosenAugment = upperLimitAugmentMap[totalRate];
 
         int threshold = (int)(((float)UnityEngine.Random.Range(0, 100) / 100.0f) * (float)totalRate);
+        Debug.Log("Threshold: " + threshold);
         foreach(var map in upperLimitAugmentMap){
-            if(threshold > map.Key){
+            Debug.Log("Map Item: " + map.Key +", " + map.Value);
+            // chosenAugment = map.Value;
+            if(threshold < map.Key){
                 chosenAugment = map.Value;
                 break;
             }
         }
+
+        Debug.Log("Chosen Augment: " + chosenAugment);
 
         return chosenAugment;
     }
@@ -43,7 +48,7 @@ public class LootpoolScriptable : ScriptableObject
         foreach(var item in LootpoolItems){
             runningTotal += (int)(item.dropRate * 100);
             upperLimitAugmentMap.Add(runningTotal, item.Augment.augmentType);
-            Debug.Log(runningTotal);
+            // Debug.Log(runningTotal);
         }
 
         totalRate = runningTotal;

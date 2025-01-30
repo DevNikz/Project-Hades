@@ -35,11 +35,6 @@ public class AugmentScriptable : ScriptableObject
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
     [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentLore;
-    
-    [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)]
-    [PropertySpace] [InfoBox("Augment Kind (Default = None)")]
-    [Required] public Kind augmentKind = Kind.None;
 
     [Range(0, 100)]
     [InfoBox("Whole number increase")]
