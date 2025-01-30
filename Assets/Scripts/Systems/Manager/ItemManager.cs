@@ -286,7 +286,7 @@ public class ItemManager : MonoBehaviour
         // Play the Active Effect of all augments, skipping over disable augments
         foreach (var augment in stackableAugments){
             if(augment.Augment.IsActive)
-                augment.Augment.ActiveEffect();
+                augment.Augment.ActiveEffect(augment.Count);
         }
         foreach (var augment in stanceAugments){
             if(augment.Augment.IsActive)

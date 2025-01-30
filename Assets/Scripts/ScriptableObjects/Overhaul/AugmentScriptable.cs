@@ -74,7 +74,7 @@ public class AugmentScriptable : ScriptableObject
         this.IsActive = false;
     }
 
-    public virtual void ActiveEffect(){
+    public virtual void ActiveEffect(int count = 0){
         if(!this.IsActive) return;
 
     }
