@@ -128,7 +128,7 @@ public class EnemyController : MonoBehaviour
         }
         else {
             this.GetComponent<EnemyAction>().enabled = true;
-            detectCone.GetComponent<SightTrigger>().enabled = true;
+            //detectCone.GetComponent<SightTrigger>().enabled = true;
             healthUI.SetActive(true);
             detectCone.SetActive(true);
         }

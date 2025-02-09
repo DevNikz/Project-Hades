@@ -37,6 +37,11 @@ public class EnemyStatsScriptable : ScriptableObject
     [InfoBox("Timer Delay", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float timerDelay = 2f;
 
+    [PropertySpace]
+    [TitleGroup("Timer Properties", "Max Cooldown Timer", alignment: TitleAlignments.Centered)]
+    [InfoBox("Max Cooldown", InfoMessageType.None)]
+    [Required][Range(0f, 100f)] public float _maxCooldown = 2f;
+
     [PropertySpace] [TitleGroup("Loot Properties", "Enemy Loot Drops!", alignment: TitleAlignments.Centered)]
     [AssetList(Path = "/Resources/Items")]
     [InfoBox("Assign Loot when Detained", InfoMessageType.None)]

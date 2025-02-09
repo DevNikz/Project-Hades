@@ -23,6 +23,7 @@ public abstract class EnemyAction : MonoBehaviour
     protected GameObject _sprite;
     protected Rigidbody _rgBody;
     protected AttackDirection _atkDir;
+    protected float _maxCooldown;
     public float Cooldown = 0;
 
     protected EnemyAnimation anims;
@@ -36,6 +37,47 @@ public abstract class EnemyAction : MonoBehaviour
     protected abstract void Attack();
     protected abstract void Attacking();
 
+    public void Update()
+    {
+        Debug.Log(Agent.isStopped);
+        this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
+        ProcessAILogic();
+
+        if (Cooldown > 0)
+        {
+            Action = -1;
+            Agent.isStopped = true;
+            this.IsAttacking = false;
+            Cooldown -= Time.deltaTime;
+            return;
+        }
+        if (Action == -1) Action = 1;
+
+        if (Action != 0)
+        {
+            IsPatrolling = false;
+            this.gameObject.GetComponentInChildren<SightTrigger>().enabled = false;
+        }
+
+        switch (Action)
+        {
+            case 0:
+                Patrol();
+                break;
+            case 1:
+                if (Player != null) Attack();
+                else Player = GameObject.Find("Player");
+                break;
+            case 2:
+                if (!IsSearching) this._lastSeenPos = Player.transform.position;
+                IsSearching = true;
+                Search();
+                break;
+            default:
+                break;
+        }
+    }
+
     protected virtual void Search()
     {
         Agent.isStopped = false;
@@ -46,12 +88,13 @@ public abstract class EnemyAction : MonoBehaviour
         if (Vector3.Distance(this.transform.position, _lastSeenPos) <= 0.1 || Agent.velocity.magnitude == 0)
         {
             this.Action = 0;
-            _sprite.GetComponent<EnemyAnimation>().isShooting = false;
+            anims.isShooting = false;
         }
     }
     
     protected virtual void Patrol()
     {
+        this.gameObject.GetComponentInChildren<SightTrigger>().enabled = true;
         Agent.isStopped = false;
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
@@ -74,6 +117,7 @@ public abstract class EnemyAction : MonoBehaviour
         _rgBody = this.GetComponent<Rigidbody>();
         AttackRate = _enemyStats.attackRate;
         _wanderRange = _enemyStats.wanderRange;
+        _maxCooldown = _enemyStats._maxCooldown;
 
         _originalPosition = this.transform.position;
         Player = GameObject.Find("Player");
@@ -81,46 +125,6 @@ public abstract class EnemyAction : MonoBehaviour
         anims = this.GetComponentInChildren<EnemyAnimation>();
         
         BonusOnEnable();
-    }
-
-    public void Update()
-    {
-        this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
-        ProcessAILogic();
-
-        Cooldown -= Time.deltaTime;
-        if (Cooldown > 0)
-        {
-            Action = -1;
-            Agent.isStopped = true;
-            IsAttacking = false;
-            return;
-        }
-        if(Action == -1) Action = 1;
-
-        if (Action != 0) IsPatrolling = false;
-        if (Action != 1) IsAttacking = false;
-
-        switch (Action)
-        {
-            case 0:
-                Patrol();
-                break;
-            case 1:
-                if(Player != null) Attack();
-                else {
-                    Player = GameObject.Find("Player");
-                    IsAttacking = false;
-                }
-                break;
-            case 2:
-                if (!IsSearching) this._lastSeenPos = Player.transform.position;
-                IsSearching = true;
-                Search();
-                break;
-            default:
-                break;
-        }
     }
 
     // ANIMATIONS
@@ -178,11 +182,8 @@ public abstract class EnemyAction : MonoBehaviour
 
     protected void SetAttackDirection()
     {
-        if (IsAttacking)
-        {
-            if(Player.transform.position.x < this.transform.position.x) _atkDir = AttackDirection.Left;
-            else _atkDir = AttackDirection.Right;
-        }
+        if(Player.transform.position.x < this.transform.position.x) _atkDir = AttackDirection.Left;
+        else _atkDir = AttackDirection.Right;
     }
 }
 

@@ -34,13 +34,13 @@ public class EnemyAnimation : MonoBehaviour
     public virtual void ExtraStart() {}
 
     public virtual void Update() {
-        spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         SetDirection();
 
-        if (!action.IsPatrolling && !action.IsSearching && !action.IsAttacking) entityMovement = EntityMovement.Idle;
+        if (isDead || (!action.IsPatrolling && !action.IsSearching && !action.IsAttacking)) entityMovement = EntityMovement.Idle;
         else entityMovement = EntityMovement.Strafing;
 
-        if (isHit == false && isShooting == false && isStun == false) SetAnimation();
+        spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+        if (!isHit && !isDead && !isStun && !isShooting) SetAnimation();
     }
 
     public virtual void SetAnimation() {

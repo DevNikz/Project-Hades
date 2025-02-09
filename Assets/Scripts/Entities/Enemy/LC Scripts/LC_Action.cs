@@ -7,10 +7,9 @@ using UnityEngine.AI;
 
 public class LC_Actions : EnemyAction
 {
-    [NonSerialized] private int _comboNum = 0;
-    [SerializeField] private float _dash = 20;
-    [SerializeField] private float _dashStr = 50;
-    [SerializeField] private float _maxCooldown = 3;
+    private int _comboNum = 0;
+    private float _dash = 20;
+    private float _dashStr = 50;
 
     protected override void ProcessAILogic(){
         
@@ -18,7 +17,8 @@ public class LC_Actions : EnemyAction
 
     protected override void Attack()
     {
-        if(!Agent.isStopped) Agent.destination = Player.transform.position;
+        if (!IsAttacking) Agent.isStopped = false;
+        Agent.destination = Player.transform.position;
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {

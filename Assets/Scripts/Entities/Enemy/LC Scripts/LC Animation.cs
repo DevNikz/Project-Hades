@@ -5,20 +5,9 @@ using UnityEngine.AI;
 
 public class LCAnimation : EnemyAnimation
 {
-    public bool run;
-    public float attackTime;
-
     public override void ExtraStart()
     {
         spriteAnimator.SetFloat("ComboSpeed", 1 / action.AttackRate);
-    }
-
-    public override void Update()
-    {
-        SetDirection();
-        if (isDead) entityMovement = EntityMovement.Idle;
-        spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        if (!isHit && !isDead && !isStun) SetAnimation();
     }
 
     public override void SetAnimation()

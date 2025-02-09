@@ -7,7 +7,7 @@ using UnityStandardAssets.Cameras;
 
 public class OHActions : EnemyAction
 {
-    [SerializeField] private float _speedMultiplier;
+    private float _speedMultiplier = 3;
     private float _fastSpeed;
     private float _originalSpeed;
 
@@ -23,33 +23,34 @@ public class OHActions : EnemyAction
 
     protected override void Attack()
     {
+        Agent.isStopped = false;
         Agent.destination = Player.transform.position;
-            Agent.speed = _fastSpeed;
+        Agent.speed = _fastSpeed;
 
-            if (Agent.remainingDistance <= Agent.stoppingDistance)
-            {
-                gameObject.transform.LookAt(Player.transform.position);
-                this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-            }
+        if (Agent.remainingDistance <= Agent.stoppingDistance)
+        {
+            gameObject.transform.LookAt(Player.transform.position);
+            this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+        }
 
-            if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
-            {
-                IsAttacking = true;
-                this.SetAction(3);
-                this._attackHitbox.SetActive(true);
-                Agent.isStopped = true;
-                Invoke("Attacking", AttackRate);
-            }
+        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
+        {
+            IsAttacking = true;
+            this.SetAction(3);
+            Attacking();
+        }
     }
 
     protected override void Attacking()
     {
-        if (IsAttacking && this.tag == "Enemy")
-        {
-            this._attackHitbox.SetActive(false);
-            this.SetAction(0);
-            IsAttacking = false;
-            Agent.isStopped = false;
-        }
+        this._attackHitbox.SetActive(true);
+        Invoke(nameof(StopAttack), AttackRate);
+    }
+
+    private void StopAttack()
+    {
+        this._attackHitbox.SetActive(false);
+        IsAttacking = false;
+        Cooldown = _maxCooldown;
     }
 }
