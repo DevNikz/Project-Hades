@@ -44,6 +44,7 @@ public class OHActions : EnemyAction
     protected override void Attacking()
     {
         this._attackHitbox.SetActive(true);
+        Agent.isStopped = true;
         Invoke(nameof(StopAttack), AttackRate);
     }
 

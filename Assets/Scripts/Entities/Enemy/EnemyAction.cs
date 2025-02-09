@@ -39,7 +39,6 @@ public abstract class EnemyAction : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(Agent.isStopped);
         this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
         ProcessAILogic();
 
@@ -165,6 +164,8 @@ public abstract class EnemyAction : MonoBehaviour
             Agent.isStopped = true;
         }
         if (this._attackHitbox != null) this._attackHitbox.SetActive(false);
+
+        IsAttacking = false;
 
         CancelInvoke();
     }
