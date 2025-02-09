@@ -205,7 +205,7 @@ public class EnemyController : MonoBehaviour
 
         //Visual Cue
         hitFX.Play();
-        sprite.GetComponent<EnemyAnimation>().SetHit(attackDirection);
+        this.gameObject.GetComponent<EnemyAction>().SetHit(attackDirection);
         manaCharge = FindAnyObjectByType<PlayerController>();
 
         if (staggered) {
@@ -313,7 +313,7 @@ public class EnemyController : MonoBehaviour
             //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
         }
 
-        if (currentPoise <= 0) sprite.GetComponent<EnemyAnimation>().SetStun(attackDirection, enemyStats.timerDelay);
+        if (currentPoise <= 0) this.gameObject.GetComponent<EnemyAction>().SetStun(attackDirection, enemyStats.timerDelay);
 
         //UI
         switch (enemyStats.enemyType) {

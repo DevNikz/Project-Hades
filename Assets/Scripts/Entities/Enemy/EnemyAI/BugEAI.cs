@@ -50,7 +50,8 @@ public class BugEAI : EnemyAction
             // GameObject fire = GameObject.Instantiate(Bullet);
             
             GameObject fire = bulletPool.ReleaseObject();
-            if (fire != null)
+            if (fire == null) _sprite.GetComponent<EnemyAnimation>().isShooting = false;
+            else
             {
                 fire.GetComponent<BulletController>().passPoolRef(this.bulletPool);
                 fire.transform.position = this.transform.position + (this.transform.forward * 5 / 4);

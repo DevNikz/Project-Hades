@@ -26,16 +26,15 @@ public class LC_Actions : EnemyAction
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
         }
 
-        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < 2)
+        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
         {
             _comboNum = 3;
             IsAttacking = true;
             Agent.isStopped = true;
-            this.SetAction(_comboNum);
 
+            Attacking();
             Invoke("Attacking", AttackRate);
             Invoke("Attacking", AttackRate * 2);
-            Invoke("Attacking", AttackRate * 3);
         }
     }
 
@@ -53,12 +52,14 @@ public class LC_Actions : EnemyAction
         if (_comboNum == 6)
             _rgBody.AddForce(this.transform.forward * _dashStr, ForceMode.Impulse);
         else
-        {
             _rgBody.AddForce(this.transform.forward * _dash, ForceMode.Impulse);
-            this.SetAction(_comboNum);
-        }
 
-        Invoke("StopAttack", 0.3f);
+        this.SetAction(_comboNum);
+
+        if (_comboNum == 6)
+            Invoke("StopAttack", 1f);
+        else
+            Invoke("StopAttack", 0.3f);
     }
 
     private void StopAttack()
@@ -66,7 +67,6 @@ public class LC_Actions : EnemyAction
         this._attackHitbox.SetActive(false);
 
         if (_comboNum == 6) {
-            this.SetAction(1);
             IsAttacking = false;
             Cooldown = _maxCooldown;
         }

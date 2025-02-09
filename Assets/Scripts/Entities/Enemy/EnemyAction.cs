@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public abstract class EnemyAction : MonoBehaviour
 {
     [SerializeField] public int Action = 0;
-    [SerializeField] public List<Vector3> PatrolPoints = new();
     [NonSerialized] public float AttackRate;
     [NonSerialized] public GameObject Player = null;
     [NonSerialized] public NavMeshAgent Agent;
@@ -25,6 +25,9 @@ public abstract class EnemyAction : MonoBehaviour
     protected AttackDirection _atkDir;
     public float Cooldown = 0;
 
+    protected EnemyAnimation anims;
+    public float timer;
+
     protected virtual void BonusOnEnable(){}
     /// <summary>
     /// Called every update before calling correct action logic, use to specify behavior of choosing actions
@@ -35,6 +38,7 @@ public abstract class EnemyAction : MonoBehaviour
 
     protected virtual void Search()
     {
+        Agent.isStopped = false;
         Agent.destination = _lastSeenPos;
         gameObject.transform.LookAt(_lastSeenPos);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
@@ -48,6 +52,7 @@ public abstract class EnemyAction : MonoBehaviour
     
     protected virtual void Patrol()
     {
+        Agent.isStopped = false;
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
             Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * _wanderRange;
@@ -73,10 +78,8 @@ public abstract class EnemyAction : MonoBehaviour
         _originalPosition = this.transform.position;
         Player = GameObject.Find("Player");
 
-        this.PatrolPoints.Add(this._originalPosition);
-        if (this.PatrolPoints.Count >= 1) 
-            PatrolPoints[0] = new Vector3(this.PatrolPoints[0].x, this._originalPosition.y, this.PatrolPoints[0].z);
-    
+        anims = this.GetComponentInChildren<EnemyAnimation>();
+        
         BonusOnEnable();
     }
 
@@ -88,20 +91,15 @@ public abstract class EnemyAction : MonoBehaviour
         Cooldown -= Time.deltaTime;
         if (Cooldown > 0)
         {
-            Action = 0;
+            Action = -1;
             Agent.isStopped = true;
             IsAttacking = false;
             return;
         }
+        if(Action == -1) Action = 1;
 
-        if(Action != 0) IsPatrolling = false;
-        if (Action != 1)
-        {
-            IsAttacking = false;
-            // CancelInvoke();
-        }
-
-        if(Action != 1) Agent.isStopped = false;
+        if (Action != 0) IsPatrolling = false;
+        if (Action != 1) IsAttacking = false;
 
         switch (Action)
         {
@@ -121,9 +119,50 @@ public abstract class EnemyAction : MonoBehaviour
                 Search();
                 break;
             default:
-                this.Action = 0;
                 break;
         }
+    }
+
+    // ANIMATIONS
+    public virtual void SetHit(AttackDirection attackDirection)
+    {
+        EndAttack();
+        
+        anims.SetHit(attackDirection);
+        Invoke(nameof(ResetHit), anims.timer);
+    }
+
+    public virtual void SetStun(AttackDirection attackDirection, float duration)
+    {
+        EndAttack();
+        Cooldown = duration;
+
+        anims.SetStun(attackDirection, duration);
+        Invoke(nameof(ResetStun), anims.timer);
+    }
+
+    public void ResetHit()
+    {
+        SetAction(0);
+        anims.ResetHit();
+    }
+
+    public void ResetStun()
+    {
+        SetAction(0);
+        anims.ResetStun();
+    }
+
+    public void EndAttack()
+    {
+        if (Agent != null)
+        {
+            Agent.ResetPath();
+            Agent.isStopped = true;
+        }
+        if (this._attackHitbox != null) this._attackHitbox.SetActive(false);
+
+        CancelInvoke();
     }
 
     /* HELPER FUNCTIONS */
@@ -145,5 +184,6 @@ public abstract class EnemyAction : MonoBehaviour
             else _atkDir = AttackDirection.Right;
         }
     }
-
 }
+
+

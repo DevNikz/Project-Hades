@@ -19,7 +19,8 @@ public class EnemyAnimation : MonoBehaviour
     public EnemyAction action;
 
 
-    public void Start() {
+    public void OnEnable()
+    {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
         action = this.gameObject.GetComponentInParent<EnemyAction>();
         entityMovement = EntityMovement.Idle;
@@ -57,27 +58,18 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public virtual void SetHit(AttackDirection attackDirection) {
-        if (attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale) * -1;
-        else xScale = Math.Abs(xScale);
-        action.Agent.isStopped = true;
+        SetAttackedDirection(attackDirection);
+
         isHit = true;
-        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         spriteAnimator.Play("Hit");
-        Invoke(nameof(ResetHit), timer);
     }
 
     public virtual void SetStun(AttackDirection attackDirection, float duration)
     {
-        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
-        else xScale = Math.Abs(xScale);
+        SetAttackedDirection(attackDirection);
 
         isStun = true;
-        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         spriteAnimator.Play("Stun");
-        action.CancelInvoke();
-
-        action.Cooldown = duration;
-        Invoke(nameof(ResetStun), duration);
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)
@@ -95,6 +87,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public void ResetHit() {
         isHit = false;
+        spriteAnimator.Play("Idle");
     }
 
     public void ResetStun()
@@ -108,6 +101,13 @@ public class EnemyAnimation : MonoBehaviour
         isStun = false;
         spriteAnimator.Play("Idle");
         //isShooting = false;
+    }
+
+    public void SetAttackedDirection(AttackDirection attackDirection)
+    {
+        if (attackDirection == AttackDirection.Left) xScale = Math.Abs(xScale) * -1;
+        else if(attackDirection == AttackDirection.Right) xScale = Math.Abs(xScale);
+        spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
     }
 
     public void SetDirection()

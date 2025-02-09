@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using System.Collections.Generic;
 using UnityEditor.PackageManager.UI;
 using System.Drawing;
-
+/*
 [CustomEditor(typeof(EnemyAction)), CanEditMultipleObjects]
 public class PatrolEditor : Editor
 {
@@ -57,3 +57,4 @@ public class PatrolEditor : Editor
         }
     }
 }
+*/

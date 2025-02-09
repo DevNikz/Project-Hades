@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using System.Collections.Generic;
 using UnityEditor.PackageManager.UI;
 using System.Drawing;
-
+/*
 [CustomEditor(typeof(EnemySetup), true), CanEditMultipleObjects]
 public class EnemyEditor : Editor
 {
@@ -36,3 +36,4 @@ public class EnemyEditor : Editor
         }
     }
 }
+*/
