@@ -19,7 +19,7 @@ public abstract class EnemyAction : MonoBehaviour
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
-    private float _wanderRange;
+    protected float _wanderRange;
     protected GameObject _sprite;
     protected Rigidbody _rgBody;
     protected AttackDirection _atkDir;
@@ -47,6 +47,7 @@ public abstract class EnemyAction : MonoBehaviour
             Action = -1;
             Agent.isStopped = true;
             this.IsAttacking = false;
+            this.gameObject.GetComponent<BoxCollider>().enabled = true;
             Cooldown -= Time.deltaTime;
             return;
         }
@@ -130,7 +131,8 @@ public abstract class EnemyAction : MonoBehaviour
     public virtual void SetHit(AttackDirection attackDirection)
     {
         EndAttack();
-        
+        Cooldown = 0.5f;
+
         anims.SetHit(attackDirection);
         Invoke(nameof(ResetHit), anims.timer);
     }
@@ -146,13 +148,11 @@ public abstract class EnemyAction : MonoBehaviour
 
     public void ResetHit()
     {
-        SetAction(0);
         anims.ResetHit();
     }
 
     public void ResetStun()
     {
-        SetAction(0);
         anims.ResetStun();
     }
 
