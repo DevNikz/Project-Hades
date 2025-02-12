@@ -11,6 +11,10 @@ public class ObjectPool : MonoBehaviour
     [SerializeField, HideInInspector] private List<GameObject> availableObjects = new List<GameObject>();
     [SerializeField, HideInInspector] private List<GameObject> releasedObjects = new List<GameObject>();
 
+    public int ReleasedCount { get { return releasedObjects.Count;}}
+    public int RemainingCount { get { return availableObjects.Count;}}
+    public int TotalCount { get { return poolSize;}}
+
     void Start()
     {
         for (int i = 0; i < poolSize; i++){
@@ -18,6 +22,43 @@ public class ObjectPool : MonoBehaviour
             obj.SetActive(false);
             this.availableObjects.Add(obj);
         }
+    }
+
+    public void InitializePool(){
+        ResetPool();
+        for (int i = 0; i < poolSize; i++){
+            GameObject obj = Instantiate(poolObject);
+            obj.SetActive(false);
+            this.availableObjects.Add(obj);
+        }
+    }
+
+    public void InitializePool(int poolSize, GameObject poolObject = null){
+        if(poolObject != null)
+            this.poolObject = poolObject;
+        this.poolSize = poolSize;
+        InitializePool();
+    }
+
+    public void ResetPool(){
+        List<GameObject> toRelease = new List<GameObject>();
+        foreach(GameObject obj in releasedObjects){
+            toRelease.Add(obj);
+        }
+        foreach(GameObject obj in toRelease){
+            ReturnObject(obj);
+        }
+        toRelease.Clear();
+
+        foreach(GameObject obj in availableObjects){
+            toRelease.Add(obj);
+        }
+        foreach (GameObject obj in toRelease){
+            availableObjects.Remove(obj);
+            GameObject.Destroy(obj);
+        }
+        toRelease.Clear();
+        availableObjects.Clear();
     }
 
     public void ReturnObject(GameObject obj){
