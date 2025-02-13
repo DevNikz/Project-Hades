@@ -10,7 +10,7 @@ public class BasicHudScreen : View {
 	}
 
 	public void OnMainMenuClicked() {
-		LoadManager.Instance.LoadScene (SceneNames.MAIN_SCENE);
+		LoadManager.Instance.LoadScene(SceneNames.Names[(int)SceneNames.Enums.MAIN_SCENE]);
 	}
 
 }
