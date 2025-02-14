@@ -360,10 +360,11 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
 
             //Dead
-            case (EntityState.Dead, _, false):
-                animator.SetBool("isDead", true);
+            case (EntityState.Dead, _, _):
+                animator.Play("Player_DeathB");
+                Debug.Log("Death Trigger");
                 break;
-            
+
             //Detaining
             case (EntityState.Detain, _, false):
                 animator.SetBool("isDetaining", true);
@@ -379,4 +380,19 @@ public class PlayerAnimatorController : MonoBehaviour
             GetComponent<Combat>().EndCombo();
         }
     }
+
+    public float GetDeathAnimationLength()
+    {
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip.name == "Player_DeathB")
+            {
+                return clip.length;
+            }
+        }
+        return 0f; 
+    }
+
+
 }

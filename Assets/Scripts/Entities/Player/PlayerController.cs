@@ -1,4 +1,5 @@
 using System.IO;
+using System.Collections;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
     [ReadOnly, SerializeReference] public Elements selectedElement;
     [ReadOnly, SerializeReference] public bool isDashing;
     [ReadOnly, SerializeReference] public bool isHurt;
+    [ReadOnly, SerializeReference] public bool isDead;
     [ReadOnly, SerializeReference] public bool curHurt;
 
     //Ref
@@ -209,23 +211,34 @@ public class PlayerController : MonoBehaviour
         UpdateAnimatorControllerStates();
     }
 
-    void UpdateAnimatorControllerStates() {
+    void UpdateAnimatorControllerStates()
+    {
         animatorController.SetMovement(entityMovement);
         animatorController.SetDirection(lookDirection);
+        if (isDead)
+        {
+            entityState = EntityState.Dead;
+        }
         animatorController.SetState(entityState);
         //animatorController.SetElements(elements);
         animatorController.SetSelectedElements(selectedElement);
+        Debug.Log($"Animator controller state updated: {entityState}");
     }
 
-    void UpdateHealth() {
-        if(gameObject.tag == "Player(Dead)") {
-            transform.Find("Anims").gameObject.SetActive(false);
+
+    void UpdateHealth()
+    {
+        if (gameObject.tag == "Player(Dead)")
+        {
+            float deathAnimationLength = animatorController.GetDeathAnimationLength();
+            StartCoroutine(DisableAnimsAfterDelay(deathAnimationLength)); 
             GetComponent<Movement>().enabled = false;
             GetComponent<Combat>().enabled = false;
-            GetComponent<PlayerAnimatorController>().enabled = false;
+
             GetComponent<PlayerHazard>().enabled = false;
         }
-        else if(gameObject.tag == "Player") {
+        else if (gameObject.tag == "Player")
+        {
             UpdateHurt();
             transform.Find("Anims").gameObject.SetActive(true);
             GetComponent<Movement>().enabled = true;
@@ -233,13 +246,17 @@ public class PlayerController : MonoBehaviour
             GetComponent<PlayerAnimatorController>().enabled = true;
             GetComponent<PlayerHazard>().enabled = true;
         }
-        
+
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);
     }
-    
-    void CheckHealth() {
-        if(this.currentHealth <= 0) {
+
+    void CheckHealth()
+    {
+        if (this.currentHealth <= 0)
+        {
             this.GetComponent<PlayerDeath>().KillYourself();
+            isDead = true; 
+            Debug.Log($"Entity State:  {entityState}");
         }
     }
 
@@ -370,6 +387,12 @@ public class PlayerController : MonoBehaviour
         //Set Current Health
         if(currentHealth < modTotalHealth)
             currentHealth += 25;
+    }
+    IEnumerator DisableAnimsAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        transform.Find("Anims").gameObject.SetActive(false);
+        GetComponent<PlayerAnimatorController>().enabled = false;
     }
 
     //KEEPING FOR IF ELEMENT CHARGES ARE STORED SEPARATELY

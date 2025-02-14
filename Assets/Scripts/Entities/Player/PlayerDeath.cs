@@ -25,7 +25,28 @@ public class PlayerDeath : MonoBehaviour
 
         //Tick Counter
         deaths += 1;
-        SaveManager.Instance.AddDeath();
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.AddDeath();
+        }
+        else
+        {
+            Debug.LogError("SaveManager.Instance is null");
+        }
+
+        if (PlayerController.Instance != null)
+        {
+            Debug.Log("PlayerController not null");
+            PlayerController.Instance.entityState = EntityState.Dead;
+            if (PlayerController.Instance.entityState == EntityState.Dead)
+            {
+                Debug.Log("Player death initiated");
+            }
+        }
+        else
+        {
+            Debug.LogError("PlayerController.Instance is null");
+        }
 
         //Play Animation / Game over screen
 
@@ -42,13 +63,6 @@ public class PlayerDeath : MonoBehaviour
 
         //pointerSprite = transform.Find("Pointer").gameObject;
         //pointerSprite.SetActive(false);
-    
-        // PlayerController.Instance.entityState = EntityState.Dead;
-        // if(PlayerController.Instance.entityState == EntityState.Dead)
-        // {
-        //     Debug.Log("Player death initiated");
-
-        // }
         // tempTimer = timer;
         // timerState = TimerState.Start;
         

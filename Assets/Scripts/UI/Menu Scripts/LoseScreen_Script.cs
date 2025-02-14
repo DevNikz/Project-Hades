@@ -18,13 +18,12 @@ public class LoseScreen_Script : MonoBehaviour
     {
         if (PlayerController.Instance.gameObject.tag == "Player(Dead)")
         {
-            Debug.Log("Player dead.");
-
             bg.SetActive(true);
             panel.SetActive(true);
             //Defeat();
 
-            if (Input.anyKeyDown && IsMouseOverGameWindow) {
+            if (Input.anyKeyDown && IsMouseOverGameWindow)
+            {
                 Debug.Log("Pressed");
                 Reset();
 
@@ -33,14 +32,17 @@ public class LoseScreen_Script : MonoBehaviour
                 bg.SetActive(false);
 
                 GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("HubLevel");
+
             }
         }
     }
 
-    void Reset() {
+    void Reset()
+    {
         PlayerController.Instance.gameObject.tag = "Player";
         PlayerController.Instance.RevertHealth();
         PlayerController.Instance.RevertMana();
+        PlayerController.Instance.isDead = false; 
     }
 
     bool IsMouseOverGameWindow
@@ -48,7 +50,7 @@ public class LoseScreen_Script : MonoBehaviour
         get
         {
             Vector3 mp = Input.mousePosition;
-            return !( 0>mp.x || 0>mp.y || Screen.width<mp.x || Screen.height<mp.y );
+            return !(0 > mp.x || 0 > mp.y || Screen.width < mp.x || Screen.height < mp.y);
         }
     }
 
