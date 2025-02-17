@@ -14,11 +14,11 @@ public class LevelPrefab : ScriptableObject
     [SerializeReference] private List<GameObject> backgroundPrefabs;
 
     public void Load(int LayoutVar = -1, int DecorVar = -1, int SpawnpointVar = -1, int BackgroundVar = -1){
-        LoadLevel();
-        SpawnLayout();
-        SpawnDecor();
-        SpawnSpawnpoints();
-        SpawnBackground();
+        // LoadLevel();
+        // SpawnLayout();
+        // SpawnDecor();
+        // SpawnSpawnpoints();
+        // SpawnBackground();
     }
 
     /*
@@ -26,17 +26,17 @@ public class LevelPrefab : ScriptableObject
     */
 
     void SpawnMap(int count) {
-        GameObject mapTemp = Instantiate(mapPrefab[RandomGen(mapPrefab.Count)], Vector3.zero, Quaternion.identity);
+        // GameObject mapTemp = Instantiate(mapPrefab[RandomGen(mapPrefab.Count)], Vector3.zero, Quaternion.identity);
         //Add logic for maptemp jic
     }
 
     void SpawnObj(int count) {
-        GameObject objTemp = Instantiate(objectPrefab[RandomGen(objectPrefab.Count)], Vector3.zero, Quaternion.identity);
+        // GameObject objTemp = Instantiate(objectPrefab[RandomGen(objectPrefab.Count)], Vector3.zero, Quaternion.identity);
         //Add logic for objtemp jic
     }
 
     void SpawnDecor(int count) {
-        GameObject decorTemp = Instantiate(decorPrefab[RandomGen(decorPrefab.Count)], Vector3.zero, Quaternion.identity);
+        // GameObject decorTemp = Instantiate(decorPrefab[RandomGen(decorPrefab.Count)], Vector3.zero, Quaternion.identity);
         //Add logic for decortemp jic
     }
 
