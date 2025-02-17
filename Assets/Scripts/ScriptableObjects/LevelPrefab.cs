@@ -13,7 +13,7 @@ public class LevelPrefab : ScriptableObject
     [SerializeReference] private List<GameObject> _decorPrefabs = new();
     [SerializeReference] private List<GameObject> _backgroundPrefabs = new();
 
-    [SerializeField] private List<GameObject> _loadedObjects = new();
+    [SerializeField, ReadOnly] private List<GameObject> _loadedObjects = new();
 
     public void Load(int layoutVar = -1, int spawnsAndObstaclesVar = -1, int decorVar = -1, int backgroundVar = -1){
         
