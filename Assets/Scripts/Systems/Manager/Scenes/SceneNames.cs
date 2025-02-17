@@ -6,12 +6,11 @@ using System.Collections.Generic;
 /// </summary>
 public static class SceneNames {
     public enum Enums {
-        MAIN_SCENE, TEST_LEVEL_SCENE, 
-        SILO_ROOM_SMALL
+        MAIN_SCENE, 
+        LEVEL_SCENE
     }
     public static string[] Names = {
         "MainScene",
-        "LevelScene",
-        "SiloRoom_S_LevelScene"
+        "LevelScene"
     };
 }

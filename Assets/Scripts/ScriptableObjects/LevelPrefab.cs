@@ -1,46 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelPrefab", menuName = "ProjectHades/LevelPrefab", order = 1)]
 [InlineEditor]
 public class LevelPrefab : ScriptableObject
 {
-    [SerializeReference] private SceneNames.Enums mapBaseSceneName;
-    [SerializeReference] private List<GameObject> layoutPrefabs;
-    [SerializeReference] private List<GameObject> decorPrefabs;
-    [SerializeReference] private List<GameObject> spawnpointPrefabs;
-    [SerializeReference] private List<GameObject> backgroundPrefabs;
+    [SerializeReference] private List<GameObject> _layoutPrefabs = new();
+    [SerializeReference] private List<GameObject> _spawnpointsAndObstaclesPrefabs = new();
+    [SerializeReference] private List<GameObject> _decorPrefabs = new();
+    [SerializeReference] private List<GameObject> _backgroundPrefabs = new();
 
-    public void Load(int LayoutVar = -1, int DecorVar = -1, int SpawnpointVar = -1, int BackgroundVar = -1){
-        // LoadLevel();
-        // SpawnLayout();
-        // SpawnDecor();
-        // SpawnSpawnpoints();
-        // SpawnBackground();
+    [SerializeField] private List<GameObject> _loadedObjects = new();
+
+    public void Load(int layoutVar = -1, int spawnsAndObstaclesVar = -1, int decorVar = -1, int backgroundVar = -1){
+        
+        List<NavMeshSurface> navSurfaces = Spawn(_layoutPrefabs, layoutVar, true);
+        Spawn(_spawnpointsAndObstaclesPrefabs, spawnsAndObstaclesVar);
+
+        foreach(NavMeshSurface surface in navSurfaces){
+            surface.BuildNavMesh();
+        }
+
+        Spawn(_decorPrefabs, decorVar);
+        Spawn(_backgroundPrefabs, backgroundVar);
+    }
+
+    public void Unload(){
+        foreach(GameObject obj in _loadedObjects){
+            Destroy(obj);
+        }
+        _loadedObjects.Clear();
     }
 
     /*
-        For now all spawned stuffs are in the origin.
+        All objects are spawned at the origin
     */
+    private List<NavMeshSurface> Spawn(List<GameObject> prefabList, int variant = -1, bool searchNavmeshSurfaces = false){
+        if(variant == -1)
+            variant = RandomizeVariant(prefabList.Count);
 
-    void SpawnMap(int count) {
-        // GameObject mapTemp = Instantiate(mapPrefab[RandomGen(mapPrefab.Count)], Vector3.zero, Quaternion.identity);
-        //Add logic for maptemp jic
+        GameObject toSpawn = Instantiate(
+            prefabList[variant], Vector3.zero, Quaternion.identity
+        );
+
+        if(searchNavmeshSurfaces){
+            List<NavMeshSurface> navMeshSurfaces = new(toSpawn.GetComponentsInChildren<NavMeshSurface>());
+            return navMeshSurfaces;
+        }
+        else return null;
     }
 
-    void SpawnObj(int count) {
-        // GameObject objTemp = Instantiate(objectPrefab[RandomGen(objectPrefab.Count)], Vector3.zero, Quaternion.identity);
-        //Add logic for objtemp jic
-    }
-
-    void SpawnDecor(int count) {
-        // GameObject decorTemp = Instantiate(decorPrefab[RandomGen(decorPrefab.Count)], Vector3.zero, Quaternion.identity);
-        //Add logic for decortemp jic
-    }
-
-    int RandomGen(int count) {
-        return Random.Range(0, count);
+    private int RandomizeVariant(int maxCount) {
+        return Random.Range(0, maxCount - 1);
     }
 }
