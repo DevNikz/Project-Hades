@@ -15,18 +15,29 @@ public class LevelPrefab : ScriptableObject
 
     public List<GameObject> Load(int layoutVar = -1, int spawnsAndObstaclesVar = -1, int decorVar = -1, int backgroundVar = -1){
         
-        // GameObject spawnedObject;
+        GameObject spawnedObject;
+        List<GameObject> spawnedObjects = new();
         
-        // Spawn(_layoutPrefabs, layoutVar, true);
-        // List<NavMeshSurface> navSurfaces = 
-        // Spawn(_spawnpointsAndObstaclesPrefabs, spawnsAndObstaclesVar);
+        spawnedObject = Spawn(_layoutPrefabs, layoutVar);
+        spawnedObjects.Add(spawnedObject);
+        List<NavMeshSurface> navSurfaces = new(
+            spawnedObject.GetComponentsInChildren<NavMeshSurface>()
+        );
 
-        // foreach(NavMeshSurface surface in navSurfaces){
-        //     surface.BuildNavMesh();
-        // }
+        spawnedObject = Spawn(_spawnpointsAndObstaclesPrefabs, spawnsAndObstaclesVar);
+        spawnedObjects.Add(spawnedObject);
 
-        Spawn(_decorPrefabs, decorVar);
-        Spawn(_backgroundPrefabs, backgroundVar);
+        foreach(NavMeshSurface surface in navSurfaces){
+            surface.BuildNavMesh();
+        }
+
+        spawnedObject = Spawn(_decorPrefabs, decorVar);
+        spawnedObjects.Add(spawnedObject);
+
+        spawnedObject = Spawn(_backgroundPrefabs, backgroundVar);
+        spawnedObjects.Add(spawnedObject);
+
+        return spawnedObjects;
     }
 
     /*
