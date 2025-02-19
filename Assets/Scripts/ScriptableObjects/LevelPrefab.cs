@@ -58,6 +58,6 @@ public class LevelPrefab : ScriptableObject
     }
 
     private int RandomizeVariant(int maxCount) {
-        return Random.Range(0, maxCount - 1);
+        return Random.Range(0, maxCount);
     }
 }

@@ -14,7 +14,7 @@ public class LevelGenerator : MonoBehaviour
         if(_chosenLevel != null)
             UnloadLevel();
         
-        _chosenLevel = _levelPrefabs[0];
+        _chosenLevel = SelectRandomLevelPrefab();
         _spawnedLevelParts = _chosenLevel.Load();
     }
     
@@ -27,5 +27,11 @@ public class LevelGenerator : MonoBehaviour
         }
 
         _spawnedLevelParts.Clear();
+    }
+
+    private LevelPrefab SelectRandomLevelPrefab(){
+        int index = Random.Range(0, _levelPrefabs.Count);
+        Debug.Log("Chose index " + index);
+        return _levelPrefabs[index];
     }
 }
