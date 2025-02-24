@@ -15,7 +15,7 @@ public class LevelTrigger : MonoBehaviour
     [HorizontalGroup("Properties/base")]
     [LabelWidth(120), BoxGroup("Properties/base/box1", ShowLabel = false)]
     [InfoBox("Toggle Trigger to enable Level TP")]
-    public bool ToggleTrigger;
+    public bool ToggleTrigger = true;
 
     [LabelWidth(120), BoxGroup("Properties/base/box2", ShowLabel = false)]
     [InfoBox("Current Enemy Counter")]
@@ -51,6 +51,7 @@ public class LevelTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if(other.CompareTag("Player")) {
+            Debug.Log("Level Trigger Detects player");
             this.playerInputManager = GameObject.Find("PlayerInputManager");
             if(ToggleTrigger && playerInputManager != null) {
 
@@ -58,10 +59,10 @@ public class LevelTrigger : MonoBehaviour
 
                 //if(NextLevel == "Win Screen") Destroy(GameObject.Find("LevelSystems"));
 
-                playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
+                // playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
                 playerInputManager.GetComponent<LevelRewardScript>().Activate();
 
-                //TransitionLevel();
+                // TransitionLevel();
                 Destroy(this.GetComponent<Rigidbody>());
                 Destroy(this.GetComponent<Collider>());
             }
