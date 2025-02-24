@@ -32,6 +32,8 @@ public class EnemyDeath : MonoBehaviour
         SFXPlayer();
         entitySprite.GetComponent<EnemyAnimation>().SetDeath();
 
+        this.gameObject.transform.parent.tag = "Enemy(Dead)";
+
         tempTimer = timer;
         timerState = TimerState.Start;
 

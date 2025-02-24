@@ -12,6 +12,7 @@ public class LevelPrefab : ScriptableObject
     [SerializeReference] private List<GameObject> _spawnpointsAndObstaclesPrefabs = new();
     [SerializeReference] private List<GameObject> _decorPrefabs = new();
     [SerializeReference] private List<GameObject> _backgroundPrefabs = new();
+    [SerializeReference] private List<EnemyWaveSet> _possibleWaveSets = new();
 
     public List<GameObject> Load(int layoutVar = -1, int spawnsAndObstaclesVar = -1, int decorVar = -1, int backgroundVar = -1){
         
@@ -37,6 +38,14 @@ public class LevelPrefab : ScriptableObject
         spawnedObject = Spawn(_backgroundPrefabs, backgroundVar);
         spawnedObjects.Add(spawnedObject);
 
+        GameObject enemySpawner = GameObject.Find("EnemySpawner");
+        if(enemySpawner != null)
+            enemySpawner.GetComponent<EnemySpawner>().InitializeSpawner(
+                RandomizeEnemyWaveSet()
+            );
+        else 
+            Debug.LogWarning("Cannot find enemy Spawner");
+
         return spawnedObjects;
     }
 
@@ -55,6 +64,11 @@ public class LevelPrefab : ScriptableObject
         );
 
         return toSpawn;
+    }
+
+    private EnemyWaveSet RandomizeEnemyWaveSet(){
+        int index = Random.Range(0, _possibleWaveSets.Count);
+        return _possibleWaveSets[index];
     }
 
     private int RandomizeVariant(int maxCount) {

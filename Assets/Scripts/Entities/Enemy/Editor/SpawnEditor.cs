@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEditor.PackageManager.UI;
 using System.Drawing;
 
-[CustomEditor(typeof(Spawner))]
+[CustomEditor(typeof(EnemySpawner))]
 public class SpawnEditor : Editor
 {
     private void OnEnable()

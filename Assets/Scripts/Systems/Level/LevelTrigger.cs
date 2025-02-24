@@ -8,7 +8,7 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
     [SerializeField] GameObject playerInputManager;
-    private Spawner spawner;
+    private EnemySpawner spawner;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
     
@@ -28,25 +28,22 @@ public class LevelTrigger : MonoBehaviour
         set { hudCheck = value; }
     }
 
+    public void ResetToggleTrigger(){
+        ToggleTrigger = false;
+    }
+
     void Awake() {
         if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
         hudCheck = false;
 
-        spawner = FindAnyObjectByType<Spawner>();
+        spawner = FindAnyObjectByType<EnemySpawner>();
     }
 
 
     void Update() {
-        if (spawner == null)
-        {
-            enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-            if (enemyCounter <= 0) ToggleTrigger = true;
-        }
-        else if (spawner.FinalWave)
-        {
-            enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-            if (enemyCounter <= 0) ToggleTrigger = true;
-        }
+        enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (enemyCounter <= 0) ToggleTrigger = true;
+        else ToggleTrigger = false;
     }
 
     void OnTriggerEnter(Collider other) {
@@ -61,6 +58,7 @@ public class LevelTrigger : MonoBehaviour
 
                 // playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
                 playerInputManager.GetComponent<LevelRewardScript>().Activate();
+                spawner.ClearSpawnPoints();
 
                 // TransitionLevel();
                 Destroy(this.GetComponent<Rigidbody>());
