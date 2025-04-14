@@ -42,11 +42,6 @@ public class PauseMenuScript : MonoBehaviour
         isPaused = false;
     }
 
-    public void OpenJournal()
-    {
-        Debug.Log("Open Journal");
-    }
-
     public void OpenOptions()
     {
         Debug.Log("Open Options");
