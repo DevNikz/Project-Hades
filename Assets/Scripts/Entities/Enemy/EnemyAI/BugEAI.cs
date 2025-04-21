@@ -17,8 +17,7 @@ public class BugEAI : EnemyAction
 
     protected override void Attack()
     {
-
-        Agent.destination = Player.transform.position;
+        Agent.SetDestination(Player.transform.position);
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
             gameObject.transform.LookAt(Player.transform.position);

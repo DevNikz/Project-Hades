@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -11,9 +12,9 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public float AttackRate;
     [NonSerialized] public GameObject Player = null;
     [NonSerialized] public NavMeshAgent Agent;
-    public bool IsAttacking = false;
-    public bool IsPatrolling = false;
-    public bool IsSearching = false;
+    [NonSerialized] public bool IsAttacking = false;
+    [NonSerialized] public bool IsPatrolling = false;
+    [NonSerialized] public bool IsSearching = false;
 
     [SerializeField] protected EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
@@ -25,9 +26,11 @@ public abstract class EnemyAction : MonoBehaviour
     protected AttackDirection _atkDir;
     protected float _maxCooldown;
     public float Cooldown = 0;
+    LineRenderer line = new LineRenderer();
+    public bool drawLine = false;
 
     protected EnemyAnimation anims;
-    public float timer;
+    [NonSerialized] public float timer;
 
     protected virtual void BonusOnEnable(){}
     /// <summary>
@@ -76,12 +79,20 @@ public abstract class EnemyAction : MonoBehaviour
             default:
                 break;
         }
+
+        if(drawLine) DrawLine();
+    }
+
+    private void DrawLine()
+    {
+        line.positionCount = Agent.path.corners.Length;
+        line.SetPositions(Agent.path.corners);
     }
 
     protected virtual void Search()
     {
         Agent.isStopped = false;
-        Agent.destination = _lastSeenPos;
+        Agent.SetDestination(_lastSeenPos);
         gameObject.transform.LookAt(_lastSeenPos);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
@@ -125,6 +136,14 @@ public abstract class EnemyAction : MonoBehaviour
         anims = this.GetComponentInChildren<EnemyAnimation>();
         
         BonusOnEnable();
+
+        if (drawLine)
+        {
+            line = this.AddComponent<LineRenderer>();
+            //line.sortingOrder = 1;
+            line.material = new Material(Shader.Find("Sprites/Default"));
+            line.material.color = Color.red;
+        }
     }
 
     // ANIMATIONS

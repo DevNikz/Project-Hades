@@ -19,7 +19,7 @@ public class OxenHarvesterAI : EnemyAIBase
 
     protected override void Attack()
     {
-        Agent.destination = Player.transform.position;
+        Agent.SetDestination(Player.transform.position);
             Agent.speed = _fastSpeed;
 
             if (Agent.remainingDistance <= Agent.stoppingDistance)

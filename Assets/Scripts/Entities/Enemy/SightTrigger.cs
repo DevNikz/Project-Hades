@@ -77,6 +77,7 @@ public class SightTrigger : MonoBehaviour
                         Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
                 }
+                /*
                 else
                 {
                     if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
@@ -87,6 +88,7 @@ public class SightTrigger : MonoBehaviour
                     }
                     Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                 }
+                */
             }
             else
             {
@@ -103,8 +105,7 @@ public class SightTrigger : MonoBehaviour
                         Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
                 }
-
-
+                /*
                 else if (isAttacking && this.GetComponentInParent<EnemyAction>() != null)
                 {
                     isAttacking = false;
@@ -112,6 +113,7 @@ public class SightTrigger : MonoBehaviour
                     this.GetComponentInParent<EnemyAction>().SetPlayerPos(target.position);
                 }
                 Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
+                */
             }
         }
     }

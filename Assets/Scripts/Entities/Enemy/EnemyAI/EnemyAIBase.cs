@@ -34,7 +34,7 @@ public abstract class EnemyAIBase : MonoBehaviour
 
     protected virtual void Search()
     {
-        Agent.destination = _lastSeenPos;
+        Agent.SetDestination(_lastSeenPos);
         gameObject.transform.LookAt(_lastSeenPos);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 

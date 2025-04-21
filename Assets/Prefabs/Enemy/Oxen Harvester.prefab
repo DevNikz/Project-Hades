@@ -65,8 +65,8 @@ Transform:
   m_GameObject: {fileID: 1025720507062330859}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
-  m_LocalScale: {x: 2, y: 2, z: 2.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 2, y: 2, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7827139724891913444}
@@ -5843,13 +5843,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  IsAttacking: 0
-  IsPatrolling: 0
-  IsSearching: 0
   _enemyStats: {fileID: 11400000, guid: 5b51bbfe9c97f4d4ab48461ab29e107f, type: 2}
   _attackHitbox: {fileID: 1025720507062330859}
   Cooldown: 0
-  timer: 0
+  drawLine: 0
 --- !u!114 &1891413502577154544
 MonoBehaviour:
   m_ObjectHideFlags: 0

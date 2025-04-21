@@ -16,7 +16,7 @@ public class LightClockworkAI : EnemyAIBase
     protected override void Attack()
     {
         Debug.Log("Attack Start");
-        if(!Agent.isStopped) Agent.destination = Player.transform.position;
+        if(!Agent.isStopped) Agent.SetDestination(Player.transform.position);
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {

@@ -18,7 +18,7 @@ public class LC_Actions : EnemyAction
     protected override void Attack()
     {
         if (!IsAttacking) Agent.isStopped = false;
-        Agent.destination = Player.transform.position;
+        Agent.SetDestination(Player.transform.position);
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {

@@ -31,7 +31,7 @@ public class MS_Actions : EnemyAction
         {
             gameObject.transform.LookAt(Player.transform.position);
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-            Agent.destination = Player.transform.position;
+            Agent.SetDestination(Player.transform.position);
             IsAttacking = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
         }
@@ -48,8 +48,12 @@ public class MS_Actions : EnemyAction
         this._attackHitbox.SetActive(true);
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
         Invoke(nameof(StopAttack), .35f);
+        findPoint();
+    }
 
-        Vector3 randomPoint = this.transform.position + this.transform.forward * _wanderRange;
+    private void findPoint()
+    {
+        Vector3 randomPoint = this.transform.position + this.transform.forward * _wanderRange * 1.5f;
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
         {
