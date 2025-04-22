@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
@@ -11,13 +12,14 @@ public class EnemyAnimation : MonoBehaviour
     public bool isStun = false;
     public bool isDead = false;
     public bool isShooting;
-    public float timer;
+    public float timer = 2;
     public float xScale;
     public Vector3 Scale;
 
     [SerializeField] GameObject obj;
     public EnemyAction action;
 
+    private int prevAction = -1;
 
     public void OnEnable()
     {
@@ -29,6 +31,8 @@ public class EnemyAnimation : MonoBehaviour
         xScale = spriteAnimator.gameObject.transform.localScale.x;
         Scale = spriteAnimator.gameObject.transform.localScale;
         ExtraStart();
+
+        timer = action._enemyStats.timerDelay;
     }
 
     public virtual void ExtraStart() {}
@@ -41,6 +45,8 @@ public class EnemyAnimation : MonoBehaviour
 
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         if (!isHit && !isDead && !isStun && !isShooting) SetAnimation();
+
+        prevAction = action.Action;
     }
 
     public virtual void SetAnimation() {
@@ -59,7 +65,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public virtual void SetHit(AttackDirection attackDirection) {
         SetAttackedDirection(attackDirection);
-
+        
         isHit = true;
         spriteAnimator.Play("Hit");
     }
@@ -102,6 +108,8 @@ public class EnemyAnimation : MonoBehaviour
         spriteAnimator.Play("Idle");
         //isShooting = false;
     }
+
+    public int getPrevAction() { return prevAction; }
 
     public void SetAttackedDirection(AttackDirection attackDirection)
     {

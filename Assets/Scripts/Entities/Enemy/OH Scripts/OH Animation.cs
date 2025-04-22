@@ -18,7 +18,7 @@ public class OHAnimation : EnemyAnimation
                 spriteAnimator.Play("OH Trotting");
                 break;
             case 3:
-                spriteAnimator.Play("Attack");
+                if(this.getPrevAction() != 3) spriteAnimator.Play("Attack");
                 break;
             default:
                 spriteAnimator.Play("Idle");

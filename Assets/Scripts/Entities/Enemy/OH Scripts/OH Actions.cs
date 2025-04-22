@@ -37,7 +37,7 @@ public class OHActions : EnemyAction
         {
             IsAttacking = true;
             this.SetAction(3);
-            Attacking();
+            Invoke(nameof(Attacking), 0.75f);
         }
     }
 

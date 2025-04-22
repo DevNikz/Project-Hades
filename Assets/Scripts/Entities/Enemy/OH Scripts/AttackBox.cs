@@ -32,8 +32,8 @@ public class AttackBox : MonoBehaviour
             rb.AddForce(knockback, ForceMode.Impulse);
 
             other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
-        }
 
-        this.gameObject.SetActive(false);
+            this.gameObject.SetActive(false);
+        }
     }
 }

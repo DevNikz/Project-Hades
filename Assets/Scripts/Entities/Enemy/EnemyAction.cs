@@ -16,7 +16,7 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public bool IsPatrolling = false;
     [NonSerialized] public bool IsSearching = false;
 
-    protected EnemyStatsScriptable _enemyStats;
+    [NonSerialized] public EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
@@ -153,7 +153,7 @@ public abstract class EnemyAction : MonoBehaviour
     public virtual void SetHit(AttackDirection attackDirection)
     {
         EndAttack();
-        if(Cooldown < 0.5f) Cooldown = 0.5f;
+        if(Cooldown < 1f) Cooldown = 1f;
 
         anims.SetHit(attackDirection);
         Invoke(nameof(ResetHit), anims.timer);
