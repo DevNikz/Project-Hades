@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BugEAI : EnemyAction
 {
-    [SerializeField] private float _bulletSpeed = 100;
+    [SerializeField] private float _bulletSpeed = 10;
     private float _currFire = 0;
     private ObjectPool bulletPool;
 
@@ -17,7 +17,9 @@ public class BugEAI : EnemyAction
 
     protected override void Attack()
     {
+        Agent.isStopped = false;
         Agent.SetDestination(Player.transform.position);
+
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
             gameObject.transform.LookAt(Player.transform.position);
@@ -59,7 +61,7 @@ public class BugEAI : EnemyAction
 
                 fire.SetActive(true);
                 if (fire.GetComponent<Rigidbody>() != null)
-                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * _enemyStats.moveSpeed * this._bulletSpeed);
+                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * _enemyStats.moveSpeed * this._bulletSpeed, ForceMode.VelocityChange);
 
                 _sprite.GetComponent<EnemyAnimation>().SetShoot(_atkDir);
             }

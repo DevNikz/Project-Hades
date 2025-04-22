@@ -16,7 +16,7 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public bool IsPatrolling = false;
     [NonSerialized] public bool IsSearching = false;
 
-    [SerializeField] protected EnemyStatsScriptable _enemyStats;
+    protected EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
@@ -105,8 +105,9 @@ public abstract class EnemyAction : MonoBehaviour
     
     protected virtual void Patrol()
     {
-        this.gameObject.GetComponentInChildren<SightTrigger>().enabled = true;
         Agent.isStopped = false;
+        this.gameObject.GetComponentInChildren<SightTrigger>().enabled = true;
+        
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
             Vector3 randomPoint = this.transform.position + UnityEngine.Random.insideUnitSphere * _wanderRange;
@@ -126,6 +127,8 @@ public abstract class EnemyAction : MonoBehaviour
         _sprite = transform.Find("SpriteContainer").gameObject;
         Agent = this.GetComponent<NavMeshAgent>();
         _rgBody = this.GetComponent<Rigidbody>();
+
+        _enemyStats = this.GetComponent<EnemyController>().GetStatsScriptable();
         AttackRate = _enemyStats.attackRate;
         _wanderRange = _enemyStats.wanderRange;
         _maxCooldown = _enemyStats._maxCooldown;

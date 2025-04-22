@@ -33,5 +33,7 @@ public class AttackBox : MonoBehaviour
 
             other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
         }
+
+        this.gameObject.SetActive(false);
     }
 }

@@ -31,6 +31,7 @@ public class MS_Actions : EnemyAction
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
+            //Agent.isStopped = true;
             IsAttacking = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
 
@@ -40,7 +41,7 @@ public class MS_Actions : EnemyAction
                 gameObject.transform.LookAt(Player.transform.position);
                 //this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
             }
-            else findPoint();
+            else findPoint(10f);
             isCharging = !isCharging;
         }
 
@@ -56,12 +57,12 @@ public class MS_Actions : EnemyAction
         this._attackHitbox.SetActive(true);
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
         Invoke(nameof(StopAttack), .3f);
-        findPoint();
+        findPoint(10f);
     }
 
-    private void findPoint()
+    private void findPoint(float multiplier)
     {
-        Vector3 randomPoint = this.transform.position + this.transform.forward * _wanderRange * 0.75f;
+        Vector3 randomPoint = this.transform.position + this.transform.forward * multiplier;
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
         {

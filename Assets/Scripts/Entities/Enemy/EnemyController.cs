@@ -361,4 +361,8 @@ public class EnemyController : MonoBehaviour
     }
 
     public bool GetDetain() { return hasBeenDetained; }
+
+    public EnemyStatsScriptable GetStatsScriptable() { return enemyStats; }
+
+    public float getPercentHP() { return currentHealth / maxHP; }
 }
