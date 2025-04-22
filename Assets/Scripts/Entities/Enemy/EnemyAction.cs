@@ -150,7 +150,7 @@ public abstract class EnemyAction : MonoBehaviour
     public virtual void SetHit(AttackDirection attackDirection)
     {
         EndAttack();
-        Cooldown = 0.5f;
+        if(Cooldown < 0.5f) Cooldown = 0.5f;
 
         anims.SetHit(attackDirection);
         Invoke(nameof(ResetHit), anims.timer);

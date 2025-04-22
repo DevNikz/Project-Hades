@@ -8,8 +8,8 @@ using UnityEngine.AI;
 public class LC_Actions : EnemyAction
 {
     private int _comboNum = 0;
-    private float _dash = 20;
-    private float _dashStr = 50;
+    private float _dash = 50;
+    private float _dashStr = 75;
 
     protected override void ProcessAILogic(){
         
@@ -41,7 +41,6 @@ public class LC_Actions : EnemyAction
     protected override void Attacking()
     {
         this.transform.LookAt(Player.transform.position);
-        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
         SetAttackDirection();
         this._attackHitbox.transform.position = this.transform.position + this.transform.forward;
