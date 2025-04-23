@@ -153,7 +153,7 @@ public abstract class EnemyAction : MonoBehaviour
     public virtual void SetHit(AttackDirection attackDirection)
     {
         EndAttack();
-        if(Cooldown < 1f) Cooldown = 1f;
+        if(Cooldown < anims.timer) Cooldown = anims.timer;
 
         anims.SetHit(attackDirection);
         Invoke(nameof(ResetHit), anims.timer);
@@ -165,7 +165,7 @@ public abstract class EnemyAction : MonoBehaviour
         Cooldown = duration;
 
         anims.SetStun(attackDirection, duration);
-        Invoke(nameof(ResetStun), anims.timer);
+        Invoke(nameof(ResetStun), duration);
     }
 
     public void ResetHit()

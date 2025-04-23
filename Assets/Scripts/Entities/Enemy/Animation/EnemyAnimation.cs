@@ -45,8 +45,9 @@ public class EnemyAnimation : MonoBehaviour
 
         spriteAnimator.gameObject.transform.rotation = Quaternion.Euler(0f, rotation, 0f);
         if (!isHit && !isDead && !isStun && !isShooting) SetAnimation();
+        else Debug.Log("arcane");
 
-        prevAction = action.Action;
+            prevAction = action.Action;
     }
 
     public virtual void SetAnimation() {
