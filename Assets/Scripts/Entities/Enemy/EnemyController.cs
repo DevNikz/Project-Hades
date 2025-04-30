@@ -76,9 +76,6 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
-    [SerializeReference] private PlayerElementScriptable earthStanceStats;
-    [SerializeReference] private PlayerElementScriptable fireStanceStats;
-
     private PlayerController manaCharge;
     private float maxHP;
     void Start() {
@@ -210,7 +207,7 @@ public class EnemyController : MonoBehaviour
 
         if (staggered) {
             //Health
-            currentHealth -= damage * 2; //Multiplier hardcoded for now
+            currentHealth -= damage * StatCalculator.Instance.StaggeredDmgMult;
 
             //RegenPoise
             poiseDamaged = false;
@@ -227,8 +224,8 @@ public class EnemyController : MonoBehaviour
             poise = CalculatePoiseDamage(poise);
 
             if(manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                currentPoise -= poise * (earthStanceStats.staggerDamageCharged * 0.01f);
-            else currentPoise -= poise * (earthStanceStats.staggerDamage * 0.01f);
+                currentPoise -= poise * StatCalculator.Instance.EarthPoiseDmgMult(true);
+            else currentPoise -= poise * StatCalculator.Instance.EarthPoiseDmgMult(false);
 
             //For Stun Testing
             //currentPoise -= poise * 100;
@@ -247,8 +244,8 @@ public class EnemyController : MonoBehaviour
             float fireDamage;
 
             if (manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                fireDamage = damage * (fireStanceStats.attackDamageCharged * 0.01f);
-            else fireDamage = damage * (fireStanceStats.attackDamage * 0.01f);
+                fireDamage = damage * StatCalculator.Instance.FireDmgMult(true);
+            else fireDamage = damage * StatCalculator.Instance.FireDmgMult(false);
 
             currentHealth -= fireDamage;
 

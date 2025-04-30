@@ -24,6 +24,7 @@ public class ItemManager : MonoBehaviour
     [Serializable] public class StanceSubAugment : UnlockableAugment{
         [VerticalGroup("Row/StanceIndex"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceIndex;
         [VerticalGroup("Row/StanceSubtree"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceSubtree;
+        [VerticalGroup("Row/RefElement"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public Elements RefElement;
     }
 
     // References
@@ -176,19 +177,21 @@ public class ItemManager : MonoBehaviour
         StackableAugment stackAugment = getStackableAugment(type);
         if(stackAugment != null){
             stackAugment.Count += amount;
-            for(int i = 0; i < amount; i++)
-                stackAugment.Augment.OnActivate();
+            // for(int i = 0; i < amount; i++)
+            //     stackAugment.Augment.OnActivate();
+            ToggleValidAugments(Elements.None);
             return;
         }
 
         UnlockableAugment unlockAugment = getUnlockableAugment(type);
         if(unlockAugment != null){
             unlockAugment.Unlocked = true;
-            unlockAugment.Augment.OnActivate();
+            // unlockAugment.Augment.OnActivate();
+            ToggleValidAugments(Elements.None);
             return;
         }
         
-        Debug.Log($"Added a {type}");
+        Debug.Log($"Added {amount} {type} Augment/s");
     }
 
     public void RemoveAugment(AugmentType type, int amount = 1) { 
@@ -196,20 +199,23 @@ public class ItemManager : MonoBehaviour
 
         StackableAugment stackAugment = getStackableAugment(type);
         if(stackAugment != null){
-            if(stackAugment.Count >= 1)
-                stackAugment.Augment.OnDeactivate();
+            // if(stackAugment.Count >= 1)
+            //     stackAugment.Augment.OnDeactivate();
             stackAugment.Count -= amount;
             if(stackAugment.Count < 0)
                 stackAugment.Count = 0;
+            ToggleValidAugments(Elements.None);
             return;
         }
 
         UnlockableAugment unlockAugment = getUnlockableAugment(type);
         if(unlockAugment != null){
             unlockAugment.Unlocked = false;
-            unlockAugment.Augment.OnDeactivate();
+            ToggleValidAugments(Elements.None);
+            // unlockAugment.Augment.OnDeactivate();
             return;
         }
+        
     }
 
     public void ClearAugment(AugmentType type){
@@ -227,6 +233,48 @@ public class ItemManager : MonoBehaviour
             unlockAugment.Augment.OnDeactivate();
             return;
         }
+    }
+
+    public void ToggleValidAugments(Elements activeStance){
+        foreach(StackableAugment augment in stackableAugments){
+            if(augment.Count >= 1){
+                if(!augment.Augment.IsActive)
+                    augment.Augment.OnActivate();
+            } else {
+                if(augment.Augment.IsActive)
+                    augment.Augment.OnDeactivate();
+            } 
+        }
+
+        foreach(UnlockableAugment augment in stanceAugments){
+            if(augment.Unlocked){
+                if(!augment.Augment.IsActive)
+                    augment.Augment.OnActivate();
+            } else {
+                if(augment.Augment.IsActive)
+                    augment.Augment.OnDeactivate();
+            }
+        }
+
+        if(activeStance == Elements.None)
+            return;
+
+        foreach(StanceSubAugment augment in stanceSubAugments){
+            if(augment.RefElement == activeStance){
+                if(augment.Unlocked){
+                    if(!augment.Augment.IsActive)
+                        augment.Augment.OnActivate();
+                } else {
+                    if(augment.Augment.IsActive)
+                        augment.Augment.OnDeactivate();
+                }
+            } else {
+                if(augment.Augment.IsActive)
+                    augment.Augment.OnDeactivate();
+            }
+        }
+
+        
     }
 
     public void PAddAggro(int value) {
