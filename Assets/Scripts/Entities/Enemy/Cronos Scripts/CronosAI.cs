@@ -15,6 +15,12 @@ public class CronosAI : EnemyAction
     private bool isRepeated = false;
     private bool isReaping = false;
     private int count = 0;
+
+    // 0 - Reap
+    // 1 - Dash
+    private Dictionary<string, Attacks> possibleAttacks = new Dictionary<string, Attacks>();
+    private string chosenAttack = "Reap";
+
     [SerializeField] private float reapDistance = 5f;
     [SerializeField] private float chargeDistance = 5f;
     [SerializeField] private float chargeCooldown = 0.25f;
@@ -28,6 +34,15 @@ public class CronosAI : EnemyAction
         _originalSpeed = Agent.speed;
 
         currentCooldown = actionCooldown;
+
+        Attacks temp = this.AddComponent<Attacks>();
+        possibleAttacks.Add("Reap", temp);
+        possibleAttacks["Reap"].distance = reapDistance;
+
+        temp = this.AddComponent<Attacks>();
+        possibleAttacks.Add("Dash", temp);
+        possibleAttacks["Dash"].distance = chargeDistance;
+        possibleAttacks["Dash"].cooldown = chargeCooldown;
     }
     protected override void ProcessAILogic()
     {
@@ -40,57 +55,64 @@ public class CronosAI : EnemyAction
 
     protected override void Attack()
     {
+        float percentHP = this.GetComponent<EnemyController>().getPercentHP();
+        Agent.speed = _fastSpeed;
+
+        if (!IsAttacking)
+        {
+            Agent.SetDestination(Player.transform.position);
+            Agent.isStopped = false;
+
+            currentCooldown = actionCooldown * percentHP;
+            if (currentCooldown <= 0.25f) currentCooldown = 0.25f;
+        }
+
+        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position)
+            < possibleAttacks[chosenAttack].distance)
+        {
+            Invoke(chosenAttack, 0);
+        }
+
         if (isActionFinished)
         {
             count = 0;
-            float percentHP = this.GetComponent<EnemyController>().getPercentHP();
-            currentCooldown = actionCooldown * percentHP;
-            if (currentCooldown <= 0.25f) currentCooldown = 0.05f;
-
             if (percentHP > 0.65f)
-                this.SetAction(3);
+                chosenAttack = "Reap";
 
             else if (percentHP > 0.25f)
             {
                 if (Random.Range(0f, 1f) <= percentHP)
-                    this.SetAction(3);
+                    chosenAttack = "Reap";
                 else
-                    Dash();
+                    chosenAttack = "Dash";
             }
 
             else
-                Dash();
+                chosenAttack = "Dash";
 
             isActionFinished = false;
         }
-        else
-            Dash();
     }
 
     protected override void Attacking() { }
 
     private void Reap()
     {
-        if (!isReaping)
+        if (!IsAttacking)
         {
-            Agent.isStopped = false;
-            Agent.SetDestination(Player.transform.position);
-        }
-
-        if (!isReaping && Vector3.Distance(this.transform.position, Player.transform.position) < reapDistance)
-        {
-            isReaping = true;
+            IsAttacking = true;
             Agent.isStopped = true;
             circleHitBox.SetActive(true);
+            this.SetAction(3);
         }
 
-        if (isReaping)
+        if (IsAttacking)
             Reaping();
 
-        if (circleHitBox.transform.localScale.x >= 15 || (isReaping && !circleHitBox.activeSelf))
+        if (circleHitBox.transform.localScale.x >= 15 || (IsAttacking && !circleHitBox.activeSelf))
         {
             FinishAction();
-            isReaping = false;
+            IsAttacking = false;
             Agent.isStopped = false;
             circleHitBox.SetActive(false);
             circleHitBox.transform.localScale = new Vector3(5, 2, 5);
@@ -100,7 +122,6 @@ public class CronosAI : EnemyAction
     private void Reaping()
     {
         circleHitBox.transform.localScale += new Vector3(0.15f, 0, 0.15f);
-        Debug.Log("count");
     }
 
     private void Dash()
@@ -108,12 +129,6 @@ public class CronosAI : EnemyAction
         Agent.speed = _fastSpeed;
 
         if (!IsAttacking)
-        {
-            Agent.SetDestination(Player.transform.position);
-            Agent.isStopped = false;
-        }
-
-        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < chargeDistance)
             Dashing();
 
         if (IsAttacking && Agent.remainingDistance <= Agent.stoppingDistance && !isRepeated)
@@ -188,7 +203,7 @@ public class CronosAI : EnemyAction
 
         //Cronos Boss Function
         isActionFinish = true;
-        isReaping = false;
+        IsAttacking = false;
         Agent.isStopped = false;
         circleHitBox.SetActive(false);
         circleHitBox.transform.localScale = new Vector3(5, 2, 5);
