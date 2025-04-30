@@ -11,9 +11,10 @@ public class CronosAI : EnemyAction
     private float _speedMultiplier = 3;
     private float _fastSpeed;
     private float _originalSpeed;
-    private bool  isRepeated = false;
-    private bool  isReaping = false;
-    private int   count = 0;
+    private bool isActionFinished = true;
+    private bool isRepeated = false;
+    private bool isReaping = false;
+    private int count = 0;
     [SerializeField] private float reapDistance = 5f;
     [SerializeField] private float chargeDistance = 5f;
     [SerializeField] private float chargeCooldown = 0.25f;
@@ -39,31 +40,39 @@ public class CronosAI : EnemyAction
 
     protected override void Attack()
     {
-        count = 0;
-        float percentHP = this.GetComponent<EnemyController>().getPercentHP();
-        currentCooldown = actionCooldown * percentHP;
-        if (currentCooldown <= 0.25f) currentCooldown = 0.05f;
-
-        if (percentHP > 0.65f)
-            this.SetAction(3);
-
-        else if (percentHP > 0.25f)
+        if (isActionFinished)
         {
-            if (Random.Range(0f, 1f) <= percentHP)
-                this.SetAction(3);
-            else
-                this.SetAction(4);
-        }
+            count = 0;
+            float percentHP = this.GetComponent<EnemyController>().getPercentHP();
+            currentCooldown = actionCooldown * percentHP;
+            if (currentCooldown <= 0.25f) currentCooldown = 0.05f;
 
+            if (percentHP > 0.65f)
+                this.SetAction(3);
+
+            else if (percentHP > 0.25f)
+            {
+                if (Random.Range(0f, 1f) <= percentHP)
+                    this.SetAction(3);
+                else
+                    Dash();
+            }
+
+            else
+                Dash();
+
+            isActionFinished = false;
+        }
         else
-            this.SetAction(4);
+            Dash();
     }
 
-    protected override void Attacking() {}
+    protected override void Attacking() { }
 
     private void Reap()
     {
-        if (!isReaping) {
+        if (!isReaping)
+        {
             Agent.isStopped = false;
             Agent.SetDestination(Player.transform.position);
         }
@@ -74,22 +83,22 @@ public class CronosAI : EnemyAction
             Agent.isStopped = true;
             circleHitBox.SetActive(true);
         }
-            
+
         if (isReaping)
             Reaping();
 
-        if (circleHitBox.transform.localScale.x >= 15 || (isReaping && !circleHitBox.activeSelf) )
+        if (circleHitBox.transform.localScale.x >= 15 || (isReaping && !circleHitBox.activeSelf))
         {
             FinishAction();
             isReaping = false;
             Agent.isStopped = false;
             circleHitBox.SetActive(false);
-            circleHitBox.transform.localScale = new Vector3(5,2,5);
+            circleHitBox.transform.localScale = new Vector3(5, 2, 5);
         }
     }
 
     private void Reaping()
-    {   
+    {
         circleHitBox.transform.localScale += new Vector3(0.15f, 0, 0.15f);
         Debug.Log("count");
     }
@@ -114,6 +123,8 @@ public class CronosAI : EnemyAction
             Agent.isStopped = true;
             isRepeated = true;
             count++;
+
+            this.SetAction(1);
         }
 
         if (count >= 3) FinishAction();
@@ -122,7 +133,7 @@ public class CronosAI : EnemyAction
     protected void Dashing()
     {
         IsAttacking = true;
-        //this.SetAction(4);
+        this.SetAction(4);
 
         this._attackHitbox.SetActive(true);
         //this.gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -165,6 +176,7 @@ public class CronosAI : EnemyAction
 
     private void FinishAction()
     {
+        isActionFinished = true;
         this.Cooldown = currentCooldown;
     }
 
