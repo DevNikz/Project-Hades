@@ -11,6 +11,8 @@ public class MS_Actions : EnemyAction
     private float _speedMultiplier = 3;
     private float _fastSpeed;
     private float _originalSpeed;
+    [SerializeField] private float chargeDistance = 5;
+    [SerializeField] private float chargeCooldown = 0.25f;
     private bool  isCharging = false;
 
     protected override void BonusOnEnable()
@@ -22,6 +24,8 @@ public class MS_Actions : EnemyAction
     {
 
         if (Action != 1) Agent.speed = _originalSpeed;
+
+        if (Action == 3) Attack();
     }
 
     protected override void Attack()
@@ -29,34 +33,27 @@ public class MS_Actions : EnemyAction
         Agent.isStopped = false;
         Agent.speed = _fastSpeed;
 
-        if (Agent.remainingDistance <= Agent.stoppingDistance)
-        {
-            //Agent.isStopped = true;
-            IsAttacking = false;
-            this.gameObject.GetComponent<BoxCollider>().enabled = true;
+        if (!IsAttacking)
+            Agent.SetDestination(Player.transform.position);
 
-            if (!isCharging)
-            {
-                Agent.SetDestination(Player.transform.position);
-                gameObject.transform.LookAt(Player.transform.position);
-                //this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
-            }
-            else findPoint(10f);
-            isCharging = !isCharging;
-        }
-
-        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
-        {
+        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < chargeDistance)
             Attacking();
-        }
+
+        if (IsAttacking && Agent.remainingDistance <= Agent.stoppingDistance)
+            StopAttack();
     }
 
     protected override void Attacking()
     {
         IsAttacking = true;
+        this.SetAction(3);
+
         this._attackHitbox.SetActive(true);
-        this.gameObject.GetComponent<BoxCollider>().enabled = false;
-        Invoke(nameof(StopAttack), .3f);
+        //this.gameObject.GetComponent<BoxCollider>().enabled = false;
+
+        gameObject.transform.LookAt(Player.transform.position);
+        this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+
         findPoint(10f);
     }
 
@@ -86,7 +83,10 @@ public class MS_Actions : EnemyAction
 
     private void StopAttack()
     {
+        IsAttacking = false;
         this._attackHitbox.SetActive(false);
-        this.gameObject.GetComponent<BoxCollider>().enabled = true;
+        //this.gameObject.GetComponent<BoxCollider>().enabled = true;
+        this.SetAction(1);
+        this.Cooldown = chargeCooldown;
     }
 }

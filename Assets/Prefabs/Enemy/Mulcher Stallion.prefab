@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1512243672886470389}
-  - component: {fileID: 4341479806913681668}
+  - component: {fileID: 8066792164197551729}
   m_Layer: 8
   m_Name: SpriteContainer
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 8774826491032830774}
   m_Father: {fileID: 3842372436942570960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4341479806913681668
+--- !u!114 &8066792164197551729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1531830341474922450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d2074fe952cc6e4d8d90389038a386b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ef08b19a465ad846baef020ccc6d371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAnimator: {fileID: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   isStun: 0
   isDead: 0
   isShooting: 0
-  timer: 0
+  timer: 2
   xScale: 0
   Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
@@ -5764,10 +5764,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  _enemyStats: {fileID: 11400000, guid: 5b51bbfe9c97f4d4ab48461ab29e107f, type: 2}
   _attackHitbox: {fileID: 3961070212236987209}
   Cooldown: 0
   drawLine: 0
+  chargeDistance: 5
 --- !u!114 &8465462902419328658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5785,7 +5785,7 @@ MonoBehaviour:
   currentPoise: 0
   currentTimer: 0
   poiseDamaged: 0
-  staggered: 0
+  IsStaggered: 0
   hasBeenDetained: 0
   timerState: 0
   ShowReferences: 1
@@ -5800,8 +5800,6 @@ MonoBehaviour:
   hitFX: {fileID: 0}
   sprite: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
-  earthStanceStats: {fileID: 11400000, guid: 829c275a6783c93499e14f5ceb6a08d0, type: 2}
-  fireStanceStats: {fileID: 11400000, guid: 5f8b9dd75a87a0e4d9401f27da4459f1, type: 2}
 --- !u!114 &6794381459989448745
 MonoBehaviour:
   m_ObjectHideFlags: 0
