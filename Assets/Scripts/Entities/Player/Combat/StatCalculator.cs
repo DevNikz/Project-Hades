@@ -15,36 +15,32 @@ public class StatCalculator : MonoBehaviour
         }
     }
 
-    public float EarthDmgMult(bool hasCharge) {
-        return 1.0f;
+    public float GetStanceDmgMult(Elements stance, bool hasCharge){
+        return (stance, hasCharge) switch {
+            (Elements.Earth, true)  => 1.0f,
+            (Elements.Earth, false) => 1.0f,
+            (Elements.Water, true)  => 1.0f,
+            (Elements.Water, false) => 1.0f,
+            (Elements.Wind, true)   => 1.0f,
+            (Elements.Wind, false)  => 1.0f,
+            (Elements.Fire, true)   => 1.0f,
+            (Elements.Fire, false)  => 1.0f,
+            _                       => 1.0f,
+        };
     }
 
-    public float EarthPoiseDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float WaterDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float WaterPoiseDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float AirDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float AirPoiseDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float FireDmgMult(bool hasCharge) {
-        return 1.0f;
-    }
-
-    public float FirePoiseDmgMult(bool hasCharge) {
-        return 1.0f;
+    public float GetStancePoiseDmgMult(Elements stance, bool hasCharge){
+        return (stance, hasCharge) switch {
+            (Elements.Earth, true)  => 1.0f,
+            (Elements.Earth, false) => 1.0f,
+            (Elements.Water, true)  => 1.0f,
+            (Elements.Water, false) => 1.0f,
+            (Elements.Wind, true)   => 1.0f,
+            (Elements.Wind, false)  => 1.0f,
+            (Elements.Fire, true)   => 1.0f,
+            (Elements.Fire, false)  => 1.0f,
+            _                       => 1.0f,
+        };
     }
 
 

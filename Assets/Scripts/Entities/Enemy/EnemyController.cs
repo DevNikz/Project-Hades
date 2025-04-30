@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
-    [ReadOnly, SerializeReference] private bool staggered;
+    [ReadOnly, SerializeReference] public bool IsStaggered;
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
@@ -132,17 +132,17 @@ public class EnemyController : MonoBehaviour
     }
 
     void RegenPoise() {
-        if(poiseDamaged && !staggered) {
+        if(poiseDamaged && !IsStaggered) {
             currentTimer -= Time.deltaTime;
             if(currentTimer <= 0) {
                 timerState = TimerState.Stop;
             }
         }
 
-        if(staggered) {
+        if(IsStaggered) {
             currentTimer -= Time.deltaTime;
             if(currentTimer <= 0) {
-                staggered = false;
+                IsStaggered = false;
                 timerState = TimerState.Stop;
             }
         }
@@ -205,112 +205,20 @@ public class EnemyController : MonoBehaviour
         this.gameObject.GetComponent<EnemyAction>().SetHit(attackDirection);
         manaCharge = FindAnyObjectByType<PlayerController>();
 
-        if (staggered) {
-            //Health
-            currentHealth -= damage * StatCalculator.Instance.StaggeredDmgMult;
+        //Health
+        currentHealth -= damage;
 
-            //RegenPoise
-            poiseDamaged = false;
-            currentTimer = enemyStats.timerDelay;
-        }
+        poise = CalculatePoiseDamage(poise);
+        currentPoise -= poise;
 
-        //EarthStyle. Basic attacks will be defaulted to EarthStyle - increased stun damage
-        else if (MenuScript.LastSelection == 0)
-        {
-            float earthDamage = damage;
-            currentHealth -= earthDamage; //Rudimentary damage increase for now
-
-            //Poise
-            poise = CalculatePoiseDamage(poise);
-
-            if(manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                currentPoise -= poise * StatCalculator.Instance.EarthPoiseDmgMult(true);
-            else currentPoise -= poise * StatCalculator.Instance.EarthPoiseDmgMult(false);
-
-            //For Stun Testing
-            //currentPoise -= poise * 100;
-
-            //RegenPoise
+        if(poise > 0)
             poiseDamaged = true;
-            currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(currentPoise, enemyStats.maxPoise);
 
-            Debug.Log("Using earth damage");
-        }
+        currentTimer = enemyStats.timerDelay;
+        //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
-        //FireStyle - increased damage
-        else if (MenuScript.LastSelection == 1 && manaCharge.GetCurrentElementCharge() > 0)
-        {
-            float fireDamage;
-
-            if (manaCharge.GetCurrentElementCharge() > 0) //Check if player has charge
-                fireDamage = damage * StatCalculator.Instance.FireDmgMult(true);
-            else fireDamage = damage * StatCalculator.Instance.FireDmgMult(false);
-
-            currentHealth -= fireDamage;
-
-            //Poise
-            poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
-
-            //RegenPoise
-            poiseDamaged = true;
-            currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
-
-            Debug.Log("Using fire damage");
-        }
-
-        //WaterStyle - decreased damage, increased aoe (to be done in Combat.cs, see InitHitboxLeft())
-        else if (MenuScript.LastSelection == 2)
-        {
-            float waterDamage = damage * 0.8f;
-            currentHealth -= waterDamage; //Rudimentary damage increase for now
-
-            //Poise
-            poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
-
-            //RegenPoise
-            poiseDamaged = true;
-            currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
-
-            Debug.Log("Using water damage");
-        }
-
-        //WindStyle - decreased damage, higher attack speed ()
-        else if (MenuScript.LastSelection == 3)
-        {
-            float windDamage = damage * 0.8f;
-            currentHealth -= windDamage; //Rudimentary damage increase for now
-
-            //Poise
-            poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
-
-            //RegenPoise
-            poiseDamaged = true;
-            currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
-
-            Debug.Log("Using wind damage");
-        }
-
-        else {
-            currentHealth -= damage;
-
-            //Poise
-            poise = CalculatePoiseDamage(poise);
-            currentPoise -= poise;
-
-            //RegenPoise
-            poiseDamaged = true;
-            currentTimer = enemyStats.timerDelay;
-            //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
-        }
-
-        if (currentPoise <= 0) this.gameObject.GetComponent<EnemyAction>().SetStun(attackDirection, enemyStats.timerDelay);
+        if (currentPoise <= 0) 
+            this.gameObject.GetComponent<EnemyAction>().SetStun(attackDirection, enemyStats.timerDelay);
 
         //UI
         switch (enemyStats.enemyType) {

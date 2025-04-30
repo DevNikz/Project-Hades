@@ -44,6 +44,8 @@ public class MeleeController : MonoBehaviour
     [ReadOnly] [SerializeReference] private MeshRenderer meshRenderer;
     [ReadOnly] [SerializeReference] private AttackDirection atkdirection;
 
+    [SerializeField] private PlayerController manaCharge;
+
     void Awake() {
         if(gameObject.CompareTag("PlayerMelee"))
         {
@@ -101,24 +103,59 @@ public class MeleeController : MonoBehaviour
     }
 
     void TriggerAttack(Collider other) {
-        if(other.CompareTag("Enemy")) {
-            tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No);
-
-            Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            Vector3 knockback = direction * attackType.knocbackForce;
-            rb.AddForce(knockback, ForceMode.Impulse); 
-        }
-
-        if(other.CompareTag("Enemy(Staggered)")) {
-            Debug.Log("Enemy Staggered");
-            tempObject = other.gameObject;
-            other.GetComponent<EnemyController>().ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection,  Detain.No);
-        }
-
         if(other.CompareTag("HitHazard")) {
             Debug.Log("Hazard Hit!");
             other.GetComponent<HazardController>().InitHazard();
+        }
+        
+        if(other.TryGetComponent<EnemyController>(out var enemy)){
+            Debug.Log("Hit an enemy");
+
+            if(attackType == null){
+                Debug.LogWarning("[COMBAT-WARN]: Attack type when triggered is null");
+                return;
+            }
+
+            float healthDamage = attackType.damage;
+            float poiseDamage = attackType.poise;
+
+            switch(MenuScript.LastSelection){
+                // EARTH STANCE
+                case 0:
+                    healthDamage *= StatCalculator.Instance.GetStanceDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
+                    poiseDamage *= StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
+                    break;
+
+                // FIRE STANCE
+                case 1:
+                    healthDamage *= StatCalculator.Instance.GetStanceDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
+                    poiseDamage *= StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
+                    break;
+
+                // WATER STANCE
+                case 2:
+                    healthDamage *= StatCalculator.Instance.GetStanceDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
+                    poiseDamage *= StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
+                    break;
+
+                // WIND STANCE
+                case 3:
+                    healthDamage *= StatCalculator.Instance.GetStanceDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
+                    poiseDamage *= StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
+                    break;
+            }
+
+            if(enemy.IsStaggered){
+                healthDamage *= StatCalculator.Instance.StaggeredDmgMult;
+                poiseDamage = 0.0f;
+
+            } else {
+                Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
+                Vector3 knockback = direction * attackType.knocbackForce;
+                rb.AddForce(knockback, ForceMode.Impulse); 
+            }
+
+            enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No);
         }
     }
 
