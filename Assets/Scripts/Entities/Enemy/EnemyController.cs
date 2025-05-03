@@ -29,11 +29,18 @@ public class EnemyController : MonoBehaviour
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
-    [ReadOnly, SerializeReference] public bool IsStaggered;
-    [ReadOnly, SerializeReference] public bool IsStunned;
-    [ReadOnly, SerializeReference] public bool IsRusted;
-    [ReadOnly, SerializeReference] public bool IsSlowed;
-    [ReadOnly, SerializeReference] public bool IsBurning;
+    [ReadOnly, SerializeReference] public bool IsStaggered = false;
+    [ReadOnly, SerializeReference] public bool IsStunned = false;
+    [ReadOnly, SerializeReference] public bool IsRusted = false;
+    [ReadOnly, SerializeReference] public bool IsSlowed = false;
+    [ReadOnly, SerializeReference] public bool IsBurning = false;
+    [ReadOnly, SerializeReference] public bool IsAttacking = false;
+    [HideInInspector] private float stunTimer;
+    [HideInInspector] private float rustTimer;
+    [HideInInspector] private float rustBuildup;
+    [HideInInspector] private float slowTimer;
+    [HideInInspector] private float burnTimer;
+    [HideInInspector] private float burnDamageTicker;
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
@@ -97,6 +104,13 @@ public class EnemyController : MonoBehaviour
         maxHP = enemyStats.maxHP;
         currentHealth = enemyStats.maxHP;
 
+        stunTimer = 0.0f;
+        rustTimer = 0.0f;
+        rustBuildup = 0.0f;
+        slowTimer = 0.0f;
+        burnTimer = 0.0f;
+        burnDamageTicker = 0.0f;
+
         if(this.gameObject.TryGetComponent<NavMeshAgent>(out var agent)){
             agent.speed = enemyStats.moveSpeed;
             agent.stoppingDistance = enemyStats.stoppingDistance;
@@ -114,9 +128,102 @@ public class EnemyController : MonoBehaviour
     }
 
     void Update() {
+        UpdateStatusEffects(Time.deltaTime);
+
         RegenPoise();
         Stagger();
         UpdateHealth();
+    }
+
+    private void UpdateStatusEffects(float deltaTime){
+        
+        if(stunTimer > 0.0f){
+            if(!IsStunned)  IsStunned = true;
+            stunTimer -= deltaTime;
+        } else {
+            if(IsStunned){
+                IsStunned = false;
+                stunTimer = 0.0f;
+            }
+        }
+
+        if(rustBuildup >= 1.0f){
+            rustTimer = ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower2;
+            rustBuildup = 1.0f;
+        }
+
+        if(rustTimer > 0.0f){
+            if(!IsRusted)  IsRusted = true;
+            rustTimer -= deltaTime;
+        } else {
+            if(IsRusted){
+                IsRusted = false;
+                rustTimer = 0.0f;
+                rustBuildup = 0.0f;
+            }
+        }
+
+        if(slowTimer > 0.0f){
+            if(!IsSlowed)  IsSlowed = true;
+            slowTimer -= deltaTime;
+        } else {
+            if(IsSlowed){
+                IsSlowed = false;
+                slowTimer = 0.0f;
+            }
+        }
+
+        if(burnTimer > 0.0f){
+            if(!IsBurning)  IsBurning = true;
+            burnTimer -= deltaTime;
+            burnDamageTicker += deltaTime;
+        } else {
+            if(IsBurning){
+                IsBurning = false;
+                burnTimer = 0.0f;
+                burnDamageTicker = 0.0f;
+            }
+        }
+
+        if(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).IsActive){
+            while(burnDamageTicker >= ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower2){
+                burnDamageTicker -= ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower2;
+                DealBurnDamage(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower);    
+            }
+            if(burnDamageTicker < 0.0f)
+                burnDamageTicker = 0.0f;
+        } else {
+            while(burnDamageTicker >= ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower3){
+                burnDamageTicker -= ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower3;
+                DealBurnDamage(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower2);    
+            }
+            if(burnDamageTicker < 0.0f)
+                burnDamageTicker = 0.0f;
+        }
+    }
+
+    public void ApplyRust(float amount){
+        if(!IsRusted)
+            rustBuildup += amount;
+    }
+
+    public void Stun(float length){
+        if(!IsStunned)
+            stunTimer = length;
+    }
+
+    public void SetSlow(float length){
+        slowTimer = length;
+    }
+
+    public void ApplyBurn(float length){
+        if(!IsBurning)
+            burnTimer = length;
+    }
+
+    private void DealBurnDamage(float amount){
+        currentHealth -= amount;
+        UpdateNormalHP();
     }
 
     void UpdateHealth() {

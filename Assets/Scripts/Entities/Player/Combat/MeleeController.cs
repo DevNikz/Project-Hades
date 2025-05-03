@@ -163,6 +163,17 @@ public class MeleeController : MonoBehaviour
             if(enemy.IsStunned){
                 if(ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).IsActive)
                     poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).augmentPower;
+            } else {
+                // Chance to stun
+                if(enemy.IsAttacking){
+                    if(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+                        enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).augmentPower);
+                } else {
+                    if(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).IsActive){
+                        if (Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower * 100)
+                        enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower2);
+                    }
+                }                
             }
 
             if(enemy.IsRusted){
@@ -171,11 +182,23 @@ public class MeleeController : MonoBehaviour
             
                 if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
                     criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+            } else {
+                enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
+            }
+
+            if(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).IsActive){
+                enemy.SetSlow(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).augmentPower);
+            }
+
+            if(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive){
+                enemy.ApplyBurn(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower);
             }
     
             if(enemy.IsBurning){
                 if(ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).IsActive)
                     healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).augmentPower;
+                if(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).IsActive)
+                    healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower3;
             }
 
             // Calculate Stagger
@@ -195,19 +218,28 @@ public class MeleeController : MonoBehaviour
             }        
 
             // Calculate Critical Hit
-            if(Random.Range(0,100) < criticalHitChance * 100){
-                if(ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
-                    poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
+            if(
+                (
+                    ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).IsActive && 
+                    enemy.IsAttacking && 
+                    Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).augmentPower * 100
+                ) ||
+                    Random.Range(0,100) < criticalHitChance * 100
+                ){
 
-                if(enemy.IsRusted){
-                    if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
-                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
-                }
+                    if(ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
+                        poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
 
-                healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
-                poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
-            }
-            
+                    if(enemy.IsRusted){
+                        if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
+                            healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+                    }
+
+                    healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
+                    poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
+
+            } 
+
             if(enemy.IsStaggered)
                 poiseDmgMult = 0.0f;
 
