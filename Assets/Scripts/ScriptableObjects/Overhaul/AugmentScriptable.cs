@@ -36,24 +36,13 @@ public class AugmentScriptable : ScriptableObject
     [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public string augmentLore;
 
-    [Range(0, 100)]
-    [InfoBox("Whole number increase")]
-    public int healthIncrease;
-
-    [Range(0.0f, 100f)]
-    [InfoBox("Percentage increase")]
-    public float damageIncrease;
-
-    [Range(0.0f, 100f)]
-    public float defenseIncrease;
-
-    [Range(0.0f, 100f)]
-    public float staggerIncrease;
-
+    public float augmentPower;
+    public float augmentPower2;
+    public float augmentPower3;
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [LabelWidth(50)]
-    public bool IsActive {get; private set;}
+    public bool IsActive {get; protected set;}
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
     [HorizontalGroup("Attributes/base/right/box3/split", 0.5f)]

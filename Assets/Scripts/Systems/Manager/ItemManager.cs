@@ -303,7 +303,7 @@ public class ItemManager : MonoBehaviour
         AugmentScriptable scriptable = augment.Augment;
         int count = augment.Count;
 
-        PlayerController.Instance.SetHealthDamage(count * (scriptable.damageIncrease * 0.01f));
+        PlayerController.Instance.SetHealthDamage(count * (scriptable.augmentPower * 0.01f));
     }
 
     public void UpdatePlayerSteel() {
@@ -312,7 +312,7 @@ public class ItemManager : MonoBehaviour
         int count = augment.Count;
         
 
-        PlayerController.Instance.SetTotalDefense(count * (scriptable.damageIncrease * 0.01f));
+        PlayerController.Instance.SetTotalDefense(count * (scriptable.augmentPower * 0.01f));
     }
 
     public void UpdatePlayerHeavy() {
@@ -320,7 +320,7 @@ public class ItemManager : MonoBehaviour
         AugmentScriptable scriptable = augment.Augment;
         int count = augment.Count;
 
-        PlayerController.Instance.SetStunDamage(count * (scriptable.damageIncrease * 0.01f));
+        PlayerController.Instance.SetStunDamage(count * (scriptable.augmentPower * 0.01f));
     }
 
     public void UpdatePlayerVitality() {
@@ -328,7 +328,7 @@ public class ItemManager : MonoBehaviour
         AugmentScriptable scriptable = augment.Augment;
         int count = augment.Count;
 
-        PlayerController.Instance.SetTotalHealth(count * scriptable.healthIncrease);
+        PlayerController.Instance.SetTotalHealth(count * scriptable.augmentPower);
     }
 
     private void Update() {

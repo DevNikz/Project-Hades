@@ -119,6 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ed150778b7bf34ead7ba3410e1aaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  earthStats: {fileID: 0}
+  waterStats: {fileID: 0}
+  airStats: {fileID: 0}
+  fireStats: {fileID: 0}
 --- !u!1 &749906916490835384
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,7 +2500,7 @@ MonoBehaviour:
     Count: 0
   - Augment: {fileID: 11400000, guid: daa24bb31914e424882568b878b669a2, type: 2}
     Count: 0
-  - Augment: {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
+  - Augment: {fileID: 11400000, guid: eea5f4d154449c54f8f6968735131d9e, type: 2}
     Count: 0
   stanceAugments:
   - Augment: {fileID: 11400000, guid: 3eac95e50562629488c90a1cb8281ef9, type: 2}
