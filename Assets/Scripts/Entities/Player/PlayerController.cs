@@ -322,14 +322,23 @@ public class PlayerController : MonoBehaviour
     }
 
     public void ReceiveDamage(DamageType damageType, float damage) {
+        float actualDamage = damage;
+        
+        float steelAugmentReductionPercentage = 1.0f - 
+            (ItemManager.Instance.getAugmentCount(AugmentType.Steel) * ItemManager.Instance.getAugment(AugmentType.Steel).augmentPower);
+
+        actualDamage *= steelAugmentReductionPercentage;
+
+        actualDamage /= currentDefense;
+
         if(!staggered && !curHurt) {
             TriggerHurt();
-            currentHealth -= damage / currentDefense;
+            currentHealth -= actualDamage;
         }
         else if(!staggered && curHurt) {
             isHurt = false;
             Invoke("TriggerHurt", 0.1f);
-            currentHealth -= damage / currentDefense;
+            currentHealth -= actualDamage;
         }
         
         healthMeter.value = ToPercent(currentHealth, modTotalHealth);

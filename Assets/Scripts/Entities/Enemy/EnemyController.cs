@@ -30,6 +30,10 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
     [ReadOnly, SerializeReference] public bool IsStaggered;
+    [ReadOnly, SerializeReference] public bool IsStunned;
+    [ReadOnly, SerializeReference] public bool IsRusted;
+    [ReadOnly, SerializeReference] public bool IsSlowed;
+    [ReadOnly, SerializeReference] public bool IsBurning;
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]

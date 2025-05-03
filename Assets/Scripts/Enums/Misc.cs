@@ -13,7 +13,7 @@ public enum Kind {
 public enum AugmentType {
     None, Earth, Water, Air, Fire,
     Aggro, Steel, Vitality, Heavy,
-    Breaching_Gear, Punish_Gear, Cripling_Gear, 
+    Breaching_Gear, Punish_Gear, Crippling_Gear, 
     Impact_Gear, Double_Impact_Gear, Staunch_Impact_Gear,
     Oxidize_Gear, Corrode_Gear, Caustic_Gear,
     Wave_Gear, Tsunami_Gear, Torrent_Gear,

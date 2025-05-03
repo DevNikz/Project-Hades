@@ -9,6 +9,18 @@ public class StatCalculator : MonoBehaviour
     [SerializeField] private PlayerElementScriptable airStats;
     [SerializeField] private PlayerElementScriptable fireStats;
 
+    public float CriticalDmgMult {
+        get {
+            return 2.0f;
+        }
+    }
+
+    public float CriticalPoiseDmgMult {
+        get {
+            return 1.5f;
+        }
+    }
+    
     public float StaggeredDmgMult {
         get {
             return 2.0f;
