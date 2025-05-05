@@ -12,10 +12,13 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public float AttackRate;
     [NonSerialized] public GameObject Player = null;
     [NonSerialized] public NavMeshAgent Agent;
+    private float _baseSpeed;
+    private float _altBaseSpeed;
     [NonSerialized] public bool IsAttacking = false;
     [NonSerialized] public bool IsPatrolling = false;
     [NonSerialized] public bool IsSearching = false;
 
+    [NonSerialized] public EnemyController _controller;
     [NonSerialized] public EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
@@ -43,6 +46,9 @@ public abstract class EnemyAction : MonoBehaviour
     public void Update()
     {
         this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
+        if(Agent.speed == _baseSpeed && Agent.speed != _altBaseSpeed)
+            Agent.speed = _altBaseSpeed;
+        
         ProcessAILogic();
 
         if (Cooldown > 0)
@@ -126,8 +132,11 @@ public abstract class EnemyAction : MonoBehaviour
     {
         _sprite = transform.Find("SpriteContainer").gameObject;
         Agent = this.GetComponent<NavMeshAgent>();
+        _baseSpeed = Agent.speed;
+        _altBaseSpeed = _baseSpeed;
         _rgBody = this.GetComponent<Rigidbody>();
 
+        _controller = this.GetComponent<EnemyController>();
         _enemyStats = this.GetComponent<EnemyController>().GetStatsScriptable();
         AttackRate = _enemyStats.attackRate;
         _wanderRange = _enemyStats.wanderRange;
@@ -159,13 +168,17 @@ public abstract class EnemyAction : MonoBehaviour
         Invoke(nameof(ResetHit), anims.timer);
     }
 
-    public virtual void SetStun(AttackDirection attackDirection, float duration)
+    public virtual void SetStagger(AttackDirection attackDirection, float duration)
     {
         EndAttack();
         Cooldown = duration;
 
         anims.SetStun(attackDirection, duration);
         Invoke(nameof(ResetStun), duration);
+    }
+    public void SetSpeed(float speed){
+        Agent.speed *= speed;
+        _altBaseSpeed = _baseSpeed * speed;
     }
 
     public void ResetHit()

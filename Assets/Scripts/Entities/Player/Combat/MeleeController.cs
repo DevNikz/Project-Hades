@@ -109,6 +109,13 @@ public class MeleeController : MonoBehaviour
             other.GetComponent<HazardController>().InitHazard();
         }
 
+        if(other.TryGetComponent<BulletController>(out var bullet)){
+            if(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+                bullet.ReturnToPool();
+            if(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).IsActive)
+                bullet.Reflect(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).augmentPower);
+        }
+
         
         if(other.TryGetComponent<EnemyController>(out var enemy)){
             Debug.Log("Hit an enemy");

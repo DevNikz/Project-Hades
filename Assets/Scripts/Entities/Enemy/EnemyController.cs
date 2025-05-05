@@ -34,7 +34,12 @@ public class EnemyController : MonoBehaviour
     [ReadOnly, SerializeReference] public bool IsRusted = false;
     [ReadOnly, SerializeReference] public bool IsSlowed = false;
     [ReadOnly, SerializeReference] public bool IsBurning = false;
-    [ReadOnly, SerializeReference] public bool IsAttacking = false;
+    public bool IsAttacking {
+        get { return _enemyAction.IsAttacking; }
+    }
+
+    private EnemyAction _enemyAction;
+
     [HideInInspector] private float stunTimer;
     [HideInInspector] private float rustTimer;
     [HideInInspector] private float rustBuildup;
@@ -90,6 +95,8 @@ public class EnemyController : MonoBehaviour
     private PlayerController manaCharge;
     private float maxHP;
     void Start() {
+        _enemyAction = this.GetComponent<EnemyAction>();
+
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
         // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
@@ -329,7 +336,7 @@ public class EnemyController : MonoBehaviour
         //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
         if (currentPoise <= 0) 
-            this.gameObject.GetComponent<EnemyAction>().SetStun(attackDirection, enemyStats.timerDelay);
+            this.gameObject.GetComponent<EnemyAction>().SetStagger(attackDirection, enemyStats.timerDelay);
 
         //UI
         switch (enemyStats.enemyType) {

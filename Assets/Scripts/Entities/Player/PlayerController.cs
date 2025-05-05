@@ -52,6 +52,10 @@ public class PlayerController : MonoBehaviour
     [ReadOnly, SerializeReference] public bool isHurt;
     [ReadOnly, SerializeReference] public bool isDead;
     [ReadOnly, SerializeReference] public bool curHurt;
+    private float invincibilityTime = 0.0f;
+    private bool IsInvincible {
+        get { return invincibilityTime > 0.0f;}
+    } 
 
     //Ref
     [Title("References")]
@@ -209,6 +213,12 @@ public class PlayerController : MonoBehaviour
     void Update(){
         UpdateHealth();
         UpdateAnimatorControllerStates();
+
+        if(IsInvincible){
+            invincibilityTime -= Time.deltaTime;
+            if(invincibilityTime < 0.0f)
+                invincibilityTime = 0.0f;
+        }
     }
 
     void UpdateAnimatorControllerStates()
@@ -321,13 +331,22 @@ public class PlayerController : MonoBehaviour
         manaMeter.value = ToPercent(currentMana, totalMana);
     }
 
+    public void SetInvincibility(float amount){
+        if(amount <= 0.0f) return;
+        if(amount > invincibilityTime)
+            invincibilityTime = amount;
+    }
+
     public void ReceiveDamage(DamageType damageType, float damage) {
+        if(IsInvincible) return;
         float actualDamage = damage;
         
-        float steelAugmentReductionPercentage = 1.0f - 
-            (ItemManager.Instance.getAugmentCount(AugmentType.Steel) * ItemManager.Instance.getAugment(AugmentType.Steel).augmentPower);
+        float damageReduction = 0.0f;
+        damageReduction += (ItemManager.Instance.getAugmentCount(AugmentType.Steel) * ItemManager.Instance.getAugment(AugmentType.Steel).augmentPower);
+        if(ItemManager.Instance.getAugment(AugmentType.Fog_Gear).IsActive)
+            damageReduction += ItemManager.Instance.getAugment(AugmentType.Fog_Gear).augmentPower;
 
-        actualDamage *= steelAugmentReductionPercentage;
+        actualDamage *= 1.0f - damageReduction;
 
         actualDamage /= currentDefense;
 

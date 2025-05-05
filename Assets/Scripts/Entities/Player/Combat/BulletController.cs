@@ -4,10 +4,12 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     public AttackType attackType;
+    [SerializeField] public bool IsHostile;
     private GameObject tempObject;
     private Rigidbody rb;
     private Rigidbody bulletBody;
     private MeshRenderer meshRenderer;
+    private float _damageScaler = 1.0f;
 
     [SerializeField][Range(0.1f, 100f)] private float timer;
     private float timerProgress;
@@ -45,33 +47,50 @@ public class BulletController : MonoBehaviour
         }
     }
 
+    public void ReturnToPool(){
+        this.objectPool.ReturnObject(this.gameObject);
+        _damageScaler = 1.0f;
+    }
+
+    public void Reflect(float damageScaler){
+        _damageScaler = damageScaler;
+        if(this.TryGetComponent<Rigidbody>(out var rb)){
+            Vector3 velocity = rb.velocity;
+            velocity.x = -velocity.x;
+            velocity.y = -velocity.y;
+            velocity.z = -velocity.z;
+            rb.velocity = velocity;
+        }
+    }
+
     void OnTriggerEnter(Collider other) {
         meshRenderer = other.gameObject.GetComponent<MeshRenderer>();
         rb = other.gameObject.GetComponent<Rigidbody>();
 
-        if(other.CompareTag("Enemy")) {
-            tempObject = other.gameObject;
+        if(other.TryGetComponent<EnemyController>(out var enemy)) {
+            if(!IsHostile){
+                Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
+                Vector3 knockback = direction * attackType.knocbackForce;
+                rb.AddForce(knockback, ForceMode.Impulse);
+                enemy.ReceiveDamage(attackType.damageType, attackType.damage * _damageScaler, attackType.poise, AttackDirection.None, Detain.No);
+            }
 
-            Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            Vector3 knockback = direction * attackType.knocbackForce;
-            rb.AddForce(knockback, ForceMode.Impulse);
-
-            this.objectPool.ReturnObject(this.gameObject);
+            ReturnToPool();
         }
 
-        if (other.CompareTag("Player")) {
-            tempObject = other.gameObject;
+        if (other.TryGetComponent<PlayerController>(out var player)) {
+            if(IsHostile){
+                Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
+                Vector3 knockback = direction * attackType.knocbackForce;
+                rb.AddForce(knockback, ForceMode.Impulse);
+                player.ReceiveDamage(attackType.damageType, attackType.damage);
+            }
 
-            Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-            Vector3 knockback = direction * attackType.knocbackForce;
-            rb.AddForce(knockback, ForceMode.Impulse);
-
-            other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
-            this.objectPool.ReturnObject(this.gameObject);
+            ReturnToPool();
         }
 
         if(other.CompareTag("Bounds")) {
-            this.objectPool.ReturnObject(this.gameObject);
+            ReturnToPool();
         }
     }
 }

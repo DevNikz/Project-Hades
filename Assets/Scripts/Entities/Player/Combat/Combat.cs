@@ -295,7 +295,11 @@ public class Combat : MonoBehaviour
                 comboCounter++;
                 lastClickedTime = Time.time;
 
-                gameObject.GetComponent<PlayerController>().UpdateMana(-combat.manaCost);
+                PlayerController controller = gameObject.GetComponent<PlayerController>();
+                controller.UpdateMana(-combat.manaCost);
+
+                if(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).IsActive)
+                    controller.SetInvincibility(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).augmentPower);
 
                 // if (comboCounter == 1) {
                 //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
