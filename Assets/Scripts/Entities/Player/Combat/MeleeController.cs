@@ -127,6 +127,7 @@ public class MeleeController : MonoBehaviour
 
             float healthDmgMult = 1.0f;
             float poiseDmgMult = 1.0f;
+            float knockbackMult = 1.0f;
             float criticalHitChance = attackType.criticalChance;
 
             switch(MenuScript.LastSelection){
@@ -164,8 +165,19 @@ public class MeleeController : MonoBehaviour
             if(ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).IsActive)
                 poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).augmentPower;
 
+            if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive){
+                knockbackMult += ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower;
+            } else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive) {
+                knockbackMult += ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower;
+            }
+
             if(ItemManager.Instance.getAugment(AugmentType.Volt_Gear).IsActive)
                 criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Volt_Gear).augmentPower;
+
+            if(ItemManager.Instance.getAugment(AugmentType.Fume_Gear).IsActive){
+                healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower * StatCalculator.Instance.SlowedEnemyCount;
+                criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower2 * StatCalculator.Instance.SlowedEnemyCount;
+            }
 
             if(enemy.IsStunned){
                 if(ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).IsActive)
@@ -220,8 +232,11 @@ public class MeleeController : MonoBehaviour
 
             } else {
                 Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-                Vector3 knockback = direction * attackType.knocbackForce;
+                Vector3 knockback = attackType.knocbackForce * knockbackMult * direction;
                 rb.AddForce(knockback, ForceMode.Impulse); 
+
+                if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
+                    enemy.ApplyKnockback(StatCalculator.Instance.KnockbackTime);
             }        
 
             // Calculate Critical Hit

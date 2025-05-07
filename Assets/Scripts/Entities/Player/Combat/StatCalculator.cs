@@ -8,6 +8,7 @@ public class StatCalculator : MonoBehaviour
     [SerializeField] private PlayerElementScriptable waterStats;
     [SerializeField] private PlayerElementScriptable airStats;
     [SerializeField] private PlayerElementScriptable fireStats;
+    [HideInInspector] public int SlowedEnemyCount = 0;
 
     public float CriticalDmgMult {
         get {
@@ -24,6 +25,12 @@ public class StatCalculator : MonoBehaviour
     public float StaggeredDmgMult {
         get {
             return 2.0f;
+        }
+    }
+
+    public float KnockbackTime {
+        get {
+            return 0.5f;
         }
     }
 

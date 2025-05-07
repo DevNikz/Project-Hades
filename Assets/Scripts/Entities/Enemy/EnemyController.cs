@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
     public bool IsAttacking {
         get { return _enemyAction.IsAttacking; }
     }
+    public bool IsKnockedback = false;
 
     private EnemyAction _enemyAction;
 
@@ -46,6 +47,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] private float slowTimer;
     [HideInInspector] private float burnTimer;
     [HideInInspector] private float burnDamageTicker;
+    [HideInInspector] private float knockbackTimer;
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
@@ -117,6 +119,7 @@ public class EnemyController : MonoBehaviour
         slowTimer = 0.0f;
         burnTimer = 0.0f;
         burnDamageTicker = 0.0f;
+        knockbackTimer = 0.0f;
 
         if(this.gameObject.TryGetComponent<NavMeshAgent>(out var agent)){
             agent.speed = enemyStats.moveSpeed;
@@ -171,12 +174,18 @@ public class EnemyController : MonoBehaviour
         }
 
         if(slowTimer > 0.0f){
-            if(!IsSlowed)  IsSlowed = true;
+            if(!IsSlowed){
+                IsSlowed = true;
+                StatCalculator.Instance.SlowedEnemyCount ++;
+            }
             slowTimer -= deltaTime;
         } else {
             if(IsSlowed){
                 IsSlowed = false;
                 slowTimer = 0.0f;
+                StatCalculator.Instance.SlowedEnemyCount --;
+                if(StatCalculator.Instance.SlowedEnemyCount < 0)
+                    StatCalculator.Instance.SlowedEnemyCount = 0;
             }
         }
 
@@ -207,6 +216,39 @@ public class EnemyController : MonoBehaviour
             if(burnDamageTicker < 0.0f)
                 burnDamageTicker = 0.0f;
         }
+
+        if(knockbackTimer > 0.0f){
+            if(!IsKnockedback)  IsKnockedback = true;
+            knockbackTimer -= deltaTime;
+        } else {
+            if(IsKnockedback){
+                IsKnockedback = false;
+                knockbackTimer = 0.0f;
+            }
+        }
+    }
+
+    void OnDisable()
+    {
+        if(IsSlowed){
+            StatCalculator.Instance.SlowedEnemyCount --;
+            if(StatCalculator.Instance.SlowedEnemyCount < 0)
+                StatCalculator.Instance.SlowedEnemyCount = 0;
+        }
+        
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject other = collision.gameObject;
+        if(other.layer != LayerMask.NameToLayer("Wall"))
+            return;
+        
+        if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive){
+            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower2 * 100, AttackDirection.None, Detain.No);
+        } else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive){
+            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower2 * 100, AttackDirection.None, Detain.No);
+        }
     }
 
     public void ApplyRust(float amount){
@@ -226,6 +268,10 @@ public class EnemyController : MonoBehaviour
     public void ApplyBurn(float length){
         if(!IsBurning)
             burnTimer = length;
+    }
+
+    public void ApplyKnockback(float length){
+        knockbackTimer = length;
     }
 
     private void DealBurnDamage(float amount){
