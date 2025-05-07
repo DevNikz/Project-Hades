@@ -409,6 +409,15 @@ public class Combat : MonoBehaviour
             tempMeleeController.SetAttackDirection(AttackDirection.Left);
         }
 
+        // Set scale of hitbox
+        if(ItemManager.Instance.getAugment(AugmentType.Wave_Gear).IsActive){
+            Vector3 newScale = hitboxLeft_Temp.transform.localScale;
+            newScale.x *= ItemManager.Instance.getAugment(AugmentType.Wave_Gear).augmentPower;
+            newScale.y *= ItemManager.Instance.getAugment(AugmentType.Wave_Gear).augmentPower;
+            newScale.z *= ItemManager.Instance.getAugment(AugmentType.Wave_Gear).augmentPower;
+            hitboxLeft_Temp.transform.localScale = newScale;
+        }
+
         //MeshRenderer | True = Debug | False = Release
         hitboxLeft_Temp.GetComponent<MeshRenderer>().enabled = isDebug;
 
