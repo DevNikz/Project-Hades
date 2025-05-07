@@ -245,9 +245,9 @@ public class EnemyController : MonoBehaviour
             return;
         
         if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive){
-            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower2 * 100, AttackDirection.None, Detain.No);
+            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower2, AttackDirection.None, Detain.No);
         } else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive){
-            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower2 * 100, AttackDirection.None, Detain.No);
+            ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower2, AttackDirection.None, Detain.No);
         }
     }
 
