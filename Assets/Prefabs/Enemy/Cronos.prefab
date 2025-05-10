@@ -1029,6 +1029,13 @@ MonoBehaviour:
   IsSlowed: 0
   IsBurning: 0
   IsKnockedback: 0
+  stunTimer: 0
+  rustTimer: 0
+  rustBuildup: 0
+  slowTimer: 0
+  burnTimer: 0
+  burnDamageTicker: 0
+  knockbackTimer: 0
   hasBeenDetained: 0
   timerState: 0
   ShowReferences: 1
@@ -1041,7 +1048,8 @@ MonoBehaviour:
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
-  sprite: {fileID: 0}
+  spriteContainer: {fileID: 0}
+  sprite: {fileID: 2652493103928534736}
   spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &2623809786274066676
 MonoBehaviour:
@@ -1468,7 +1476,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7394ec6afff96342b497577e69bbf5a, type: 2}
+  - {fileID: 2100000, guid: 272ba847f100d4251bb8260575189042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

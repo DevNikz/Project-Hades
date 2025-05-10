@@ -5262,7 +5262,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7394ec6afff96342b497577e69bbf5a, type: 2}
+  - {fileID: 2100000, guid: 272ba847f100d4251bb8260575189042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5768,6 +5768,7 @@ MonoBehaviour:
   Cooldown: 0
   drawLine: 0
   chargeDistance: 5
+  chargeCooldown: 0.25
 --- !u!114 &8465462902419328658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5786,6 +5787,18 @@ MonoBehaviour:
   currentTimer: 0
   poiseDamaged: 0
   IsStaggered: 0
+  IsStunned: 0
+  IsRusted: 0
+  IsSlowed: 0
+  IsBurning: 0
+  IsKnockedback: 0
+  stunTimer: 0
+  rustTimer: 0
+  rustBuildup: 0
+  slowTimer: 0
+  burnTimer: 0
+  burnDamageTicker: 0
+  knockbackTimer: 0
   hasBeenDetained: 0
   timerState: 0
   ShowReferences: 1
@@ -5798,7 +5811,8 @@ MonoBehaviour:
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
-  sprite: {fileID: 0}
+  spriteContainer: {fileID: 0}
+  sprite: {fileID: 622561997751044650}
   spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &6794381459989448745
 MonoBehaviour:

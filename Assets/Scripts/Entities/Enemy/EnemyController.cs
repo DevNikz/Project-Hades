@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -41,13 +42,13 @@ public class EnemyController : MonoBehaviour
 
     private EnemyAction _enemyAction;
 
-    [HideInInspector] private float stunTimer;
-    [HideInInspector] private float rustTimer;
-    [HideInInspector] private float rustBuildup;
-    [HideInInspector] private float slowTimer;
-    [HideInInspector] private float burnTimer;
-    [HideInInspector] private float burnDamageTicker;
-    [HideInInspector] private float knockbackTimer;
+    [SerializeField] private float stunTimer;
+    [SerializeField] private float rustTimer;
+    [SerializeField] private float rustBuildup;
+    [SerializeField] private float slowTimer;
+    [SerializeField] private float burnTimer;
+    [SerializeField] private float burnDamageTicker;
+    [SerializeField] private float knockbackTimer;
 
     [BoxGroup("Properties/Group/Right/Box", ShowLabel = false)]
     [LabelWidth(110)]
@@ -89,7 +90,8 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private ParticleSystem hitFX;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private GameObject sprite;
+    [SerializeReference] private GameObject spriteContainer;
+    [SerializeField] private SpriteRenderer sprite;
 
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
@@ -104,7 +106,7 @@ public class EnemyController : MonoBehaviour
         // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
-        sprite = transform.Find("SpriteContainer").gameObject;
+        spriteContainer = transform.Find("SpriteContainer").gameObject;
         spawnPoint = this.transform.position;
         currentPoise = enemyStats.maxPoise;
 
@@ -158,7 +160,8 @@ public class EnemyController : MonoBehaviour
         }
 
         if(rustBuildup >= 1.0f){
-            rustTimer = ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower2;
+            if(!IsRusted)
+                rustTimer = ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower2;
             rustBuildup = 1.0f;
         }
 
@@ -226,6 +229,18 @@ public class EnemyController : MonoBehaviour
                 knockbackTimer = 0.0f;
             }
         }
+
+        if(IsSlowed){
+            sprite.color = StatCalculator.Instance.SlowedColor;
+        } else if (rustBuildup > 0.0f && rustBuildup < 1.0f) {
+            sprite.color = Color.Lerp(StatCalculator.Instance.BasicColor, StatCalculator.Instance.RustedFullyColor, rustBuildup);
+        } else if (rustBuildup >= 1.0f) {
+            sprite.color = StatCalculator.Instance.RustedFullyColor;
+        } else if (IsBurning){
+            sprite.color = StatCalculator.Instance.BurningColor;
+        } else {
+            sprite.color = StatCalculator.Instance.BasicColor;
+        }
     }
 
     void OnDisable()
@@ -257,8 +272,10 @@ public class EnemyController : MonoBehaviour
     }
 
     public void Stun(float length){
-        if(!IsStunned)
-            stunTimer = length;
+        if(IsStunned) return;
+
+        stunTimer = length;
+        sprite.color = StatCalculator.Instance.StunnedColor;
     }
 
     public void SetSlow(float length){
@@ -276,6 +293,7 @@ public class EnemyController : MonoBehaviour
 
     private void DealBurnDamage(float amount){
         currentHealth -= amount;
+        sprite.color = StatCalculator.Instance.BurnDamagedColor;
         UpdateNormalHP();
     }
 

@@ -470,7 +470,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.24999999, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8998162039585951494}
@@ -497,7 +497,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7394ec6afff96342b497577e69bbf5a, type: 2}
+  - {fileID: 2100000, guid: 272ba847f100d4251bb8260575189042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5939,7 +5939,19 @@ MonoBehaviour:
   currentPoise: 0
   currentTimer: 0
   poiseDamaged: 0
-  staggered: 0
+  IsStaggered: 0
+  IsStunned: 0
+  IsRusted: 0
+  IsSlowed: 0
+  IsBurning: 0
+  IsKnockedback: 0
+  stunTimer: 0
+  rustTimer: 0
+  rustBuildup: 0
+  slowTimer: 0
+  burnTimer: 0
+  burnDamageTicker: 0
+  knockbackTimer: 0
   hasBeenDetained: 0
   timerState: 0
   ShowReferences: 1
@@ -5952,10 +5964,9 @@ MonoBehaviour:
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
-  sprite: {fileID: 0}
+  spriteContainer: {fileID: 0}
+  sprite: {fileID: 5801174849917690058}
   spawnPoint: {x: 0, y: 0, z: 0}
-  earthStanceStats: {fileID: 11400000, guid: 829c275a6783c93499e14f5ceb6a08d0, type: 2}
-  fireStanceStats: {fileID: 11400000, guid: 5f8b9dd75a87a0e4d9401f27da4459f1, type: 2}
 --- !u!114 &366992361210127141
 MonoBehaviour:
   m_ObjectHideFlags: 0
