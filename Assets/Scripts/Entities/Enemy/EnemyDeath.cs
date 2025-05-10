@@ -10,7 +10,7 @@ public class EnemyDeath : MonoBehaviour
     [ReadOnly] private GameObject deathSpriteTemp;
 
     [Space] [Title("Timer")]
-    [SerializeField] [Range(1f,10f)] public float timer = 2f;
+    [SerializeField] [Range(0.5f,10f)] public float timer = 2f;
     [ReadOnly] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
 
