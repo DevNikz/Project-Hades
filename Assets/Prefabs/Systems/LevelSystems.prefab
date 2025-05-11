@@ -124,6 +124,12 @@ MonoBehaviour:
   airStats: {fileID: 0}
   fireStats: {fileID: 0}
   SlowedEnemyCount: 0
+  BurningColor: {r: 1, g: 0, b: 0, a: 1}
+  BurnDamagedColor: {r: 1, g: 0, b: 0, a: 1}
+  SlowedColor: {r: 0, g: 0, b: 1, a: 1}
+  RustedFullyColor: {r: 0, g: 0, b: 0, a: 1}
+  BasicColor: {r: 1, g: 1, b: 1, a: 1}
+  StunnedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &749906916490835384
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,6 +410,58 @@ MonoBehaviour:
   poolSize: 0
   availableObjects: []
   releasedObjects: []
+--- !u!1 &1777060965608004844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6558483428556610963}
+  - component: {fileID: 4864319929311452628}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6558483428556610963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777060965608004844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3555006036682300655}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4864319929311452628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777060965608004844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f20413f822174947a4fe0bb367e5b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Runs: 0
+  DepthLevel: 0
+  Wins: 0
+  Deaths: 0
+  hasPlayed: 0
+  save1: 0
+  save2: 0
+  save3: 0
 --- !u!1 &2054104260508363653
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,10 +648,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d0bf03b359a94eb4b9f27ffe24fbe900, type: 3}
   - {fileID: 21300000, guid: edaa5d75058eacd43b9d4fe3433de323, type: 3}
   - {fileID: 21300000, guid: 0985e945dd1e5d44e9b3ae113a4244a3, type: 3}
+  lockedSprite: {fileID: 0}
   stanceButtons:
   - {fileID: 506231007318572485}
   - {fileID: 3369663019840768545}
   - {fileID: 4426186569896918043}
+  waterUnlocked: 0
+  windUnlocked: 0
+  fireUnlocked: 0
+  earthUnlocked: 0
   debug: 0
 --- !u!114 &7476126009494025242
 MonoBehaviour:
@@ -2436,6 +2499,7 @@ Transform:
   - {fileID: 982641190421392502}
   - {fileID: 951914296591684023}
   - {fileID: 6720478585807447847}
+  - {fileID: 6558483428556610963}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1032922015288184827
@@ -2494,6 +2558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22dd0cc0cb3286f4aa087022e37797fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 0}
   stackableAugments:
   - Augment: {fileID: 11400000, guid: ba06a12687b624e46b4c5bad25f8628b, type: 2}
     Count: 0
@@ -4961,6 +5026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: b9400f75c8f333b45909d5694cebc3b2, type: 2}
   unlockEventName: WATER_UNLOCKED
+  lockedImage: {fileID: 0}
 --- !u!1 &567040260933117911 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5317918984597921416, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -4981,6 +5047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: 3eac95e50562629488c90a1cb8281ef9, type: 2}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &1592467377449684464 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6343908986140095663, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5001,6 +5068,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 0}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &2109790028207767317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6004698955588077130, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5021,6 +5089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &3220760137320393928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7107229414436951447, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5041,6 +5110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: 18a2db7ca8082b14e916e32bf5ae4f27, type: 2}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &3369663019840768545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6976341428765045630, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5061,6 +5131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: d1aff34c2f35f0b439a7e66201a9631e, type: 2}
   unlockEventName: WIND_UNLOCKED
+  lockedImage: {fileID: 0}
 --- !u!224 &3790288992487278859 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8829954652721623124, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5087,6 +5158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: 435bef6d3966851428e8260736aaf415, type: 2}
   unlockEventName: FIRE_UNLOCKED
+  lockedImage: {fileID: 0}
 --- !u!1 &4593095062856681484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8191608635368730963, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5107,6 +5179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 0}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &4921765179636261472 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 747065796682554175, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5139,6 +5212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: ba06a12687b624e46b4c5bad25f8628b, type: 2}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1 &6952502347254248006 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3346107678398614297, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5165,6 +5239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 11400000, guid: daa24bb31914e424882568b878b669a2, type: 2}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!114 &8340666568180050439 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4455048721823535960, guid: bbe14e043d9193d4e9e5c6d30957be97,
@@ -5197,6 +5272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAugment: {fileID: 0}
   unlockEventName: 
+  lockedImage: {fileID: 0}
 --- !u!1001 &5723885041320299280
 PrefabInstance:
   m_ObjectHideFlags: 0
