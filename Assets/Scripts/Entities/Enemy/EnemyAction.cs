@@ -19,7 +19,7 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public bool IsSearching = false;
 
     [NonSerialized] public EnemyController _controller;
-    [NonSerialized] public EnemyStatsScriptable _enemyStats;
+    [SerializeField] public EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
