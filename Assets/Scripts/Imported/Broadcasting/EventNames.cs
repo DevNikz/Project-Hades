@@ -40,6 +40,7 @@ public class EventNames {
 
 	public class Augment
 	{
+		public const string EARTH_UNLOCKED = "EARTH_UNLOCKED";
 		public const string WATER_UNLOCKED = "WATER_UNLOCKED";
         public const string WIND_UNLOCKED = "WIND_UNLOCKED";
         public const string FIRE_UNLOCKED = "FIRE_UNLOCKED";

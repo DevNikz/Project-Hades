@@ -8,6 +8,7 @@ public class AugmentIconUpdater : MonoBehaviour
 {
     [SerializeField] private AugmentScriptable currentAugment;
     [SerializeField] private string unlockEventName;
+    [SerializeField] private Sprite lockedImage;
     private bool isLocked = true;
 
     private Image targetUIImage;
@@ -39,8 +40,16 @@ public class AugmentIconUpdater : MonoBehaviour
 
     public void SetAugment(AugmentScriptable augment = null){
         this.currentAugment = augment;
-        if(!this.isLocked)
-            this.UpdateImage();
+        if (this.isLocked)
+        {
+
+            this.targetUIImage.sprite = this.lockedImage;
+        }
+        else if (this.currentAugment != null)
+        {
+
+            this.targetUIImage.sprite = this.currentAugment.augmentIcon;
+        }
     }
 
     private void UpdateImage(){

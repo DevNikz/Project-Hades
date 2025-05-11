@@ -91,6 +91,10 @@ public class MenuScript : MonoBehaviour
 
                     switch(selection)
                     {
+                        case 0: // Earth
+                            if (!ItemManager.Instance.Earth)
+                                selection = previousSelection >= 0 ? previousSelection : 0;
+                            break;
                         case 1:
                             if (!ItemManager.Instance.Water)
                                 selection = 0;
