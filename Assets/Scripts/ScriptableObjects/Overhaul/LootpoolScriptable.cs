@@ -24,9 +24,9 @@ public class LootpoolScriptable : ScriptableObject
         AugmentType chosenAugment = upperLimitAugmentMap[totalRate];
 
         int threshold = (int)(((float)UnityEngine.Random.Range(0, 100) / 100.0f) * (float)totalRate);
-        Debug.Log("Threshold: " + threshold);
+        // Debug.Log("Threshold: " + threshold);
         foreach(var map in upperLimitAugmentMap){
-            Debug.Log("Map Item: " + map.Key +", " + map.Value);
+            // Debug.Log("Map Item: " + map.Key +", " + map.Value);
             // chosenAugment = map.Value;
             if(threshold < map.Key){
                 chosenAugment = map.Value;
@@ -34,7 +34,7 @@ public class LootpoolScriptable : ScriptableObject
             }
         }
 
-        Debug.Log("Chosen Augment: " + chosenAugment);
+        // Debug.Log("Chosen Augment: " + chosenAugment);
 
         return chosenAugment;
     }
@@ -47,6 +47,10 @@ public class LootpoolScriptable : ScriptableObject
         int runningTotal = 0;
         foreach(var item in LootpoolItems){
             runningTotal += (int)(item.dropRate * 100);
+            if(item.Augment == null){
+                Debug.LogWarning("[WARN]: Lootpool has null item");
+                continue;
+            }
             upperLimitAugmentMap.Add(runningTotal, item.Augment.augmentType);
             // Debug.Log(runningTotal);
         }
