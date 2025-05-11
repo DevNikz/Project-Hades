@@ -77,8 +77,10 @@ public class LevelRewardScript : MonoBehaviour
                     lootpool.returnRandomizedItem()
                 );
 
-                if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType)) //<-chosen augment is null here
-                    chosenAugment = null;
+                if(chosenAugment != null){
+                    if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType)) //<-chosen augment is null here
+                        chosenAugment = null;
+                }
                 
             } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
 
