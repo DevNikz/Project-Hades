@@ -364,6 +364,18 @@ public class PlayerController : MonoBehaviour
         CheckHealth();
     }
 
+    public void HealHealth(float amount){
+        if(amount < 0) return;
+        
+        if(currentHealth + amount > modTotalHealth)
+            amount = modTotalHealth - currentHealth;
+
+        currentHealth += amount;
+
+        healthMeter.value = ToPercent(currentHealth, modTotalHealth);
+        CheckHealth();
+    }
+
     void TriggerHurt() {
         TriggerRandomHurtSFX();
         isHurt = true;
@@ -407,15 +419,16 @@ public class PlayerController : MonoBehaviour
     }
 
     //Vitality | Total Health
-    public void SetTotalHealth(float value) {
+    public void SetBonusHealth(float value) {
         //Set Total Health
         modTotalHealth = baseTotalHealth;
         modTotalHealth += value;
 
-        //Set Current Health
-        if(currentHealth < modTotalHealth)
-            currentHealth += 25;
+        if(currentHealth > modTotalHealth)
+            currentHealth = modTotalHealth;
+
     }
+
     IEnumerator DisableAnimsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);

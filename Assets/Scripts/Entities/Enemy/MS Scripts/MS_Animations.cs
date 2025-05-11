@@ -10,13 +10,13 @@ public class MS_Animations : EnemyAnimation
         switch (action.Action)
         {
             case 0:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Canter");
                 break;
             case 1:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Canter");
                 break;
             case 2:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Canter");
                 break;
             case 3:
                 if (this.getPrevAction() != 3) spriteAnimator.Play("Attack");

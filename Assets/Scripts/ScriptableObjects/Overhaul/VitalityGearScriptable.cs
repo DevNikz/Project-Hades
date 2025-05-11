@@ -12,7 +12,7 @@ public class VitalityGearScriptable : AugmentScriptable
     public override void OnActivate() {
         this.IsActive = true;
         // TODO : Update the player stats accordingly
-        Debug.LogWarning("[TODO]: Vitality Gear needs to update player health stats");
+        // Debug.LogWarning("[TODO]: Vitality Gear needs to update player health stats");
     }
 
     [BoxGroup("Attributes/base/right/box3", showLabel: false)]
@@ -21,6 +21,6 @@ public class VitalityGearScriptable : AugmentScriptable
     public override void OnDeactivate() {
         this.IsActive = false;
         // TODO : Update the player stats accordingly
-        Debug.LogWarning("[TODO]: Vitality Gear needs to update player health stats on deactivate");
+        // Debug.LogWarning("[TODO]: Vitality Gear needs to update player health stats on deactivate");
     }
 }

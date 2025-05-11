@@ -108,8 +108,8 @@ public class CronosAI : EnemyAction
 
         if (IsAttacking)
             Reaping();
-
-        if (circleHitBox.transform.localScale.x >= 15 || (IsAttacking && !circleHitBox.activeSelf))
+        // || (IsAttacking && !circleHitBox.activeSelf)
+        if (circleHitBox.transform.localScale.x >= 15)
         {
             FinishAction();
             IsAttacking = false;

@@ -10,6 +10,13 @@ public class StatCalculator : MonoBehaviour
     [SerializeField] private PlayerElementScriptable fireStats;
     [HideInInspector] public int SlowedEnemyCount = 0;
 
+    public Color BurningColor = Color.red;
+    public Color BurnDamagedColor = Color.red;
+    public Color SlowedColor = Color.blue;
+    public Color RustedFullyColor = Color.black;
+    public Color BasicColor = Color.white;
+    public Color StunnedColor = Color.grey;
+
     public float CriticalDmgMult {
         get {
             return 2.0f;

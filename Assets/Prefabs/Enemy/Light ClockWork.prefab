@@ -163,7 +163,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7394ec6afff96342b497577e69bbf5a, type: 2}
+  - {fileID: 2100000, guid: 272ba847f100d4251bb8260575189042, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6069,13 +6069,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  IsAttacking: 0
-  IsPatrolling: 0
-  IsSearching: 0
-  _enemyStats: {fileID: 11400000, guid: fc9b860c25be9ac43b0c7cb82f5c78b9, type: 2}
   _attackHitbox: {fileID: 6100531473279278842}
   Cooldown: 0
-  timer: 0
+  drawLine: 0
 --- !u!114 &8567482527809789448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6093,7 +6089,19 @@ MonoBehaviour:
   currentPoise: 0
   currentTimer: 0
   poiseDamaged: 0
-  staggered: 0
+  IsStaggered: 0
+  IsStunned: 0
+  IsRusted: 0
+  IsSlowed: 0
+  IsBurning: 0
+  IsKnockedback: 0
+  stunTimer: 0
+  rustTimer: 0
+  rustBuildup: 0
+  slowTimer: 0
+  burnTimer: 0
+  burnDamageTicker: 0
+  knockbackTimer: 0
   hasBeenDetained: 0
   timerState: 0
   ShowReferences: 1
@@ -6106,10 +6114,9 @@ MonoBehaviour:
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
-  sprite: {fileID: 0}
+  spriteContainer: {fileID: 0}
+  sprite: {fileID: 1235205148075948474}
   spawnPoint: {x: 0, y: 0, z: 0}
-  earthStanceStats: {fileID: 11400000, guid: 829c275a6783c93499e14f5ceb6a08d0, type: 2}
-  fireStanceStats: {fileID: 11400000, guid: 5f8b9dd75a87a0e4d9401f27da4459f1, type: 2}
 --- !u!114 &6101125431632735109
 MonoBehaviour:
   m_ObjectHideFlags: 0
