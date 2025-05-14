@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Movement))]
-[RequireComponent(typeof(Combat))]
 [RequireComponent(typeof(PlayerAnimatorController))]
 [RequireComponent(typeof(PlayerDeath))]
 [RequireComponent(typeof(PlayerHazard))]
@@ -187,7 +186,7 @@ public class PlayerController : MonoBehaviour
         this.gameObject.tag = "Player";
         transform.Find("Anims").gameObject.SetActive(true);
         GetComponent<Movement>().enabled = true;
-        GetComponent<Combat>().enabled = true;
+        //GetComponent<Combat>().enabled = true;
         GetComponent<PlayerAnimatorController>().enabled = true;
         GetComponent<PlayerHazard>().enabled = true;
 
@@ -252,7 +251,7 @@ public class PlayerController : MonoBehaviour
             UpdateHurt();
             transform.Find("Anims").gameObject.SetActive(true);
             GetComponent<Movement>().enabled = true;
-            GetComponent<Combat>().enabled = true;
+            //GetComponent<Combat>().enabled = true;
             GetComponent<PlayerAnimatorController>().enabled = true;
             GetComponent<PlayerHazard>().enabled = true;
         }

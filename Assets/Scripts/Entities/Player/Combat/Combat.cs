@@ -60,6 +60,9 @@ public class Combat : MonoBehaviour
     //References
     [PropertySpace] [TitleGroup("References", "General References", TitleAlignments.Centered)] 
 
+    [BoxGroup("References/Debug")]
+    [ReadOnly] public float AttackPressedTimer;
+
     [BoxGroup("References/Debug", ShowLabel = false)]
     [ReadOnly] public Vector3 tempPosition;
 
@@ -167,6 +170,8 @@ public class Combat : MonoBehaviour
     [BoxGroup("Miscallaneous/Pointer", ShowLabel = false)]
     [HideLabel] [ReadOnly] [SerializeReference] protected float rotX;
 
+    
+
     //Broadcaster
     public const string LEFT_CLICK = "LEFT_CLICK";
     public const string RIGHT_CLICK = "RIGHT_CLICK";
@@ -216,7 +221,7 @@ public class Combat : MonoBehaviour
         comboCounter = 0;
         detainTimer = 0;
         Debug.Log("Combat Enabled!");
-        EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.StateHandler);
+        //EventBroadcaster.Instance.AddObserver(EventNames.MouseInput.LEFT_CLICK_PRESS, this.StateHandler);
         EventBroadcaster.Instance.AddObserver(EventNames.KeyboardInput.DETAIN_PRESS, this.StateHandler);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.PLAYER_SEEN, this.SetPlayerSeen);
         EventBroadcaster.Instance.AddObserver(EventNames.Combat.ENEMY_KILLED, this.UpdateElementChargeOnKill);
@@ -230,6 +235,8 @@ public class Combat : MonoBehaviour
     }
 
     void Update() {
+        AttackPressedTimer -= Time.deltaTime;
+        StateHandlerClick();
         UpdatePointer();
         UpdateTimer();
         UpdateAttackDirection();
@@ -249,6 +256,35 @@ public class Combat : MonoBehaviour
         else attackDirection = AttackDirection.Left;
     }
 
+    void StateHandlerClick() {
+        bool pressed = Input.GetMouseButtonDown(0);
+
+        //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
+        //Debug.Log(MenuScript.weaponWheelCheck);
+        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player" && LevelTrigger.HudCheck == false) {
+            switch(pressed) {
+                case true:
+                    switch(selectedElement) {
+                        case Elements.Earth:
+                            AttackPressedTimer = 1.5f;
+                            InitAttack(Elements.Earth);
+                            break;
+                        case Elements.Fire:
+                            InitAttack(Elements.Fire);
+                            break;
+                        case Elements.Water:
+                            InitAttack(Elements.Water);
+                            break;
+                        case Elements.Wind:
+                            InitAttack(Elements.Wind);
+                            break;
+                    }
+                    break;
+            }
+        }
+        animatorController.PlayAttackAnim(comboCounter, elements);
+    }
+ 
     void StateHandler(Parameters parameters) {
         leftClick = parameters.GetBoolExtra(LEFT_CLICK, false);
         detainPress = parameters.GetBoolExtra(DETAIN, false);
@@ -260,6 +296,7 @@ public class Combat : MonoBehaviour
                 case (true, false):
                     switch(selectedElement) {
                         case Elements.Earth:
+                            AttackPressedTimer = 2f;
                             InitAttack(Elements.Earth);
                             break;
                         case Elements.Fire:
@@ -282,8 +319,8 @@ public class Combat : MonoBehaviour
     }
 
     void InitAttack(Elements selectedElement) {
-        if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
-            if(Time.time - lastClickedTime >= 0.25f) {
+        switch(comboCounter) {
+            case 0:
                 leftClickAttacked = true;
                 tempDirection = attackDirection;
                 deltaState = entityState;
@@ -294,26 +331,70 @@ public class Combat : MonoBehaviour
                 
                 comboCounter++;
                 lastClickedTime = Time.time;
+                break;
+            case 1:
+            case 2:
+            case 3:
+                if(animator.GetFloat("AttackWindow.Open") > 0f) {
+                    leftClickAttacked = true;
+                    tempDirection = attackDirection;
+                    deltaState = entityState;
+                    deltaDir = entityDir;
 
-                PlayerController controller = gameObject.GetComponent<PlayerController>();
-                controller.UpdateMana(-combat.manaCost);
+                    entityState = EntityState.Attack;
+                    elements = selectedElement;
+                    
+                    comboCounter++;
+                    lastClickedTime = Time.time;
+                }
+                break;
+            default:
+                leftClickAttacked = true;
+                tempDirection = attackDirection;
+                deltaState = entityState;
+                deltaDir = entityDir;
 
-                if(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).IsActive)
-                    controller.SetInvincibility(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).augmentPower);
-
-                // if (comboCounter == 1) {
-                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                // }
-
-                // else if(comboCounter == 2) {
-                //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
-                // }
+                entityState = EntityState.Attack;
+                elements = selectedElement;
                 
-                // else if(comboCounter == 3) { 
-                //     InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
-                // }
-            }
+                comboCounter = 0;
+                lastClickedTime = Time.time;
+                break;
         }
+        
+
+        // if(Time.time - lastComboEnd > 0.5f & comboCounter <= 3) {
+        //     if(Time.time - lastClickedTime >= 0.25f) {
+        //         leftClickAttacked = true;
+        //         tempDirection = attackDirection;
+        //         deltaState = entityState;
+        //         deltaDir = entityDir;
+
+        //         entityState = EntityState.Attack;
+        //         elements = selectedElement;
+                
+        //         comboCounter++;
+        //         lastClickedTime = Time.time;
+
+        //         PlayerController controller = gameObject.GetComponent<PlayerController>();
+        //         controller.UpdateMana(-combat.manaCost);
+
+        //         if(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).IsActive)
+        //             controller.SetInvincibility(ItemManager.Instance.getAugment(AugmentType.Torrent_Gear).augmentPower);
+
+        //         // if (comboCounter == 1) {
+        //         //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+        //         // }
+
+        //         // else if(comboCounter == 2) {
+        //         //     InitHitBox(hitBoxBasic, "PlayerMelee", debug);
+        //         // }
+                
+        //         // else if(comboCounter == 3) { 
+        //         //     InitHitBox(hitBoxBasic, "PlayerMeleeLarge", debug);
+        //         // }
+        //     }
+        // }
     }
 
     void InitDetain() {
