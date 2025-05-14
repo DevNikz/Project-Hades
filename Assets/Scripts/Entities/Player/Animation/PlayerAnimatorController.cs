@@ -99,28 +99,21 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckEarthAnimation() {
-        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-        var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth1st")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth2nd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Earth3rd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.7f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
@@ -128,28 +121,21 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckFireAnimation() {
-        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-        var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire1st")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire2nd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Fire3rd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
@@ -157,28 +143,23 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckWaterAnimation() {
-        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-        var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water1st")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water2nd")) {
             //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Water3rd")) {
             //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
@@ -186,28 +167,21 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void CheckWindAnimation() {
-        //var clipLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        var clipSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-        var normTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
         //Right
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind1st")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.58f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind2nd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMelee", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
         }
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Wind3rd")) {
-            //Debug.Log($"Clip Length: {clipLength} | Clip Speed: {clipSpeed} | Time: {normTime} ");
-            if(normTime >= 0.6f && GetComponent<Combat>().leftClickAttacked == true) {
+            if(animator.GetFloat("AttackWindow.Open") > 0f && GetComponent<Combat>().leftClickAttacked == true) {
                 GetComponent<Combat>().InitHitBox(GetComponent<Combat>().hitBoxBasic, "PlayerMeleeLarge", GetComponent<Combat>().debug);
                 GetComponent<Combat>().leftClickAttacked = false;
             }
