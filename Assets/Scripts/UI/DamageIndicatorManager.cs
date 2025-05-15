@@ -15,7 +15,7 @@ public class DamageIndicatorManager : MonoBehaviour
     [SerializeField] private Color _burnTextColor = Color.red;
     [SerializeField] private float _indicatorDecayTime = 0.5f;
 
-    public void PlayerIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1){
+    public void PlayIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1){
         GameObject indicator = _objectPool.ReleaseObjectAt(position);
         if(!indicator.TryGetComponent<TMP_Text>(out var text)){
             Debug.LogWarning("[WARN]: Damage Indicator missing TMP Text.");
