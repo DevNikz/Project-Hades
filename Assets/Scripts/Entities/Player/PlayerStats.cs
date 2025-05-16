@@ -8,12 +8,20 @@ public class PlayerStats {
     public int Wins;
     public int Deaths;
     public int hasPlayed;
+    public PlayerStats()
+    {
+        Runs = 0;
+        DepthLevel = 0;
+        Wins = 0;
+        Deaths = 0;
+        hasPlayed = 0;
+    }
 
     public PlayerStats(SaveManager player) {
-        Runs = player.Runs;
-        DepthLevel = player.DepthLevel;
-        Wins = player.Wins;
-        Deaths = player.Deaths;
-        hasPlayed = player.hasPlayed ? 1 : 0;
+        Runs = player.CurrentStats.Runs;
+        DepthLevel = player.CurrentStats.DepthLevel;
+        Wins = player.CurrentStats.Wins;
+        Deaths = player.CurrentStats.Deaths;
+        hasPlayed = player.CurrentStats.hasPlayed;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,8 +34,7 @@ public class LevelRewardScript : MonoBehaviour
 
     public string nextLevel = null;
 
-    void Start()
-    {
+    void Start(){
         ResetMenu();
     }
 
@@ -49,14 +49,9 @@ public class LevelRewardScript : MonoBehaviour
         levelRewardMenu.SetActive(false);
     }
 
-    private void Update()
-    {
-        if(levelRewardMenu.activeInHierarchy)
-        {
-            //Time.timeScale = 0.0f;
-
-            if (choiceMade && nextLevel != null)
-            {
+    private void Update(){
+        if(levelRewardMenu.activeInHierarchy){
+            if (choiceMade && nextLevel != null){
                 TransitionLevel();
             }
         }
@@ -72,43 +67,23 @@ public class LevelRewardScript : MonoBehaviour
             
             currentAugmentGenRetries = 0;
 
-            do{
+            do {
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
                 );
 
                 if(chosenAugment != null){
-                    if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType)) //<-chosen augment is null here
+                    if(ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                         chosenAugment = null;
                 }
                 
             } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
 
             currentAugmentGenRetries = maxRetryAugmentGenerate;
-            // Debug.Log(chosenAugments.Contains(chosenAugment));
 
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
         }
-
-        // if(!ItemManager.Instance.Water)
-        // {
-        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(thalassaGear);
-        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[0];
-        //     stanceButton.name = stanceSprites[0].name;  
-        // }
-        // else if(!ItemManager.Instance.Wind)
-        // {
-        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(ouranosGear);
-        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[1];
-        //     stanceButton.name = stanceSprites[1].name;
-        // }
-        // else if (!ItemManager.Instance.Fire)
-        // {
-        //     stanceButton.GetComponent<AugmentIconUpdater>().SetAugment(gehennaGear);
-        //     stanceButton.GetComponent<UnityEngine.UI.Image>().sprite = stanceSprites[2];
-        //     stanceButton.name = stanceSprites[2].name;
-        // }
     }
 
     public void ButtonSelected()
@@ -120,8 +95,6 @@ public class LevelRewardScript : MonoBehaviour
         if(updater != null){
             choice = updater.GetAugment().augmentType;
         }
-
-        Debug.Log(choice);
     }
 
     public void ChoiceMade()
@@ -144,27 +117,17 @@ public class LevelRewardScript : MonoBehaviour
             }
             choiceMade = true;
         }
-        else
-            Debug.Log("bad");
     }
 
-    public void TransitionLevel()
-    {
-        //Time.timeScale = 1f;
+    public void TransitionLevel(){
         GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(nextLevel);
-        //SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
         ResetMenu();
-        //StartCoroutine(Deactivate());
     }
 
-    IEnumerator Deactivate()
-    {
-        levelRewardMenu.SetActive(false);
-        yield return null;
-    }
-
-    public void Activate()
+    public void Activate(string targetLevel)
     {
         levelRewardMenu.SetActive(true);
+        if(!targetLevel.IsNullOrWhitespace())
+            nextLevel = targetLevel;
     }
 }

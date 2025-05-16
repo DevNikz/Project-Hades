@@ -8,15 +8,15 @@ public class SaveUIManager : MonoBehaviour
     public List<GameObject> load;
 
     void Update() {
-        if(SaveManager.Instance.save1) {
+        if(SaveManager.Instance.HadPlayedSave1) {
             save[0].SetActive(false);
             load[0].SetActive(true);
         }
-        if(SaveManager.Instance.save2) {
+        if(SaveManager.Instance.HadPlayedSave2) {
             save[1].SetActive(false);
             load[1].SetActive(true);
         }
-        if(SaveManager.Instance.save3) {
+        if(SaveManager.Instance.HadPlayedSave3) {
             save[2].SetActive(false);
             load[2].SetActive(true);
         }

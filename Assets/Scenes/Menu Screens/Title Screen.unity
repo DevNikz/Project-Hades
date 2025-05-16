@@ -476,7 +476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -346.66666}
+  m_AnchoredPosition: {x: 960, y: -346.76517}
   m_SizeDelta: {x: 250, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59171546
@@ -1682,14 +1682,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f20413f822174947a4fe0bb367e5b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Runs: 0
-  DepthLevel: 0
-  Wins: 0
-  Deaths: 0
-  hasPlayed: 0
-  save1: 0
-  save2: 0
-  save3: 0
+  CurrentStats:
+    Runs: 0
+    DepthLevel: 0
+    AugmentID: 
+    Wins: 0
+    Deaths: 0
+    hasPlayed: 0
+  HadPlayedSave1: 0
+  HadPlayedSave2: 0
+  HadPlayedSave3: 0
 --- !u!4 &827891274
 Transform:
   m_ObjectHideFlags: 0
@@ -1741,7 +1743,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -733.33325}
+  m_AnchoredPosition: {x: 960, y: -733.8258}
   m_SizeDelta: {x: 250, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &869666921
@@ -2623,7 +2625,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -540}
+  m_AnchoredPosition: {x: 960, y: -540.29553}
   m_SizeDelta: {x: 250, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1602980321
@@ -3316,6 +3318,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1153665460730704012, guid: 3bfb5a8874c50c644b6c27d374c49f95,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2336472943645480288, guid: 3bfb5a8874c50c644b6c27d374c49f95,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3420,6 +3427,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Loading
+      objectReference: {fileID: 0}
+    - target: {fileID: 5266753725692848072, guid: 3bfb5a8874c50c644b6c27d374c49f95,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283650934945888403, guid: 3bfb5a8874c50c644b6c27d374c49f95,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -454,14 +454,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f20413f822174947a4fe0bb367e5b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Runs: 0
-  DepthLevel: 0
-  Wins: 0
-  Deaths: 0
-  hasPlayed: 0
-  save1: 0
-  save2: 0
-  save3: 0
+  CurrentStats:
+    Runs: 0
+    DepthLevel: 0
+    AugmentID: 
+    Wins: 0
+    Deaths: 0
+    hasPlayed: 0
+  HadPlayedSave1: 0
+  HadPlayedSave2: 0
+  HadPlayedSave3: 0
 --- !u!1 &2054104260508363653
 GameObject:
   m_ObjectHideFlags: 0
@@ -5551,10 +5553,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelLoader
       objectReference: {fileID: 0}
-    - target: {fileID: 5329493368907601785, guid: 5d368889cf23d2f41b5291e7fd86836c,
+    - target: {fileID: 4129754763179764116, guid: 5d368889cf23d2f41b5291e7fd86836c,
         type: 3}
-      propertyPath: m_text
-      value: Loading...
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6869571359406625203, guid: 5d368889cf23d2f41b5291e7fd86836c,
         type: 3}
@@ -5604,6 +5606,11 @@ PrefabInstance:
     - target: {fileID: 6869571359406625203, guid: 5d368889cf23d2f41b5291e7fd86836c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926041465624666507, guid: 5d368889cf23d2f41b5291e7fd86836c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
