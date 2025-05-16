@@ -19,6 +19,7 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++){
             GameObject obj = Instantiate(poolObject);
+            obj.transform.SetParent(transform);
             obj.SetActive(false);
             this.availableObjects.Add(obj);
         }
@@ -28,6 +29,7 @@ public class ObjectPool : MonoBehaviour
         ResetPool();
         for (int i = 0; i < poolSize; i++){
             GameObject obj = Instantiate(poolObject);
+            obj.transform.SetParent(transform);
             obj.SetActive(false);
             this.availableObjects.Add(obj);
         }

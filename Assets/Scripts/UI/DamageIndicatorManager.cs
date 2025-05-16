@@ -9,7 +9,7 @@ public class DamageIndicatorManager : MonoBehaviour
         Normal, Critical, Burn
     }
 
-    private ObjectPool _objectPool;
+    [SerializeField] private ObjectPool _objectPool;
     [SerializeField] private Color _normalTextColor = Color.white;
     [SerializeField] private Color _criticalTextColor = Color.yellow;
     [SerializeField] private Color _burnTextColor = Color.red;
@@ -17,7 +17,8 @@ public class DamageIndicatorManager : MonoBehaviour
 
     public void PlayIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1){
         GameObject indicator = _objectPool.ReleaseObjectAt(position);
-        if(!indicator.TryGetComponent<TMP_Text>(out var text)){
+        TMP_Text text = indicator.GetComponentInChildren<TMP_Text>();
+        if(!text){
             Debug.LogWarning("[WARN]: Damage Indicator missing TMP Text.");
             _objectPool.ReturnObject(indicator);
             return;
@@ -81,9 +82,9 @@ public class DamageIndicatorManager : MonoBehaviour
 
         canvas.worldCamera = mainCamera;
 
-        if(!TryGetComponent<ObjectPool>(out var _objectPool)){
-            Debug.LogWarning("[WARN]: Object Pool not found in Damage Indicator Manager");
-        }
+        // if(!TryGetComponent<ObjectPool>(out _objectPool)){
+        //     Debug.LogWarning("[WARN]: Object Pool not found in Damage Indicator Manager");
+        // }
     }
 
     public static DamageIndicatorManager Instance { get; private set; }

@@ -293,6 +293,7 @@ public class EnemyController : MonoBehaviour
 
     private void DealBurnDamage(float amount){
         currentHealth -= amount;
+        DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, amount, DamageIndicatorManager.DamageType.Burn);
         sprite.color = StatCalculator.Instance.BurnDamagedColor;
         UpdateNormalHP();
     }
@@ -378,7 +379,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain) {
+    public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain, bool isCritical = false) {
         //SFX Play
         SFXPlayer(detain);
 
@@ -386,6 +387,10 @@ public class EnemyController : MonoBehaviour
         hitFX.Play();
         this.gameObject.GetComponent<EnemyAction>().SetHit(attackDirection);
         manaCharge = FindAnyObjectByType<PlayerController>();
+        if(isCritical)
+            DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, damage, DamageIndicatorManager.DamageType.Critical);
+        else
+            DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, damage, DamageIndicatorManager.DamageType.Normal);
 
         //Health
         currentHealth -= damage;
