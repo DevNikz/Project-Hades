@@ -2500,6 +2500,7 @@ Transform:
   - {fileID: 951914296591684023}
   - {fileID: 6720478585807447847}
   - {fileID: 6558483428556610963}
+  - {fileID: 229976955060318425}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1032922015288184827
@@ -3505,6 +3506,95 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1001 &323796681757473278
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3555006036682300655}
+    m_Modifications:
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048017864231373515, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048017864231373515, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3048017864231373515, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5764119763396914354, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: m_Name
+      value: DmgIndicatorManager 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 83f6558f46b9bdf44bb3595299d589d2, type: 3}
+--- !u!4 &229976955060318425 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 526729358925089063, guid: 83f6558f46b9bdf44bb3595299d589d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 323796681757473278}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &749422606990635441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5087,7 +5177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63db7d36378235a4abfbb33f77006d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentAugment: {fileID: 11400000, guid: 8132e97aa6f0714419579c44a9212f1e, type: 2}
+  currentAugment: {fileID: 0}
   unlockEventName: 
   lockedImage: {fileID: 0}
 --- !u!1 &3220760137320393928 stripped
