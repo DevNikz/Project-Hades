@@ -173,6 +173,9 @@ public class PlayerController : MonoBehaviour
             case "Level 3":
                 SaveManager.Instance.SetDepth(3);
                 break;
+            case "CronosLevel":
+                SaveManager.Instance.SetDepth(4);
+                break;
             case "Level 4":
                 SaveManager.Instance.SetDepth(4);
                 break;

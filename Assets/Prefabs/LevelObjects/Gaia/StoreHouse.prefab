@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cb83c78c00173854aaccd948acd1fee5, type: 2}
+  - {fileID: 2100000, guid: 87607c0fafe98e344a126477cb4e5416, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solidModel: {fileID: 6729873157596345697}
   transparentModel: {fileID: 2299719689190099348}
+  _colorFieldName: _BaseColor
   renderers: []
 --- !u!65 &1788300200917343781
 BoxCollider:

@@ -32,8 +32,6 @@ public class LevelRewardScript : MonoBehaviour
     AugmentType choice = AugmentType.None;
     bool choiceMade = false;
 
-    public string nextLevel = null;
-
     void Start(){
         ResetMenu();
     }
@@ -51,7 +49,7 @@ public class LevelRewardScript : MonoBehaviour
 
     private void Update(){
         if(levelRewardMenu.activeInHierarchy){
-            if (choiceMade && nextLevel != null){
+            if (choiceMade){
                 TransitionLevel();
             }
         }
@@ -120,14 +118,14 @@ public class LevelRewardScript : MonoBehaviour
     }
 
     public void TransitionLevel(){
-        GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(nextLevel);
+        GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(
+            SaveManager.Instance.GetNextLevel()
+        );
         ResetMenu();
     }
 
-    public void Activate(string targetLevel)
+    public void Activate()
     {
         levelRewardMenu.SetActive(true);
-        if(!targetLevel.IsNullOrWhitespace())
-            nextLevel = targetLevel;
     }
 }

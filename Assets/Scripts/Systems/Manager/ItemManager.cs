@@ -181,6 +181,8 @@ public class ItemManager : MonoBehaviour
 
             if(stackAugment.Augment.augmentType == AugmentType.Vitality){
                 UpdatePlayerVitality();
+                if(!_player)
+                    _player = GameObject.Find("Player").GetComponent<PlayerController>();
                 _player.HealHealth(stackAugment.Augment.augmentPower);
             } else {
                 ToggleValidAugments(Elements.None);

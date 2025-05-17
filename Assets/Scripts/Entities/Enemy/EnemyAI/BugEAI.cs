@@ -61,7 +61,7 @@ public class BugEAI : EnemyAction
 
                 fire.SetActive(true);
                 if (fire.GetComponent<Rigidbody>() != null)
-                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * _enemyStats.moveSpeed * this._bulletSpeed, ForceMode.VelocityChange);
+                    fire.GetComponent<Rigidbody>().AddForce(this.transform.forward * this._bulletSpeed, ForceMode.VelocityChange);
 
                 _sprite.GetComponent<EnemyAnimation>().SetShoot(_atkDir);
             }

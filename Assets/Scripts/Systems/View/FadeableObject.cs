@@ -6,6 +6,7 @@ public class FadeableObject : MonoBehaviour
 {
     [SerializeField] private GameObject solidModel;
     [SerializeField] private GameObject transparentModel;
+    [SerializeField] private string _colorFieldName = "_BaseColor";
     [SerializeField, HideInInspector] private Renderer[] renderers;
 
     private MaskObject maskObjectScriptRef;
@@ -48,18 +49,31 @@ public class FadeableObject : MonoBehaviour
         fadedout = isFadeout;
         lerping = true;
         foreach(Renderer renderer in renderers){
-            if(isFadeout){
-                Color solidColor = renderer.material.color;
+
+            if (!renderer.material.HasColor(_colorFieldName))
+            {
+                Debug.LogWarning($"[WARN]: {this}, {renderer.gameObject}, {renderer.material} missing \"{_colorFieldName}\" property");
+                transparentModel.SetActive(false);
+                if (!isFadeout)
+                    solidModel.SetActive(true);
+                continue;
+            }
+            
+            
+
+            if (isFadeout)
+            {
+                Color solidColor = renderer.material.GetColor(_colorFieldName);
                 solidColor.a = 1.0f;
 
-                renderer.material.color = solidColor;
+                renderer.material.SetColor(_colorFieldName, solidColor);
             }
 
-            Color newColor = renderer.material.color;
+            Color newColor = renderer.material.GetColor(_colorFieldName);
             if(isFadeout) newColor.a = fadeoutAlpha;
             else newColor.a = 1.0f;
 
-            StartCoroutine(TransitionFade(renderer, renderer.material.color, newColor, time));
+            StartCoroutine(TransitionFade(renderer, renderer.material.GetColor(_colorFieldName), newColor, time));
         }
     }
 
@@ -74,10 +88,10 @@ public class FadeableObject : MonoBehaviour
 
             if(tar != null){
                 if(fadeTime == 0.0f){
-                    tar.material.color = endColor;
+                    tar.material.SetColor(_colorFieldName, endColor);
                     lerping = false;
                 } else {
-                    tar.material.color = Color.Lerp(startColor, endColor, lerpProgress/fadeTime);
+                    tar.material.SetColor(_colorFieldName, Color.Lerp(startColor, endColor, lerpProgress/fadeTime));
                 }
                 
             } else {

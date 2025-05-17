@@ -57,7 +57,7 @@ public class LevelTrigger : MonoBehaviour
                 //if(NextLevel == "Win Screen") Destroy(GameObject.Find("LevelSystems"));
 
                 // playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
-                playerInputManager.GetComponent<LevelRewardScript>().Activate(NextLevel);
+                playerInputManager.GetComponent<LevelRewardScript>().Activate();
                 spawner.ClearSpawnPoints();
 
                 // TransitionLevel();

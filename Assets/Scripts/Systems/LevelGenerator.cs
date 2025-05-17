@@ -41,8 +41,8 @@ public class LevelGenerator : MonoBehaviour
         this.GenerateLevel();
 
         GameObject playerInputManager = GameObject.Find("PlayerInputManager");
-        if(playerInputManager != null)
-            playerInputManager.GetComponent<LevelRewardScript>().nextLevel = _nextLevelName;
+        if (playerInputManager != null)
+            SaveManager.Instance.AddDepth();
         else
             Debug.LogWarning("Player Input Manager Missing");
     }
