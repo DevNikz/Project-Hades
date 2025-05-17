@@ -202,7 +202,8 @@ public class MeleeController : MonoBehaviour
                 if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
                     criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
             } else {
-                enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
+                if(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).IsActive)
+                    enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
             }
 
             if(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).IsActive){

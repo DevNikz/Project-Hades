@@ -7,11 +7,12 @@ public class ObjectPool : MonoBehaviour
 {
     [SerializeField, AssetSelector] private GameObject poolObject;
     [SerializeField] private int poolSize;
+    [SerializeField] private bool _makeParent = true;
     
     [SerializeField, HideInInspector] private List<GameObject> availableObjects = new List<GameObject>();
     [SerializeField, HideInInspector] private List<GameObject> releasedObjects = new List<GameObject>();
 
-    public int ReleasedCount { get { return releasedObjects.Count;}}
+    public int ReleasedCount { get { return releasedObjects.Count; } }
     public int RemainingCount { get { return availableObjects.Count;}}
     public int TotalCount { get { return poolSize;}}
 
@@ -19,7 +20,8 @@ public class ObjectPool : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++){
             GameObject obj = Instantiate(poolObject);
-            obj.transform.SetParent(transform);
+            if(_makeParent)
+                obj.transform.SetParent(transform);
             obj.SetActive(false);
             this.availableObjects.Add(obj);
         }
@@ -29,7 +31,8 @@ public class ObjectPool : MonoBehaviour
         ResetPool();
         for (int i = 0; i < poolSize; i++){
             GameObject obj = Instantiate(poolObject);
-            obj.transform.SetParent(transform);
+            if(_makeParent)
+                obj.transform.SetParent(transform);
             obj.SetActive(false);
             this.availableObjects.Add(obj);
         }
