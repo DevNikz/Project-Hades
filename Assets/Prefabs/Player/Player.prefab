@@ -557,6 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: {fileID: 0}
+  IsHostile: 0
   timer: 0
 --- !u!33 &5629689872726614971
 MeshFilter:
@@ -16453,6 +16454,7 @@ MonoBehaviour:
   detainTimer: 0
   detainCooldown: 0
   debug: 1
+  AttackPressedTimer: 0
   tempPosition: {x: 0, y: 0, z: 0}
   tempVect: {x: 0, y: 0, z: 0}
   tempflicktime: 0
@@ -16611,7 +16613,7 @@ MonoBehaviour:
   target: {fileID: 6476314051922448961}
   maskTagName: Mask
   fadedAlpha: 0.3
-  fadeTime: 0
+  fadeTime: 1
   FadeOffsetDistance: 40
   fadeableObjects: []
 --- !u!114 &6420667686419347692
