@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
 
     [SerializeField] private int _maxLevels = 3;
+    [SerializeField] private bool _useRandomGen = false;
 
     [Title("Stats")]
     [SerializeField] public PlayerStats CurrentStats;
@@ -87,6 +89,9 @@ public class SaveManager : MonoBehaviour
         if (CurrentStats.DepthLevel >= _maxLevels)
             return "CronosLevel";
 
-        return "Level " + (CurrentStats.DepthLevel + 1);
+        if (!_useRandomGen)
+            return "Level " + (CurrentStats.DepthLevel + 1);
+
+        return "LevelScene";
     }
 }
