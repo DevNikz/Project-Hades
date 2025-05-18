@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour
         switch(scene.name) {
             case "Title Screen":
                 this.gameObject.tag = "Player(Heaven)";
+                SaveManager.Instance.SavePlayer();
                 break;
             case "Tutorial":
                 SaveManager.Instance.SetPlay(true);

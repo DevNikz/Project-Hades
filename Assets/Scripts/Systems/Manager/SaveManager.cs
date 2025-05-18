@@ -15,6 +15,7 @@ public class SaveManager : MonoBehaviour
 
     [Title("Stats")]
     [SerializeField] public PlayerStats CurrentStats;
+    [ReadOnly] public int SelectedSave = -1;
     [ReadOnly] public bool HadPlayedSave1;
     [ReadOnly] public bool HadPlayedSave2;
     [ReadOnly] public bool HadPlayedSave3;
@@ -37,6 +38,11 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(path3)) HadPlayedSave3 = true;
     }
 
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayerData(this, SelectedSave);
+    }
+
     public void SavePlayer(int index)
     {
         SaveSystem.SavePlayerData(this, index);
@@ -50,6 +56,7 @@ public class SaveManager : MonoBehaviour
     void LoadStats(int index)
     {
         CurrentStats = SaveSystem.LoadPlayerData(index);
+        SelectedSave = index;
         if (CurrentStats == null)
             CurrentStats = new();
     }
@@ -57,16 +64,19 @@ public class SaveManager : MonoBehaviour
     public void AddRun()
     {
         CurrentStats.Runs++;
+        SavePlayer();
     }
 
     public void AddWins()
     {
         CurrentStats.Wins++;
+        SavePlayer();
     }
 
     public void AddDeath()
     {
         CurrentStats.Deaths++;
+        SavePlayer();
     }
 
     public void AddDepth()
