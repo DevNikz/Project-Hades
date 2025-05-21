@@ -265,7 +265,12 @@ public class MeleeController : MonoBehaviour
                 poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
 
                 doesCritDmg = true;
-            } 
+                Debug.Log("[COMBAT]: Does a crit!");
+            }
+            else
+            {
+                Debug.Log("[COMBAT]: Does normal damage!");
+            }
 
             if(enemy.IsStaggered)
                 poiseDmgMult = 0.0f;
