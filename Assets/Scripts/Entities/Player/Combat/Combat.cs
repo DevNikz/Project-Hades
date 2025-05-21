@@ -266,7 +266,6 @@ public class Combat : MonoBehaviour
                 case true:
                     switch(selectedElement) {
                         case Elements.Earth:
-                            AttackPressedTimer = 1.5f;
                             InitAttack(Elements.Earth);
                             break;
                         case Elements.Fire:

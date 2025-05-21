@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     [ReadOnly, SerializeReference] public EntityMovement entityMovement;
     [ReadOnly, SerializeReference] public EntityState entityState;
     [ReadOnly, SerializeReference] public LookDirection lookDirection;
+    [ReadOnly, SerializeReference] public LookDirection attackDir;
     [ReadOnly, SerializeReference] public Elements elements;
     [ReadOnly, SerializeReference] public Elements selectedElement;
     [ReadOnly, SerializeReference] public bool isDashing;
@@ -83,6 +84,8 @@ public class PlayerController : MonoBehaviour
 
     [BoxGroup("ShowReferences/Reference")]
     [ReadOnly] [SerializeReference] private PlayerAnimatorController animatorController;
+
+    private float angle;
 
     public void SetMovement(EntityMovement value) { entityMovement = value; }
     public void SetState(EntityState value) { entityState = value; }
@@ -215,6 +218,7 @@ public class PlayerController : MonoBehaviour
 
     void Update(){
         UpdateHealth();
+        UpdateAtkDir();
         UpdateAnimatorControllerStates();
 
         if(IsInvincible){
@@ -228,6 +232,7 @@ public class PlayerController : MonoBehaviour
     {
         animatorController.SetMovement(entityMovement);
         animatorController.SetDirection(lookDirection);
+        animatorController.SetAtkDir(attackDir);
         if (isDead)
         {
             entityState = EntityState.Dead;
@@ -236,6 +241,14 @@ public class PlayerController : MonoBehaviour
         //animatorController.SetElements(elements);
         animatorController.SetSelectedElements(selectedElement);
         Debug.Log($"Animator controller state updated: {entityState}");
+    }
+
+    public void SetAngle(float value) { angle = value; }
+
+    void UpdateAtkDir() {
+        if(angle >= 0 && angle <= 90) attackDir = LookDirection.Right;
+        else if(angle <= 0 && angle >= -90) attackDir = LookDirection.Right;
+        else attackDir = LookDirection.Left;
     }
 
 

@@ -23,6 +23,9 @@ public class PlayerAnimatorController : MonoBehaviour
 
     [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private LookDirection entityDirection;
+    
+    [BoxGroup("ShowReferences/Ref")]
+    [SerializeReference] private LookDirection attackDirection;
 
     [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private int element;
@@ -43,12 +46,16 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetMovement(EntityMovement value) { entityMovement = value; }
     public void SetState(EntityState value) { entityState = value; }
     public void SetDirection(LookDirection value) { entityDirection = value; }
+    public void SetAtkDir(LookDirection value) { attackDirection = value; }
     //public void SetElements(Elements value) { elements = value; }
     public void SetSelectedElements(Elements value) { selectedElement = value; }
 
     void Update() {
         if(LevelTrigger.HudCheck == false) {
-            SetDir(entityDirection);
+
+            if(entityState != EntityState.Attack) SetDir(entityDirection);
+            else SetAttackDir(attackDirection);
+
             PlayMovementAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
             UpdateAnimation(selectedElement);
         }
@@ -70,6 +77,20 @@ public class PlayerAnimatorController : MonoBehaviour
                 break;
         }
 
+        animator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+    }
+
+    void SetAttackDir(LookDirection dir)
+    {
+        switch (dir)
+        {
+            case LookDirection.Left:
+                xScale = Math.Abs(xScale) * -1;
+                break;
+            case LookDirection.Right:
+                xScale = Math.Abs(xScale);
+                break;
+        }
         animator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
     }
 

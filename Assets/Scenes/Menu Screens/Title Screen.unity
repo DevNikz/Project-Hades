@@ -283,7 +283,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 49344919}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &49344921
 Camera:
   m_ObjectHideFlags: 0
@@ -2118,6 +2118,197 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996901929}
   m_CullTransparentMesh: 1
+--- !u!1 &1094077256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1094077258}
+  - component: {fileID: 1094077257}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1094077257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094077256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9e44dfc4360134eac3e48c07240391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: PlayerHurt1
+    clip: {fileID: 8300000, guid: a8bfe5bed3e14b84fa768d830b35b04c, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerHurt2
+    clip: {fileID: 8300000, guid: a5a82a2aabf96434cbbaecfa35b94485, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerHurt3
+    clip: {fileID: 0}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ConfirmSFX
+    clip: {fileID: 8300000, guid: ea47c3537e9476645b9afaa2968510ee, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: HoverUI
+    clip: {fileID: 8300000, guid: bece272c9e8f9734d8960a7854f59b65, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Earth1
+    clip: {fileID: 8300000, guid: 3034633ffa69b794c801b435196354a7, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Earth2
+    clip: {fileID: 8300000, guid: d56dcb81b33b6eb4ba45e94db8ab6ac8, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Earth3
+    clip: {fileID: 8300000, guid: 110a2b2ccd477be4490e9e16a733951e, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fire1
+    clip: {fileID: 8300000, guid: 2fddc5a2537040343bb889b2289e996b, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fire2
+    clip: {fileID: 8300000, guid: 2f031970669936b4e9c6ada67bb58605, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Fire3
+    clip: {fileID: 8300000, guid: 5b65326d906deb240bc6bcbb244b9590, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotAttack1
+    clip: {fileID: 8300000, guid: 040f3e90d6d7d3845939c759f443c405, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotAttack2
+    clip: {fileID: 8300000, guid: b88fed8fff03fc541965797adcab2c76, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotDamaged
+    clip: {fileID: 8300000, guid: 32dfdff9e783f0243b7f20508b901c93, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotKilled
+    clip: {fileID: 8300000, guid: 2d18b7e3bc3a5fa4eaef3efd00548db3, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: RobotDetained
+    clip: {fileID: 8300000, guid: 9889e83040a77df4c91acd6baef1d80a, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TitleMenu
+    clip: {fileID: 8300000, guid: c384316c693eb464c8589247b1273852, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: LevelOne
+    clip: {fileID: 8300000, guid: 9900706de8db54040b06791c3b5471ba, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Water1
+    clip: {fileID: 8300000, guid: e2624ad91ddd0b046b0b2cc0bfbac48e, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Water2
+    clip: {fileID: 8300000, guid: 500b05c9a8989924fb23e4a39071bdba, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Water3
+    clip: {fileID: 8300000, guid: fcfb1471c6ddc73478ac1820cc398e08, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wind1
+    clip: {fileID: 8300000, guid: e111046c1a84c3b4d885dd759a6800f4, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wind2
+    clip: {fileID: 8300000, guid: cd93fbf765335144f87c4cbb1ee32cf4, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Wind3
+    clip: {fileID: 8300000, guid: d1b9cda26ad83e4418efa96add72ca0d, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  fadeThreshold: 0.1
+  volumeTemp: 0
+--- !u!4 &1094077258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094077256}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1313390944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3460,3 +3651,4 @@ SceneRoots:
   - {fileID: 1854496713}
   - {fileID: 827891274}
   - {fileID: 1313390945}
+  - {fileID: 1094077258}

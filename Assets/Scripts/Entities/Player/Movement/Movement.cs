@@ -135,7 +135,7 @@ public class Movement : MonoBehaviour {
 
     private void Update() {
         UpdatePointer();
-        UpdateLookDirection();
+        //UpdateLookDirection();
 
         //Checks
         CheckDrag();
@@ -159,19 +159,25 @@ public class Movement : MonoBehaviour {
         this.targetMoveIso = moveIso;
     }
 
-    void Move(Vector3 input) {
+    void Move(Vector3 input)
+    {
 
         moveInput_normalized = input.normalized.magnitude;
         currentInput = transform.localPosition + input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime;
+        rigidBody.AddForce(10 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime, ForceMode.VelocityChange);
 
-        //Hardcoded slow down for now.
-        if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.deltaTime);
-        else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime);
+        if (moveInput.x >= 0) lookDirection = LookDirection.Right;
+        else lookDirection = LookDirection.Left;
+
+        // //Hardcoded slow down for now.
+        // if(PlayerController.Instance.entityState == EntityState.Attack) rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * (currentSpeed - 10f) * Time.deltaTime);
+        // else rigidBody.AddForce(1000 * input.ToIso() * moveInput_normalized * currentSpeed * Time.deltaTime);
     }
 
-    private void CheckMove() {
+    private void CheckMove()
+    {
         ParticleSystem.EmissionModule temp = dust.emission;
-        if(move == EntityMovement.Strafing) temp.enabled = true;
+        if (move == EntityMovement.Strafing) temp.enabled = true;
         else temp.enabled = false;
     }
 
@@ -314,12 +320,6 @@ public class Movement : MonoBehaviour {
         }
     }
 
-    void UpdateLookDirection() {
-        if(angle >= 0 && angle <= 90) lookDirection = LookDirection.Right;
-        else if(angle <= 0 && angle >= -90) lookDirection = LookDirection.Right;
-        else lookDirection = LookDirection.Left;
-    }
-
     void UpdatePointer() {
         pointerUI.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
         toIsoRotation();
@@ -327,10 +327,12 @@ public class Movement : MonoBehaviour {
         pointerUI.transform.rotation = rot;
     }
 
-    void toIsoRotation() {
+    void toIsoRotation()
+    {
         tempVector = Camera.main.WorldToScreenPoint(pointerUI.transform.position);
         tempVector = Input.mousePosition - tempVector;
         angle = Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+        PlayerController.Instance.SetAngle(angle);
     }
 
 
