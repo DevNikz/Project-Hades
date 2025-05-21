@@ -64,7 +64,7 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     public virtual void SetRun() {
-        spriteAnimator.Play("MoveRight");
+        spriteAnimator.Play("Move");
     }
 
     public virtual void SetHit(AttackDirection attackDirection) {
@@ -85,7 +85,7 @@ public class EnemyAnimation : MonoBehaviour
     public virtual void SetShoot(AttackDirection attackDirection)
     {
         isShooting = true;
-        spriteAnimator.Play("ShootRight");
+        spriteAnimator.Play("Shoot");
     }
 
     public virtual void SetDeath()
