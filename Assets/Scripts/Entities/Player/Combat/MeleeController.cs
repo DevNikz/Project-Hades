@@ -238,29 +238,33 @@ public class MeleeController : MonoBehaviour
 
                 if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
                     enemy.ApplyKnockback(StatCalculator.Instance.KnockbackTime);
-            }        
+            }
 
+            bool doesCritDmg = false;
             // Calculate Critical Hit
-            if(
+            if (
                 (
-                    ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).IsActive && 
-                    enemy.IsAttacking && 
+                    ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).IsActive &&
+                    enemy.IsAttacking &&
                     Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).augmentPower * 100
                 ) ||
-                    Random.Range(0,100) < criticalHitChance * 100
-                ){
+                    Random.Range(0, 100) < criticalHitChance * 100
+                )
+            {
 
-                    if(ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
-                        poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
+                if (ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
+                    poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
 
-                    if(enemy.IsRusted){
-                        if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
-                            healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
-                    }
+                if (enemy.IsRusted)
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
+                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+                }
 
-                    healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
-                    poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
+                healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
+                poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
 
+                doesCritDmg = true;
             } 
 
             if(enemy.IsStaggered)
@@ -269,7 +273,7 @@ public class MeleeController : MonoBehaviour
             float healthDamage = attackType.damage * healthDmgMult;
             float poiseDamage = attackType.poise * poiseDmgMult;
 
-            enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No);
+            enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
         }
     }
 

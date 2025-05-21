@@ -17,8 +17,14 @@ public class AugmentScriptable : ScriptableObject
 
     [VerticalGroup("Attributes/base/left")]
     [BoxGroup("Attributes/base/left/box1", showLabel: false)]
-    [LabelWidth(100)][HideLabel] [Title("Type", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel][Title("Type", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
     public AugmentType augmentType;
+
+    [VerticalGroup("Attributes/base/left")]
+    [BoxGroup("Attributes/base/left/box1", showLabel: false)]
+    [LabelWidth(100)][HideLabel][Title("PreReq", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    public AugmentType preReqAugment;
+    
 
     [VerticalGroup("Attributes/base/left")]
     [BoxGroup("Attributes/base/left/box1")]
