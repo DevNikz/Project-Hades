@@ -49,7 +49,10 @@ MonoBehaviour:
   loadingScreen: {fileID: 4110623177715070671}
   loadingSlider: {fileID: 5435031200645673783}
   loadingText: {fileID: 5329493368907601785}
+  loreText: {fileID: 8206798338077033404}
+  loreDatabase: {fileID: 11400000, guid: c4cfc60f6c38eb340a762502eb56dd09, type: 2}
   baseLoadingText: Loading
+  LoreCycleTime: 5
 --- !u!1001 &3636575768062592553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293,3 +296,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8078501824829755655}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8206798338077033404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 142141568026645179, guid: 3bfb5a8874c50c644b6c27d374c49f95,
+    type: 3}
+  m_PrefabInstance: {fileID: 8078501824829755655}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

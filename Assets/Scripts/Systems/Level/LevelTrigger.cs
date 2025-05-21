@@ -20,6 +20,7 @@ public class LevelTrigger : MonoBehaviour
     [LabelWidth(120), BoxGroup("Properties/base/box2", ShowLabel = false)]
     [InfoBox("Current Enemy Counter")]
     public int enemyCounter;
+    public bool LoadsImmediatelyWithoutAugment = false;
 
     private static bool hudCheck;
 
@@ -57,7 +58,14 @@ public class LevelTrigger : MonoBehaviour
                 //if(NextLevel == "Win Screen") Destroy(GameObject.Find("LevelSystems"));
 
                 // playerInputManager.GetComponent<LevelRewardScript>().nextLevel = NextLevel;
-                playerInputManager.GetComponent<LevelRewardScript>().Activate();
+                if (!LoadsImmediatelyWithoutAugment)
+                    playerInputManager.GetComponent<LevelRewardScript>().Activate();
+                else
+                {
+                    GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(
+                        SaveManager.Instance.GetNextLevel()
+                    );
+                }
                 spawner.ClearSpawnPoints();
 
                 // TransitionLevel();

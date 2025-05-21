@@ -16,6 +16,9 @@ public class ASyncLoader : MonoBehaviour
 
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI loadingText;
+    [SerializeField] private TMP_Text loreText;
+    [SerializeField] private float LoreCycleTime;
+    [SerializeReference] private LoreDatabaseScriptable loreDatabase;
 
     private bool isLoading = false;
 
@@ -32,12 +35,17 @@ public class ASyncLoader : MonoBehaviour
         isLoading = true;
         string baseText = "Loading";
         int dotCount = 0;
+        if (loreDatabase)
+        {
+            loreText.text = loreDatabase.GetRandomLorebit();
+        }
 
         while (!loadOperation.isDone)
         {
             float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
             loadingSlider.value = progressValue;
             yield return null;
+            float loreElapsedTime = 0.0f;
 
             while (isLoading)
             {
@@ -47,7 +55,14 @@ public class ASyncLoader : MonoBehaviour
 
                 loadingText.text = baseText + new string('.', dotCount);
 
-                yield return new WaitForSeconds(0.5f);
+                loreElapsedTime += Time.deltaTime;
+                if (loreDatabase && loreElapsedTime >= LoreCycleTime)
+                {
+                    loreText.text = loreDatabase.GetRandomLorebit();
+                    loreElapsedTime = 0.0f;
+                }
+
+                yield return new WaitForSeconds(0.2f);
             }
 
 

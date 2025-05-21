@@ -3421,6 +3421,9 @@ MonoBehaviour:
   mainMenu: {fileID: 955172504}
   loadingSlider: {fileID: 211881715}
   loadingText: {fileID: 804086225}
+  loreText: {fileID: 4088827870189117944}
+  LoreCycleTime: 5
+  loreDatabase: {fileID: 11400000, guid: c4cfc60f6c38eb340a762502eb56dd09, type: 2}
 --- !u!4 &1854496713
 Transform:
   m_ObjectHideFlags: 0
@@ -3637,6 +3640,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bfb5a8874c50c644b6c27d374c49f95, type: 3}
+--- !u!114 &4088827870189117944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 142141568026645179, guid: 3bfb5a8874c50c644b6c27d374c49f95,
+    type: 3}
+  m_PrefabInstance: {fileID: 4088827870189117943}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

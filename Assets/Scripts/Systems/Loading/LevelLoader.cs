@@ -11,8 +11,11 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private TextMeshProUGUI loadingText;
+    [SerializeField] private TMP_Text loreText;
+    [SerializeReference] private LoreDatabaseScriptable loreDatabase;
     [Header("Properties")]
     [SerializeField] private string baseLoadingText = "Loading";
+    [SerializeField] private float LoreCycleTime;
 
     void OnEnable()
     {
@@ -37,16 +40,29 @@ public class LevelLoader : MonoBehaviour
     private IEnumerator LoadLevelAsync(string levelToLoad)
     {
         // SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        if (loreDatabase)
+        {
+            loreText.text = loreDatabase.GetRandomLorebit();
+        }
 
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad, LoadSceneMode.Single);
         loadOperation.allowSceneActivation = false;
         int dotCount = 0;
+        float loreElapsedTime = 0.0f;
         while (!loadOperation.isDone)
         {
+            loreElapsedTime += Time.deltaTime;
             Debug.Log($"[INFO]: Still loading level {levelToLoad}...");
             loadingSlider.value = loadOperation.progress;
             dotCount = (dotCount + 1) % 3;
             RefreshLoadingText(dotCount + 1);
+
+            if (loreDatabase && loreElapsedTime >= LoreCycleTime)
+            {
+                loreText.text = loreDatabase.GetRandomLorebit();
+                loreElapsedTime = 0.0f;
+            }
+
             yield return new WaitForSeconds(0.2f);
 
             if (loadOperation.progress >= 0.9f)
