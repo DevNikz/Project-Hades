@@ -240,7 +240,7 @@ public class Combat : MonoBehaviour
         UpdatePointer();
         UpdateTimer();
         UpdateAttackDirection();
-        SwitchWeapon();
+        // SwitchWeapon();
 
         PlayerController.Instance.SetState(entityState);
         PlayerController.Instance.SetElements(elements);
@@ -266,15 +266,19 @@ public class Combat : MonoBehaviour
                 case true:
                     switch(PlayerStanceManager.Instance.SelectedStance) {
                         case EStance.Earth:
+                            selectedElement = Elements.Earth;
                             InitAttack(Elements.Earth);
                             break;
                         case EStance.Fire:
+                            selectedElement = Elements.Fire;
                             InitAttack(Elements.Fire);
                             break;
                         case EStance.Water:
+                            selectedElement = Elements.Water;
                             InitAttack(Elements.Water);
                             break;
                         case EStance.Air:
+                            selectedElement = Elements.Wind;
                             InitAttack(Elements.Wind);
                             break;
                     }
