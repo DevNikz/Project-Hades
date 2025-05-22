@@ -15,30 +15,12 @@ public class Combat : MonoBehaviour
     [PropertySpace, TitleGroup("Properties", "Player Combat Properties", TitleAlignments.Centered)]
     //player damage and stun
 
-    [BoxGroup("Properties/0Box", ShowLabel = false)]
-    [SerializeField] public float baseHealthDamage;
+    [BoxGroup("Properties/Box", ShowLabel = false)][ReadOnly] private float lastClickedTime;
+    [BoxGroup("Properties/Box", ShowLabel = false)][ReadOnly] private float lastComboEnd;
+    [BoxGroup("Properties/Box", ShowLabel = false)][ReadOnly] private int comboCounter;
 
-    [BoxGroup("Properties/0Box", ShowLabel = false)]
-    [SerializeField] public float modHealthDamage;
-
-    [BoxGroup("Properties/0Box", ShowLabel = false)]
-    [SerializeField] public float basePoiseDamage;
-
-    [BoxGroup("Properties/0Box", ShowLabel = false)]
-    [SerializeField] public float modPoiseDamage;
-
-    [BoxGroup("Properties/Box", ShowLabel = false)]
-    [ReadOnly, SerializeReference] private float lastClickedTime;
-    
-    [BoxGroup("Properties/Box", ShowLabel = false)]
-    [ReadOnly, SerializeReference] private float lastComboEnd;
-
-    [BoxGroup("Properties/Box", ShowLabel = false)]
-    [ReadOnly, SerializeReference] private int comboCounter;
-    
     //Alternate Attack(Right Click)
-    [BoxGroup("Properties/Box", ShowLabel = false)]
-    [ReadOnly] [SerializeReference] protected bool rightClick;
+    [BoxGroup("Properties/Box", ShowLabel = false)][ReadOnly] protected bool rightClick;
 
     //Timer
     [PropertySpace] [TitleGroup("Timer", "General Timer Settings", TitleAlignments.Centered)]
@@ -207,12 +189,6 @@ public class Combat : MonoBehaviour
     }
 
     void OnEnable() {
-        baseHealthDamage = combat.healthDamage;
-        modHealthDamage = combat.healthDamage;
-
-        basePoiseDamage = combat.poiseDamage;
-        modPoiseDamage = basePoiseDamage;
-
         hitBoxBasic.SetActive(false);
         //hitboxLunge.SetActive(false);
         hitboxDetain.SetActive(false);
@@ -473,11 +449,11 @@ public class Combat : MonoBehaviour
         //Init Stats
         if (hitboxLeft_Temp.CompareTag("Detain")){
             tempMeleeController.SetHealthDamage(120);
-            tempMeleeController.SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetStunDamage(combat.poiseDamage);
         }
         else {
-            tempMeleeController.SetHealthDamage(modHealthDamage);
-            tempMeleeController.SetStunDamage(modPoiseDamage);
+            tempMeleeController.SetHealthDamage(combat.healthDamage);
+            tempMeleeController.SetStunDamage(combat.poiseDamage);
         }
 
 
@@ -558,12 +534,12 @@ public class Combat : MonoBehaviour
     }
 
     public void SetHealthDamage(float value) {
-        modHealthDamage = baseHealthDamage;
-        modHealthDamage += (modHealthDamage * value);
+        // modHealthDamage = baseHealthDamage;
+        // modHealthDamage += (modHealthDamage * value);
     }
 
     public void SetStunDamage(float value) {
-        modPoiseDamage = basePoiseDamage;
-        modPoiseDamage += (modPoiseDamage * value);
+        // modPoiseDamage = basePoiseDamage;
+        // modPoiseDamage += (modPoiseDamage * value);
     }
 }
