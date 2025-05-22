@@ -58,18 +58,18 @@ public class MenuScript : MonoBehaviour
 
     void DoAction() {
         // Check if Tab key is pressed
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            isTabHeld = true;
-            ShowMenuItems();
-        }
+        // if (Input.GetKeyDown(KeyCode.Tab))
+        // {
+        //     isTabHeld = true;
+        //     ShowMenuItems();
+        // }
 
-        // Check if Tab key is released
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            isTabHeld = false;
-            HideMenuItems();
-        }
+        // // Check if Tab key is released
+        // if (Input.GetKeyUp(KeyCode.Tab))
+        // {
+        //     isTabHeld = false;
+        //     HideMenuItems();
+        // }
 
         if (isTabHeld)
         {

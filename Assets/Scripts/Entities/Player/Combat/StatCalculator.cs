@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class StatCalculator : MonoBehaviour
 {
-    [SerializeField] private PlayerElementScriptable earthStats;
-    [SerializeField] private PlayerElementScriptable waterStats;
-    [SerializeField] private PlayerElementScriptable airStats;
-    [SerializeField] private PlayerElementScriptable fireStats;
     [HideInInspector] public int SlowedEnemyCount = 0;
 
     public Color BurningColor = Color.red;

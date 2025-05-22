@@ -264,17 +264,17 @@ public class Combat : MonoBehaviour
         if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player" && LevelTrigger.HudCheck == false) {
             switch(pressed) {
                 case true:
-                    switch(selectedElement) {
-                        case Elements.Earth:
+                    switch(PlayerStanceManager.Instance.SelectedStance) {
+                        case EStance.Earth:
                             InitAttack(Elements.Earth);
                             break;
-                        case Elements.Fire:
+                        case EStance.Fire:
                             InitAttack(Elements.Fire);
                             break;
-                        case Elements.Water:
+                        case EStance.Water:
                             InitAttack(Elements.Water);
                             break;
-                        case Elements.Wind:
+                        case EStance.Air:
                             InitAttack(Elements.Wind);
                             break;
                     }
@@ -293,18 +293,18 @@ public class Combat : MonoBehaviour
         if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player" && LevelTrigger.HudCheck == false) {
             switch(leftClick, detainPress) {
                 case (true, false):
-                    switch(selectedElement) {
-                        case Elements.Earth:
+                    switch(PlayerStanceManager.Instance.SelectedStance) {
+                        case EStance.Earth:
                             AttackPressedTimer = 2f;
                             InitAttack(Elements.Earth);
                             break;
-                        case Elements.Fire:
+                        case EStance.Fire:
                             InitAttack(Elements.Fire);
                             break;
-                        case Elements.Water:
+                        case EStance.Water:
                             InitAttack(Elements.Water);
                             break;
-                        case Elements.Wind:
+                        case EStance.Air:
                             InitAttack(Elements.Wind);
                             break;
                     }

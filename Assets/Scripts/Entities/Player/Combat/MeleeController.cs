@@ -130,27 +130,27 @@ public class MeleeController : MonoBehaviour
             float knockbackMult = 1.0f;
             float criticalHitChance = attackType.criticalChance;
 
-            switch(MenuScript.LastSelection){
+            switch(PlayerStanceManager.Instance.SelectedStance){
                 // EARTH STANCE
-                case 0:
+                case EStance.Earth:
                     healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
                     poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
                     break;
 
                 // FIRE STANCE
-                case 1:
+                case EStance.Fire:
                     healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
                     poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
                     break;
 
                 // WATER STANCE
-                case 2:
+                case EStance.Water:
                     healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
                     poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
                     break;
 
                 // WIND STANCE
-                case 3:
+                case EStance.Air:
                     healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
                     poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
                     break;

@@ -15,20 +15,20 @@ public class ChangeColor : MonoBehaviour
 
     void Update()
     {
-        int selection = MenuScript.LastSelection;
+        EStance selection = PlayerStanceManager.Instance.SelectedStance;
 
         switch(selection)
         {
-            case 0: //Earth - Green
+            case EStance.Earth: //Earth - Green
                 newColor = Color.green;//new Color(0.5f, 1.0f, 0.5f, 1.0f);
                 break;
-            case 1: //Water - Blue
+            case EStance.Water: //Water - Blue
                 newColor = new Color(0.7f, 0.7f, 1.0f, 1.0f); //Color.blue is too dark, Color.cyan is too green
                 break;
-            case 2: //Wind - Yellow?
+            case EStance.Air: //Wind - Yellow?
                 newColor = Color.yellow;
                 break;
-            case 3: //Fire - Red
+            case EStance.Fire: //Fire - Red
                 newColor = Color.red;//new Color(1.0f, 0.5f, 0.5f, 1.0f);
                 break;
         }

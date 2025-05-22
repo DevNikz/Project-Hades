@@ -216,16 +216,21 @@ public class PlayerController : MonoBehaviour
         animatorController = GetComponent<PlayerAnimatorController>();
     }
 
-    void Update(){
+    void Update()
+    {
         UpdateHealth();
         UpdateAtkDir();
         UpdateAnimatorControllerStates();
 
-        if(IsInvincible){
+        if (IsInvincible)
+        {
             invincibilityTime -= Time.deltaTime;
-            if(invincibilityTime < 0.0f)
+            if (invincibilityTime < 0.0f)
                 invincibilityTime = 0.0f;
         }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+            PlayerStanceManager.Instance.CycleStance();
     }
 
     void UpdateAnimatorControllerStates()
