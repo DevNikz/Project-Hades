@@ -273,6 +273,13 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
+    public void RevampedPlayAttackAnim(string animationName)
+    {
+        animator.SetBool("isAttacking", true);
+        animator.Play("animationName");
+    }
+    
+
     public void PlayAttackAnim(int counter, Elements element)
     {
         switch (counter, element)

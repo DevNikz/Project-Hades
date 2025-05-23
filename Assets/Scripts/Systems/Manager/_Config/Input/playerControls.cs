@@ -83,7 +83,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""LeftClick"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""fb213ea2-5178-4473-8e69-b7dd2950fd77"",
                     ""expectedControlType"": """",
@@ -92,7 +92,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RightClick"",
+                    ""name"": ""SpecialAttack"",
                     ""type"": ""Button"",
                     ""id"": ""39c91d9c-0791-454c-8ba5-e74d876691f1"",
                     ""expectedControlType"": """",
@@ -105,6 +105,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""7110a459-78a1-4c32-89ea-b247de223e18"",
                     ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StanceSwitch"",
+                    ""type"": ""Button"",
+                    ""id"": ""41689b2f-9349-466f-8405-5256205c3e31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenAugmentMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""a052dc1e-dbeb-4138-aa86-b0caa0f660f3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveInput"",
+                    ""type"": ""Value"",
+                    ""id"": ""8056d730-887c-4131-9895-31c2a86eb059"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -250,7 +277,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""LeftClick"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -261,7 +288,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""LeftClick"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -272,7 +299,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RightClick"",
+                    ""action"": ""SpecialAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -308,6 +335,83 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Detain"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e26e7422-445f-4742-9a64-4ea73df8dce2"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""StanceSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d9d08bb3-6ce3-46ef-bb73-758503a46d7d"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""OpenAugmentMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7c278b6a-2bb8-4da5-8749-e67654de3b05"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d85a40f5-2c69-4e58-969e-e3be378693be"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""e1263655-7ce8-4f23-938e-26519d9082ff"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f7a7f94a-48d7-4cce-bbdd-d2d2b3e93d8f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""cae7464b-feca-4cea-9bd6-f83394fdee7a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""MoveInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -899,9 +1003,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Detain = m_Player.FindAction("Detain", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
-        m_Player_LeftClick = m_Player.FindAction("LeftClick", throwIfNotFound: true);
-        m_Player_RightClick = m_Player.FindAction("RightClick", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_SpecialAttack = m_Player.FindAction("SpecialAttack", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
+        m_Player_StanceSwitch = m_Player.FindAction("StanceSwitch", throwIfNotFound: true);
+        m_Player_OpenAugmentMenu = m_Player.FindAction("OpenAugmentMenu", throwIfNotFound: true);
+        m_Player_MoveInput = m_Player.FindAction("MoveInput", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -987,9 +1094,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Detain;
     private readonly InputAction m_Player_MousePosition;
-    private readonly InputAction m_Player_LeftClick;
-    private readonly InputAction m_Player_RightClick;
+    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_SpecialAttack;
     private readonly InputAction m_Player_Rotate;
+    private readonly InputAction m_Player_StanceSwitch;
+    private readonly InputAction m_Player_OpenAugmentMenu;
+    private readonly InputAction m_Player_MoveInput;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1000,9 +1110,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Detain => m_Wrapper.m_Player_Detain;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
-        public InputAction @LeftClick => m_Wrapper.m_Player_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_Player_RightClick;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @SpecialAttack => m_Wrapper.m_Player_SpecialAttack;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
+        public InputAction @StanceSwitch => m_Wrapper.m_Player_StanceSwitch;
+        public InputAction @OpenAugmentMenu => m_Wrapper.m_Player_OpenAugmentMenu;
+        public InputAction @MoveInput => m_Wrapper.m_Player_MoveInput;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1030,15 +1143,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
-            @LeftClick.started += instance.OnLeftClick;
-            @LeftClick.performed += instance.OnLeftClick;
-            @LeftClick.canceled += instance.OnLeftClick;
-            @RightClick.started += instance.OnRightClick;
-            @RightClick.performed += instance.OnRightClick;
-            @RightClick.canceled += instance.OnRightClick;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @SpecialAttack.started += instance.OnSpecialAttack;
+            @SpecialAttack.performed += instance.OnSpecialAttack;
+            @SpecialAttack.canceled += instance.OnSpecialAttack;
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
+            @StanceSwitch.started += instance.OnStanceSwitch;
+            @StanceSwitch.performed += instance.OnStanceSwitch;
+            @StanceSwitch.canceled += instance.OnStanceSwitch;
+            @OpenAugmentMenu.started += instance.OnOpenAugmentMenu;
+            @OpenAugmentMenu.performed += instance.OnOpenAugmentMenu;
+            @OpenAugmentMenu.canceled += instance.OnOpenAugmentMenu;
+            @MoveInput.started += instance.OnMoveInput;
+            @MoveInput.performed += instance.OnMoveInput;
+            @MoveInput.canceled += instance.OnMoveInput;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1061,15 +1183,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
-            @LeftClick.started -= instance.OnLeftClick;
-            @LeftClick.performed -= instance.OnLeftClick;
-            @LeftClick.canceled -= instance.OnLeftClick;
-            @RightClick.started -= instance.OnRightClick;
-            @RightClick.performed -= instance.OnRightClick;
-            @RightClick.canceled -= instance.OnRightClick;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @SpecialAttack.started -= instance.OnSpecialAttack;
+            @SpecialAttack.performed -= instance.OnSpecialAttack;
+            @SpecialAttack.canceled -= instance.OnSpecialAttack;
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
+            @StanceSwitch.started -= instance.OnStanceSwitch;
+            @StanceSwitch.performed -= instance.OnStanceSwitch;
+            @StanceSwitch.canceled -= instance.OnStanceSwitch;
+            @OpenAugmentMenu.started -= instance.OnOpenAugmentMenu;
+            @OpenAugmentMenu.performed -= instance.OnOpenAugmentMenu;
+            @OpenAugmentMenu.canceled -= instance.OnOpenAugmentMenu;
+            @MoveInput.started -= instance.OnMoveInput;
+            @MoveInput.performed -= instance.OnMoveInput;
+            @MoveInput.canceled -= instance.OnMoveInput;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1258,9 +1389,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnDetain(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnLeftClick(InputAction.CallbackContext context);
-        void OnRightClick(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnSpecialAttack(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnStanceSwitch(InputAction.CallbackContext context);
+        void OnOpenAugmentMenu(InputAction.CallbackContext context);
+        void OnMoveInput(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

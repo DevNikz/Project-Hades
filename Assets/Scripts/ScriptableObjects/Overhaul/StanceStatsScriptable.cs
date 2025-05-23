@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,4 +19,6 @@ public class StanceStatsScriptable : ScriptableObject
     public float FullchargeAttackSpeedMult;
     public float AttackRangeMult;
     public float FullchargeAttackRangeMult;
+    public List<RevampPlayerAttackStatsScriptable> NormalAttacks = new();
+    public List<RevampPlayerAttackStatsScriptable> SpecialAttacks = new();
 }

@@ -46,6 +46,10 @@ public class MeleeController : MonoBehaviour
 
     [SerializeField] private PlayerController manaCharge;
 
+    public void SetAttackStats(float healthDamage, float poiseDamage, float knockback) {
+        
+    }
+
     void Awake() {
         if(gameObject.CompareTag("PlayerMelee"))
         {
