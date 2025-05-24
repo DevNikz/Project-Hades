@@ -52,7 +52,7 @@ public class Movement : MonoBehaviour {
 
                 [BoxGroup("References/Group/Left/Box", ShowLabel = false)][LabelWidth(125)]
                 [ReadOnly, SerializeReference] private Transform model;
-
+ 
                 [BoxGroup("References/Group/Left/Box", ShowLabel = false)][LabelWidth(125)]
                 [ReadOnly, SerializeReference] private Combat combat;
 

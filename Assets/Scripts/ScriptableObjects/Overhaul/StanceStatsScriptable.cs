@@ -6,7 +6,7 @@ public enum EStance {
     None, Earth, Water, Air, Fire
 }
 
-[CreateAssetMenu(fileName = "StanceStatsScriptable", menuName = "ProjectHades/Player/StanceStatsScriptable", order = 3)]
+[CreateAssetMenu(fileName = "StanceStatsScriptable", menuName = "ProjectHades/Player/StanceStatsScriptable", order = 3)][InlineEditor]
 public class StanceStatsScriptable : ScriptableObject
 {
     public Sprite StanceIcon;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,11 +13,13 @@ using UnityEngine.UI;
 public class RevampPlayerController : MonoBehaviour
 {
     [SerializeReference] private InputActionAsset _inputActions;
-    [SerializeReference] private PlayerCombatStats _playerStats;
+    [SerializeReference] public PlayerCombatStats PlayerStats;
     [SerializeReference] private StanceDatabase _stanceDatabase;
 
-    [SerializeField] private MeleeController _hitbox;
+    [SerializeField] private MeleeController _attackHitbox;
     [SerializeField] private GameObject _hitboxPointer;
+    [SerializeField] private ParticleSystem _walkParticles;
+    [SerializeField] private ParticleSystem _dashParticles;
     [SerializeField] private GameObject _stanceSwitchPopup;
     [SerializeField] private Image _stanceSwitchIcon;
     [SerializeField] private float _stanceSwitchPopupTime = 0.5f;
@@ -31,16 +34,21 @@ public class RevampPlayerController : MonoBehaviour
     private bool _queuedAttackIsSpecial = false;
     private bool _lastPerformedAttackIsSpecial = false;
     private float _timeOfLastAttack;
+    private Rigidbody _rigidbody;
+    private Vector3 _lastMoveInput = Vector3.zero;
+    public float CurrentSpeed;
+    private float _timeOfLastDash = 0.0f;
+    private bool _isDashing = false;
     #endregion
 
     void Update()
     {
+        ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+
         if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow)
             ProcessAttack(false);
         if (_playerMap.FindAction("SpecialAttack").WasPressedThisFrame() && IsMouseOverGameWindow)
             ProcessAttack(true);
-        if (_playerMap.FindAction("Dash").WasPressedThisFrame())
-            ProcessDash();
         if (_playerMap.FindAction("StanceSwitch").WasPressedThisFrame())
             ProcessStanceSwitch();
         if (_playerMap.FindAction("OpenAugmentMenu").WasPressedThisFrame())
@@ -49,9 +57,14 @@ public class RevampPlayerController : MonoBehaviour
             ProcessOpenAugmentMenu(false);
 
         TryExecuteNextAttack(Time.time - _timeOfLastAttack);
+    }
+
+    void FixedUpdate()
+    {
+        if (_playerMap.FindAction("Dash").WasPressedThisFrame())
+            ProcessDash();
 
         ProcessMovement(_playerMap.FindAction("MoveInput").ReadValue<Vector2>());
-        ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
     }
 
     #region Attacks
@@ -136,10 +149,10 @@ public class RevampPlayerController : MonoBehaviour
         /* EXECUTE ATTACK */
 
         // SET HITBOX VALUES
-        _hitbox.SetAttackStats(
-            _queuedAttack.BaseDamage + _playerStats.BaseDamage,
-            _queuedAttack.BasePoiseDamage + _playerStats.BasePoiseDamage,
-            _queuedAttack.BaseKnockback + _playerStats.BaseKnockback
+        _attackHitbox.SetAttackStats(
+            _queuedAttack.BaseDamage + PlayerStats.BaseDamage,
+            _queuedAttack.BasePoiseDamage + PlayerStats.BasePoiseDamage,
+            _queuedAttack.BaseKnockback + PlayerStats.BaseKnockback
         );
 
         // SET ANIMATION
@@ -161,10 +174,63 @@ public class RevampPlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Movement
+    void ProcessMovement(Vector2 input)
+    {
+        // ESCAPE IF SHOULDNT MOVE
+        if (LevelTrigger.HudCheck) return;
+
+        ParticleSystem.EmissionModule particleEmission = _walkParticles.emission;
+        if (input.sqrMagnitude <= 0 || !gameObject.CompareTag("Player"))
+        {
+            _animator.SetMovement(EntityMovement.Idle);
+            _rigidbody.drag = 1000.0f;
+            particleEmission.enabled = false;
+            return;
+        }
+
+        // UPDATE MOVE DIRECTION
+        _lastMoveInput = new(input.x, 0.0f, input.y);
+
+        if (_isDashing) return;
+
+        // SET ANIMATOR
+        _animator.SetMovement(EntityMovement.Strafing);
+        _animator.SetDirection(input.x >= 0 ? LookDirection.Right : LookDirection.Left);
+        particleEmission.enabled = true;
+
+        // MOVE, SPEED CHANGES BASED ON IF ATTACKING OR NOT
+        ResetSpeed();
+        _rigidbody.drag = 0.0f;
+        if (RevampPlayerStateHandler.Instance.CurrentState != EntityState.Attack)
+            _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+            // _rigidbody.AddForce(, ForceMode.Impulse);
+        else
+        {
+            _rigidbody.velocity = 100.0f * Math.Min(LastUsedAttack.MaxMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+        }
+    }
     void ProcessDash()
     {
-        Debug.Log("Dashed!!");
+        if (Time.time - _timeOfLastDash < PlayerStats.DashCooldown) return;
+
+        Debug.Log("Tried to dash!");
+
+        _isDashing = true;
+        _rigidbody.drag = 0.0f;
+        _timeOfLastDash = Time.time;
+        _dashParticles.Play();
+
+        _rigidbody.AddForce(100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso(), ForceMode.VelocityChange);
+
+        Invoke(nameof(ResetDashing), PlayerStats.DashTime);
     }
+    void ResetDashing()
+    {
+        _isDashing = false;
+        _rigidbody.drag = 1000.0f;
+    }
+    #endregion
 
     #region StanceSwiching
     private StanceStatsScriptable CurrentStance
@@ -174,7 +240,6 @@ public class RevampPlayerController : MonoBehaviour
     }
     void ProcessStanceSwitch()
     {
-        Debug.Log("Stance Switched!");
         bool leaveLoop = false;
         for (int i = 0; i < 4 && !leaveLoop; i++)
         {
@@ -212,20 +277,16 @@ public class RevampPlayerController : MonoBehaviour
         _augmentMenu.SetActive(open);
     }
 
-    void ProcessMovement(Vector2 input)
-    {
-        Debug.Log($"Move Input: {input}");
-
-    }
-
     #region UpdatingPointerInfo
     private float _hitboxPointerOriginalXRotation = 0.0f;
     void ProcessUpdatePointerDirection(Vector2 position)
     {
         _hitboxPointer.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
         float angle = ToIsoRotation(position);
-        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle-45, 0.0f);
+        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle - 45, 0.0f);
         _hitboxPointer.transform.rotation = rot;
+        
+        _animator.SetAtkDir(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
     }
     float ToIsoRotation(Vector2 position) {
         Vector3 tempVector = Camera.main.WorldToScreenPoint(_hitboxPointer.transform.position);
@@ -235,9 +296,7 @@ public class RevampPlayerController : MonoBehaviour
     
     void UpdateAnimatorControllerStates()
     {
-        _animator.SetMovement(entityMovement);
-        _animator.SetDirection(lookDirection);
-        _animator.SetAtkDir(attackDir);
+        // _animator.SetMovement(entityMovement);
         if (RevampPlayerStateHandler.Instance.IsDead)
         {
             RevampPlayerStateHandler.Instance.CurrentState = EntityState.Dead;
@@ -249,9 +308,19 @@ public class RevampPlayerController : MonoBehaviour
     {
         _comboCount = 0;
         _timeOfLastAttack = Time.time;
+        _timeOfLastDash = Time.time;
         _queuedAttack = null;
         _queuedAttackIsSpecial = false;
         _lastPerformedAttackIsSpecial = false;
+        _lastMoveInput = Vector2.zero;
+        _isDashing = false;
+        ResetSpeed();
+
+        _walkParticles.Play();
+    }
+    public void ResetSpeed()
+    {
+        CurrentSpeed = PlayerStats.MoveSpeed;
     }
 
     void OnEnable()
@@ -260,6 +329,7 @@ public class RevampPlayerController : MonoBehaviour
         _playerMap = _inputActions.FindActionMap("Player");
         _animator = GetComponent<PlayerAnimatorController>();
         _hitboxPointerOriginalXRotation = _hitboxPointer.transform.rotation.eulerAngles.x;
+        _rigidbody = GetComponent<Rigidbody>();
         ResetState();
     }
 
