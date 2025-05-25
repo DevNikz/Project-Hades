@@ -29,45 +29,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
             ""actions"": [
                 {
-                    ""name"": ""HorizontalMove"",
-                    ""type"": ""Value"",
-                    ""id"": ""351f2ccd-1f9f-44bf-9bec-d62ac5c5f408"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""VerticalMove"",
-                    ""type"": ""Value"",
-                    ""id"": ""20414bab-645b-4e26-b0b2-9241504f11dc"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""e1e9202a-0c1e-4fb9-9f33-2bae93b8e727"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Detain"",
-                    ""type"": ""Button"",
-                    ""id"": ""49f678c5-3149-4cdb-8d19-3f211cc9e34e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -101,15 +65,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Value"",
-                    ""id"": ""7110a459-78a1-4c32-89ea-b247de223e18"",
-                    ""expectedControlType"": ""Stick"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""StanceSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""41689b2f-9349-466f-8405-5256205c3e31"",
@@ -139,94 +94,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""Horizontal"",
-                    ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HorizontalMove"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Negative"",
-                    ""id"": ""8180e8bd-4097-4f4e-ab88-4523101a6ce9"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""HorizontalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""e2062cb9-1b15-46a2-838c-2f8d72a0bdd9"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""HorizontalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ea1fbd48-c520-4698-99e3-f6b78f9d8490"",
-                    ""path"": ""<Gamepad>/leftStick/x"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(min=-1,max=1)"",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""HorizontalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Vertical"",
-                    ""id"": ""5782d0d7-0aaf-43bc-8b3f-3463149f7cc1"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""VerticalMove"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Negative"",
-                    ""id"": ""90ffed2e-518d-49e8-b340-3e227c26185f"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""VerticalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""5a9dcfad-fecc-462c-8a0e-42d4ac97fcb3"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""VerticalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""709004df-b529-4bab-9d13-c5a208764e8e"",
-                    ""path"": ""<Gamepad>/leftStick/y"",
-                    ""interactions"": """",
-                    ""processors"": ""Normalize(min=-1,max=1)"",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""VerticalMove"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": """",
                     ""id"": ""f2e9ba44-c423-42a7-ad56-f20975884794"",
                     ""path"": ""<Keyboard>/leftShift"",
@@ -245,17 +112,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""79b4c0ef-72f0-4767-b352-c1b94603682b"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -300,39 +156,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SpecialAttack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d0906cf5-2cca-4444-8237-0334b6e0235e"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": ""NormalizeVector2"",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f7014399-6358-44cf-a4ca-9a0f98817b34"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Detain"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7cfd99b6-44f6-4508-8181-9decf4484cbe"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Detain"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -997,15 +820,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_HorizontalMove = m_Player.FindAction("HorizontalMove", throwIfNotFound: true);
-        m_Player_VerticalMove = m_Player.FindAction("VerticalMove", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Detain = m_Player.FindAction("Detain", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_SpecialAttack = m_Player.FindAction("SpecialAttack", throwIfNotFound: true);
-        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_StanceSwitch = m_Player.FindAction("StanceSwitch", throwIfNotFound: true);
         m_Player_OpenAugmentMenu = m_Player.FindAction("OpenAugmentMenu", throwIfNotFound: true);
         m_Player_MoveInput = m_Player.FindAction("MoveInput", throwIfNotFound: true);
@@ -1088,15 +906,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_HorizontalMove;
-    private readonly InputAction m_Player_VerticalMove;
     private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Detain;
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_SpecialAttack;
-    private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_StanceSwitch;
     private readonly InputAction m_Player_OpenAugmentMenu;
     private readonly InputAction m_Player_MoveInput;
@@ -1104,15 +917,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @HorizontalMove => m_Wrapper.m_Player_HorizontalMove;
-        public InputAction @VerticalMove => m_Wrapper.m_Player_VerticalMove;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @Detain => m_Wrapper.m_Player_Detain;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @SpecialAttack => m_Wrapper.m_Player_SpecialAttack;
-        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @StanceSwitch => m_Wrapper.m_Player_StanceSwitch;
         public InputAction @OpenAugmentMenu => m_Wrapper.m_Player_OpenAugmentMenu;
         public InputAction @MoveInput => m_Wrapper.m_Player_MoveInput;
@@ -1125,21 +933,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @HorizontalMove.started += instance.OnHorizontalMove;
-            @HorizontalMove.performed += instance.OnHorizontalMove;
-            @HorizontalMove.canceled += instance.OnHorizontalMove;
-            @VerticalMove.started += instance.OnVerticalMove;
-            @VerticalMove.performed += instance.OnVerticalMove;
-            @VerticalMove.canceled += instance.OnVerticalMove;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
-            @Detain.started += instance.OnDetain;
-            @Detain.performed += instance.OnDetain;
-            @Detain.canceled += instance.OnDetain;
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
@@ -1149,9 +945,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SpecialAttack.started += instance.OnSpecialAttack;
             @SpecialAttack.performed += instance.OnSpecialAttack;
             @SpecialAttack.canceled += instance.OnSpecialAttack;
-            @Rotate.started += instance.OnRotate;
-            @Rotate.performed += instance.OnRotate;
-            @Rotate.canceled += instance.OnRotate;
             @StanceSwitch.started += instance.OnStanceSwitch;
             @StanceSwitch.performed += instance.OnStanceSwitch;
             @StanceSwitch.canceled += instance.OnStanceSwitch;
@@ -1165,21 +958,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @HorizontalMove.started -= instance.OnHorizontalMove;
-            @HorizontalMove.performed -= instance.OnHorizontalMove;
-            @HorizontalMove.canceled -= instance.OnHorizontalMove;
-            @VerticalMove.started -= instance.OnVerticalMove;
-            @VerticalMove.performed -= instance.OnVerticalMove;
-            @VerticalMove.canceled -= instance.OnVerticalMove;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
-            @Detain.started -= instance.OnDetain;
-            @Detain.performed -= instance.OnDetain;
-            @Detain.canceled -= instance.OnDetain;
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
@@ -1189,9 +970,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @SpecialAttack.started -= instance.OnSpecialAttack;
             @SpecialAttack.performed -= instance.OnSpecialAttack;
             @SpecialAttack.canceled -= instance.OnSpecialAttack;
-            @Rotate.started -= instance.OnRotate;
-            @Rotate.performed -= instance.OnRotate;
-            @Rotate.canceled -= instance.OnRotate;
             @StanceSwitch.started -= instance.OnStanceSwitch;
             @StanceSwitch.performed -= instance.OnStanceSwitch;
             @StanceSwitch.canceled -= instance.OnStanceSwitch;
@@ -1383,15 +1161,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnHorizontalMove(InputAction.CallbackContext context);
-        void OnVerticalMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
-        void OnDetain(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
         void OnStanceSwitch(InputAction.CallbackContext context);
         void OnOpenAugmentMenu(InputAction.CallbackContext context);
         void OnMoveInput(InputAction.CallbackContext context);
