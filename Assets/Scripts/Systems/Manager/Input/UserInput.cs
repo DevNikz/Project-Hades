@@ -62,8 +62,8 @@ public class UserInput : MonoBehaviour
         _Vertical = _playerInput.actions["VerticalMove"];
         _Dash = _playerInput.actions["Dash"];
         _Interact = _playerInput.actions["Interact"];
-        _LeftClick = _playerInput.actions["LeftClick"];
-        _RightClick = _playerInput.actions["RightClick"];
+        _LeftClick = _playerInput.actions["Attack"];
+        _RightClick = _playerInput.actions["SpecialAttack"];
         _MousePosition = _playerInput.actions["MousePosition"];
         _Detain = _playerInput.actions["Detain"];
         _Rotate = _playerInput.actions["Rotate"];
