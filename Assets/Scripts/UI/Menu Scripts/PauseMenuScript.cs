@@ -49,7 +49,11 @@ public class PauseMenuScript : MonoBehaviour
 
     public void ResignGame()
     {
-        PlayerController.Instance.entityState = EntityState.Dead;
+        if(PlayerController.Instance != null)
+            PlayerController.Instance.entityState = EntityState.Dead;
+
+        if(RevampPlayerStateHandler.Instance != null)
+            RevampPlayerStateHandler.Instance.CurrentState = EntityState.Dead;
 
         deathOverlay.GetComponent<LoseScreen_Script>().Defeat();
     }

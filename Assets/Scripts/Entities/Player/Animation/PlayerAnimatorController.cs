@@ -273,6 +273,22 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
+    private float _endTimeOfLastAttack = 0.0f;
+
+    public void RevampedPlayAttackAnim(string animationName, float animLength)
+    {
+        _endTimeOfLastAttack = Time.time + animLength;
+        animator.SetBool("isAttacking", true);
+        animator.Play(animationName);
+    }
+
+    public void DelayedResetAttack()
+    {
+        // Debug.Log($"Attack Anim: {_endTimeOfLastAttack}, {Time.time}");
+        if (_endTimeOfLastAttack < Time.time)
+            animator.SetBool("isAttacking", false);
+    }
+
     public void PlayAttackAnim(int counter, Elements element)
     {
         switch (counter, element)
@@ -337,6 +353,7 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void PlayMovementAnim(EntityMovement move, EntityState state, bool dash, bool hurt)
     {
+        return; // DEACTIVATED FOR THE REVAMPED SYSTEM
         switch (state, move, hurt)
         {
             //None | Idle | None
@@ -376,6 +393,31 @@ public class PlayerAnimatorController : MonoBehaviour
         }
     }
 
+    public void RevampPlayIdle()
+    {
+        animator.Play("Player_Idle");
+    }
+
+    public void RevampTriggerHurt()
+    {
+        animator.Play("Player_Hurt");
+    }
+
+    public void RevampTriggerDeath()
+    {
+        animator.Play("Player_DeathB");
+    }
+
+    public void RevampSetMoving(bool isMoving)
+    {
+        animator.SetBool("isMoving", isMoving);
+    }
+
+    public void RevampDashAnim(bool isDashing)
+    {
+        animator.SetBool("isDashing", isDashing);
+    }
+
     public float GetDeathAnimationLength()
     {
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
@@ -386,7 +428,7 @@ public class PlayerAnimatorController : MonoBehaviour
                 return clip.length;
             }
         }
-        return 0f; 
+        return 0f;
     }
 
 

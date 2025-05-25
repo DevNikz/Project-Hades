@@ -11,9 +11,20 @@ public class WinScreen_script : MonoBehaviour
         SceneManager.LoadScene("Title Screen");
     }
 
-    public void Reset() {
-        PlayerController.Instance.gameObject.tag = "Player";
-        PlayerController.Instance.RevertHealth();
-        PlayerController.Instance.RevertMana();
+    public void Reset()
+    {
+        if (PlayerController.Instance != null)
+        {
+            PlayerController.Instance.gameObject.tag = "Player";
+            PlayerController.Instance.RevertHealth();
+            PlayerController.Instance.RevertMana();
+        }
+
+        if (RevampPlayerStateHandler.Instance != null)
+        {
+            RevampPlayerStateHandler.Instance.gameObject.tag = "Player";
+            RevampPlayerStateHandler.Instance.ResetHealth();
+            RevampPlayerStateHandler.Instance.ResetCharge();
+        }
     }
 }

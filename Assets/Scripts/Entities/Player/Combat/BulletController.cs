@@ -79,13 +79,24 @@ public class BulletController : MonoBehaviour
         }
 
         if (other.TryGetComponent<PlayerController>(out var player)) {
-            if(IsHostile){
+            if (IsHostile) {
                 Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
                 Vector3 knockback = direction * attackType.knocbackForce;
                 rb.AddForce(knockback, ForceMode.Impulse);
                 player.ReceiveDamage(attackType.damageType, attackType.damage);
             }
+            ReturnToPool();
+        }
 
+        if (other.TryGetComponent<RevampPlayerStateHandler>(out var revampPlayer))
+        {
+            if (IsHostile)
+            {
+                Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
+                Vector3 knockback = direction * attackType.knocbackForce;
+                rb.AddForce(knockback, ForceMode.Impulse);
+                revampPlayer.ReceiveDamage(attackType.damageType, attackType.damage);
+            }
             ReturnToPool();
         }
 

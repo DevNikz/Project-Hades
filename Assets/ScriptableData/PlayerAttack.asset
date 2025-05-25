@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18703038c75d31c43a5c1ae39c7d7e40, type: 3}
+  m_Name: PlayerAttack
+  m_EditorClassIdentifier: 
+  lungeForce: 25
+  lungeForceMod: 1
+  healthDamage: 1
+  poiseDamage: 1
+  knockbackForce: 1
+  manaCost: 1
+  detainManaRecovery: 1
+  EnableOptionals: 0
+  quickLungeForce: 6
+  flicktime: 0.27
+  attackAnimationClips: []
