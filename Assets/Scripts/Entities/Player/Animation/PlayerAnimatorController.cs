@@ -56,7 +56,7 @@ public class PlayerAnimatorController : MonoBehaviour
             if(entityState != EntityState.Attack) SetDir(entityDirection);
             else SetAttackDir(attackDirection);
 
-            PlayMovementAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
+            // PlayMovementAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
             UpdateAnimation(selectedElement);
         }
 

@@ -7,11 +7,11 @@ public class PlayerHazard : MonoBehaviour
     [ReadOnly, SerializeReference] protected float playerSpeed;
 
     void LoadData() {
-        playerSpeed = GetComponent<Movement>().GetSpeed();
+        // playerSpeed = GetComponent<Movement>().GetSpeed();
     }
 
     void Awake() {
-        playerSpeed = GetComponent<Movement>().GetSpeed();
+        // playerSpeed = GetComponent<Movement>().GetSpeed();
         //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -29,8 +29,10 @@ public class PlayerHazard : MonoBehaviour
         }
     }
 
-    void OnTriggerExit() {
+    void OnTriggerExit()
+    {
         transform.Find("Anims").GetComponent<Animator>().speed = 1f;
-        GetComponent<Movement>().SetSpeed(playerSpeed);
+        // GetComponent<Movement>().SetSpeed(playerSpeed);
+        GetComponent<RevampPlayerController>().ResetSpeed();
     }
 }

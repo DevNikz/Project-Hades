@@ -103,7 +103,7 @@ public class HazardController : MonoBehaviour
     }
 
     public void InitHazard(GameObject gameObject = null) {
-        if(gameObject != null) entitySpeed = gameObject.GetComponent<Movement>().strafeSpeed;
+        // if(gameObject != null) entitySpeed = gameObject.GetComponent<Movement>().strafeSpeed;
         switch(hazardType) {
             case HazardType.Bog:
                 InitBog(gameObject);
@@ -122,9 +122,12 @@ public class HazardController : MonoBehaviour
         } 
     }
 
-    void InitBog(GameObject other) {
+    void InitBog(GameObject other)
+    {
         other.transform.Find("Anims").GetComponent<Animator>().speed = 0.75f;
-        other.GetComponent<Movement>().SetSpeed(entitySpeed * debuffBogScalar);
+        // other.GetComponent<Movement>().SetSpeed(entitySpeed * debuffBogScalar);
+        RevampPlayerController player = other.GetComponent<RevampPlayerController>();
+        player.CurrentSpeed = player.PlayerStats.MoveSpeed * debuffBogScalar;
     }
 
     void InitPillar() {

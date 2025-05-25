@@ -1,4 +1,4 @@
-using System;
+   using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -243,7 +243,7 @@ public class RevampPlayerController : MonoBehaviour
         particleEmission.enabled = true;
 
         // MOVE, SPEED CHANGES BASED ON IF ATTACKING OR NOT
-        ResetSpeed();
+        Debug.Log("Current Speed: " + CurrentSpeed);
         _rigidbody.drag = 0.0f;
         if (_stateHandler.CurrentState != EntityState.Attack)
             _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
@@ -287,7 +287,7 @@ public class RevampPlayerController : MonoBehaviour
         bool leaveLoop = false;
         for (int i = 0; i < 4 && !leaveLoop; i++)
         {
-            _activeStanceIndex += (_activeStanceIndex + 1) % _stanceDatabase.Stances.Count;
+            _activeStanceIndex = (_activeStanceIndex + 1) % _stanceDatabase.Stances.Count;
             switch (CurrentStance.StanceType)
             {
                 case EStance.Earth:
@@ -318,7 +318,7 @@ public class RevampPlayerController : MonoBehaviour
 
     void ProcessOpenAugmentMenu(bool open)
     {
-        _augmentMenu.SetActive(open);
+        // _augmentMenu.SetActive(open);
     }
 
     #region UpdatingPointerInfo
