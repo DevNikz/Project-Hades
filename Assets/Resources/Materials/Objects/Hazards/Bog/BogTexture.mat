@@ -27,17 +27,19 @@ Material:
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
   - _MK_ARTISTIC_ANIMATION_STUTTER
+  - _MK_COLOR_GRADING_FINAL_OUTPUT
   - _MK_DETAIL_BLEND_MIX
   - _MK_DIFFUSE_OREN_NAYAR
   - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_HEIGHT_MAP
-  - _MK_LIGHT_CEL
   - _MK_NORMAL_MAP
   - _MK_PARALLAX
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
+  - _MK_SURFACE_TYPE_TRANSPARENT
   - _MK_VERTEX_ANIMATION_SINE
+  - _MK_WORKFLOW_ROUGHNESS
   - _MK_WRAPPED_DIFFUSE
   m_InvalidKeywords:
   - _FRESNELHIGHLIGHTS_ON
@@ -48,18 +50,19 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    IGNOREPROJECTOR: False
-    RenderType: Opaque
+    IGNOREPROJECTOR: true
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlbedoMap:
-        m_Texture: {fileID: 2800000, guid: 18543310333bef8479d58fcf88f390c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: ebfc83c0fce379b4587eb385e4755740, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -139,7 +142,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 18543310333bef8479d58fcf88f390c5, type: 3}
+        m_Texture: {fileID: 2800000, guid: ebfc83c0fce379b4587eb385e4755740, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -155,7 +158,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 22ed53f0d1da04f4eb6ae673587086ff, type: 3}
+        m_Texture: {fileID: 2800000, guid: 488fe316f6c8f55408f4a6e096900e2e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -236,16 +239,16 @@ Material:
     - _ArtisticFrequency: 1
     - _ArtisticProjection: 0
     - _Blend: 0
-    - _BlendDst: 0
-    - _BlendDstAlpha: 0
+    - _BlendDst: 10
+    - _BlendDstAlpha: 10
     - _BlendModePreserveSpecular: 1
-    - _BlendSrc: 1
+    - _BlendSrc: 5
     - _BlendSrcAlpha: 1
-    - _Brightness: 1
+    - _Brightness: 1.26
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorGrading: 0
+    - _ColorGrading: 2
     - _Contrast: 1
     - _Cull: 2
     - _Cutoff: 0.5
@@ -281,7 +284,7 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 1
+    - _Light: 0
     - _LightBands: 4
     - _LightBandsScale: 0.5
     - _LightThreshold: 0.5
@@ -290,8 +293,8 @@ Material:
     - _LightTransmissionIntensity: 1
     - _LightTransmissionSmoothness: 0.5
     - _LightTransmissionThresholdOffset: 0.25
-    - _Metallic: 0
-    - _NormalMapIntensity: 1
+    - _Metallic: 0.068
+    - _NormalMapIntensity: 0.65
     - _OcclusionMapIntensity: 1
     - _OcclusionStrength: 1
     - _OptionsTab: 1
@@ -301,7 +304,7 @@ Material:
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: 0
     - _OutlineSize: 5
-    - _Parallax: 0.1
+    - _Parallax: 0.0405
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _RefractionDistortion: 1
@@ -314,8 +317,8 @@ Material:
     - _RimSize: 1
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
-    - _Roughness: 0.5
-    - _Saturation: 1
+    - _Roughness: 0.693
+    - _Saturation: 0.79
     - _SketchMapScale: 1
     - _Smoothness: 0.349
     - _SmoothnessTextureChannel: 0
@@ -335,16 +338,16 @@ Material:
     - _StencilWriteMask: 255
     - _StencilZFail: 0
     - _StylizeTab: 1
-    - _Surface: 0
+    - _Surface: 1
     - _ThresholdMapScale: 1
     - _VertexAnimation: 1
-    - _VertexAnimationIntensity: 0.1
+    - _VertexAnimationIntensity: 0.156
     - _VertexAnimationStutter: 0
-    - _Workflow: 0
+    - _Workflow: 2
     - _WorkflowMode: 1
     - _WrappedLighting: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
@@ -362,6 +365,6 @@ Material:
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.19999993, g: 0.19999993, b: 0.19999993, a: 1}
-    - _VertexAnimationFrequency: {r: 1.5, g: 0, b: 1.5, a: 0}
+    - _VertexAnimationFrequency: {r: 2, g: 0, b: 2, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
