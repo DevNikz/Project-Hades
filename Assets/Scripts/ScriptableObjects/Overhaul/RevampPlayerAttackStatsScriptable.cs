@@ -9,14 +9,18 @@ public class RevampPlayerAttackStatsScriptable : ScriptableObject
 {
     public float BaseDamage;
     public float BasePoiseDamage;
+    public float BaseCritRate;
     public float BaseKnockback;
     public float ChargeCost;
     public float ChargeGain;
     public float AutoLungeSpeed;
     public float MaxMoveSpeed;
     public string AnimationClipName;
+    public float HitboxTiming;
+    public float HitboxLingerTime;
     public float EarliestTimeForNextAttack;
     public float ComboInputWindowMaxTime;
+    public float AnimationHoldLength;
     public float AttackForgottenTime;
     public float ComboMissPunishTime;
 }

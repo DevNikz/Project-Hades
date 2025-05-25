@@ -5,6 +5,8 @@ using UnityEngine;
 [InlineEditor]
 public class PlayerCombatStats : ScriptableObject
 {
+    public float BaseMaxHealth;
+    public float BaseMaxCharge;
     public float MoveSpeed;
     public float DashSpeed;
     public float DashTime;

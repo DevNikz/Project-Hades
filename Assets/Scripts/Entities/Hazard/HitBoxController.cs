@@ -6,6 +6,7 @@ public class HitBoxController : MonoBehaviour
         if(other.CompareTag("Player")) {
             Debug.Log("Hit!");
             other.GetComponent<PlayerController>().ReceiveDamage(DamageType.Physical, 10f);
+            other.GetComponent<RevampPlayerStateHandler>().ReceiveDamage(DamageType.Physical, 10f);
         }
     }
 }

@@ -45,16 +45,18 @@ public class MeleeController : MonoBehaviour
     [ReadOnly] [SerializeReference] private AttackDirection atkdirection;
 
     [SerializeField] private PlayerController manaCharge;
+    private RevampPlayerAttackStatsScriptable _revampedAttackStats;
 
-    public void SetAttackStats(float healthDamage, float poiseDamage, float knockback) {
-        
+    public void SetAttackStats(RevampPlayerAttackStatsScriptable attack)
+    {
+        _revampedAttackStats = attack;
     }
 
     void Awake() {
         if(gameObject.CompareTag("PlayerMelee"))
         {
-            attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
-            gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
+            // attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
+            // gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
         }
         else if (gameObject.CompareTag("Detain"))
         {
@@ -108,15 +110,18 @@ public class MeleeController : MonoBehaviour
 
     void TriggerAttack(Collider other) {
 
+        Debug.Log("Attack hit something");
         if(other.CompareTag("HitHazard")) {
             Debug.Log("Hazard Hit!");
             other.GetComponent<HazardController>().InitHazard();
         }
 
-        if(other.TryGetComponent<BulletController>(out var bullet)){
-            if(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+
+        if (other.TryGetComponent<BulletController>(out var bullet))
+        {
+            if (ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
                 bullet.ReturnToPool();
-            if(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).IsActive)
+            if (ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).IsActive)
                 bullet.Reflect(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).augmentPower);
         }
 
@@ -124,7 +129,7 @@ public class MeleeController : MonoBehaviour
         if(other.TryGetComponent<EnemyController>(out var enemy)){
             Debug.Log("Hit an enemy");
 
-            if(attackType == null){
+            if(attackType == null && _revampedAttackStats == null){
                 Debug.LogWarning("[COMBAT-WARN]: Attack type when triggered is null");
                 return;
             }
@@ -132,33 +137,34 @@ public class MeleeController : MonoBehaviour
             float healthDmgMult = 1.0f;
             float poiseDmgMult = 1.0f;
             float knockbackMult = 1.0f;
-            float criticalHitChance = attackType.criticalChance;
+            // float criticalHitChance = attackType.criticalChance;
+            float criticalHitChance = _revampedAttackStats.BaseCritRate;
 
-            switch(PlayerStanceManager.Instance.SelectedStance){
-                // EARTH STANCE
-                case EStance.Earth:
-                    healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
-                    poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
-                    break;
+            // switch(PlayerStanceManager.Instance.SelectedStance){
+            //     // EARTH STANCE
+            //     case EStance.Earth:
+            //         healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
+            //         poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Earth, manaCharge.GetCurrentElementCharge() > 0);
+            //         break;
 
-                // FIRE STANCE
-                case EStance.Fire:
-                    healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
-                    poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
-                    break;
+            //     // FIRE STANCE
+            //     case EStance.Fire:
+            //         healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
+            //         poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Fire, manaCharge.GetCurrentElementCharge() > 0);
+            //         break;
 
-                // WATER STANCE
-                case EStance.Water:
-                    healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
-                    poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
-                    break;
+            //     // WATER STANCE
+            //     case EStance.Water:
+            //         healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
+            //         poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Water, manaCharge.GetCurrentElementCharge() > 0);
+            //         break;
 
-                // WIND STANCE
-                case EStance.Air:
-                    healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
-                    poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
-                    break;
-            }
+            //     // WIND STANCE
+            //     case EStance.Air:
+            //         healthDmgMult += StatCalculator.Instance.GetStanceDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
+            //         poiseDmgMult += StatCalculator.Instance.GetStancePoiseDmgMult(Elements.Wind, manaCharge.GetCurrentElementCharge() > 0);
+            //         break;
+            // }
 
             healthDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Aggro) * ItemManager.Instance.getAugment(AugmentType.Aggro).augmentPower;
             poiseDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Heavy) * ItemManager.Instance.getAugment(AugmentType.Heavy).augmentPower;
@@ -237,7 +243,8 @@ public class MeleeController : MonoBehaviour
 
             } else {
                 Vector3 direction = (other.gameObject.transform.position - transform.position).normalized;
-                Vector3 knockback = attackType.knocbackForce * knockbackMult * direction;
+                // Vector3 knockback = attackType.knocbackForce * knockbackMult * direction;
+                Vector3 knockback = _revampedAttackStats.BaseKnockback * knockbackMult * direction;
                 rb.AddForce(knockback, ForceMode.Impulse); 
 
                 if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
@@ -279,10 +286,13 @@ public class MeleeController : MonoBehaviour
             if(enemy.IsStaggered)
                 poiseDmgMult = 0.0f;
 
-            float healthDamage = attackType.damage * healthDmgMult;
-            float poiseDamage = attackType.poise * poiseDmgMult;
+            // float healthDamage = attackType.damage * healthDmgMult;
+            // float poiseDamage = attackType.poise * poiseDmgMult;
+            float healthDamage = _revampedAttackStats.BaseDamage * healthDmgMult;
+            float poiseDamage = _revampedAttackStats.BasePoiseDamage * poiseDmgMult;
 
-            enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
+            // enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
+            enemy.ReceiveDamage(DamageType.Physical, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
         }
     }
 

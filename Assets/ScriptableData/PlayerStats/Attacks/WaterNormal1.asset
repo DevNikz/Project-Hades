@@ -12,15 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2329499c69403c46affb2a3a8d890ea, type: 3}
   m_Name: WaterNormal1
   m_EditorClassIdentifier: 
-  BaseDamage: 1
-  BasePoiseDamage: 1
-  BaseKnockback: 1
+  BaseDamage: 20
+  BasePoiseDamage: 40
+  BaseCritRate: 0
+  BaseKnockback: 5
   ChargeCost: 0
   ChargeGain: 10
   AutoLungeSpeed: 0
   MaxMoveSpeed: 1
   AnimationClipName: Player_Water1st
-  EarliestTimeForNextAttack: 0
-  ComboInputWindowMaxTime: 0
-  AttackForgottenTime: 0
+  HitboxTiming: 0.1
+  HitboxLingerTime: 0.3
+  EarliestTimeForNextAttack: 0.5
+  ComboInputWindowMaxTime: 1
+  AnimationHoldLength: 1
+  AttackForgottenTime: 1.2
   ComboMissPunishTime: 0

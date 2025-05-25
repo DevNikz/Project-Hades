@@ -28,8 +28,9 @@ public class RevampPlayerController : MonoBehaviour
     #region HelperProperties
     private InputActionMap _playerMap;
     private PlayerAnimatorController _animator;
+    private RevampPlayerStateHandler _stateHandler;
     private int _activeStanceIndex = 0;
-    private int _comboCount = 0;
+    private int _comboCount = -1;
     private RevampPlayerAttackStatsScriptable _queuedAttack = null;
     private bool _queuedAttackIsSpecial = false;
     private bool _lastPerformedAttackIsSpecial = false;
@@ -44,6 +45,7 @@ public class RevampPlayerController : MonoBehaviour
     void Update()
     {
         ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+        UpdateAnimatorControllerStates();
 
         if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow)
             ProcessAttack(false);
@@ -56,6 +58,15 @@ public class RevampPlayerController : MonoBehaviour
         if (_playerMap.FindAction("OpenAugmentMenu").WasReleasedThisFrame())
             ProcessOpenAugmentMenu(false);
 
+        // Forget last attack if past the forget time
+        if (LastUsedAttack != null && _queuedAttack == null && Time.time - _timeOfLastAttack > LastUsedAttack.AttackForgottenTime)
+        {
+            _comboCount = -1;
+            _stateHandler.CurrentState = EntityState.None;
+        }
+
+        if (_stateHandler.CurrentState == EntityState.Attack)
+            ResetAttackingAnim();
         TryExecuteNextAttack(Time.time - _timeOfLastAttack);
     }
 
@@ -78,6 +89,7 @@ public class RevampPlayerController : MonoBehaviour
     {
         get
         {
+            if (_comboCount < 0) return null;
             if (_lastPerformedAttackIsSpecial)
             {
                 if (CurrentStance.SpecialAttacks.Count <= _comboCount) return null;
@@ -112,23 +124,21 @@ public class RevampPlayerController : MonoBehaviour
     {
         /** CHECK IF CLICK IS AT A VALID TIME **/
 
-        // FAIL IF NO VALID NEXT ATTACK CAN BE MADE
+        // NOTHIN IS REGISTERED IF THERE IS NO NEXT VALID ATTACK
         if ((isSpecialAttack && NextSpecialAttack == null) ||
-            (!isSpecialAttack && NextNormalAttack == null))
-        {
-            AttackFail(LastUsedAttack.ComboMissPunishTime);
+            (!isSpecialAttack && NextNormalAttack == null)){
             return;
         }
 
-        // FAIL IF PRESSED AFTER CURRENT ATTACK'S WINDOW BUT NOT IF PAST ITS FORGET
-        if (Time.time - _timeOfLastAttack > LastUsedAttack.ComboInputWindowMaxTime &&
-            Time.time - _timeOfLastAttack < LastUsedAttack.AttackForgottenTime)
+        // FAIL IF PRESSED AFTER CURRENT ATTACK'S WINDOW BUT WHILE NOT FORGOTTEN
+        if (LastUsedAttack != null)
         {
-            AttackFail(LastUsedAttack.ComboMissPunishTime);
-            return;
+            if (Time.time - _timeOfLastAttack > LastUsedAttack.ComboInputWindowMaxTime)
+            {
+                AttackFail(LastUsedAttack.ComboMissPunishTime);
+                return;
+            }
         }
-
-        // TODO : FAIL IF MANA CANT BE SPENT
 
         /* SUCCESS */
         // WILL SET NEXT ATTACK TO THE LAST BUTTON PRESS OF THE PLAYER
@@ -136,6 +146,7 @@ public class RevampPlayerController : MonoBehaviour
         else _queuedAttack = NextNormalAttack;
         _queuedAttackIsSpecial = isSpecialAttack;
     }
+
     void TryExecuteNextAttack(float timeSinceLastAttack)
     {
         // FAIL IF NO NEXT ATTACK EXISTS
@@ -143,22 +154,29 @@ public class RevampPlayerController : MonoBehaviour
             return;
 
         // FAIL TO EXECUTE IF ELAPSED TIME IS NOT ENOUGH
-        if (timeSinceLastAttack < LastUsedAttack.EarliestTimeForNextAttack)
+        if (LastUsedAttack != null && timeSinceLastAttack < LastUsedAttack.EarliestTimeForNextAttack)
             return;
 
+        // TODO : FAIL IF MANA CANT BE SPENT
+
         /* EXECUTE ATTACK */
+        Debug.Log("Made an attack: " + _queuedAttack);
 
         // SET HITBOX VALUES
         _attackHitbox.SetAttackStats(
-            _queuedAttack.BaseDamage + PlayerStats.BaseDamage,
-            _queuedAttack.BasePoiseDamage + PlayerStats.BasePoiseDamage,
-            _queuedAttack.BaseKnockback + PlayerStats.BaseKnockback
+            _queuedAttack
+            // _queuedAttack.BaseDamage + PlayerStats.BaseDamage,
+            // _queuedAttack.BasePoiseDamage + PlayerStats.BasePoiseDamage,
+            // _queuedAttack.BaseKnockback + PlayerStats.BaseKnockback
         );
 
         // SET ANIMATION
-        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName);
+        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, _queuedAttack.AnimationHoldLength);
+        StartCoroutine(SpawnHitbox(_queuedAttack.HitboxTiming, _queuedAttack.HitboxLingerTime));
 
-        // RESET STATE FOR PERFORMED ATTACK
+        // SET STATE FOR PERFORMED ATTACK
+        _stateHandler.CurrentState = EntityState.Attack;
+        _comboCount++;
         _timeOfLastAttack = Time.time;
         _lastPerformedAttackIsSpecial = _queuedAttackIsSpecial;
         _queuedAttack = null;
@@ -166,24 +184,47 @@ public class RevampPlayerController : MonoBehaviour
     }
     void AttackFail(float lagtime)
     {
+        _stateHandler.CurrentState = EntityState.None;
+        Debug.Log("Attack Failed");
         _timeOfLastAttack = Time.time + lagtime;
-        _comboCount = 0;
         _queuedAttack = null;
+        _comboCount = -1;
         _queuedAttackIsSpecial = false;
         _lastPerformedAttackIsSpecial = false;
     }
+    private float _lastHitboxEndTime = 0.0f;
+    IEnumerator SpawnHitbox(float spawnDelay, float lingerTime)
+    {
+        yield return new WaitForSeconds(spawnDelay);
+        _lastHitboxEndTime = Time.time + lingerTime;
+        _attackHitbox.gameObject.SetActive(true);
+    }
+    void DeactivateHitbox()
+    {
+        // Debug.Log($"Attack Hitbox: {_lastHitboxEndTime}, {Time.time}");
+        if(_lastHitboxEndTime < Time.time)
+            _attackHitbox.gameObject.SetActive(false);
+    }
+    void ResetAttackingAnim()
+    {
+        DeactivateHitbox();
+        _animator.DelayedResetAttack();
+    }
+
     #endregion
 
     #region Movement
     void ProcessMovement(Vector2 input)
     {
         // ESCAPE IF SHOULDNT MOVE
+
         if (LevelTrigger.HudCheck) return;
 
         ParticleSystem.EmissionModule particleEmission = _walkParticles.emission;
         if (input.sqrMagnitude <= 0 || !gameObject.CompareTag("Player"))
         {
             _animator.SetMovement(EntityMovement.Idle);
+            _animator.RevampSetMoving(false);
             _rigidbody.drag = 1000.0f;
             particleEmission.enabled = false;
             return;
@@ -196,13 +237,15 @@ public class RevampPlayerController : MonoBehaviour
 
         // SET ANIMATOR
         _animator.SetMovement(EntityMovement.Strafing);
-        _animator.SetDirection(input.x >= 0 ? LookDirection.Right : LookDirection.Left);
+        _animator.RevampSetMoving(true);
+        if(_stateHandler.CurrentState != EntityState.Attack)
+            _animator.SetDirection(input.x >= 0 ? LookDirection.Right : LookDirection.Left);
         particleEmission.enabled = true;
 
         // MOVE, SPEED CHANGES BASED ON IF ATTACKING OR NOT
         ResetSpeed();
         _rigidbody.drag = 0.0f;
-        if (RevampPlayerStateHandler.Instance.CurrentState != EntityState.Attack)
+        if (_stateHandler.CurrentState != EntityState.Attack)
             _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
             // _rigidbody.AddForce(, ForceMode.Impulse);
         else
@@ -214,12 +257,12 @@ public class RevampPlayerController : MonoBehaviour
     {
         if (Time.time - _timeOfLastDash < PlayerStats.DashCooldown) return;
 
-        Debug.Log("Tried to dash!");
-
         _isDashing = true;
         _rigidbody.drag = 0.0f;
         _timeOfLastDash = Time.time;
         _dashParticles.Play();
+
+        _animator.RevampDashAnim(_isDashing);
 
         _rigidbody.AddForce(100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso(), ForceMode.VelocityChange);
 
@@ -228,6 +271,7 @@ public class RevampPlayerController : MonoBehaviour
     void ResetDashing()
     {
         _isDashing = false;
+        _animator.RevampDashAnim(_isDashing);
         _rigidbody.drag = 1000.0f;
     }
     #endregion
@@ -283,30 +327,33 @@ public class RevampPlayerController : MonoBehaviour
     {
         _hitboxPointer.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
         float angle = ToIsoRotation(position);
-        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle - 45, 0.0f);
+        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, - angle - 45, 0.0f);
         _hitboxPointer.transform.rotation = rot;
         
-        _animator.SetAtkDir(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
+        if(_stateHandler.CurrentState == EntityState.Attack)
+            _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
     }
     float ToIsoRotation(Vector2 position) {
         Vector3 tempVector = Camera.main.WorldToScreenPoint(_hitboxPointer.transform.position);
         tempVector = (Vector3)position - tempVector;
         return Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
     }
-    
+
     void UpdateAnimatorControllerStates()
     {
         // _animator.SetMovement(entityMovement);
-        if (RevampPlayerStateHandler.Instance.IsDead)
-        {
-            RevampPlayerStateHandler.Instance.CurrentState = EntityState.Dead;
-        }
-        _animator.SetState(RevampPlayerStateHandler.Instance.CurrentState);
+        // if (_stateHandler.IsDead)
+        // {
+        //     _stateHandler.CurrentState = EntityState.Dead;
+        // }
+        // _animator.SetState(_stateHandler.CurrentState);
+
+        // _animator.RevampUpdatePlayerState(_stateHandler.CurrentState, _stateHandler.IsHurt);
     }
     #endregion
     void ResetState()
     {
-        _comboCount = 0;
+        _comboCount = -1;
         _timeOfLastAttack = Time.time;
         _timeOfLastDash = Time.time;
         _queuedAttack = null;
@@ -328,6 +375,7 @@ public class RevampPlayerController : MonoBehaviour
         _inputActions.Enable();
         _playerMap = _inputActions.FindActionMap("Player");
         _animator = GetComponent<PlayerAnimatorController>();
+        _stateHandler = GetComponent<RevampPlayerStateHandler>();
         _hitboxPointerOriginalXRotation = _hitboxPointer.transform.rotation.eulerAngles.x;
         _rigidbody = GetComponent<Rigidbody>();
         ResetState();

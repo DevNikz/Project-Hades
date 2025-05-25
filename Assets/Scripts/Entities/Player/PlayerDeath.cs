@@ -18,9 +18,11 @@ public class PlayerDeath : MonoBehaviour
 
 
 
-    [PropertySpace] [Title("[Debug]")]
-    [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")] 
-    public void KillYourself() {
+    [PropertySpace]
+    [Title("[Debug]")]
+    [Button(ButtonSizes.Gigantic, Name = "Kill Yourself", Icon = SdfIconType.ExclamationCircle), GUIColor("#990c05")]
+    public void KillYourself()
+    {
         this.gameObject.tag = "Player(Dead)";
 
         //Tick Counter
@@ -47,7 +49,7 @@ public class PlayerDeath : MonoBehaviour
         {
             Debug.LogError("PlayerController.Instance is null");
         }
-
+        
         //Play Animation / Game over screen
 
         //Leave a corpse (maybe)
@@ -65,7 +67,7 @@ public class PlayerDeath : MonoBehaviour
         //pointerSprite.SetActive(false);
         // tempTimer = timer;
         // timerState = TimerState.Start;
-        
+
     }
 
 

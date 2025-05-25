@@ -31,7 +31,8 @@ public class AttackBox : MonoBehaviour
             Vector3 knockback = direction * attackType.knocbackForce;
             rb.AddForce(knockback, ForceMode.Impulse);
 
-            other.GetComponent<PlayerController>().ReceiveDamage(attackType.damageType, attackType.damage);
+            other.GetComponent<PlayerController>()?.ReceiveDamage(attackType.damageType, attackType.damage);
+            other.GetComponent<RevampPlayerStateHandler>()?.ReceiveDamage(attackType.damageType, attackType.damage);
 
             this.gameObject.SetActive(false);
         }

@@ -340,7 +340,8 @@ public class ItemManager : MonoBehaviour
         AugmentScriptable scriptable = augment.Augment;
         int count = augment.Count;
 
-        PlayerController.Instance.SetBonusHealth(count * scriptable.augmentPower);
+        PlayerController.Instance?.SetBonusHealth(count * scriptable.augmentPower);
+        RevampPlayerStateHandler.Instance?.SetBonusHealth(count * scriptable.augmentPower);
     }
 
     private void Update() {
