@@ -74,9 +74,15 @@ public class ObjectPool : MonoBehaviour
         this.releasedObjects.Remove(obj);
         this.availableObjects.Add(obj);
     }
+    public void ReturnAllObjects()
+    {
+        foreach (GameObject obj in releasedObjects)
+            ReturnObject(obj);
+    }
 
-    public GameObject ReleaseObject(){
-        if(this.availableObjects.Count <= 0) return null;
+    public GameObject ReleaseObject()
+    {
+        if (this.availableObjects.Count <= 0) return null;
 
         GameObject obj = this.availableObjects[this.availableObjects.Count - 1];
         obj.SetActive(true);
@@ -84,7 +90,7 @@ public class ObjectPool : MonoBehaviour
         this.availableObjects.Remove(obj);
         this.releasedObjects.Add(obj);
 
-        return obj;  
+        return obj;
     }
 
     public GameObject ReleaseObjectAt(Vector3 location){
