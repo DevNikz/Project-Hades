@@ -16,6 +16,9 @@ public class PlayerAnimatorController : MonoBehaviour
     [SerializeReference] private Animator animator;
 
     [BoxGroup("ShowReferences/Ref")]
+    [SerializeReference] private Animator vfxAnimator;
+
+    [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private EntityMovement entityMovement;
 
     [BoxGroup("ShowReferences/Ref")]
@@ -38,6 +41,7 @@ public class PlayerAnimatorController : MonoBehaviour
 
     void Start() {
         animator = transform.Find("Anims").GetComponent<Animator>();
+        vfxAnimator = transform.Find("AttackVFX").GetComponent<Animator>();
 
         xScale = animator.gameObject.transform.localScale.x;
         Scale = animator.gameObject.transform.localScale;
@@ -275,18 +279,24 @@ public class PlayerAnimatorController : MonoBehaviour
 
     private float _endTimeOfLastAttack = 0.0f;
 
-    public void RevampedPlayAttackAnim(string animationName, float animLength)
+    public void RevampedPlayAttackAnim(string animationName, float animLength, string vfxAnimName)
     {
         _endTimeOfLastAttack = Time.time + animLength;
         animator.SetBool("isAttacking", true);
+        vfxAnimator.SetBool("isAttacking",true);
         animator.Play(animationName);
+        vfxAnimator.Play(vfxAnimName);
     }
 
     public void DelayedResetAttack()
     {
         // Debug.Log($"Attack Anim: {_endTimeOfLastAttack}, {Time.time}");
         if (_endTimeOfLastAttack < Time.time)
+        {
             animator.SetBool("isAttacking", false);
+            vfxAnimator.SetBool("isAttacking", false);
+        }
+            
     }
 
     public void PlayAttackAnim(int counter, Elements element)

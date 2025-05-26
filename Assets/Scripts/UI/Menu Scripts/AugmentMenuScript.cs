@@ -19,12 +19,12 @@ public class AugmentMenuScript : MonoBehaviour
     public bool fireUnlocked = false;
     public bool earthUnlocked = false;
 
-    protected static bool isAltHeld = false;
+    protected static bool isKeyHeld = false;
     [SerializeReference] bool debug = false;
 
     public static bool augmentMenuCheck {
-        get { return isAltHeld; }
-        set { isAltHeld = value; }
+        get { return isKeyHeld; }
+        set { isKeyHeld = value; }
     }
 
     // Start is called before the first frame update
@@ -59,12 +59,12 @@ public class AugmentMenuScript : MonoBehaviour
     }
 
     void DoAction() {
-        if (Input.GetKey(KeyCode.LeftAlt)) {
-            isAltHeld = true;
+        if (Input.GetKey(KeyCode.T)) {
+            isKeyHeld = true;
             debug = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftAlt)) {
-            isAltHeld = false;
+        else if (Input.GetKeyUp(KeyCode.T)) {
+            isKeyHeld = false;
             debug = false;
         }
     }

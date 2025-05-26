@@ -16,6 +16,7 @@ public class RevampPlayerAttackStatsScriptable : ScriptableObject
     public float AutoLungeSpeed;
     public float MaxMoveSpeed;
     public string AnimationClipName;
+    public string VFXAnimClipName;
     public float HitboxTiming;
     public float HitboxLingerTime;
     public float EarliestTimeForNextAttack;

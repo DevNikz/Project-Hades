@@ -28,6 +28,7 @@ public class RevampPlayerController : MonoBehaviour
     #region HelperProperties
     private InputActionMap _playerMap;
     private PlayerAnimatorController _animator;
+    //private PlayerAttackVFX _vfxAnimator;
     private RevampPlayerStateHandler _stateHandler;
     private int _activeStanceIndex = 0;
     private int _comboCount = -1;
@@ -171,7 +172,8 @@ public class RevampPlayerController : MonoBehaviour
         );
 
         // SET ANIMATION
-        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, _queuedAttack.AnimationHoldLength);
+        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, _queuedAttack.AnimationHoldLength, _queuedAttack.VFXAnimClipName);
+        //_vfxAnimator.PlayAnim(_queuedAttack.VFXAnimClipName);
         StartCoroutine(SpawnHitbox(_queuedAttack.HitboxTiming, _queuedAttack.HitboxLingerTime));
 
         // SET STATE FOR PERFORMED ATTACK
@@ -375,6 +377,7 @@ public class RevampPlayerController : MonoBehaviour
         _inputActions.Enable();
         _playerMap = _inputActions.FindActionMap("Player");
         _animator = GetComponent<PlayerAnimatorController>();
+        //_vfxAnimator = GetComponentInChildren<PlayerAttackVFX>();
         _stateHandler = GetComponent<RevampPlayerStateHandler>();
         _hitboxPointerOriginalXRotation = _hitboxPointer.transform.rotation.eulerAngles.x;
         _rigidbody = GetComponent<Rigidbody>();
