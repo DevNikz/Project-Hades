@@ -244,7 +244,7 @@ public class RevampPlayerController : MonoBehaviour
         particleEmission.enabled = true;
 
         // MOVE, SPEED CHANGES BASED ON IF ATTACKING OR NOT
-        Debug.Log("Current Speed: " + CurrentSpeed);
+        // Debug.Log("Current Speed: " + CurrentSpeed);
         _rigidbody.drag = 0.0f;
         if (_stateHandler.CurrentState != EntityState.Attack)
             _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
