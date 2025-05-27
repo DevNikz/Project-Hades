@@ -64,7 +64,8 @@ public class RevampPlayerStateHandler : MonoBehaviour
 
     public void SetInvincibility(float amount)
     {
-        _invincibilitySetTime = Time.time + amount;
+        if(_invincibilitySetTime < Time.time + amount)
+            _invincibilitySetTime = Time.time + amount;
     }
 
     public void ReceiveDamage(DamageType damageType, float damage)

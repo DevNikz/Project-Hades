@@ -266,6 +266,8 @@ public class RevampPlayerController : MonoBehaviour
 
         _rigidbody.AddForce(100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso(), ForceMode.VelocityChange);
 
+        _stateHandler.SetInvincibility(PlayerStats.DashTime);
+
         Invoke(nameof(ResetDashing), PlayerStats.DashTime);
     }
     void ResetDashing()
