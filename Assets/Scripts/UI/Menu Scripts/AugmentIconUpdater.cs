@@ -13,7 +13,7 @@ public class AugmentIconUpdater : MonoBehaviour
 
     private Image targetUIImage;
 
-    private void Start() {
+    private void OnEnable() {
         this.targetUIImage = GetComponent<Image>();
         if(this.targetUIImage == null){
             Destroy(this);
@@ -28,7 +28,7 @@ public class AugmentIconUpdater : MonoBehaviour
             this.UpdateImage();
     }
 
-    private void OnDestroy() {
+    private void OnDisable() {
         if(!unlockEventName.IsNullOrWhitespace())
             EventBroadcaster.Instance.RemoveActionAtObserver(unlockEventName, this.UnlockAugment);
     }
@@ -40,7 +40,7 @@ public class AugmentIconUpdater : MonoBehaviour
 
     public void SetAugment(AugmentScriptable augment = null){
         this.currentAugment = augment;
-        if (this.isLocked)
+        if (this.isLocked && this.lockedImage != null)
         {
 
             this.targetUIImage.sprite = this.lockedImage;

@@ -94,7 +94,7 @@ public class LevelRewardScript : MonoBehaviour
         choice = AugmentType.None;
 
         AugmentIconUpdater updater = button.GetComponent<AugmentIconUpdater>();
-        if(updater != null){
+        if(updater != null && updater.GetAugment() != null){
             choice = updater.GetAugment().augmentType;
         }
     }
