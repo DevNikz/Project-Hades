@@ -39,12 +39,22 @@ public class PlayerAnimatorController : MonoBehaviour
     public float xScale;
     public Vector3 Scale;
 
+    public Vector3 vfxSpritePlacementRight;
+    public Vector3 vfxSpritePlacementLeft;
+    public Vector3 vfxScale;
+    public float vfx_xScale;
+
     void Start() {
         animator = transform.Find("Anims").GetComponent<Animator>();
         vfxAnimator = transform.Find("AttackVFX").GetComponent<Animator>();
 
         xScale = animator.gameObject.transform.localScale.x;
         Scale = animator.gameObject.transform.localScale;
+
+        vfxSpritePlacementRight = transform.Find("AttackVFX").localPosition;
+        vfxSpritePlacementLeft = new Vector3(4.5f, 3f, 2.298f);
+        vfxScale = vfxAnimator.gameObject.transform.localScale;
+        vfx_xScale = vfxScale.x;
     }
 
     public void SetMovement(EntityMovement value) { entityMovement = value; }
@@ -75,13 +85,20 @@ public class PlayerAnimatorController : MonoBehaviour
         {
             case LookDirection.Left:
                 xScale = Math.Abs(xScale) * -1;
+                vfx_xScale = Math.Abs(vfx_xScale) * -1;
+                vfxAnimator.gameObject.transform.localPosition = vfxSpritePlacementLeft;
                 break;
             case LookDirection.Right:
                 xScale = Math.Abs(xScale);
+                vfx_xScale = Math.Abs(vfx_xScale);
+                vfxAnimator.gameObject.transform.localPosition = vfxSpritePlacementRight;
                 break;
         }
 
         animator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        vfxAnimator.gameObject.transform.localScale = new Vector3(vfx_xScale, vfxScale.y, vfxScale.z);
+
+        
     }
 
     void SetAttackDir(LookDirection dir)
@@ -286,6 +303,7 @@ public class PlayerAnimatorController : MonoBehaviour
         vfxAnimator.SetBool("isAttacking",true);
         animator.Play(animationName);
         vfxAnimator.Play(vfxAnimName);
+
     }
 
     public void DelayedResetAttack()
