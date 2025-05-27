@@ -327,7 +327,7 @@ public class RevampPlayerController : MonoBehaviour
     private float _hitboxPointerOriginalXRotation = 0.0f;
     void ProcessUpdatePointerDirection(Vector2 position)
     {
-        _hitboxPointer.transform.position = new Vector3(this.transform.position.x, 0.05f, this.transform.position.z);
+        // _hitboxPointer.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         float angle = ToIsoRotation(position);
         Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, - angle - 45, 0.0f);
         _hitboxPointer.transform.rotation = rot;
