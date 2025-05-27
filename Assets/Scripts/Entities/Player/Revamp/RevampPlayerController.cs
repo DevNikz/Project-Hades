@@ -231,7 +231,8 @@ public class RevampPlayerController : MonoBehaviour
         }
 
         // UPDATE MOVE DIRECTION
-        _lastMoveInput = new(input.x, 0.0f, input.y);
+        if(input.sqrMagnitude > 0)
+            _lastMoveInput = new(input.x, 0.0f, input.y);
 
         if (_isDashing) return;
 
@@ -361,7 +362,7 @@ public class RevampPlayerController : MonoBehaviour
         _queuedAttack = null;
         _queuedAttackIsSpecial = false;
         _lastPerformedAttackIsSpecial = false;
-        _lastMoveInput = Vector2.zero;
+        _lastMoveInput = Vector3.zero;
         _isDashing = false;
         ResetSpeed();
 
