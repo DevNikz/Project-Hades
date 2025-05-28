@@ -47,9 +47,9 @@ public class RevampPlayerController : MonoBehaviour
         ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
         UpdateAnimatorControllerStates();
 
-        if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow)
+        if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
             ProcessAttack(false);
-        if (_playerMap.FindAction("SpecialAttack").WasPressedThisFrame() && IsMouseOverGameWindow)
+        if (_playerMap.FindAction("SpecialAttack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
             ProcessAttack(true);
         if (_playerMap.FindAction("StanceSwitch").WasPressedThisFrame())
             ProcessStanceSwitch();

@@ -237,7 +237,7 @@ public class Combat : MonoBehaviour
 
         //Of course it will cause an inf. loop if I set it to a while loop. Dumbass.
         //Debug.Log(MenuScript.weaponWheelCheck);
-        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player" && LevelTrigger.HudCheck == false) {
+        if(IsMouseOverGameWindow && MenuScript.weaponWheelCheck == false && gameObject.tag == "Player" && LevelTrigger.HudCheck == false && PauseMenuScript.isPausedCheck == false) {
             switch(pressed) {
                 case true:
                     switch(PlayerStanceManager.Instance.SelectedStance) {

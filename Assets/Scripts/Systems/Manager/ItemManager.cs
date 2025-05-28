@@ -7,7 +7,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance;
-    [SerializeField] private PlayerController _player;
+    //[SerializeField] private RevampPlayerStateHandler _player;
 
     // Definitions for ease of tracking
     [Serializable] public class StackableAugment{
@@ -179,12 +179,16 @@ public class ItemManager : MonoBehaviour
         if(stackAugment != null){
             stackAugment.Count += amount;
 
-            if(stackAugment.Augment.augmentType == AugmentType.Vitality){
+            if (stackAugment.Augment.augmentType == AugmentType.Vitality)
+            {
                 UpdatePlayerVitality();
-                if(!_player)
-                    _player = GameObject.Find("Player").GetComponent<PlayerController>();
-                _player.HealHealth(stackAugment.Augment.augmentPower);
-            } else {
+                // if(!_player)
+                //     _player = GameObject.Find("Player").GetComponent<RevampPlayerStateHandler>();
+                //_player.HealHealth(stackAugment.Augment.augmentPower);
+                RevampPlayerStateHandler.Instance.HealHealth(stackAugment.Augment.augmentPower);
+            }
+            else
+            {
                 ToggleValidAugments(Elements.None);
             }
             return;

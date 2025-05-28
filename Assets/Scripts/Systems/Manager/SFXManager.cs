@@ -16,9 +16,9 @@ public class SFXManager : MonoBehaviour
     void Awake() {
         if(Instance == null) {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
+            
         }
-        // else Destroy(gameObject);
+        else Destroy(gameObject);
 
         foreach(Sound s in sounds) {
             s.source = this.gameObject.AddComponent<AudioSource>();
@@ -31,7 +31,7 @@ public class SFXManager : MonoBehaviour
     }
 
     void Start() {
-        switch (SceneManager.GetActiveScene().buildIndex)
+        switch(SceneManager.GetActiveScene().buildIndex)
         {
             case 0: //Main Menu
                 Play("TitleMenu");
@@ -49,9 +49,30 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    public void Play(string name) {
+    public void SwitchAudio()
+    {
+        switch(SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0: //Main Menu
+                Play("TitleMenu");
+                Stop("LevelOne");
+                break;
+            case 1: //Tutorial
+            case 2:
+            case 4: //Level1
+            case 5: //Level2
+            case 6: //Level3
+            case 7:
+                Stop("TitleMenu");
+                Play("LevelOne");
+                break;
+        }
+    }
+
+    public void Play(string name)
+    {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s == null) return;
+        if (s == null) return;
         s.source.volume = s.volume;
         s.source.Play();
     }

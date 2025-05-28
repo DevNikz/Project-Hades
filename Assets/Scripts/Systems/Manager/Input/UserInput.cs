@@ -53,7 +53,7 @@ public class UserInput : MonoBehaviour
     }
 
     private void Update() {
-        if (!PauseMenuScript.isPaused)
+        if (PauseMenuScript.isPausedCheck == false)
             UpdateInputs();
     }
 
