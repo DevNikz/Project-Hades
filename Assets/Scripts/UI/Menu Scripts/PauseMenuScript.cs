@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,6 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] GameObject deathOverlay;
 
     public static bool isPaused;
-
 
     // Start is called before the first frame update
     void Start()
@@ -49,18 +49,21 @@ public class PauseMenuScript : MonoBehaviour
 
     public void ResignGame()
     {
-        if(PlayerController.Instance != null)
-            PlayerController.Instance.entityState = EntityState.Dead;
+        ResumeGame();
 
-        if(RevampPlayerStateHandler.Instance != null)
-            RevampPlayerStateHandler.Instance.CurrentState = EntityState.Dead;
+        if (RevampPlayerStateHandler.Instance != null)
+            RevampPlayerStateHandler.Instance.ReceiveDamage(DamageType.Physical, 999);
 
         deathOverlay.GetComponent<LoseScreen_Script>().Defeat();
     }
 
     public void ExitGame()
     {
-        ResumeGame(); //Should fix the menu thingy
-        SceneManager.LoadScene("Title Screen");
+        // ResumeGame(); //Should fix the menu thingy
+        // SceneManager.LoadScene("Title Screen");
+
+        //Maybe put save here
+        ResumeGame();
+        Application.Quit();
     }
 }

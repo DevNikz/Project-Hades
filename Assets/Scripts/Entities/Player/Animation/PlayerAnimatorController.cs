@@ -97,8 +97,6 @@ public class PlayerAnimatorController : MonoBehaviour
 
         animator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
         vfxAnimator.gameObject.transform.localScale = new Vector3(vfx_xScale, vfxScale.y, vfxScale.z);
-
-        
     }
 
     void SetAttackDir(LookDirection dir)

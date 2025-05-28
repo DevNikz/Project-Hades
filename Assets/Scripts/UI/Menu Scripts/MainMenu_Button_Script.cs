@@ -12,9 +12,10 @@ public class MainMenu_Button_Script : MonoBehaviour
     {
         if (asyncLoader != null)
         {
-            if(SaveManager.Instance.CurrentStats.hasPlayed == 1)
+            if (SaveManager.Instance.CurrentStats.hasPlayed == 1)
                 sceneToLoad = "HubLevel";
             asyncLoader.LoadLevelBtn(sceneToLoad);
+            SFXManager.Instance.SwitchAudio();
         }
         else
         {

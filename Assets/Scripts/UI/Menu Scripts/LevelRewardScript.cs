@@ -75,8 +75,12 @@ public class LevelRewardScript : MonoBehaviour
                     if (ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                         chosenAugment = null;
 
-                    if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
-                        chosenAugment = null;
+
+                    // Debug.Log($"ChosenAug: {chosenAugment.preReqAugment}");
+                    // Debug.Log($"HasUnlocked: {ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment)}");
+
+                    // if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
+                    //     chosenAugment = null;
                 }
                 
             } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
