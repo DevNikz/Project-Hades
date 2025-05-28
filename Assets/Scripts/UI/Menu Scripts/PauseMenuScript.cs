@@ -10,7 +10,12 @@ public class PauseMenuScript : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject deathOverlay;
 
-    public static bool isPaused;
+    private static bool isPaused;
+
+    public static bool isPausedCheck {
+        get { return isPaused; }
+        set { isPaused = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -49,12 +54,17 @@ public class PauseMenuScript : MonoBehaviour
 
     public void ResignGame()
     {
-        ResumeGame();
-
         if (RevampPlayerStateHandler.Instance != null)
+        {
             RevampPlayerStateHandler.Instance.ReceiveDamage(DamageType.Physical, 999);
+            // RevampPlayerStateHandler.Instance.CurrentState = EntityState.Dead;
+            // RevampPlayerStateHandler.Instance.gameObject.tag = "Player(Dead)";
+        }
 
         deathOverlay.GetComponent<LoseScreen_Script>().Defeat();
+        
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 
     public void ExitGame()

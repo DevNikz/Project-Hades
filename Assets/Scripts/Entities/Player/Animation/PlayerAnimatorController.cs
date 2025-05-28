@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System;
+using System.Runtime;
 
 public class PlayerAnimatorController : MonoBehaviour
 {
@@ -65,7 +66,7 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetSelectedElements(Elements value) { selectedElement = value; }
 
     void Update() {
-        if(LevelTrigger.HudCheck == false) {
+        if(LevelTrigger.HudCheck == false && RevampPlayerStateHandler.Instance.gameObject.tag == "Player") {
 
             if(entityState != EntityState.Attack) SetDir(entityDirection);
             else SetAttackDir(attackDirection);
@@ -114,7 +115,8 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
     void SetPause() {
-        animator.Play("Player_Idle");
+        if(RevampPlayerStateHandler.Instance.gameObject.tag == "Player")
+            animator.Play("Player_Idle");
     }
 
     void UpdateAnimation(Elements elements) {
@@ -421,7 +423,8 @@ public class PlayerAnimatorController : MonoBehaviour
 
     public void RevampPlayIdle()
     {
-        animator.Play("Player_Idle");
+        if(RevampPlayerStateHandler.Instance.gameObject.tag == "Player")
+            animator.Play("Player_Idle");
     }
 
     public void RevampTriggerHurt()
@@ -431,7 +434,10 @@ public class PlayerAnimatorController : MonoBehaviour
 
     public void RevampTriggerDeath()
     {
-        animator.Play("Player_DeathB");
+        Debug.Log("Playing Death");
+        animator.SetTrigger("Dead");
+        animator.SetBool("isDead", true);
+        // animator.Play("Player_DeathB");
     }
 
     public void RevampSetMoving(bool isMoving)
