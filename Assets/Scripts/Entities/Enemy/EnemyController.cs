@@ -367,7 +367,9 @@ public class EnemyController : MonoBehaviour
     }
 
     void SFXPlayer(Detain detain) {
-        switch(detain) {
+        if (SFXManager.Instance == null) return;
+        switch (detain)
+        {
             case Detain.Yes:
                 SFXManager.Instance.Play("RobotDetained");
                 hasBeenDetained = true;
