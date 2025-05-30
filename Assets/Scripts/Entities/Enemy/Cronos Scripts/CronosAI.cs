@@ -22,6 +22,9 @@ public class CronosAI : EnemyAction
     private string chosenAttack = "Reap";
 
     [SerializeField] private float reapDistance = 5f;
+    [SerializeField] private float reapDelay = 0.25f;
+    [SerializeField] private float reapLength = 15f;
+    [SerializeField] private float reapSpeed = 0.3f;
     [SerializeField] private float chargeDistance = 5f;
     [SerializeField] private float chargeCooldown = 0.25f;
     [SerializeField] private float actionCooldown = 2f;
@@ -98,18 +101,19 @@ public class CronosAI : EnemyAction
 
     private void Reap()
     {
-        if (!IsAttacking)
+        if (this.Action == 1)
         {
-            IsAttacking = true;
-            Agent.isStopped = true;
-            circleHitBox.SetActive(true);
+            Invoke(nameof(BeginAttack), reapDelay);
+
+            Agent.isStopped = true;   
             this.SetAction(3);
         }
 
         if (IsAttacking)
             Reaping();
+
         // || (IsAttacking && !circleHitBox.activeSelf)
-        if (circleHitBox.transform.localScale.x >= 15)
+        if (IsAttacking && circleHitBox.transform.localScale.x >= reapLength)
         {
             FinishAction();
             IsAttacking = false;
@@ -121,7 +125,13 @@ public class CronosAI : EnemyAction
 
     private void Reaping()
     {
-        circleHitBox.transform.localScale += new Vector3(0.15f, 0, 0.15f);
+        circleHitBox.transform.localScale += new Vector3(reapSpeed, 0, reapSpeed);
+    }
+
+    private void BeginAttack()
+    {
+        IsAttacking = true;
+        circleHitBox.SetActive(true);
     }
 
     private void Dash()

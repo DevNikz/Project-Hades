@@ -161,6 +161,9 @@ public abstract class EnemyAction : MonoBehaviour
     // ANIMATIONS
     public virtual void SetHit(AttackDirection attackDirection)
     {
+
+        if (anims.isDead || anims.isStun || anims.isHit) return;
+
         EndAttack();
         if(Cooldown < anims.timer) Cooldown = anims.timer;
 
@@ -170,6 +173,8 @@ public abstract class EnemyAction : MonoBehaviour
 
     public virtual void SetStagger(AttackDirection attackDirection, float duration)
     {
+        if (anims.isDead || anims.isStun) return;
+
         EndAttack();
         Cooldown = duration;
 

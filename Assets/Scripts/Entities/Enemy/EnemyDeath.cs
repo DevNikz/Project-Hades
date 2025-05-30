@@ -14,6 +14,8 @@ public class EnemyDeath : MonoBehaviour
     [ReadOnly] public float tempTimer;
     [ReadOnly] [SerializeReference] public TimerState timerState;
 
+    private bool isDead = false;
+
     private void OnEnable()
     {
         entitySprite = transform.Find("SpriteContainer").gameObject;
@@ -29,6 +31,8 @@ public class EnemyDeath : MonoBehaviour
     }
 
     public void Die() {
+        if (isDead) return;
+
         SFXPlayer();
         entitySprite.GetComponent<EnemyAnimation>().SetDeath();
 
