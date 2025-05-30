@@ -58,10 +58,13 @@ public abstract class EnemyAction : MonoBehaviour
             this.IsAttacking = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
             Cooldown -= Time.deltaTime;
-            TeleportPoint();
             return;
         }
-        if (Action == -1) Action = 1;
+        if (Action == -1)
+        {
+            Action = 1;
+            TeleportPoint();
+        }
 
         if (Action != 0)
         {
