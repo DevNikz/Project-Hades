@@ -92,6 +92,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         isDead = true;
         action.CancelInvoke();
+        action.Cooldown = 10;
         spriteAnimator.Play("Death");
     }
 

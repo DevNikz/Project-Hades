@@ -32,6 +32,7 @@ public class EnemyDeath : MonoBehaviour
 
     public void Die() {
         if (isDead) return;
+        isDead = true;
 
         SFXPlayer();
         entitySprite.GetComponent<EnemyAnimation>().SetDeath();

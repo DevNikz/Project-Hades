@@ -58,6 +58,7 @@ public abstract class EnemyAction : MonoBehaviour
             this.IsAttacking = false;
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
             Cooldown -= Time.deltaTime;
+            TeleportPoint();
             return;
         }
         if (Action == -1) Action = 1;
@@ -155,6 +156,16 @@ public abstract class EnemyAction : MonoBehaviour
             //line.sortingOrder = 1;
             line.material = new Material(Shader.Find("Sprites/Default"));
             line.material.color = Color.red;
+        }
+    }
+
+    public void TeleportPoint()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(this.transform.position, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+            this.transform.position = hit.position;
         }
     }
 

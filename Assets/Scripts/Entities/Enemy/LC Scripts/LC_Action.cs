@@ -68,6 +68,7 @@ public class LC_Actions : EnemyAction
         if (_comboNum == 6) {
             IsAttacking = false;
             Cooldown = _maxCooldown;
+            TeleportPoint();
         }
     }
 
