@@ -73,6 +73,7 @@ public class SFXManager : MonoBehaviour
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null) return;
+        if(s.source == null) return;
         s.source.volume = s.volume;
         s.source.Play();
     }
