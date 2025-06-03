@@ -11,9 +11,6 @@ public class RevampPlayerAttackStatsScriptable : ScriptableObject
     public float BasePoiseDamage;
     public float BaseCritRate;
     public float BaseKnockback;
-    public float ChargeCost;
-    public float ChargeGain;
-    public float AutoLungeSpeed;
     public float MaxMoveSpeed;
     public string AnimationClipName;
     public string VFXAnimClipName;

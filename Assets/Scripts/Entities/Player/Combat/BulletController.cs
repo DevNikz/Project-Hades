@@ -5,11 +5,13 @@ public class BulletController : MonoBehaviour
 {
     public AttackType attackType;
     [SerializeField] public bool IsHostile;
+    [SerializeField] private GameObject _outerSphere;
     private GameObject tempObject;
     private Rigidbody rb;
     private Rigidbody bulletBody;
     private MeshRenderer meshRenderer;
     private float _damageScaler = 1.0f;
+    private float _rotateSpeed = 10.0f;
 
     [SerializeField][Range(0.1f, 100f)] private float timer;
     private float timerProgress;
@@ -38,8 +40,13 @@ public class BulletController : MonoBehaviour
     void Update() {
         if(timerState == TimerState.Start) {
             timerProgress -= Time.fixedDeltaTime;
-            if(timerProgress <= 0) {
+            if (timerProgress <= 0)
+            {
                 timerState = TimerState.Stop;
+            }
+            else
+            {
+                _outerSphere.transform.Rotate(Vector3.up, _rotateSpeed);   
             }
         }
         else if(timerState == TimerState.Stop) {

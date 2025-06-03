@@ -13,5 +13,6 @@ public class PlayerCombatStats : ScriptableObject
     public float DashCooldown;
     public float BaseDamage;
     public float BasePoiseDamage;
+    public float BaseCritRate;
     public float BaseKnockback;
 }

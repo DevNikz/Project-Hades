@@ -66,7 +66,7 @@ public class PlayerAnimatorController : MonoBehaviour
     public void SetSelectedElements(Elements value) { selectedElement = value; }
 
     void Update() {
-        if(LevelTrigger.HudCheck == false && RevampPlayerStateHandler.Instance.gameObject.tag == "Player") {
+        if(LevelTrigger.AtEndOfLevel == false && RevampPlayerStateHandler.Instance.gameObject.tag == "Player") {
 
             if(entityState != EntityState.Attack) SetDir(entityDirection);
             else SetAttackDir(attackDirection);

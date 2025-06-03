@@ -40,9 +40,7 @@ public class AugmentIconUpdater : MonoBehaviour
 
     public void SetAugment(AugmentScriptable augment = null){
         this.currentAugment = augment;
-        if (this.isLocked && this.lockedImage != null)
-        {
-
+        if (this.isLocked && this.lockedImage != null){
             this.targetUIImage.sprite = this.lockedImage;
         }
         else if (this.currentAugment != null)

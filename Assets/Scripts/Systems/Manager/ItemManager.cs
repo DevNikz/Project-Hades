@@ -133,8 +133,6 @@ public class ItemManager : MonoBehaviour
     }
 
     public bool hasUnlocked(AugmentType type){
-        Debug.Log("Checking for " + type);
-
         UnlockableAugment unlockableAugment = getUnlockableAugment(type);
         if(unlockableAugment == null) return false;
 

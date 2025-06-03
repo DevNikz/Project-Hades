@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,63 +10,57 @@ using UnityEngine.UI;
 public class LevelRewardScript : MonoBehaviour
 {
     [SerializeField] GameObject levelRewardMenu;
-    // [SerializeField] Sprite[] stanceSprites;
     [SerializeField] GameObject[] augmentButtons;
-    // [SerializeField] GameObject stanceButton;
-    // [SerializeField] private AugmentScriptable gaiaGear;
-    // [SerializeField] private AugmentScriptable thalassaGear;
-    // [SerializeField] private AugmentScriptable ouranosGear;
-    // [SerializeField] private AugmentScriptable gehennaGear;
 
-    [SerializeField] private List<AugmentScriptable> chosenAugments = new();
+    [SerializeField, ReadOnly] private List<AugmentScriptable> chosenAugments = new();
 
     [SerializeReference] private LootpoolScriptable lootpool;
     [SerializeField] private int maxRetryAugmentGenerate = 100;
-    private int currentAugmentGenRetries = 0;
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
     public void ReloadAugments(){
+        if (lootpool == null)
+        {
+            Debug.LogWarning("[WARN]: Lootpool null");
+            return;
+        }
+        
         lootpool.initialize();
         AssignSprites();
     }
 
     AugmentType choice = AugmentType.None;
-    bool choiceMade = false;
 
     void Start(){
         ResetMenu();
     }
 
     private void ResetMenu(){
-        lootpool.initialize();
-        AssignSprites();
-
-        currentAugmentGenRetries = 0;
+        ReloadAugments();
 
         choice = AugmentType.None;
-        choiceMade = false;
-        levelRewardMenu.SetActive(false);
-    }
-
-    private void Update(){
-        if(levelRewardMenu.activeInHierarchy){
-            if (choiceMade){
-                TransitionLevel();
-            }
+        if (levelRewardMenu == null)
+        {
+            Debug.LogWarning("LevelRewardMenu null");
+            return;
         }
+        levelRewardMenu.SetActive(false);
     }
 
     void AssignSprites()
     {
-        chosenAugments.Clear();
-
-        foreach (var button in augmentButtons)
+        if (ItemManager.Instance == null)
         {
-            AugmentScriptable chosenAugment = null;
-            
-            currentAugmentGenRetries = 0;
+            Debug.LogWarning("[WARN]: ItemManager null");
+            return;
+        }
 
-            do {
+        chosenAugments.Clear();
+        foreach (var button in augmentButtons){
+            AugmentScriptable chosenAugment = null;
+            int currentAugmentGenRetries = 0;
+            do
+            {
                 chosenAugment = ItemManager.Instance.getAugment(
                     lootpool.returnRandomizedItem()
                 );
@@ -73,19 +68,21 @@ public class LevelRewardScript : MonoBehaviour
                 if (chosenAugment != null)
                 {
                     if (ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
+                    {
                         chosenAugment = null;
-
+                        continue;   
+                    }
 
                     // Debug.Log($"ChosenAug: {chosenAugment.preReqAugment}");
                     // Debug.Log($"HasUnlocked: {ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment)}");
 
-                    // if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
-                    //     chosenAugment = null;
+                    if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
+                    {
+                        chosenAugment = null;
+                        continue;
+                    }
                 }
-                
             } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
-
-            currentAugmentGenRetries = maxRetryAugmentGenerate;
 
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
@@ -121,19 +118,22 @@ public class LevelRewardScript : MonoBehaviour
                     break;
 
             }
-            choiceMade = true;
+            TransitionLevel();
+        }
+        else if(chosenAugments.Count <= 0)
+        {
+            TransitionLevel();
         }
     }
 
     public void TransitionLevel(){
+        ResetMenu();
         GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(
             SaveManager.Instance.GetNextLevel()
         );
-        ResetMenu();
     }
 
-    public void Activate()
-    {
+    public void Activate(){
         levelRewardMenu.SetActive(true);
     }
 }

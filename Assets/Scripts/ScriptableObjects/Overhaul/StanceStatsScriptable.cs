@@ -11,14 +11,16 @@ public class StanceStatsScriptable : ScriptableObject
 {
     public Sprite StanceIcon;
     public EStance StanceType;
-    public float BaseAttackMult;
-    public float FullchargeAttackMult;
-    public float BaseStaggerMult;
-    public float FullchargeStaggerMult;
-    public float AttackSpeedMult;
-    public float FullchargeAttackSpeedMult;
-    public float AttackRangeMult;
-    public float FullchargeAttackRangeMult;
+    public float BaseExtraDamage;
+    // public float FullchargeAttackMult;
+    public float BaseExtraPoiseDmg;
+    public float ExtraCritRate;
+    public float ExtraKnockback;
+    // public float FullchargeStaggerMult;
+    // public float AttackSpeedMult;
+    // public float FullchargeAttackSpeedMult;
+    // public float AttackRangeMult;
+    // public float FullchargeAttackRangeMult;
     public List<RevampPlayerAttackStatsScriptable> NormalAttacks = new();
     public List<RevampPlayerAttackStatsScriptable> SpecialAttacks = new();
 }

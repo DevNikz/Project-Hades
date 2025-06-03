@@ -146,7 +146,7 @@ public class Movement : MonoBehaviour {
         Cooldown();
 
         PlayerController.Instance.SetMovement(move);
-        if(LevelTrigger.HudCheck == false) PlayerController.Instance.SetDirection(lookDirection);
+        if(LevelTrigger.AtEndOfLevel == false) PlayerController.Instance.SetDirection(lookDirection);
         PlayerController.Instance.SetDashing(dashing);
     }
 
@@ -189,7 +189,7 @@ public class Movement : MonoBehaviour {
         moveInput = parameters.GetVector3Extra(KEY_MOVE, Vector3.zero);
         dashInput = parameters.GetBoolExtra(KEY_DASH, false);
 
-        if(LevelTrigger.HudCheck == false) {
+        if(LevelTrigger.AtEndOfLevel == false) {
             if(moveInput.x != 0 || moveInput.z != 0 && gameObject.tag == "Player") {
                 if(dashInput) {
                     Dash();

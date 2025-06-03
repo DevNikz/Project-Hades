@@ -47,7 +47,7 @@ public class BugEAI : EnemyAction
     protected override void Attacking()
     {
         if(IsAttacking && this.tag == "Enemy") {
-            Debug.Log("Attempted to shoot");
+            // Debug.Log("Attempted to shoot");
             // GameObject fire = GameObject.Instantiate(Bullet);
             
             GameObject fire = bulletPool.ReleaseObject();

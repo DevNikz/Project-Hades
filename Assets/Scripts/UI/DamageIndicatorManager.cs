@@ -69,22 +69,9 @@ public class DamageIndicatorManager : MonoBehaviour
 
         Instance = this;
 
-        if(!gameObject.TryGetComponent<Canvas>(out var canvas)){
-            Debug.LogWarning("[WARN]: Damage Indicator Manager missing Canvas.");
-            return;
-        }       
-
-        Camera mainCamera = Camera.main;
-        if(!mainCamera){
-            Debug.LogWarning("[WARN]: Main camera not found in Damage Indicator Manager!");
-            return;
+        if(!TryGetComponent<ObjectPool>(out _objectPool)){
+            Debug.LogWarning("[WARN]: Object Pool not found in Damage Indicator Manager");
         }
-
-        canvas.worldCamera = mainCamera;
-
-        // if(!TryGetComponent<ObjectPool>(out _objectPool)){
-        //     Debug.LogWarning("[WARN]: Object Pool not found in Damage Indicator Manager");
-        // }
     }
 
     public static DamageIndicatorManager Instance { get; private set; }

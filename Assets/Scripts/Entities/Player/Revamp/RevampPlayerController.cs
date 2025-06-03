@@ -160,14 +160,14 @@ public class RevampPlayerController : MonoBehaviour
         // TODO : FAIL IF MANA CANT BE SPENT
 
         /* EXECUTE ATTACK */
-        Debug.Log("Made an attack: " + _queuedAttack);
+        // Debug.Log("Made an attack: " + _queuedAttack);
 
         // SET HITBOX VALUES
         _attackHitbox.SetAttackStats(
-            _queuedAttack
-            // _queuedAttack.BaseDamage + PlayerStats.BaseDamage,
-            // _queuedAttack.BasePoiseDamage + PlayerStats.BasePoiseDamage,
-            // _queuedAttack.BaseKnockback + PlayerStats.BaseKnockback
+            _queuedAttack,
+            CurrentStance,
+            PlayerStats,
+            transform.position
         );
 
         // SET ANIMATION
@@ -218,7 +218,7 @@ public class RevampPlayerController : MonoBehaviour
     {
         // ESCAPE IF SHOULDNT MOVE
 
-        if (LevelTrigger.HudCheck) return;
+        if (LevelTrigger.AtEndOfLevel) return;
 
         ParticleSystem.EmissionModule particleEmission = _walkParticles.emission;
         if (input.sqrMagnitude <= 0 || !gameObject.CompareTag("Player"))
