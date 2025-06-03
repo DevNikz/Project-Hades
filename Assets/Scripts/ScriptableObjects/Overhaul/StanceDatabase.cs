@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StanceDatabase", menuName = "ProjectHades/Player/StanceDatabase", order = 4)]
+[CreateAssetMenu(fileName = "StanceDatabase", menuName = "ProjectHades/Player/StanceDatabase", order = 4)][InlineEditor]
 public class StanceDatabase : ScriptableObject
 {
     [SerializeReference] public List<StanceStatsScriptable> Stances = new();

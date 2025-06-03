@@ -225,18 +225,19 @@ public class MeleeController : MonoBehaviour
 
             } else {
                 float baseKnockback = _revampedAttackStats.BaseKnockback;
-                if(_stanceStats != null) baseKnockback *= _stanceStats.ExtraKnockback;
-                if (_playerStats != null) baseKnockback *= _playerStats.BaseKnockback;
+                if(_stanceStats != null) baseKnockback += _stanceStats.ExtraKnockback;
+                if (_playerStats != null) baseKnockback += _playerStats.BaseKnockback;
                 if(_playerPosition == null) _playerPosition = Vector3.zero;
 
                 Vector3 knockbackDir = other.transform.position - _playerPosition;
                 Vector3 targetKnockback =  baseKnockback * knockbackMult * knockbackDir.normalized;
-                Vector3 knockbackForce = rb.mass * 2.0f * targetKnockback / Time.deltaTime;
+                Vector3 knockbackForce = rb.mass * 2.0f * targetKnockback;
 
+                // Debug.Log($"Knockback: {knockbackDir}, {targetKnockback}, {knockbackForce}");
                 rb.AddForce(knockbackForce, ForceMode.Impulse); 
 
                 if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
-                    enemy.ApplyKnockback(StatCalculator.Instance.KnockbackTime);
+                    enemy.ApplyKnockedbackState(StatCalculator.Instance.KnockbackTime);
             }
 
             bool doesCritDmg = false;

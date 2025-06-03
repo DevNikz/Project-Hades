@@ -28,7 +28,7 @@ public class BugEAI : EnemyAction
 
         if (_currFire <= 0)
         {
-            Debug.Log("Attempt to attack");
+            // Debug.Log("Attempt to attack");
             IsAttacking = true;
             SetAttackDirection();
             Attacking();

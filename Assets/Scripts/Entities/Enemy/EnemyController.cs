@@ -287,7 +287,7 @@ public class EnemyController : MonoBehaviour
             burnTimer = length;
     }
 
-    public void ApplyKnockback(float length){
+    public void ApplyKnockedbackState(float length){
         knockbackTimer = length;
     }
 
