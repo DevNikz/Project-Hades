@@ -72,6 +72,7 @@ public class EnemyAnimation : MonoBehaviour
         
         isHit = true;
         spriteAnimator.Play("Hit");
+        SFXManager.Instance.PlaySFX("Robot_Damaged_SFX");
     }
 
     public virtual void SetStun(AttackDirection attackDirection, float duration)
@@ -86,6 +87,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         isShooting = true;
         spriteAnimator.Play("Shoot");
+        //SFXManager.Instance.PlaySFX($"Robot_Atk_{UnityEngine.Random.Range(1,2)}");
     }
 
     public virtual void SetDeath()
@@ -94,6 +96,7 @@ public class EnemyAnimation : MonoBehaviour
         action.CancelInvoke();
         action.Cooldown = 10;
         spriteAnimator.Play("Death");
+        SFXManager.Instance.PlaySFX("Robot_Death_Kill");
     }
 
     public void ResetHit() {
