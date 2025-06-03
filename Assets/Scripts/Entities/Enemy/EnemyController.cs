@@ -371,11 +371,12 @@ public class EnemyController : MonoBehaviour
         switch (detain)
         {
             case Detain.Yes:
-                SFXManager.Instance.Play("RobotDetained");
+                //SFXManager.Instance.Play("RobotDetained");
                 hasBeenDetained = true;
                 break;
             case Detain.No:
-                SFXManager.Instance.Play("RobotDamaged");
+                //SFXManager.Instance.Play("RobotDamaged");
+                SFXManager.Instance.PlaySFX("Robot_Damaged_SFX");
                 hasBeenDetained = false;
                 break;
         }

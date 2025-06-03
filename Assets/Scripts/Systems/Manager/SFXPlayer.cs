@@ -5,6 +5,7 @@ using UnityEngine;
 public class SFXPlayer : MonoBehaviour
 {
     public void PlaySFX(string sfx) {
-        SFXManager.Instance.Play(sfx);
+        //SFXManager.Instance.Play(sfx);
+        SFXManager.Instance.PlaySFX(sfx);
     }
 }

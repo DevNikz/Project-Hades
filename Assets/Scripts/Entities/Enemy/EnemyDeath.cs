@@ -25,7 +25,8 @@ public class EnemyDeath : MonoBehaviour
         //will check for enemy type later
         switch(GetComponent<EnemyController>().GetDetain()) {
             case false:
-                SFXManager.Instance.Play("RobotKilled");
+                //SFXManager.Instance.Play("RobotKilled");
+                SFXManager.Instance.PlaySFX("Robot_Death_Kill");
                 break;
         }
     }

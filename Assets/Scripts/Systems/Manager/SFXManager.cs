@@ -10,10 +10,64 @@ public class SFXManager : MonoBehaviour
 
     public Sound[] sounds;
 
+    [SerializeField] public AudioClip[] soundList;
+    [SerializeField] AudioSource sfxSource;
+    [SerializeField] AudioSource musicSource;
+
     [Range(0.1f, 10f)] [SerializeField] public float fadeThreshold = 0.1f;
     [ReadOnly] public float volumeTemp;
 
-    void Awake() {
+
+    private void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+    }
+
+    private void Start()
+    {
+        sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
+        musicSource = GetComponentsInChildren<AudioSource>()[1];
+
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0: //Main Menu
+                StopMusic();
+                PlayMusic("ClockworkRondo"); //TitleMusic
+                break;
+            case 1: //Tutorial
+            case 2:
+            case 4: //Level1
+            case 5: //Level2
+            case 6: //Level3
+            case 7:
+                StopMusic();
+                PlayMusic("LevelOne");
+                break;
+        }
+    }
+
+    public void SwitchAudio()
+    {
+        switch (SceneManager.GetActiveScene().buildIndex)
+        {
+            case 0: //Main Menu
+                StopMusic();
+                PlayMusic("ClockwordRondo");
+                break;
+            case 1: //Tutorial
+            case 2:
+            case 4: //Level1
+            case 5: //Level2
+            case 6: //Level3
+            case 7:
+                StopMusic();
+                PlayMusic("LevelOne");
+                break;
+        }
+    }
+
+    /*void Awake() {
         if(Instance == null) {
             Instance = this;
         }
@@ -120,5 +174,29 @@ public class SFXManager : MonoBehaviour
         }
 
         if(s.source.volume == 0) s.source.Stop();
+    }*/
+
+
+    public void PlayMusic(string name)
+    {
+        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        if (clip == null || musicSource == null) return;
+        musicSource.clip = clip;
+        musicSource.Play();
     }
+
+    public void StopMusic() //Play this first before play music
+    {
+        if (musicSource != null && musicSource.isPlaying)
+            musicSource.Stop();
+    }
+
+    public void PlaySFX(string name)
+    {
+        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        if (clip == null || sfxSource == null) return;
+        sfxSource.PlayOneShot(clip);
+    }
+
+    
 }

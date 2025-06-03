@@ -405,7 +405,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void TriggerRandomHurtSFX() {
-        SFXManager.Instance.Play($"PlayerHurt{Random.Range(1,3)}");
+        SFXManager.Instance.PlaySFX($"Player_Hurt_{Random.Range(1,3)}");
     }
 
     float ToPercent(float value, float threshold) {

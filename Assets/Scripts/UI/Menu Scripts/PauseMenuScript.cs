@@ -76,4 +76,14 @@ public class PauseMenuScript : MonoBehaviour
         ResumeGame();
         Application.Quit();
     }
+
+    public void PlayHoverSFX()
+    {
+        SFXManager.Instance.PlaySFX("HoverUI");
+    }
+
+    public void PlayClickSFX()
+    {
+        SFXManager.Instance.PlaySFX("ConfirmSFX");
+    }
 }
