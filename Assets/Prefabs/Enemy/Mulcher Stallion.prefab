@@ -53,7 +53,6 @@ MonoBehaviour:
   isStun: 0
   isDead: 0
   isShooting: 0
-  timer: 2
   xScale: 0
   Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
@@ -5410,7 +5409,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5229085854214165466
 Transform:
   m_ObjectHideFlags: 0
@@ -5511,7 +5510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d747b1415b8f3946998b83db20dd144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: {fileID: 11400000, guid: 6dc82a68675afe0479e7c971316b0e4b, type: 2}
+  attackType: {fileID: 11400000, guid: 3c94811fc90623947b445a4f7393568f, type: 2}
 --- !u!1 &4115427450696939749
 GameObject:
   m_ObjectHideFlags: 0
@@ -5764,12 +5763,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  _enemyStats: {fileID: 11400000, guid: bf716cd4cacdbef4a9784a7360807827, type: 2}
   _attackHitbox: {fileID: 3961070212236987209}
   Cooldown: 0
   drawLine: 0
   chargeDistance: 5
-  chargeCooldown: 0.25
 --- !u!114 &8465462902419328658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5782,7 +5779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e86f15eb2c300054d8f86cfe18544806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: {fileID: 11400000, guid: 5b51bbfe9c97f4d4ab48461ab29e107f, type: 2}
+  enemyStats: {fileID: 11400000, guid: bf716cd4cacdbef4a9784a7360807827, type: 2}
   currentHealth: 0
   currentPoise: 0
   currentTimer: 0

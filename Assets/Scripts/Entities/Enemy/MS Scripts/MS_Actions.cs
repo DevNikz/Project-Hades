@@ -12,7 +12,6 @@ public class MS_Actions : EnemyAction
     private float _fastSpeed;
     private float _originalSpeed;
     [SerializeField] private float chargeDistance = 5;
-    [SerializeField] private float chargeCooldown = 0.25f;
     private bool  isCharging = false;
 
     protected override void BonusOnEnable()
@@ -87,6 +86,6 @@ public class MS_Actions : EnemyAction
         this._attackHitbox.SetActive(false);
         //this.gameObject.GetComponent<BoxCollider>().enabled = true;
         this.SetAction(1);
-        this.Cooldown = chargeCooldown;
+        this.Cooldown = this.AttackRate;
     }
 }

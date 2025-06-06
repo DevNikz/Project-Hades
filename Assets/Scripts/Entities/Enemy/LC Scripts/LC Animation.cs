@@ -7,7 +7,7 @@ public class LCAnimation : EnemyAnimation
 {
     public override void ExtraStart()
     {
-        spriteAnimator.SetFloat("ComboSpeed", 1 / action.AttackRate);
+        spriteAnimator.SetFloat("ComboSpeed", 0.7f);
     }
 
     public override void SetAnimation()
@@ -24,16 +24,16 @@ public class LCAnimation : EnemyAnimation
                 spriteAnimator.Play("Run");
                 break;
             case 3:
-                //spriteAnimator.Play("Combo1");
+                //spriteAnimator.Play("Combo2");
                 break;
             case 4:
-                spriteAnimator.Play("Combo2"); //combo1
+                spriteAnimator.Play("Combo1"); //combo1
                 break;
             case 5:
-                spriteAnimator.Play("Combo3"); //combo2
+                spriteAnimator.Play("Combo2"); //combo2
                 break;
             case 6:
-                spriteAnimator.Play("Combo2"); //combo3
+                spriteAnimator.Play("Combo3"); //combo3
                 break;
             case 10:
                 spriteAnimator.Play("Death");

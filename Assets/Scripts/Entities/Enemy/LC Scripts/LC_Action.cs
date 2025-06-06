@@ -7,12 +7,12 @@ using UnityEngine.AI;
 
 public class LC_Actions : EnemyAction
 {
-    private int _comboNum = 0;
+    private int _comboNum = 3;
     private float _dash = 50;
     private float _dashStr = 75;
 
     protected override void ProcessAILogic(){
-        
+        if (Cooldown > _timerDelay) _comboNum = 3;
     }
 
     protected override void Attack()
@@ -28,13 +28,10 @@ public class LC_Actions : EnemyAction
 
         if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
         {
-            _comboNum = 3;
             IsAttacking = true;
             Agent.isStopped = true;
 
             Attacking();
-            Invoke("Attacking", AttackRate);
-            Invoke("Attacking", AttackRate * 2);
         }
     }
 
@@ -42,34 +39,43 @@ public class LC_Actions : EnemyAction
     {
         this.transform.LookAt(Player.transform.position);
 
+        _comboNum++;
+        if (_comboNum > 6) _comboNum = 6;
+        if (_comboNum < 3) _comboNum = 3;
+
+        this.SetAction(_comboNum);
+    }
+
+    public void StopAttack()
+    {
+        IsAttacking = false;
+        Cooldown = AttackRate;
+        TeleportPoint();
+    }
+
+    public void TurnHitOn()
+    {
         SetAttackDirection();
         this._attackHitbox.transform.position = this.transform.position + this.transform.forward;
         this._attackHitbox.SetActive(true);
-        
-        _comboNum++;
+
+        if (_comboNum > 6) _comboNum = 6;
+        if (_comboNum < 3) _comboNum = 3;
 
         if (_comboNum == 6)
             _rgBody.AddForce(this.transform.forward * _dashStr, ForceMode.Impulse);
         else
             _rgBody.AddForce(this.transform.forward * _dash, ForceMode.Impulse);
-
-        this.SetAction(_comboNum);
-
-        if (_comboNum == 6)
-            Invoke("StopAttack", 1f);
-        else
-            Invoke("StopAttack", 0.3f);
     }
 
-    private void StopAttack()
+    public void TurnHitOff()
     {
         this._attackHitbox.SetActive(false);
+    }
 
-        if (_comboNum == 6) {
-            IsAttacking = false;
-            Cooldown = _maxCooldown;
-            TeleportPoint();
-        }
+    public void BeginAttack()
+    {
+        Attacking();
     }
 
 }

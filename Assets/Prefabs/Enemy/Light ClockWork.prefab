@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 2577578443238314484}
   - component: {fileID: 1235205148075948474}
   - component: {fileID: 2535214151843226998}
+  - component: {fileID: 8041550401763253076}
   m_Layer: 8
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -217,6 +218,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8041550401763253076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536761086854933994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e665cc11f0d2fa48a4e1ce53353dd37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &701129397060638619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1112,6 @@ MonoBehaviour:
   isStun: 0
   isDead: 0
   isShooting: 0
-  timer: 1
   xScale: 0
   Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
@@ -6069,7 +6081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
-  _enemyStats: {fileID: 11400000, guid: 76629736ad2da32419565b695fa15fa1, type: 2}
   _attackHitbox: {fileID: 6100531473279278842}
   Cooldown: 0
   drawLine: 0
