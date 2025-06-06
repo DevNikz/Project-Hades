@@ -64,6 +64,8 @@ public abstract class EnemyAction : MonoBehaviour
         else if (Action == -1)
         {
             Action = 1;
+            anims.isHit = false;
+            anims.isStun = false;
             TeleportPoint();
         }
 
@@ -184,7 +186,7 @@ public abstract class EnemyAction : MonoBehaviour
         if(Cooldown < _timerDelay) Cooldown = _timerDelay;
 
         anims.SetHit(attackDirection);
-        Invoke(nameof(ResetHit), _timerDelay);
+        //Invoke(nameof(ResetHit), _timerDelay);
     }
 
     public virtual void SetStagger(AttackDirection attackDirection, float duration)
@@ -195,7 +197,7 @@ public abstract class EnemyAction : MonoBehaviour
         Cooldown = duration;
 
         anims.SetStun(attackDirection, duration);
-        Invoke(nameof(ResetStun), duration);
+        //Invoke(nameof(ResetStun), duration);
     }
     public void SetSpeed(float speed){
         Agent.speed *= speed;

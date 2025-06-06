@@ -7,12 +7,12 @@ using UnityEngine.AI;
 
 public class LC_Actions : EnemyAction
 {
-    private int _comboNum = 3;
+    private int _comboNum = 4;
     private float _dash = 50;
     private float _dashStr = 75;
 
     protected override void ProcessAILogic(){
-        if (Cooldown > _timerDelay) _comboNum = 3;
+        if (Cooldown > _timerDelay) _comboNum = 4;
     }
 
     protected override void Attack()
@@ -39,11 +39,10 @@ public class LC_Actions : EnemyAction
     {
         this.transform.LookAt(Player.transform.position);
 
-        _comboNum++;
         if (_comboNum > 6) _comboNum = 6;
-        if (_comboNum < 3) _comboNum = 3;
+        if (_comboNum < 4) _comboNum = 4;
 
-        this.SetAction(_comboNum);
+        this.SetAction(_comboNum);    
     }
 
     public void StopAttack()
@@ -59,13 +58,14 @@ public class LC_Actions : EnemyAction
         this._attackHitbox.transform.position = this.transform.position + this.transform.forward;
         this._attackHitbox.SetActive(true);
 
-        if (_comboNum > 6) _comboNum = 6;
-        if (_comboNum < 3) _comboNum = 3;
-
         if (_comboNum == 6)
             _rgBody.AddForce(this.transform.forward * _dashStr, ForceMode.Impulse);
         else
             _rgBody.AddForce(this.transform.forward * _dash, ForceMode.Impulse);
+
+        _comboNum++;
+        if (_comboNum > 6) _comboNum = 6;
+        if (_comboNum < 4) _comboNum = 4;
     }
 
     public void TurnHitOff()

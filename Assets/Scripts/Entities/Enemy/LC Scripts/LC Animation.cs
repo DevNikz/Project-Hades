@@ -24,7 +24,7 @@ public class LCAnimation : EnemyAnimation
                 spriteAnimator.Play("Run");
                 break;
             case 3:
-                //spriteAnimator.Play("Combo2");
+                spriteAnimator.Play("Run");
                 break;
             case 4:
                 spriteAnimator.Play("Combo1"); //combo1
