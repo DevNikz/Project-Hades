@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using UnityEngine.Audio;
 
 public class SFXManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] public AudioClip[] soundList;
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioMixer masterMixer;
 
     [Range(0.1f, 10f)] [SerializeField] public float fadeThreshold = 0.1f;
     [ReadOnly] public float volumeTemp;
@@ -89,6 +91,21 @@ public class SFXManager : MonoBehaviour
         }
     }
 
+    public void SetMasterVolume(float value)
+    {
+        
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        sfxSource.volume = value;
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        musicSource.volume = value;
+    }
+
     /*
     //Experimental Features (Warning!!)
     public void FadeIn(string name) {
@@ -134,6 +151,7 @@ public class SFXManager : MonoBehaviour
     {
         AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         if (clip == null || musicSource == null) return;
+
         musicSource.clip = clip;
         musicSource.Play();
     }
