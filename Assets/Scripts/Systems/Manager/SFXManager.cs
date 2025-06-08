@@ -20,8 +20,12 @@ public class SFXManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
     }
 
     private void Start()
@@ -29,6 +33,12 @@ public class SFXManager : MonoBehaviour
         sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
         musicSource = GetComponentsInChildren<AudioSource>()[1];
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SwitchAudio();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0: //Main Menu
@@ -36,13 +46,19 @@ public class SFXManager : MonoBehaviour
                 PlayMusic("ClockworkRondo"); //TitleMusic
                 break;
             case 1: //Tutorial
-            case 2:
             case 4: //Level1
             case 5: //Level2
             case 6: //Level3
-            case 7:
                 StopMusic();
                 PlayMusic("LevelOne");
+                break;
+            case 2:
+                StopMusic();
+                PlayMusic("HubMusic");
+                break;
+            case 7:
+                StopMusic();
+                PlayMusic("CronosMain");
                 break;
         }
     }
@@ -53,90 +69,27 @@ public class SFXManager : MonoBehaviour
         {
             case 0: //Main Menu
                 StopMusic();
-                PlayMusic("ClockwordRondo");
+                PlayMusic("ClockworkRondo"); //TitleMusic
                 break;
             case 1: //Tutorial
-            case 2:
             case 4: //Level1
             case 5: //Level2
             case 6: //Level3
-            case 7:
                 StopMusic();
                 PlayMusic("LevelOne");
                 break;
-        }
-    }
-
-    /*void Awake() {
-        if(Instance == null) {
-            Instance = this;
-        }
-        else Destroy(gameObject);
-
-        foreach(Sound s in sounds) {
-            s.source = this.gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-            s.source.playOnAwake = false;
-        }
-    }
-
-    void Start() {
-        switch(SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0: //Main Menu
-                Play("TitleMenu");
-                Stop("LevelOne");
-                break;
-            case 1: //Tutorial
             case 2:
-            case 4: //Level1
-            case 5: //Level2
-            case 6: //Level3
+                StopMusic();
+                PlayMusic("HubMusic");
+                break;
             case 7:
-                Stop("TitleMenu");
-                Play("LevelOne");
+                StopMusic();
+                PlayMusic("CronosMain");
                 break;
         }
     }
 
-    public void SwitchAudio()
-    {
-        switch(SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0: //Main Menu
-                Play("TitleMenu");
-                Stop("LevelOne");
-                break;
-            case 1: //Tutorial
-            case 2:
-            case 4: //Level1
-            case 5: //Level2
-            case 6: //Level3
-            case 7:
-                Stop("TitleMenu");
-                Play("LevelOne");
-                break;
-        }
-    }
-
-    public void Play(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) return;
-        if(s.source == null) return;
-        s.source.volume = s.volume;
-        s.source.Play();
-    }
-
-    public void Stop(string name) {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s == null) return;
-        s.source.Stop();
-    }
-
+    /*
     //Experimental Features (Warning!!)
     public void FadeIn(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
