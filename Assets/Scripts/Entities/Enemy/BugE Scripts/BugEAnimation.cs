@@ -10,13 +10,13 @@ public class BugEAnimation : EnemyAnimation
         switch (action.Action)
         {
             case 0:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Move");
                 break;
             case 1:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Move");
                 break;
             case 2:
-                spriteAnimator.Play("Run");
+                spriteAnimator.Play("Move");
                 break;
             case 3:
                 spriteAnimator.Play("Shoot");
