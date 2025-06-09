@@ -9,9 +9,10 @@ public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance;
 
-    public Sound[] sounds;
+    public Sound[] sounds; //old array
 
-    [SerializeField] public AudioClip[] soundList;
+    [SerializeField] public AudioClip[] soundList; //current array used
+
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource menuSource;
@@ -173,7 +174,9 @@ public class SFXManager : MonoBehaviour
     {
         AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         if (clip == null || sfxSource == null) return;
-        sfxSource.PlayOneShot(clip);
+        //if (clip.name == "Robot_Atk_1" && sfxSource.isPlaying) return; //bugE attack plays too fast and destroys eardrums
+
+        sfxSource.PlayOneShot(clip, 0.5f); // hard set to half volume since all clips are reduced more than this in old array
     }
 
     public void PlayMenu(string name)

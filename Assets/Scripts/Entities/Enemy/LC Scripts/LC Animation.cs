@@ -28,6 +28,7 @@ public class LCAnimation : EnemyAnimation
                 break;
             case 4:
                 spriteAnimator.Play("Combo1"); //combo1
+                //SFXManager.Instance.PlaySFX("ClockworkMelee");
                 break;
             case 5:
                 spriteAnimator.Play("Combo2"); //combo2

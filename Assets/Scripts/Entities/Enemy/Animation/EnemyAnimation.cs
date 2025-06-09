@@ -84,7 +84,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         isShooting = true;
         spriteAnimator.Play("Shoot");
-        //SFXManager.Instance.PlaySFX($"Robot_Atk_{UnityEngine.Random.Range(1,2)}");
+        
     }
 
     public virtual void SetDeath()
