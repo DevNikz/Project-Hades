@@ -26,6 +26,7 @@ public class SettingsMenuScript : MonoBehaviour
     {
         gameObject.SetActive(false);
         SetOptions(false);
+        SaveManager.Instance.SaveSettings();
     }
 
     public bool checkOptions()

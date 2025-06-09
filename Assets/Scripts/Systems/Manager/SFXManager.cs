@@ -14,9 +14,10 @@ public class SFXManager : MonoBehaviour
     [SerializeField] public AudioClip[] soundList;
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource menuSource;
     [SerializeField] AudioMixer masterMixer;
 
-    [Range(0.1f, 10f)] [SerializeField] public float fadeThreshold = 0.1f;
+    [Range(0.1f, 10f)][SerializeField] public float fadeThreshold = 0.1f;
     [ReadOnly] public float volumeTemp;
 
 
@@ -34,6 +35,7 @@ public class SFXManager : MonoBehaviour
     {
         sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
         musicSource = GetComponentsInChildren<AudioSource>()[1];
+        menuSource = GetComponentsInChildren<AudioSource>()[2];
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SwitchAudio();
@@ -93,17 +95,22 @@ public class SFXManager : MonoBehaviour
 
     public void SetMasterVolume(float value)
     {
-        
+        masterMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20);
     }
 
     public void SetSFXVolume(float value)
     {
-        sfxSource.volume = value;
+        masterMixer.SetFloat("SfxVolume", Mathf.Log10(value) * 20);
     }
 
     public void SetMusicVolume(float value)
     {
-        musicSource.volume = value;
+        masterMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
+    }
+
+    public void SetMenuVolume(float value)
+    {
+        masterMixer.SetFloat("MenuVolume", Mathf.Log10(value) * 20);
     }
 
     /*
@@ -167,6 +174,13 @@ public class SFXManager : MonoBehaviour
         AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         if (clip == null || sfxSource == null) return;
         sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlayMenu(string name)
+    {
+        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        if (clip == null || menuSource == null) return;
+        menuSource.PlayOneShot(clip);
     }
 
     

@@ -15,6 +15,7 @@ public class SaveManager : MonoBehaviour
 
     [Title("Stats")]
     [SerializeField] public PlayerStats CurrentStats;
+    [SerializeField] public GameSettings CurrentSettings { get; set; }
     [ReadOnly] public int SelectedSave = -1;
     [ReadOnly] public bool HadPlayedSave1;
     [ReadOnly] public bool HadPlayedSave2;
@@ -33,9 +34,11 @@ public class SaveManager : MonoBehaviour
         string path1 = Application.persistentDataPath + "/playerSave1.sav";
         string path2 = Application.persistentDataPath + "/playerSave2.sav";
         string path3 = Application.persistentDataPath + "/playerSave3.sav";
+        string gfxPath = Application.persistentDataPath + "/video.sav";
         if (File.Exists(path1)) HadPlayedSave1 = true;
         if (File.Exists(path2)) HadPlayedSave2 = true;
         if (File.Exists(path3)) HadPlayedSave3 = true;
+        if (File.Exists(gfxPath)) LoadSettings();
     }
 
     public void SavePlayer()
@@ -48,9 +51,20 @@ public class SaveManager : MonoBehaviour
         SaveSystem.SavePlayerData(this, index);
     }
 
+    public void SaveSettings()
+    {
+        SaveSystem.SaveSettingsData(this);
+    }
+
     public void LoadPlayer(int index)
     {
         LoadStats(index);
+    }
+
+    public void LoadSettings()
+    {
+        CurrentSettings = SaveSystem.LoadSettingsData();
+        if (CurrentSettings == null) CurrentSettings = new();
     }
 
     void LoadStats(int index)
@@ -81,7 +95,7 @@ public class SaveManager : MonoBehaviour
 
     public void AddDepth()
     {
-        CurrentStats.DepthLevel ++;
+        CurrentStats.DepthLevel++;
     }
 
     public void SetDepth(int value)

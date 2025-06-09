@@ -2953,13 +2953,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 9219208884508610394}
   m_HandleRect: {fileID: 6363125781928877888}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 219035709083238293}
+        m_TargetAssemblyTypeName: SoundController, Assembly-CSharp
+        m_MethodName: SetMasterVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!1 &3051005030225173442
 GameObject:
   m_ObjectHideFlags: 0
@@ -5541,13 +5553,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 8027325178608431483}
   m_HandleRect: {fileID: 2543831487117560705}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 219035709083238293}
+        m_TargetAssemblyTypeName: SoundController, Assembly-CSharp
+        m_MethodName: SetMenuVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!1 &5834745596232381727
 GameObject:
   m_ObjectHideFlags: 0
@@ -6398,7 +6422,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 6043307326163724057}
   m_HandleRect: {fileID: 5892844621897788137}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -10301,7 +10325,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 8237926384861297546}
   m_HandleRect: {fileID: 1973317052253883656}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1

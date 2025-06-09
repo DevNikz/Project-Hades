@@ -17,7 +17,8 @@ public class PlayerStats {
         hasPlayed = 0;
     }
 
-    public PlayerStats(SaveManager player) {
+    public PlayerStats(SaveManager player)
+    {
         Runs = player.CurrentStats.Runs;
         DepthLevel = player.CurrentStats.DepthLevel;
         Wins = player.CurrentStats.Wins;
