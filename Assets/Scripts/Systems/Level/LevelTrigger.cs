@@ -58,7 +58,8 @@ public class LevelTrigger : MonoBehaviour
                     Debug.LogWarning("[WARN]: SaveManager null");
                     return;
                 }
-                
+
+                Debug.Log("Level Over");
                 SaveManager.Instance.AddDepth();
                 loader.LoadLevel(SaveManager.Instance.GetNextLevel());
             }

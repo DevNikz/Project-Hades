@@ -127,6 +127,7 @@ public class LevelRewardScript : MonoBehaviour
 
     public void TransitionLevel(){
         ResetMenu();
+        SaveManager.Instance.AddDepth();
         GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(
             SaveManager.Instance.GetNextLevel()
         );
