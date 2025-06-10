@@ -30,14 +30,18 @@ public class GameSetting : MonoBehaviour
     void SetDetail(bool value)
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Clutter");
-        foreach (GameObject obj in temp)
-        {
-            clutterSpawners.Add(obj.GetComponent<ClutterSpawner>());
-        }
 
-        foreach (ClutterSpawner cs in clutterSpawners)
+        if (temp != null)
         {
-            cs.SetClutterVisiblity(value);
+            foreach (GameObject obj in temp)
+            {
+                clutterSpawners.Add(obj.GetComponent<ClutterSpawner>());
+            }
+
+            foreach (ClutterSpawner cs in clutterSpawners)
+            {
+                cs.SetClutterVisiblity(value);
+            }
         }
     }
 
