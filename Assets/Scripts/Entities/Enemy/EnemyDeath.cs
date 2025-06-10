@@ -63,9 +63,11 @@ public class EnemyDeath : MonoBehaviour
 
             //Leave a corpse (maybe)
             deathSprite = transform.Find("DeathSprite").gameObject;
-            Quaternion rot = Quaternion.Euler(90f, Random.Range(0f, 360f), 0f);
-            deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, rot);
+            // Quaternion rot = Quaternion.Euler(90f, Random.Range(0f, 360f), 0f);
+            deathSpriteTemp = Instantiate(deathSprite, deathSprite.transform.position, Quaternion.Euler(0, 45,0));
             deathSpriteTemp.SetActive(true);
+            // deathSprite.SetActive(true);
+
             this.tag = "Enemy(Dead)";
 
             // Respawn Mechanic
