@@ -59,6 +59,7 @@ public class LevelTrigger : MonoBehaviour
                     return;
                 }
                 
+                SaveManager.Instance.AddDepth();
                 loader.LoadLevel(SaveManager.Instance.GetNextLevel());
             }
             if(spawner != null)
