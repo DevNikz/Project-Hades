@@ -13,6 +13,8 @@ public class OHAnimation : EnemyAnimation
                 break;
             case 1:
                 spriteAnimator.Play("OH Charging");
+                if (getPrevAction() != 1)
+                    SFXManager.Instance.PlaySFX("Oxen Harvester Charging");
                 break;
             case 2:
                 spriteAnimator.Play("OH Trotting");
