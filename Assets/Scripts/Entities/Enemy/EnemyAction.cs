@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,7 +20,7 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public bool IsSearching = false;
 
     [NonSerialized] public EnemyController _controller;
-    [SerializeField] public EnemyStatsScriptable _enemyStats;
+    [NonSerialized] public EnemyStatsScriptable _enemyStats;
     [SerializeField] protected GameObject _attackHitbox = null;
     [NonSerialized] private Vector3 _originalPosition = Vector3.zero;
     [NonSerialized] private Vector3 _lastSeenPos = Vector3.zero;
@@ -28,12 +29,12 @@ public abstract class EnemyAction : MonoBehaviour
     protected Rigidbody _rgBody;
     protected AttackDirection _atkDir;
     protected float _maxCooldown;
+    protected float _timerDelay;
     public float Cooldown = 0;
     LineRenderer line = new LineRenderer();
     public bool drawLine = false;
 
     protected EnemyAnimation anims;
-    [NonSerialized] public float timer;
 
     protected virtual void BonusOnEnable(){}
     /// <summary>
@@ -60,9 +61,11 @@ public abstract class EnemyAction : MonoBehaviour
             Cooldown -= Time.deltaTime;
             return;
         }
-        if (Action == -1)
+        else if (Action == -1)
         {
             Action = 1;
+            anims.isHit = false;
+            anims.isStun = false;
             TeleportPoint();
         }
 
@@ -145,6 +148,7 @@ public abstract class EnemyAction : MonoBehaviour
         AttackRate = _enemyStats.attackRate;
         _wanderRange = _enemyStats.wanderRange;
         _maxCooldown = _enemyStats._maxCooldown;
+        _timerDelay = _enemyStats.timerDelay;
 
         _originalPosition = this.transform.position;
         Player = GameObject.Find("Player");
@@ -175,14 +179,14 @@ public abstract class EnemyAction : MonoBehaviour
     // ANIMATIONS
     public virtual void SetHit(AttackDirection attackDirection)
     {
-
+        Debug.Log("Dmg");
         if (anims.isDead || anims.isStun || anims.isHit) return;
 
         EndAttack();
-        if(Cooldown < anims.timer) Cooldown = anims.timer;
+        if(Cooldown < _timerDelay) Cooldown = _timerDelay;
 
         anims.SetHit(attackDirection);
-        Invoke(nameof(ResetHit), anims.timer);
+        //Invoke(nameof(ResetHit), _timerDelay);
     }
 
     public virtual void SetStagger(AttackDirection attackDirection, float duration)
@@ -193,7 +197,7 @@ public abstract class EnemyAction : MonoBehaviour
         Cooldown = duration;
 
         anims.SetStun(attackDirection, duration);
-        Invoke(nameof(ResetStun), duration);
+        //Invoke(nameof(ResetStun), duration);
     }
     public void SetSpeed(float speed){
         Agent.speed *= speed;

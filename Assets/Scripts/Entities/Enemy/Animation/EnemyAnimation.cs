@@ -12,7 +12,6 @@ public class EnemyAnimation : MonoBehaviour
     public bool isStun = false;
     public bool isDead = false;
     public bool isShooting;
-    public float timer = 2;
     public float xScale;
     public Vector3 Scale;
 
@@ -34,8 +33,6 @@ public class EnemyAnimation : MonoBehaviour
 
         Debug.Log(action);
         Debug.Log(action._enemyStats);
-
-        timer = action._enemyStats.timerDelay;
     }
 
     public virtual void ExtraStart() {}
@@ -50,7 +47,7 @@ public class EnemyAnimation : MonoBehaviour
         if (!isHit && !isDead && !isStun && !isShooting) SetAnimation();
         // else Debug.Log("arcane");
 
-            prevAction = action.Action;
+        prevAction = action.Action;
     }
 
     public virtual void SetAnimation() {
@@ -87,7 +84,7 @@ public class EnemyAnimation : MonoBehaviour
     {
         isShooting = true;
         spriteAnimator.Play("Shoot");
-        //SFXManager.Instance.PlaySFX($"Robot_Atk_{UnityEngine.Random.Range(1,2)}");
+        
     }
 
     public virtual void SetDeath()
@@ -97,6 +94,7 @@ public class EnemyAnimation : MonoBehaviour
         action.Cooldown = 10;
         spriteAnimator.Play("Death");
         SFXManager.Instance.PlaySFX("Robot_Death_Kill");
+        this.gameObject.GetComponentInParent<Collider>().enabled = false;
     }
 
     public void ResetHit() {

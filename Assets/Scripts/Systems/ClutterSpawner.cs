@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 public class ClutterSpawner : MonoBehaviour
 {
@@ -11,11 +12,40 @@ public class ClutterSpawner : MonoBehaviour
     [SerializeField] private bool _randomizeOnLoad;
     [SerializeField] private List<GameObject> _clutterPrefabs = new();
     [SerializeField,HideInInspector] List<GameObject> _spawnedObjects = new();
+    [SerializeField, HideInInspector] List<MeshRenderer> _meshObjects = new();
 
     void Start()
     {
-        if(_randomizeOnLoad)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (_randomizeOnLoad)
             SpawnClutter();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (GameSetting.Instance != null)
+        {
+            SetClutterVisiblity(GameSetting.Instance.highDetail);
+        }
+    }
+
+    void GetMeshObjects()
+    {
+        _meshObjects.Clear();
+        foreach (GameObject obj in _spawnedObjects)
+        {
+            _meshObjects.Add(obj.GetComponent<MeshRenderer>());
+        }
+    }
+
+    public void SetClutterVisiblity(bool value)
+    {
+        GetMeshObjects();
+        foreach (MeshRenderer m in _meshObjects)
+        {
+            if (GameSetting.Instance != null) m.enabled = value;
+        }
     }
 
     [Button("Spawn Clutter")]
@@ -44,7 +74,8 @@ public class ClutterSpawner : MonoBehaviour
         }
     }
 
-    private GameObject GetRandomClutter() {
+    private GameObject GetRandomClutter()
+    {
         return _clutterPrefabs[Random.Range(0, _clutterPrefabs.Count)];
     }
 

@@ -295,15 +295,19 @@ public class RevampPlayerController : MonoBehaviour
             {
                 case EStance.Earth:
                     if (ItemManager.Instance.hasUnlocked(AugmentType.Earth)) leaveLoop = true;
+                    SFXManager.Instance.PlaySFX("Earth_Select");
                     break;
                 case EStance.Water:
                     if (ItemManager.Instance.hasUnlocked(AugmentType.Water)) leaveLoop = true;
+                    SFXManager.Instance.PlaySFX("Water_Select");
                     break;
                 case EStance.Air:
                     if (ItemManager.Instance.hasUnlocked(AugmentType.Air)) leaveLoop = true;
+                    SFXManager.Instance.PlaySFX("Wind_Select");
                     break;
                 case EStance.Fire:
                     if (ItemManager.Instance.hasUnlocked(AugmentType.Fire)) leaveLoop = true;
+                    SFXManager.Instance.PlaySFX("Fire_Select");
                     break;
             }
         }

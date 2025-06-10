@@ -49,6 +49,12 @@ public class CronosAI : EnemyAction
     }
     protected override void ProcessAILogic()
     {
+        if(Cooldown > 0.25)
+        {
+            //this._attackHitbox.SetActive(false);
+            circleHitBox.SetActive(false);
+            circleHitBox.transform.localScale = new Vector3(5, 2, 5);
+        }
 
         if (Action != 1) Agent.speed = _originalSpeed;
 
@@ -59,12 +65,13 @@ public class CronosAI : EnemyAction
     protected override void Attack()
     {
         float percentHP = this.GetComponent<EnemyController>().getPercentHP();
-        Agent.speed = _fastSpeed;
+        if(IsAttacking) Agent.speed = _fastSpeed;
 
         if (!IsAttacking)
         {
             Agent.SetDestination(Player.transform.position);
             Agent.isStopped = false;
+            Agent.speed = _originalSpeed;
 
             currentCooldown = actionCooldown * percentHP;
             if (currentCooldown <= 0.25f) currentCooldown = 0.25f;

@@ -20,9 +20,11 @@ public class CronosAnimation : EnemyAnimation
                 break;
             case 3:
                 if (this.getPrevAction() != 3) spriteAnimator.Play("Reap");
+                //SFXManager.Instance.PlaySFX("CronosSwing");
                 break;
             case 4:
                 if (this.getPrevAction() != 4) spriteAnimator.Play("Dash");
+                //SFXManager.Instance.PlaySFX("CronosCharge");
                 break;
             default:
                 spriteAnimator.Play("Idle");

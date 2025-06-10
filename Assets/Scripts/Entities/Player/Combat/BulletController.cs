@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BulletController : MonoBehaviour
 {
@@ -110,5 +111,12 @@ public class BulletController : MonoBehaviour
         if(other.CompareTag("Bounds")) {
             ReturnToPool();
         }
+
+        /*
+        if (other.CompareTag("Walls"))
+        {
+            ReturnToPool();
+        }
+        */
     }
 }

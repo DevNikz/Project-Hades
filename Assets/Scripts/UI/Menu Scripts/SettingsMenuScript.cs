@@ -7,16 +7,36 @@ public class SettingsMenuScript : MonoBehaviour
     //ref to slider
     //ref to mixer
 
-    // Start is called before the first frame update
-    void Start()
+    private static bool isOptions;
+    public static bool isOptionsCheck
     {
-        //slider component
+        get { return isOptions; }
+        set { isOptions = value; }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isOptions) Close();
+        }
+    }
+
+    public void Close()
+    {
+        gameObject.SetActive(false);
+        SetOptions(false);
+        SaveManager.Instance.SaveSettings();
+    }
+
+    public bool checkOptions()
+    {
+        return isOptions;
+    }
+
+    public void SetOptions(bool value)
+    {
+        isOptions = value;
     }
 
     /*func for slider()

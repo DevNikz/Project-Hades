@@ -3,32 +3,53 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using UnityEngine.Audio;
 
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance;
 
-    public Sound[] sounds;
+    public Sound[] sounds; //old array
 
-    [SerializeField] public AudioClip[] soundList;
+    [SerializeField] public AudioClip[] soundList; //current array used
+
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource menuSource;
+    [SerializeField] AudioMixer masterMixer;
 
-    [Range(0.1f, 10f)] [SerializeField] public float fadeThreshold = 0.1f;
+    [Range(0.1f, 10f)][SerializeField] public float fadeThreshold = 0.1f;
     [ReadOnly] public float volumeTemp;
 
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
+        
         sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
         musicSource = GetComponentsInChildren<AudioSource>()[1];
+        menuSource = GetComponentsInChildren<AudioSource>()[2];
 
+        SetMasterVolume(SaveManager.Instance.CurrentSettings.masterVolume);
+        SetMusicVolume(SaveManager.Instance.CurrentSettings.musicVolume);
+        SetSFXVolume(SaveManager.Instance.CurrentSettings.gameplayVolume);
+        SetMenuVolume(SaveManager.Instance.CurrentSettings.menuVolume);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SwitchAudio();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 0: //Main Menu
@@ -36,13 +57,19 @@ public class SFXManager : MonoBehaviour
                 PlayMusic("ClockworkRondo"); //TitleMusic
                 break;
             case 1: //Tutorial
-            case 2:
             case 4: //Level1
             case 5: //Level2
             case 6: //Level3
-            case 7:
                 StopMusic();
                 PlayMusic("LevelOne");
+                break;
+            case 2:
+                StopMusic();
+                PlayMusic("HubMusic");
+                break;
+            case 7:
+                StopMusic();
+                PlayMusic("CronosMain");
                 break;
         }
     }
@@ -53,90 +80,47 @@ public class SFXManager : MonoBehaviour
         {
             case 0: //Main Menu
                 StopMusic();
-                PlayMusic("ClockwordRondo");
+                PlayMusic("ClockworkRondo"); //TitleMusic
                 break;
             case 1: //Tutorial
-            case 2:
             case 4: //Level1
             case 5: //Level2
             case 6: //Level3
-            case 7:
                 StopMusic();
                 PlayMusic("LevelOne");
                 break;
-        }
-    }
-
-    /*void Awake() {
-        if(Instance == null) {
-            Instance = this;
-        }
-        else Destroy(gameObject);
-
-        foreach(Sound s in sounds) {
-            s.source = this.gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-            s.source.playOnAwake = false;
-        }
-    }
-
-    void Start() {
-        switch(SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0: //Main Menu
-                Play("TitleMenu");
-                Stop("LevelOne");
-                break;
-            case 1: //Tutorial
             case 2:
-            case 4: //Level1
-            case 5: //Level2
-            case 6: //Level3
+                StopMusic();
+                PlayMusic("HubMusic");
+                break;
             case 7:
-                Stop("TitleMenu");
-                Play("LevelOne");
+                StopMusic();
+                PlayMusic("CronosMain");
                 break;
         }
     }
 
-    public void SwitchAudio()
+    public void SetMasterVolume(float value)
     {
-        switch(SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0: //Main Menu
-                Play("TitleMenu");
-                Stop("LevelOne");
-                break;
-            case 1: //Tutorial
-            case 2:
-            case 4: //Level1
-            case 5: //Level2
-            case 6: //Level3
-            case 7:
-                Stop("TitleMenu");
-                Play("LevelOne");
-                break;
-        }
+        masterMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20);
     }
 
-    public void Play(string name)
+    public void SetSFXVolume(float value)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) return;
-        if(s.source == null) return;
-        s.source.volume = s.volume;
-        s.source.Play();
+        masterMixer.SetFloat("SfxVolume", Mathf.Log10(value) * 20);
     }
 
-    public void Stop(string name) {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s == null) return;
-        s.source.Stop();
+    public void SetMusicVolume(float value)
+    {
+        masterMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
     }
 
+    public void SetMenuVolume(float value)
+    {
+        masterMixer.SetFloat("MenuVolume", Mathf.Log10(value) * 20);
+    }
+
+    /*
     //Experimental Features (Warning!!)
     public void FadeIn(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
@@ -181,6 +165,7 @@ public class SFXManager : MonoBehaviour
     {
         AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         if (clip == null || musicSource == null) return;
+
         musicSource.clip = clip;
         musicSource.Play();
     }
@@ -195,7 +180,16 @@ public class SFXManager : MonoBehaviour
     {
         AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         if (clip == null || sfxSource == null) return;
-        sfxSource.PlayOneShot(clip);
+        //if (clip.name == "Robot_Atk_1" && sfxSource.isPlaying) return; //bugE attack plays too fast and destroys eardrums
+
+        sfxSource.PlayOneShot(clip, 0.5f); // hard set to half volume since all clips are reduced more than this in old array
+    }
+
+    public void PlayMenu(string name)
+    {
+        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        if (clip == null || menuSource == null) return;
+        menuSource.PlayOneShot(clip);
     }
 
     
