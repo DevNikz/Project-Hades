@@ -54,9 +54,10 @@ public class RevampPlayerStateHandler : MonoBehaviour
     {
         SetBonusHealth(0);
         _maxCharge = _playerCombatStats.BaseMaxCharge;
+        _maxCharge = _playerCombatStats.BaseMaxCharge;
 
         CurrentHealth = _maxHealth;
-        CurrentCharge = _maxCharge;
+        CurrentCharge = 0;
 
         UpdateHealthbar();
         UpdateManabar();
@@ -139,6 +140,30 @@ public class RevampPlayerStateHandler : MonoBehaviour
             CurrentState = EntityState.Dead;
             TriggerDeath();
         }
+    }
+
+    public void GiveCharge(float amount)
+    {
+        if (amount < 0) return;
+
+        if (CurrentCharge + amount > _maxCharge)
+            amount = _maxCharge - CurrentCharge;
+
+        CurrentCharge += amount;
+
+        UpdateManabar();
+    }
+
+    public void UseCharge(float amount)
+    {
+        if (amount < 0) return;
+
+        if (CurrentCharge - amount < 0)
+            amount = CurrentCharge;
+
+        CurrentCharge -= amount;
+
+        UpdateManabar();
     }
 
     public void HealHealth(float amount)

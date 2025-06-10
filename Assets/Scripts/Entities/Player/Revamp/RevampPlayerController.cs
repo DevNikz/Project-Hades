@@ -157,10 +157,17 @@ public class RevampPlayerController : MonoBehaviour
         if (LastUsedAttack != null && timeSinceLastAttack < LastUsedAttack.EarliestTimeForNextAttack)
             return;
 
-        // TODO : FAIL IF MANA CANT BE SPENT
+        // FAIL IF MANA CANT BE SPENT
+        if (_stateHandler.CurrentCharge < _queuedAttack.ManaCost)
+        {
+            _queuedAttack = null;
+            return;
+        }
 
         /* EXECUTE ATTACK */
-        // Debug.Log("Made an attack: " + _queuedAttack);
+
+        // USE MANA (Reward is on hit)
+        _stateHandler.UseCharge(_queuedAttack.ManaCost);
 
         // SET HITBOX VALUES
         _attackHitbox.SetAttackStats(

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
+    [SerializeField] private RevampPlayerStateHandler _stateHandler;
+
     [Title("AttackType")]
     public AttackType attackType;
 
@@ -139,6 +141,10 @@ public class MeleeController : MonoBehaviour
                 Debug.LogWarning("[COMBAT-WARN]: Attack type when triggered is null");
                 return;
             }
+
+            // AWARD ON HIT CHARGE
+            if(_stateHandler != null)
+                _stateHandler.GiveCharge(_revampedAttackStats.ManaReward);
 
             float healthDmgMult = 1.0f;
             float poiseDmgMult = 1.0f;
