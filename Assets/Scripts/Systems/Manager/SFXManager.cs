@@ -34,9 +34,15 @@ public class SFXManager : MonoBehaviour
 
     private void Start()
     {
+        
         sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
         musicSource = GetComponentsInChildren<AudioSource>()[1];
         menuSource = GetComponentsInChildren<AudioSource>()[2];
+
+        SetMasterVolume(SaveManager.Instance.CurrentSettings.masterVolume);
+        SetMusicVolume(SaveManager.Instance.CurrentSettings.musicVolume);
+        SetSFXVolume(SaveManager.Instance.CurrentSettings.gameplayVolume);
+        SetMenuVolume(SaveManager.Instance.CurrentSettings.menuVolume);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SwitchAudio();

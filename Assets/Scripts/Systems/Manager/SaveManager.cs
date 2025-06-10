@@ -15,7 +15,7 @@ public class SaveManager : MonoBehaviour
 
     [Title("Stats")]
     [SerializeField] public PlayerStats CurrentStats;
-    [SerializeField] public GameSettings CurrentSettings { get; set; }
+    [SerializeField] public GameSettings CurrentSettings;
     [ReadOnly] public int SelectedSave = -1;
     [ReadOnly] public bool HadPlayedSave1;
     [ReadOnly] public bool HadPlayedSave2;

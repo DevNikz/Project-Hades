@@ -7,7 +7,7 @@ public class SoundController : MonoBehaviour
 {
     [SerializeField] public List<Slider> slider;
 
-    void OnEnable()
+    void Awake()
     {
         LoadVolumes();
     }
