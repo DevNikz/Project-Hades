@@ -14,14 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StanceIcon: {fileID: 21300000, guid: 52b35b1daed0df54284ebef609acd7ca, type: 3}
   StanceType: 3
-  BaseAttackMult: 0
-  FullchargeAttackMult: 0
-  BaseStaggerMult: 0
-  FullchargeStaggerMult: 0
-  AttackSpeedMult: 0
-  FullchargeAttackSpeedMult: 0
-  AttackRangeMult: 0
-  FullchargeAttackRangeMult: 0
+  BaseExtraDamage: -20
+  BaseExtraPoiseDmg: 10
+  ExtraCritRate: 0.1
+  ExtraKnockback: 5
   NormalAttacks:
   - {fileID: 11400000, guid: f76b86e211daf584ba7a06f114ce27fd, type: 2}
   - {fileID: 11400000, guid: 4e4f684190759f746af709e039a1fa8f, type: 2}
