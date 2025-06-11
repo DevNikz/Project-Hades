@@ -15,8 +15,10 @@ public class FadeableObject : MonoBehaviour
     bool fadedout = false;
 
     void OnEnable(){
-        if(this.solidModel == null || this.transparentModel == null){
+        if (this.solidModel == null || this.transparentModel == null)
+        {
             Destroy(this);
+            return;
         }
 
         renderers = this.transparentModel.GetComponentsInChildren<Renderer>(true);

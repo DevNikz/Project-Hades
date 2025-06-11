@@ -15,11 +15,11 @@ Material:
   - _MK_ARTISTIC_ANIMATION_STUTTER
   - _MK_ARTISTIC_HATCHING
   - _MK_DETAIL_BLEND_MIX
-  - _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+  - _MK_DIFFUSE_OREN_NAYAR
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_LIGHT_CEL
   - _MK_RECEIVE_SHADOWS
-  - _MK_SPECULAR_ISOTROPIC
+  - _MK_SPECULAR_ANISOTROPIC
   - _MK_THRESHOLD_MAP
   - _MK_WORKFLOW_SPECULAR
   - _MK_WRAPPED_DIFFUSE
@@ -45,7 +45,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Anisotropy: 1
+    - _Diffuse: 1
+    - _EnvironmentReflections: 0
     - _Smoothness: 0.281
+    - _Specular: 2
+    - _SpecularIntensity: 1
     m_Colors:
     - _AlbedoColor: {r: 0.28813636, g: 0.319013, b: 0.3301887, a: 1}
     - _Color: {r: 0.28813633, g: 0.31901297, b: 0.33018863, a: 1}
