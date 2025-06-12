@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c5087d91b267ef24998a9b93450e956b, type: 2}
+  - {fileID: 2100000, guid: 9887a09912f9c7940a425f703e1fcba3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solidModel: {fileID: 2230656796865520148}
   transparentModel: {fileID: 7930513815368499169}
+  _colorFieldName: _BaseColor
   renderers: []
 --- !u!136 &3086553680573735807
 CapsuleCollider:
@@ -221,7 +222,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ce31beffd9187854e88eb3ae36bb30b1, type: 2}
+  - {fileID: 2100000, guid: 36acd0bbdf63b264fbbfbccfcb03cdce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
