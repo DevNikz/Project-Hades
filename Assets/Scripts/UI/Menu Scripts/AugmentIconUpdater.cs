@@ -45,7 +45,6 @@ public class AugmentIconUpdater : MonoBehaviour
         }
         else if (this.currentAugment != null)
         {
-
             this.targetUIImage.sprite = this.currentAugment.augmentIcon;
         }
     }

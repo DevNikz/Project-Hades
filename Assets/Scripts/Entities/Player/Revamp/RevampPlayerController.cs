@@ -1,4 +1,4 @@
-   using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,8 +16,12 @@ public class RevampPlayerController : MonoBehaviour
     [SerializeReference] public PlayerCombatStats PlayerStats;
     [SerializeReference] private StanceDatabase _stanceDatabase;
 
+    [SerializeField] private Camera _mainCamera;
+    [SerializeField] private LayerMask _targetableMask;
     [SerializeField] private MeleeController _attackHitbox;
     [SerializeField] private GameObject _hitboxPointer;
+    [SerializeField] private List<GameObject> _stanceAttackIndicators = new();
+    [SerializeField] private bool _useAutohitboxSpawn = false;
     [SerializeField] private ParticleSystem _walkParticles;
     [SerializeField] private ParticleSystem _dashParticles;
     [SerializeField] private GameObject _stanceSwitchPopup;
@@ -44,7 +48,10 @@ public class RevampPlayerController : MonoBehaviour
 
     void Update()
     {
-        ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+        if (CurrentStance.StanceType == EStance.Air)
+            ProcessUpdatePointerPosition(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+        else
+            ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
         UpdateAnimatorControllerStates();
 
         if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
@@ -124,6 +131,9 @@ public class RevampPlayerController : MonoBehaviour
     {
         /** CHECK IF CLICK IS AT A VALID TIME **/
 
+        // NOTHIN IS REGISTERED IF THE ATTACK INDICATOR IS DEACTIVATED
+        if (_hitboxPointer.activeInHierarchy == false) return;
+
         // NOTHIN IS REGISTERED IF THERE IS NO NEXT VALID ATTACK
         if ((isSpecialAttack && NextSpecialAttack == null) ||
             (!isSpecialAttack && NextNormalAttack == null)){
@@ -179,7 +189,8 @@ public class RevampPlayerController : MonoBehaviour
 
         // SET ANIMATION
         _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, _queuedAttack.AnimationHoldLength, _queuedAttack.VFXAnimClipName);
-        StartCoroutine(SpawnHitbox(_queuedAttack.HitboxTiming, _queuedAttack.HitboxLingerTime));
+        if(_useAutohitboxSpawn)
+            StartCoroutine(SpawnHitbox(_queuedAttack.HitboxTiming, _queuedAttack.HitboxLingerTime));
 
         // SET STATE FOR PERFORMED ATTACK
         _stateHandler.CurrentState = EntityState.Attack;
@@ -318,7 +329,8 @@ public class RevampPlayerController : MonoBehaviour
                     break;
             }
         }
-
+        
+        UpdateAttackIndicator();
         StartCoroutine(StancePopup());
     }
     IEnumerator StancePopup()
@@ -327,6 +339,28 @@ public class RevampPlayerController : MonoBehaviour
         _stanceSwitchIcon.sprite = CurrentStance.StanceIcon;
         yield return new WaitForSeconds(_stanceSwitchPopupTime);
         _stanceSwitchPopup.SetActive(false);
+    }
+
+    void UpdateAttackIndicator()
+    {
+        foreach (var item in _stanceAttackIndicators)
+            item.SetActive(false);
+
+        switch (CurrentStance.StanceType)
+            {
+                case EStance.Earth:
+                    _stanceAttackIndicators[0].SetActive(true);
+                    break;
+                case EStance.Water:
+                    _stanceAttackIndicators[1].SetActive(true);
+                    break;
+                case EStance.Air:
+                    _stanceAttackIndicators[2].SetActive(true);
+                    break;
+                case EStance.Fire:
+                    _stanceAttackIndicators[3].SetActive(true);
+                    break;
+            }
     }
     #endregion
 
@@ -339,7 +373,9 @@ public class RevampPlayerController : MonoBehaviour
     private float _hitboxPointerOriginalXRotation = 0.0f;
     void ProcessUpdatePointerDirection(Vector2 position)
     {
-        // _hitboxPointer.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        _hitboxPointer.transform.localPosition = Vector3.zero;
+        _hitboxPointer.SetActive(true);
+
         float angle = ToIsoRotation(position);
         Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, - angle - 45, 0.0f);
         _hitboxPointer.transform.rotation = rot;
@@ -348,9 +384,30 @@ public class RevampPlayerController : MonoBehaviour
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
     }
     float ToIsoRotation(Vector2 position) {
-        Vector3 tempVector = Camera.main.WorldToScreenPoint(_hitboxPointer.transform.position);
+        Vector3 tempVector = Camera.main.WorldToScreenPoint(transform.position);
         tempVector = (Vector3)position - tempVector;
         return Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
+    }
+
+    void ProcessUpdatePointerPosition(Vector2 position)
+    {
+        float angle = ToIsoRotation(position);
+        if(_stateHandler.CurrentState == EntityState.Attack)
+            _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
+
+        RaycastHit raycastHit;
+        Ray ray = _mainCamera.ScreenPointToRay(position);
+        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity, _targetableMask))
+        {
+            Vector3 targetPosition = raycastHit.point;
+            targetPosition.y = transform.position.y;
+            _hitboxPointer.transform.position = targetPosition;
+            _hitboxPointer.SetActive(true);
+
+        }
+        else
+            _hitboxPointer.SetActive(false);
+            
     }
 
     void UpdateAnimatorControllerStates()
@@ -376,6 +433,7 @@ public class RevampPlayerController : MonoBehaviour
         _lastMoveInput = Vector3.zero;
         _isDashing = false;
         ResetSpeed();
+        UpdateAttackIndicator();
 
         _walkParticles.Play();
     }
