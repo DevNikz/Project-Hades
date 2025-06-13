@@ -19,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
     private int waveCounter = 0;
     private int enemyCounter;
     private int RandomSpawn;
+    public float enemyCooldown = 0.25f;
     public bool FinalWave;
     private LevelTrigger _levelTrigger;
 
@@ -68,7 +69,8 @@ public class EnemySpawner : MonoBehaviour
             for (int j = 0; j < waves[waveCounter].EnemyList[i].Amount; j++)
             {
                 RandomSpawn = Random.Range(0, spawnPoints.Count);
-                Instantiate(waves[waveCounter].EnemyList[i].Enemy, spawnPoints[RandomSpawn].transform.position, Quaternion.identity);
+                GameObject enemy = Instantiate(waves[waveCounter].EnemyList[i].Enemy, spawnPoints[RandomSpawn].transform.position, Quaternion.identity);
+                enemy.GetComponent<EnemyAction>().Cooldown = enemyCooldown;
             } 
         }
 

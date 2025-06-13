@@ -85,9 +85,12 @@ public abstract class EnemyAction : MonoBehaviour
                 else Player = GameObject.Find("Player");
                 break;
             case 2:
+                this.SetAction(1);
+                /*
                 if (!IsSearching) this._lastSeenPos = Player.transform.position;
                 IsSearching = true;
                 Search();
+                */
                 break;
             default:
                 break;
@@ -102,8 +105,10 @@ public abstract class EnemyAction : MonoBehaviour
         line.SetPositions(Agent.path.corners);
     }
 
+    
     protected virtual void Search()
     {
+        /*
         Agent.isStopped = false;
         Agent.SetDestination(_lastSeenPos);
         gameObject.transform.LookAt(_lastSeenPos);
@@ -114,6 +119,7 @@ public abstract class EnemyAction : MonoBehaviour
             this.Action = 0;
             anims.isShooting = false;
         }
+        */
     }
     
     protected virtual void Patrol()
