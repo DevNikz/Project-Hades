@@ -37,6 +37,15 @@ public class SightTrigger : MonoBehaviour
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 
+    public void AllAggro()
+    {
+        SightTrigger[] st = GameObject.FindObjectsByType<SightTrigger>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < st.Length; i++)
+        {
+            st[i].GetComponentInParent<EnemyAction>().SetAction(1);
+        }
+    }
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -72,7 +81,8 @@ public class SightTrigger : MonoBehaviour
                         isAttacking = true;
                         if (this.GetComponentInParent<EnemyAction>() != null)
                         {
-                            this.GetComponentInParent<EnemyAction>().SetAction(1);
+                            //this.GetComponentInParent<EnemyAction>().SetAction(1);
+                            AllAggro();
                         }
                         Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
@@ -100,7 +110,8 @@ public class SightTrigger : MonoBehaviour
                         isAttacking = true;
                         if (this.GetComponentInParent<EnemyAction>() != null)
                         {
-                            this.GetComponentInParent<EnemyAction>().SetAction(1);
+                            //this.GetComponentInParent<EnemyAction>().SetAction(1);
+                            AllAggro();
                         }
                         Broadcaster.Instance.AddBoolParam(Combat.HIDDEN, EventNames.Combat.PLAYER_SEEN, isAttacking);
                     }
