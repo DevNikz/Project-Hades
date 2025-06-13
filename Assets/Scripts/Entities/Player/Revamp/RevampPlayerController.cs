@@ -19,6 +19,7 @@ public class RevampPlayerController : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private LayerMask _targetableMask;
     [SerializeField] private MeleeController _attackHitbox;
+    [SerializeField] private PlayerAttackAnimCallback _attackAnimCallback;
     [SerializeField] private GameObject _hitboxPointer;
     [SerializeField] private List<GameObject> _stanceAttackIndicators = new();
     [SerializeField] private bool _useAutohitboxSpawn = false;
@@ -44,6 +45,9 @@ public class RevampPlayerController : MonoBehaviour
     public float CurrentSpeed;
     private float _timeOfLastDash = 0.0f;
     private bool _isDashing = false;
+    private bool _holdingAnAttack = false;
+    private float _chargingStartTime = 0.0f;
+    private float _chargeTime = 0.0f;
     #endregion
 
     void Update()
@@ -56,8 +60,13 @@ public class RevampPlayerController : MonoBehaviour
 
         if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
             ProcessAttack(false);
+        if(_playerMap.FindAction("Attack").WasReleasedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player" && _holdingAnAttack)
+            SubmitAttack(false);
         if (_playerMap.FindAction("SpecialAttack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
             ProcessAttack(true);
+        if(_playerMap.FindAction("SpecialAttack").WasReleasedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player" && _holdingAnAttack)
+            SubmitAttack(true);
+
         if (_playerMap.FindAction("StanceSwitch").WasPressedThisFrame())
             ProcessStanceSwitch();
         if (_playerMap.FindAction("OpenAugmentMenu").WasPressedThisFrame())
@@ -65,15 +74,20 @@ public class RevampPlayerController : MonoBehaviour
         if (_playerMap.FindAction("OpenAugmentMenu").WasReleasedThisFrame())
             ProcessOpenAugmentMenu(false);
 
-        // Forget last attack if past the forget time
-        if (LastUsedAttack != null && _queuedAttack == null && Time.time - _timeOfLastAttack > LastUsedAttack.AttackForgottenTime)
+        // Reset Attack Anims and state if attack is over and nothing is queued
+        if (_stateHandler.CurrentState == EntityState.Attack && !_attackAnimCallback._isAttacking && _queuedAttack == null)
+        {
+            _stateHandler.CurrentState = EntityState.None;
+            _animator.ResetAttack();
+        }
+
+        // Forget last attack if the current attack is over and no new attack is queued
+        if (LastUsedAttack != null && _queuedAttack == null && !_attackAnimCallback._isAttacking && !_holdingAnAttack)
         {
             _comboCount = -1;
             _stateHandler.CurrentState = EntityState.None;
         }
 
-        if (_stateHandler.CurrentState == EntityState.Attack)
-            ResetAttackingAnim();
         TryExecuteNextAttack(Time.time - _timeOfLastAttack);
     }
 
@@ -129,6 +143,9 @@ public class RevampPlayerController : MonoBehaviour
 
     void ProcessAttack(bool isSpecialAttack)
     {
+        // Reset in case of double click
+        _holdingAnAttack = false;
+
         /** CHECK IF CLICK IS AT A VALID TIME **/
 
         // NOTHIN IS REGISTERED IF THE ATTACK INDICATOR IS DEACTIVATED
@@ -136,25 +153,26 @@ public class RevampPlayerController : MonoBehaviour
 
         // NOTHIN IS REGISTERED IF THERE IS NO NEXT VALID ATTACK
         if ((isSpecialAttack && NextSpecialAttack == null) ||
-            (!isSpecialAttack && NextNormalAttack == null)){
+            (!isSpecialAttack && NextNormalAttack == null))
+        {
             return;
         }
 
-        // FAIL IF PRESSED AFTER CURRENT ATTACK'S WINDOW BUT WHILE NOT FORGOTTEN
-        if (LastUsedAttack != null)
-        {
-            if (Time.time - _timeOfLastAttack > LastUsedAttack.ComboInputWindowMaxTime)
-            {
-                AttackFail(LastUsedAttack.ComboMissPunishTime);
-                return;
-            }
-        }
+        /* SUCCESS WILL ACTIVATE MOVE SUBMISSION ON BUTTON RELEASE */
+        _holdingAnAttack = true;
+        _chargingStartTime = Time.time;
+        _chargeTime = 0.0f;
+    }
 
-        /* SUCCESS */
+    void SubmitAttack(bool isSpecialAttack)
+    {
+        _holdingAnAttack = false;
+
         // WILL SET NEXT ATTACK TO THE LAST BUTTON PRESS OF THE PLAYER
         if (isSpecialAttack) _queuedAttack = NextSpecialAttack;
         else _queuedAttack = NextNormalAttack;
         _queuedAttackIsSpecial = isSpecialAttack;
+        _chargeTime = Time.time - _chargingStartTime;
     }
 
     void TryExecuteNextAttack(float timeSinceLastAttack)
@@ -163,8 +181,8 @@ public class RevampPlayerController : MonoBehaviour
         if (_queuedAttack == null)
             return;
 
-        // FAIL TO EXECUTE IF ELAPSED TIME IS NOT ENOUGH
-        if (LastUsedAttack != null && timeSinceLastAttack < LastUsedAttack.EarliestTimeForNextAttack)
+        // FAIL TO EXECUTE IF AN ATTACK IS STILL PLAYING
+        if (LastUsedAttack != null && _attackAnimCallback._isAttacking)
             return;
 
         // FAIL IF MANA CANT BE SPENT
@@ -184,13 +202,16 @@ public class RevampPlayerController : MonoBehaviour
             _queuedAttack,
             CurrentStance,
             PlayerStats,
-            transform.position
+            transform.position,
+            _chargeTime
         );
 
+        // TP Player if they are in Wind Stance
+        if(CurrentStance.StanceType == EStance.Air)
+            transform.position = _hitboxPointer.transform.position;
+
         // SET ANIMATION
-        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, _queuedAttack.AnimationHoldLength, _queuedAttack.VFXAnimClipName);
-        if(_useAutohitboxSpawn)
-            StartCoroutine(SpawnHitbox(_queuedAttack.HitboxTiming, _queuedAttack.HitboxLingerTime));
+        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, 0, _queuedAttack.VFXAnimClipName);
 
         // SET STATE FOR PERFORMED ATTACK
         _stateHandler.CurrentState = EntityState.Attack;
@@ -391,6 +412,13 @@ public class RevampPlayerController : MonoBehaviour
 
     void ProcessUpdatePointerPosition(Vector2 position)
     {
+        if (_attackAnimCallback._isAttacking)
+        {
+            _hitboxPointer.transform.localPosition = Vector3.zero;
+            _hitboxPointer.SetActive(true);
+            return;
+        }
+
         float angle = ToIsoRotation(position);
         if(_stateHandler.CurrentState == EntityState.Attack)
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
@@ -427,11 +455,14 @@ public class RevampPlayerController : MonoBehaviour
         _comboCount = -1;
         _timeOfLastAttack = Time.time;
         _timeOfLastDash = Time.time;
+        _chargingStartTime = Time.time;
+        _chargeTime = 0.0f;
         _queuedAttack = null;
         _queuedAttackIsSpecial = false;
         _lastPerformedAttackIsSpecial = false;
         _lastMoveInput = Vector3.zero;
         _isDashing = false;
+        _holdingAnAttack = false;
         ResetSpeed();
         UpdateAttackIndicator();
 

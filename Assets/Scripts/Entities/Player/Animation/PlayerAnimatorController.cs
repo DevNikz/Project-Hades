@@ -306,6 +306,12 @@ public class PlayerAnimatorController : MonoBehaviour
 
     }
 
+    public void ResetAttack()
+    {
+        animator.SetBool("isAttacking", false);
+        vfxAnimator.SetBool("isAttacking", false);
+    }
+
     public void DelayedResetAttack()
     {
         // Debug.Log($"Attack Anim: {_endTimeOfLastAttack}, {Time.time}");
@@ -314,7 +320,7 @@ public class PlayerAnimatorController : MonoBehaviour
             animator.SetBool("isAttacking", false);
             vfxAnimator.SetBool("isAttacking", false);
         }
-            
+
     }
 
     public void PlayAttackAnim(int counter, Elements element)

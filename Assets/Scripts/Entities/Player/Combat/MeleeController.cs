@@ -51,13 +51,15 @@ public class MeleeController : MonoBehaviour
     private StanceStatsScriptable _stanceStats = null;
     private PlayerCombatStats _playerStats = null;
     private Vector3 _playerPosition;
+    private float _chargeTime = 0;
 
-    public void SetAttackStats(RevampPlayerAttackStatsScriptable attack, StanceStatsScriptable stance, PlayerCombatStats playerStats, Vector3 playerPos)
+    public void SetAttackStats(RevampPlayerAttackStatsScriptable attack, StanceStatsScriptable stance, PlayerCombatStats playerStats, Vector3 playerPos, float chargeTime)
     {
         _revampedAttackStats = attack;
         _stanceStats = stance;
         _playerStats = playerStats;
         _playerPosition = playerPos;
+        _chargeTime = chargeTime;
     }
 
     void Awake() {
@@ -143,13 +145,25 @@ public class MeleeController : MonoBehaviour
             }
 
             // AWARD ON HIT CHARGE
-            if(_stateHandler != null)
+            if (_stateHandler != null)
                 _stateHandler.GiveCharge(_revampedAttackStats.ManaReward);
 
             float healthDmgMult = 1.0f;
             float poiseDmgMult = 1.0f;
             float knockbackMult = 1.0f;
             float criticalHitChance = _revampedAttackStats.BaseCritRate;
+
+            // CALC CHARGE ATTACK SCALAR
+            float chargeScalar = 0.0f;
+            if (_chargeTime > _revampedAttackStats.FullChargeTime)
+                chargeScalar = 1.0f;
+            if(_chargeTime > 0.0f)
+                chargeScalar = (_chargeTime / _revampedAttackStats.FullChargeTime);
+
+            healthDmgMult += chargeScalar * _revampedAttackStats.FullChargeDamageScalar;
+            poiseDmgMult += chargeScalar * _revampedAttackStats.FullChargePoiseScalar;
+            knockbackMult += chargeScalar * _revampedAttackStats.FullChargeKnockbackScalar;
+            criticalHitChance += chargeScalar * _revampedAttackStats.FullChargeCritScalar;
 
             if (_stanceStats != null) criticalHitChance += _stanceStats.ExtraCritRate;
             if (_playerStats != null) criticalHitChance += _playerStats.BaseCritRate;
