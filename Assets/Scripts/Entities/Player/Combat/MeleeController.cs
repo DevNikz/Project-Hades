@@ -157,7 +157,7 @@ public class MeleeController : MonoBehaviour
             float chargeScalar = 0.0f;
             if (_chargeTime > _revampedAttackStats.FullChargeTime)
                 chargeScalar = 1.0f;
-            if(_chargeTime > 0.0f)
+            if(_chargeTime > 0.0f && _revampedAttackStats.FullChargeTime != 0.0f)
                 chargeScalar = (_chargeTime / _revampedAttackStats.FullChargeTime);
 
             healthDmgMult += chargeScalar * _revampedAttackStats.FullChargeDamageScalar;
