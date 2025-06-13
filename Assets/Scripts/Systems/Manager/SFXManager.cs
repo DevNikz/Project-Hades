@@ -65,7 +65,7 @@ public class SFXManager : MonoBehaviour
                 break;
             case 2:
                 StopMusic();
-                PlayMusic("HubMusic");
+                PlayMusic("HubMain");
                 break;
             case 7:
                 StopMusic();
@@ -91,7 +91,7 @@ public class SFXManager : MonoBehaviour
                 break;
             case 2:
                 StopMusic();
-                PlayMusic("HubMusic");
+                PlayMusic("HubMain");
                 break;
             case 7:
                 StopMusic();
