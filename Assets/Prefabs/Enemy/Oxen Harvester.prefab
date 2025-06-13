@@ -6281,6 +6281,7 @@ GameObject:
   - component: {fileID: 6211070038124960084}
   - component: {fileID: 7664094438869442149}
   - component: {fileID: 9120746248613009628}
+  - component: {fileID: 6522851060277784042}
   m_Layer: 8
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -6379,6 +6380,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6522851060277784042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7312088280071931378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34e7defecd0aa774eb02ad4a4c1b8480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: {fileID: 6881835957654449845}
 --- !u!1 &7442764560222287862
 GameObject:
   m_ObjectHideFlags: 0

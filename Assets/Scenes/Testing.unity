@@ -8194,6 +8194,8 @@ MonoBehaviour:
   soundList: []
   sfxSource: {fileID: 0}
   musicSource: {fileID: 0}
+  menuSource: {fileID: 0}
+  masterMixer: {fileID: 0}
   fadeThreshold: 0.1
   volumeTemp: 0
 --- !u!4 &441890850
@@ -10815,6 +10817,11 @@ PrefabInstance:
     - target: {fileID: 725326626540057064, guid: d674316a6fad1044c9233155c8056e76,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130099694423834350, guid: d674316a6fad1044c9233155c8056e76,
+        type: 3}
+      propertyPath: drawLine
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2275104179671269486, guid: d674316a6fad1044c9233155c8056e76,

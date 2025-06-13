@@ -36,19 +36,27 @@ public class OHActions : EnemyAction
         if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
         {
             IsAttacking = true;
+            Agent.isStopped = true;
             this.SetAction(3);
-            Invoke(nameof(Attacking), 0.75f);
+            //Invoke(nameof(Attacking), 0.75f);
         }
     }
 
     protected override void Attacking()
     {
+        /*
         this._attackHitbox.SetActive(true);
         Agent.isStopped = true;
         Invoke(nameof(StopAttack), AttackRate);
+        */
     }
 
-    private void StopAttack()
+    public void BeginAttack()
+    {
+        this._attackHitbox.SetActive(true);
+    }
+
+    public void StopAttack()
     {
         this._attackHitbox.SetActive(false);
         IsAttacking = false;

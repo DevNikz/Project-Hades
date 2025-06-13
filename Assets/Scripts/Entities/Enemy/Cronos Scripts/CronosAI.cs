@@ -110,7 +110,7 @@ public class CronosAI : EnemyAction
     {
         if (this.Action == 1)
         {
-            Invoke(nameof(BeginAttack), reapDelay);
+            //Invoke(nameof(BeginAttack), reapDelay);
 
             Agent.isStopped = true;   
             this.SetAction(3);
@@ -135,7 +135,7 @@ public class CronosAI : EnemyAction
         circleHitBox.transform.localScale += new Vector3(reapSpeed, 0, reapSpeed);
     }
 
-    private void BeginAttack()
+    public void BeginAttack()
     {
         IsAttacking = true;
         circleHitBox.SetActive(true);
