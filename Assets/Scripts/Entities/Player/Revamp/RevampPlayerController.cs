@@ -394,7 +394,7 @@ public class RevampPlayerController : MonoBehaviour
     private float _hitboxPointerOriginalXRotation = 0.0f;
     void ProcessUpdatePointerDirection(Vector2 position)
     {
-        _hitboxPointer.transform.localPosition = Vector3.zero;
+        _hitboxPointer.transform.localPosition = new(0.0f, _hitboxPointer.transform.position.y, 0.0f);
         _hitboxPointer.SetActive(true);
 
         float angle = ToIsoRotation(position);
@@ -414,7 +414,7 @@ public class RevampPlayerController : MonoBehaviour
     {
         if (_attackAnimCallback._isAttacking)
         {
-            _hitboxPointer.transform.localPosition = Vector3.zero;
+            _hitboxPointer.transform.localPosition = new(0.0f, _hitboxPointer.transform.position.y, 0.0f);
             _hitboxPointer.SetActive(true);
             return;
         }
@@ -428,7 +428,7 @@ public class RevampPlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity, _targetableMask))
         {
             Vector3 targetPosition = raycastHit.point;
-            targetPosition.y = transform.position.y;
+            targetPosition.y = _hitboxPointer.transform.position.y;
             _hitboxPointer.transform.position = targetPosition;
             _hitboxPointer.SetActive(true);
 
