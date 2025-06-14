@@ -78,6 +78,7 @@ public class EnemyAnimation : MonoBehaviour
 
         isStun = true;
         spriteAnimator.Play("Stun");
+        SFXManager.Instance.PlaySFX("Enemy_Stun");
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)

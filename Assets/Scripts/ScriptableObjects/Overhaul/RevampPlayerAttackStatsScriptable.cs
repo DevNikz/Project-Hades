@@ -29,4 +29,5 @@ public class RevampPlayerAttackStatsScriptable : ScriptableObject
     // public float AnimationHoldLength;
     // public float AttackForgottenTime;
     public float ComboMissPunishTime;
+    public string SFXClipName;
 }

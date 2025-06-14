@@ -9,9 +9,9 @@ public class SFXManager : MonoBehaviour
 {
     public static SFXManager Instance;
 
-    public Sound[] sounds; //old array
+    public Sound[] sounds;
 
-    [SerializeField] public AudioClip[] soundList; //current array used
+    //[SerializeField] public AudioClip[] soundList; //array of just clips
 
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
@@ -34,7 +34,6 @@ public class SFXManager : MonoBehaviour
 
     private void Start()
     {
-        
         sfxSource = GetComponentsInChildren<AudioSource>()[0]; //first in hierarchy
         musicSource = GetComponentsInChildren<AudioSource>()[1];
         menuSource = GetComponentsInChildren<AudioSource>()[2];
@@ -163,14 +162,17 @@ public class SFXManager : MonoBehaviour
 
     public void PlayMusic(string name)
     {
-        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
-        if (clip == null || musicSource == null) return;
+        //AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        Sound s = Array.Find(sounds, sound => sound.name == name);
 
-        musicSource.clip = clip;
+        if (s == null || s.clip == null || musicSource == null) return;
+
+        musicSource.clip = s.clip;
         musicSource.Play();
+        musicSource.loop = true;
     }
 
-    public void StopMusic() //Play this first before play music
+    public void StopMusic() //Call this first before play music
     {
         if (musicSource != null && musicSource.isPlaying)
             musicSource.Stop();
@@ -178,18 +180,18 @@ public class SFXManager : MonoBehaviour
 
     public void PlaySFX(string name)
     {
-        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
-        if (clip == null || sfxSource == null) return;
-        //if (clip.name == "Robot_Atk_1" && sfxSource.isPlaying) return; //bugE attack plays too fast and destroys eardrums
-
-        sfxSource.PlayOneShot(clip, 0.5f); // hard set to half volume since all clips are reduced more than this in old array
+        //AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null || s.clip == null || sfxSource == null) return;
+        
+        sfxSource.PlayOneShot(s.clip, s.volume); // hard set to half volume since all clips are reduced more than this in old array
     }
 
-    public void PlayMenu(string name)
+    public void PlayMenu(string name) //not used?
     {
-        AudioClip clip = Array.Find(soundList, sound => sound.name == name);
-        if (clip == null || menuSource == null) return;
-        menuSource.PlayOneShot(clip);
+        //AudioClip clip = Array.Find(soundList, sound => sound.name == name);
+        //if (clip == null || menuSource == null) return;
+        //menuSource.PlayOneShot(clip);
     }
 
     

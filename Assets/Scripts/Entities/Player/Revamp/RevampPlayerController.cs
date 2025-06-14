@@ -211,7 +211,7 @@ public class RevampPlayerController : MonoBehaviour
             transform.position = _hitboxPointer.transform.position;
 
         // SET ANIMATION
-        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, 0, _queuedAttack.VFXAnimClipName);
+        _animator.RevampedPlayAttackAnim(_queuedAttack.AnimationClipName, 0, _queuedAttack.VFXAnimClipName, _queuedAttack.SFXClipName);
 
         // SET STATE FOR PERFORMED ATTACK
         _stateHandler.CurrentState = EntityState.Attack;

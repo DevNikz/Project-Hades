@@ -296,14 +296,14 @@ public class PlayerAnimatorController : MonoBehaviour
 
     private float _endTimeOfLastAttack = 0.0f;
 
-    public void RevampedPlayAttackAnim(string animationName, float animLength, string vfxAnimName)
+    public void RevampedPlayAttackAnim(string animationName, float animLength, string vfxAnimName, string sfxClipName)
     {
         _endTimeOfLastAttack = Time.time + animLength;
         animator.SetBool("isAttacking", true);
         vfxAnimator.SetBool("isAttacking",true);
         animator.Play(animationName);
         vfxAnimator.Play(vfxAnimName);
-
+        SFXManager.Instance.PlaySFX(sfxClipName);
     }
 
     public void ResetAttack()
@@ -441,6 +441,7 @@ public class PlayerAnimatorController : MonoBehaviour
     public void RevampTriggerDeath()
     {
         Debug.Log("Playing Death");
+        SFXManager.Instance.PlaySFX("Death");
         animator.SetTrigger("Dead");
         animator.SetBool("isDead", true);
         // animator.Play("Player_DeathB");

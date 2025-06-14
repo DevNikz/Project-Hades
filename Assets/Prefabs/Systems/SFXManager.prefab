@@ -48,175 +48,126 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: PlayerHurt1
+  - name: Player_Hurt_1
     clip: {fileID: 8300000, guid: a8bfe5bed3e14b84fa768d830b35b04c, type: 3}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: PlayerHurt2
+    volume: 0.4
+  - name: Player_Hurt_2
     clip: {fileID: 8300000, guid: a5a82a2aabf96434cbbaecfa35b94485, type: 3}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: PlayerHurt3
-    clip: {fileID: 0}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: ConfirmSFX
-    clip: {fileID: 8300000, guid: ea47c3537e9476645b9afaa2968510ee, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: HoverUI
-    clip: {fileID: 8300000, guid: bece272c9e8f9734d8960a7854f59b65, type: 3}
-    volume: 0.2
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Earth1
+    volume: 0.4
+  - name: Player_Hurt_3
+    clip: {fileID: 8300000, guid: 5aab91244d3c69a47b480b50e9fd7b82, type: 3}
+    volume: 0.4
+  - name: Sword_Earth_Atk
     clip: {fileID: 8300000, guid: 3034633ffa69b794c801b435196354a7, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Earth2
+  - name: Sword_Earth_Atk2
     clip: {fileID: 8300000, guid: d56dcb81b33b6eb4ba45e94db8ab6ac8, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Earth3
+  - name: Sword_Earth_Atk3
     clip: {fileID: 8300000, guid: 110a2b2ccd477be4490e9e16a733951e, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Fire1
+  - name: Sword_Fire_Atk
     clip: {fileID: 8300000, guid: 2fddc5a2537040343bb889b2289e996b, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Fire2
+  - name: Sword_Fire_Atk2
     clip: {fileID: 8300000, guid: 2f031970669936b4e9c6ada67bb58605, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Fire3
+  - name: Sword_Fire_Atk3_LONGDASH
     clip: {fileID: 8300000, guid: 5b65326d906deb240bc6bcbb244b9590, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: RobotAttack1
-    clip: {fileID: 8300000, guid: 040f3e90d6d7d3845939c759f443c405, type: 3}
+  - name: Sword_Water_Atk
+    clip: {fileID: 8300000, guid: e2624ad91ddd0b046b0b2cc0bfbac48e, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: RobotAttack2
-    clip: {fileID: 8300000, guid: b88fed8fff03fc541965797adcab2c76, type: 3}
+  - name: Sword_Water_Atk2
+    clip: {fileID: 8300000, guid: 500b05c9a8989924fb23e4a39071bdba, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: RobotDamaged
-    clip: {fileID: 8300000, guid: 32dfdff9e783f0243b7f20508b901c93, type: 3}
+  - name: Sword_Water_Atk3
+    clip: {fileID: 8300000, guid: fcfb1471c6ddc73478ac1820cc398e08, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: RobotKilled
-    clip: {fileID: 8300000, guid: 2d18b7e3bc3a5fa4eaef3efd00548db3, type: 3}
+  - name: Sword_Wind_Atk
+    clip: {fileID: 8300000, guid: e111046c1a84c3b4d885dd759a6800f4, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: RobotDetained
-    clip: {fileID: 8300000, guid: 9889e83040a77df4c91acd6baef1d80a, type: 3}
+  - name: Sword_Wind_Atk2
+    clip: {fileID: 8300000, guid: cd93fbf765335144f87c4cbb1ee32cf4, type: 3}
     volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: TitleMenu
+  - name: Sword_Wind_Atk3
+    clip: {fileID: 8300000, guid: d1b9cda26ad83e4418efa96add72ca0d, type: 3}
+    volume: 0.25
+  - name: ClockworkRondo
     clip: {fileID: 8300000, guid: b092ed92c74afaf4d91b330d4156fa83, type: 3}
     volume: 0.35
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: LevelOne
     clip: {fileID: 8300000, guid: b26799e810a3c9945b0a86851df52f53, type: 3}
     volume: 0.4
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: Water1
-    clip: {fileID: 8300000, guid: e2624ad91ddd0b046b0b2cc0bfbac48e, type: 3}
-    volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Water2
-    clip: {fileID: 8300000, guid: 500b05c9a8989924fb23e4a39071bdba, type: 3}
-    volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Water3
-    clip: {fileID: 8300000, guid: fcfb1471c6ddc73478ac1820cc398e08, type: 3}
-    volume: 0.25
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
   - name: CronosMain
     clip: {fileID: 8300000, guid: 1601cc01db6703c4992b9ee337436c0d, type: 3}
     volume: 0.35
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: HubMain
     clip: {fileID: 8300000, guid: deb97b0e0cd162f44829c9a6bb0efb3a, type: 3}
     volume: 0.35
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  soundList:
-  - {fileID: 8300000, guid: b092ed92c74afaf4d91b330d4156fa83, type: 3}
-  - {fileID: 8300000, guid: b26799e810a3c9945b0a86851df52f53, type: 3}
-  - {fileID: 8300000, guid: a8bfe5bed3e14b84fa768d830b35b04c, type: 3}
-  - {fileID: 8300000, guid: a5a82a2aabf96434cbbaecfa35b94485, type: 3}
-  - {fileID: 8300000, guid: 5aab91244d3c69a47b480b50e9fd7b82, type: 3}
-  - {fileID: 8300000, guid: ea47c3537e9476645b9afaa2968510ee, type: 3}
-  - {fileID: 8300000, guid: bece272c9e8f9734d8960a7854f59b65, type: 3}
-  - {fileID: 8300000, guid: 3034633ffa69b794c801b435196354a7, type: 3}
-  - {fileID: 8300000, guid: d56dcb81b33b6eb4ba45e94db8ab6ac8, type: 3}
-  - {fileID: 8300000, guid: 110a2b2ccd477be4490e9e16a733951e, type: 3}
-  - {fileID: 8300000, guid: 2fddc5a2537040343bb889b2289e996b, type: 3}
-  - {fileID: 8300000, guid: 2f031970669936b4e9c6ada67bb58605, type: 3}
-  - {fileID: 8300000, guid: 5b65326d906deb240bc6bcbb244b9590, type: 3}
-  - {fileID: 8300000, guid: e2624ad91ddd0b046b0b2cc0bfbac48e, type: 3}
-  - {fileID: 8300000, guid: 500b05c9a8989924fb23e4a39071bdba, type: 3}
-  - {fileID: 8300000, guid: fcfb1471c6ddc73478ac1820cc398e08, type: 3}
-  - {fileID: 8300000, guid: 32dfdff9e783f0243b7f20508b901c93, type: 3}
-  - {fileID: 8300000, guid: 2d18b7e3bc3a5fa4eaef3efd00548db3, type: 3}
-  - {fileID: 8300000, guid: 1601cc01db6703c4992b9ee337436c0d, type: 3}
-  - {fileID: 8300000, guid: deb97b0e0cd162f44829c9a6bb0efb3a, type: 3}
-  - {fileID: 8300000, guid: 6d0d391ae5669b244bee66d0dfc4889a, type: 3}
-  - {fileID: 8300000, guid: 80b37cf7a42ed864d9074e820f849a2b, type: 3}
-  - {fileID: 8300000, guid: 75c417bc74f749c4db03c57c8b23c1d4, type: 3}
-  - {fileID: 8300000, guid: de196070efc3b7940ba2359d1d3039e3, type: 3}
-  - {fileID: 8300000, guid: 8b0538fa045658a4ea40935530fc5cc2, type: 3}
-  - {fileID: 8300000, guid: 1f3ff700c9da4ad4fbf705b18c71fdee, type: 3}
-  - {fileID: 8300000, guid: 2ea7711555b240f4fa7d5fafbb24f8f9, type: 3}
-  - {fileID: 8300000, guid: 7df498fdd8b7af448b0dc711be065aaf, type: 3}
-  - {fileID: 8300000, guid: f19994b2a37491b40a3cc5dde30e47ee, type: 3}
-  - {fileID: 8300000, guid: f4524ffcf8003d6469021235b1bbd03b, type: 3}
+  - name: ConfirmSFX
+    clip: {fileID: 0}
+    volume: 0.2
+  - name: HoverUI
+    clip: {fileID: 0}
+    volume: 0.2
+  - name: Death
+    clip: {fileID: 8300000, guid: 1041e1996bc62934eb02ac3ca95d5fa9, type: 3}
+    volume: 1
+  - name: Earth_Select
+    clip: {fileID: 8300000, guid: 8b0538fa045658a4ea40935530fc5cc2, type: 3}
+    volume: 0.5
+  - name: Fire_Select
+    clip: {fileID: 8300000, guid: 1f3ff700c9da4ad4fbf705b18c71fdee, type: 3}
+    volume: 0.5
+  - name: Water_Select
+    clip: {fileID: 8300000, guid: 2ea7711555b240f4fa7d5fafbb24f8f9, type: 3}
+    volume: 0.5
+  - name: Wind_Select
+    clip: {fileID: 8300000, guid: 7df498fdd8b7af448b0dc711be065aaf, type: 3}
+    volume: 0.5
+  - name: Robot_Damaged_SFX
+    clip: {fileID: 8300000, guid: 32dfdff9e783f0243b7f20508b901c93, type: 3}
+    volume: 0.35
+  - name: Robot_Death_Kill
+    clip: {fileID: 8300000, guid: 2d18b7e3bc3a5fa4eaef3efd00548db3, type: 3}
+    volume: 0.35
+  - name: Enemy_Stun
+    clip: {fileID: 8300000, guid: 1e65bca074c4c5f4fb85f271366404ce, type: 3}
+    volume: 0.5
+  - name: Falling_Debris
+    clip: {fileID: 8300000, guid: d8e99cc629d337f4e852f4445d87d2cd, type: 3}
+    volume: 0.5
+  - name: BugE_ShootV1
+    clip: {fileID: 8300000, guid: f4524ffcf8003d6469021235b1bbd03b, type: 3}
+    volume: 1
+  - name: BugE_ShootV2
+    clip: {fileID: 8300000, guid: f19994b2a37491b40a3cc5dde30e47ee, type: 3}
+    volume: 1
+  - name: LCMelee
+    clip: {fileID: 8300000, guid: 6d0d391ae5669b244bee66d0dfc4889a, type: 3}
+    volume: 0.5
+  - name: OHCharging
+    clip: {fileID: 8300000, guid: de196070efc3b7940ba2359d1d3039e3, type: 3}
+    volume: 0.5
+  - name: CronosCharge
+    clip: {fileID: 8300000, guid: 80b37cf7a42ed864d9074e820f849a2b, type: 3}
+    volume: 0.5
+  - name: CronosSwing
+    clip: {fileID: 8300000, guid: 75c417bc74f749c4db03c57c8b23c1d4, type: 3}
+    volume: 0.5
+  - name: Alerted
+    clip: {fileID: 8300000, guid: af732d17329b2944f842df6bf05f8038, type: 3}
+    volume: 0.5
+  - name: AlertLevel1
+    clip: {fileID: 8300000, guid: 6846d03766db3f04dafc3e64da08f47f, type: 3}
+    volume: 0.5
+  - name: AlertLevel2
+    clip: {fileID: 8300000, guid: 34ad4b68935d66c46bd7676f0ac02b43, type: 3}
+    volume: 0.5
+  - name: AlertLevel3
+    clip: {fileID: 8300000, guid: cf19d0f83fafa2147a599f6cd1ae4f9a, type: 3}
+    volume: 0.5
   sfxSource: {fileID: 0}
   musicSource: {fileID: 0}
   menuSource: {fileID: 0}
