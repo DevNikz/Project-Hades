@@ -30,9 +30,9 @@ Material:
   - _MK_COLOR_GRADING_FINAL_OUTPUT
   - _MK_DETAIL_BLEND_MIX
   - _MK_DIFFUSE_OREN_NAYAR
-  - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
   - _MK_FRESNEL_HIGHLIGHTS
   - _MK_HEIGHT_MAP
+  - _MK_LIGHT_BANDED
   - _MK_NORMAL_MAP
   - _MK_PARALLAX
   - _MK_RECEIVE_SHADOWS
@@ -269,7 +269,7 @@ Material:
     - _DrawnMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FresnelHighlights: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -284,16 +284,16 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 0
-    - _LightBands: 4
-    - _LightBandsScale: 0.5
-    - _LightThreshold: 0.5
+    - _Light: 2
+    - _LightBands: 2
+    - _LightBandsScale: 0
+    - _LightThreshold: 1
     - _LightTransmission: 0
     - _LightTransmissionDistortion: 1
     - _LightTransmissionIntensity: 1
     - _LightTransmissionSmoothness: 0.5
     - _LightTransmissionThresholdOffset: 0.25
-    - _Metallic: 0.068
+    - _Metallic: 0
     - _NormalMapIntensity: 0.65
     - _OcclusionMapIntensity: 1
     - _OcclusionStrength: 1
@@ -317,7 +317,7 @@ Material:
     - _RimSize: 1
     - _RimSmoothness: 0.5
     - _RimThresholdOffset: 0.25
-    - _Roughness: 0.693
+    - _Roughness: 1
     - _Saturation: 0.79
     - _SketchMapScale: 1
     - _Smoothness: 0.349
@@ -356,7 +356,7 @@ Material:
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GoochDarkColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _LightTransmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

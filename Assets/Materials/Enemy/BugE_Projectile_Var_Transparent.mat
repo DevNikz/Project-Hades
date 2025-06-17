@@ -23,15 +23,16 @@ Material:
   m_Name: BugE_Projectile_Var_Transparent
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 2100000, guid: f5a5a0fbc45f0404b854724f41c33a73, type: 2}
-  m_ModifiedSerializedProperties: 16
+  m_ModifiedSerializedProperties: 18
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
+  - _EMISSION
   - _NORMALMAP
   - _OCCLUSIONMAP
   - _PARALLAXMAP
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -47,7 +48,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _BumpScale: 6
+    - _BumpScale: 1
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _Metallic: 0
@@ -57,7 +58,8 @@ Material:
     - _Surface: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.5810094, b: 1, a: 0.40392157}
-    - _Color: {r: 0, g: 0.5810093, b: 1, a: 0.40392157}
+    - _BaseColor: {r: 0.90588236, g: 0.2769863, b: 0, a: 1}
+    - _Color: {r: 0.90588236, g: 0.27698624, b: 0, a: 1}
+    - _EmissionColor: {r: 0.79910296, g: 0.06301003, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
