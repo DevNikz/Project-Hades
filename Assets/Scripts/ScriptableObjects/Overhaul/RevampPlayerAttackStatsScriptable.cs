@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerAttackStat", menuName = "ProjectHades/Player/PlayerAttackStat", order = 2)]
