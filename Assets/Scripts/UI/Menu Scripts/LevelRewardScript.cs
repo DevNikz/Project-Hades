@@ -38,6 +38,7 @@ public class LevelRewardScript : MonoBehaviour
 
     private void ResetMenu()
     {
+        Time.timeScale = 1.0f;
         Debug.Log(gameObject);
         gameObject.SetActive(false);
         ReloadAugments();
@@ -167,5 +168,6 @@ public class LevelRewardScript : MonoBehaviour
     {
         _loadedFromWaveEnd = loadedFromWaveEnd;
         levelRewardMenu.SetActive(true);
+        Time.timeScale = 0;
     }
 }
