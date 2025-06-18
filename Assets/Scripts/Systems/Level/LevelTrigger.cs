@@ -29,7 +29,7 @@ public class LevelTrigger : MonoBehaviour
         if(playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
         AtEndOfLevel = false;
 
-        spawner = FindAnyObjectByType<EnemySpawner>();
+        spawner = FindAnyObjectByType<EnemySpawner>(FindObjectsInactive.Include);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -37,10 +37,12 @@ public class LevelTrigger : MonoBehaviour
             if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0 && !TransitionWithEnemies) return;
 
             AtEndOfLevel = true;
+            if(spawner != null)
+                spawner.ClearSpawnPoints();
 
             this.playerInputManager = GameObject.Find("PlayerInputManager");
             if (!LoadsImmediatelyWithoutAugment && playerInputManager != null) {
-                playerInputManager.GetComponent<LevelRewardScript>().Activate();
+                playerInputManager.GetComponent<LevelRewardScript>().Activate(false);
                 
             }
             else
@@ -63,8 +65,6 @@ public class LevelTrigger : MonoBehaviour
                 SaveManager.Instance.AddDepth();
                 loader.LoadLevel(SaveManager.Instance.GetNextLevel());
             }
-            if(spawner != null)
-                spawner.ClearSpawnPoints();
 
             Destroy(this.GetComponent<Rigidbody>());
             Destroy(this.GetComponent<Collider>());

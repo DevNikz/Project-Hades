@@ -66,7 +66,7 @@ public class SaveManager : MonoBehaviour
     {
         get
         {
-            if (_nonRandomGenWavesets == null || !_useRandomGen) return null;
+            if (_nonRandomGenWavesets == null || _useRandomGen) return null;
             if (CurrentStats.DepthLevel > _nonRandomGenWavesets.Count) return null;
             if (CurrentStats.DepthLevel <= 0) return null;
             return _nonRandomGenWavesets[CurrentStats.DepthLevel - 1];
@@ -142,11 +142,11 @@ public class SaveManager : MonoBehaviour
 
     public string GetNextLevel()
     {
-        if (CurrentStats.DepthLevel >= _maxLevels)
+        if (CurrentStats.DepthLevel > _maxLevels)
             return "CronosLevel";
 
         if (!_useRandomGen)
-            return "Level " + (CurrentStats.DepthLevel + 1);
+            return "Level " + (CurrentStats.DepthLevel);
 
         return "LevelScene";
     }

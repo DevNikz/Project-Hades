@@ -10,11 +10,13 @@ public class LevelRewardScript : MonoBehaviour
 {
     [SerializeField] GameObject levelRewardMenu;
     [SerializeField] GameObject[] augmentButtons;
+    [SerializeField] EnemySpawner _enemySpawner;
 
     [SerializeField, ReadOnly] private List<AugmentScriptable> chosenAugments = new();
 
     [SerializeReference] private LootpoolScriptable lootpool;
     [SerializeField] private int maxRetryAugmentGenerate = 100;
+    bool _loadedFromWaveEnd = false;
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
     public void ReloadAugments(){
@@ -34,7 +36,10 @@ public class LevelRewardScript : MonoBehaviour
         ResetMenu();
     }
 
-    private void ResetMenu(){
+    private void ResetMenu()
+    {
+        Debug.Log(gameObject);
+        gameObject.SetActive(false);
         ReloadAugments();
 
         choice = AugmentType.None;
@@ -43,7 +48,7 @@ public class LevelRewardScript : MonoBehaviour
             Debug.LogWarning("LevelRewardMenu null");
             return;
         }
-        levelRewardMenu.SetActive(false);
+        // levelRewardMenu.SetActive(false);
     }
 
     void AssignSprites()
@@ -101,6 +106,7 @@ public class LevelRewardScript : MonoBehaviour
 
     public void ChoiceMade()
     {
+        Debug.Log(this);
         if (choice != AugmentType.None)
         {
             ItemManager.Instance.AddAugment(choice);
@@ -117,11 +123,29 @@ public class LevelRewardScript : MonoBehaviour
                     break;
 
             }
-            TransitionLevel();
+            if (_loadedFromWaveEnd)
+            {
+
+                ContinueSpawning();
+            }
+            else
+            {
+                TransitionLevel();
+
+            }
         }
-        else if(chosenAugments.Count <= 0)
+        else if (chosenAugments.Count <= 0)
         {
-            TransitionLevel();
+            if (_loadedFromWaveEnd)
+            {
+                ContinueSpawning();
+
+            }
+            else
+            {
+                TransitionLevel();
+
+            }
         }
     }
 
@@ -133,7 +157,15 @@ public class LevelRewardScript : MonoBehaviour
         );
     }
 
-    public void Activate(){
+    private void ContinueSpawning()
+    {
+        ResetMenu();
+        _enemySpawner.SpawnWave();
+    }
+
+    public void Activate(bool loadedFromWaveEnd)
+    {
+        _loadedFromWaveEnd = loadedFromWaveEnd;
         levelRewardMenu.SetActive(true);
     }
 }
