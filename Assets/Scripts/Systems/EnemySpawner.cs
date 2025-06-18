@@ -18,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoad;
     }
     [SerializeField] private LevelRewardScript _rewardMenu;
+    [SerializeField] private float _rewardShowDelayTime = 0.2f;
     [SerializeField] private bool _rewardAugmentPerWave = false;
     [SerializeReference] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeReference] private List<EnemyWave> waves;
@@ -53,7 +54,7 @@ public class EnemySpawner : MonoBehaviour
             _triggeredSpawn = true;
             if (_rewardAugmentPerWave)
             {
-                _rewardMenu.Activate(true);
+                StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
                 if (waves.Count <= 0 || spawnPoints.Count <= 0)
                     FinalWave = true;
                 if (FinalWave) this.enabled = false;
@@ -64,6 +65,13 @@ public class EnemySpawner : MonoBehaviour
 
             }
         }
+    }
+
+    IEnumerator DelayedRewardOpen(float time)
+    {
+        yield return new WaitForSeconds(time);
+        
+        _rewardMenu.Activate(true);
     }
 
     public void InitializeSpawner(EnemyWaveSet spawnPreset = null)
