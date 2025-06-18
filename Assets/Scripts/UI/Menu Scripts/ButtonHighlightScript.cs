@@ -20,14 +20,14 @@ public class ButtonHighlightScript : MonoBehaviour
     {
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
 
-        if(button.name == "Vitality" ||
+        if (button.name == "Vitality" ||
             button.name == "Aggro" ||
             button.name == "Steel" ||
             button.name == "Heavy" ||
             button.name == "Gaia" ||
             button.name == "Ouranos" || button.name == "Ouranos(Locked)" ||
             button.name == "Thalassa" || button.name == "Thalassa(Locked)" ||
-            button.name == "Gehenna" || button.name == "Gehenna(Locked)" )
+            button.name == "Gehenna" || button.name == "Gehenna(Locked)")
         {
             image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
         }
@@ -47,5 +47,10 @@ public class ButtonHighlightScript : MonoBehaviour
         image.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(250, 250);
         gameObject.transform.position = button.transform.position;
         image.enabled = true;
+    }
+
+    public void ResetHighlight()
+    {
+        image.enabled = false;
     }
 }

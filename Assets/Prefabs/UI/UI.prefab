@@ -624,10 +624,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelRewardMenu: {fileID: 450355510662168247}
+  _selectHighlight: {fileID: 4455048721823535960}
   augmentButtons:
   - {fileID: 8191608635368730963}
   - {fileID: 6343908986140095663}
   - {fileID: 4088331174249675021}
+  _enemySpawner: {fileID: 0}
   chosenAugments: []
   lootpool: {fileID: 11400000, guid: 1cdf4ba7be009f14e8adfe74877698b6, type: 2}
   maxRetryAugmentGenerate: 100
@@ -4490,7 +4492,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 2944653079927333401}
   bg: {fileID: 6843124886935268202}
+  _sceneToReloadTo: Title Screen
   delay: 1
+  clickDelay: 2
 --- !u!1 &3435339616566585894
 GameObject:
   m_ObjectHideFlags: 0

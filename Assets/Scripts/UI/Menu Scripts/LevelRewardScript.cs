@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class LevelRewardScript : MonoBehaviour
 {
     [SerializeField] GameObject levelRewardMenu;
+    [SerializeField] ButtonHighlightScript _selectHighlight;
     [SerializeField] GameObject[] augmentButtons;
     [SerializeField] EnemySpawner _enemySpawner;
 
@@ -41,6 +42,7 @@ public class LevelRewardScript : MonoBehaviour
         Time.timeScale = 1.0f;
         Debug.Log(gameObject);
         gameObject.SetActive(false);
+        _selectHighlight.ResetHighlight();
         ReloadAugments();
 
         choice = AugmentType.None;
