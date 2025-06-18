@@ -12,6 +12,7 @@ public class SaveManager : MonoBehaviour
 
     [SerializeField] private int _maxLevels = 3;
     [SerializeField] private bool _useRandomGen = false;
+    [SerializeReference] private List<EnemyWaveSet> _nonRandomGenWavesets;
 
     [Title("Stats")]
     [SerializeField] public PlayerStats CurrentStats;
@@ -21,6 +22,7 @@ public class SaveManager : MonoBehaviour
     [ReadOnly] public bool HadPlayedSave2;
     [ReadOnly] public bool HadPlayedSave3;
 
+
     void Awake()
     {
         if (Instance == null)
@@ -29,7 +31,7 @@ public class SaveManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         //Checks if save has been created after exiting game.
@@ -41,6 +43,7 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(path2)) HadPlayedSave2 = true;
         if (File.Exists(path3)) HadPlayedSave3 = true;
         if (File.Exists(gfxPath)) LoadSettings();
+
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -56,6 +59,17 @@ public class SaveManager : MonoBehaviour
             default:
                 CurrentStats.hasPlayed = 1;
                 break;
+        }
+    }
+
+    public EnemyWaveSet CurrentFloorWaveset
+    {
+        get
+        {
+            if (_nonRandomGenWavesets == null || !_useRandomGen) return null;
+            if (CurrentStats.DepthLevel > _nonRandomGenWavesets.Count) return null;
+            if (CurrentStats.DepthLevel <= 0) return null;
+            return _nonRandomGenWavesets[CurrentStats.DepthLevel - 1];
         }
     }
 

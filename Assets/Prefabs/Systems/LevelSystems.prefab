@@ -5254,6 +5254,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxLevels: 3
   _useRandomGen: 0
+  _nonRandomGenWavesets:
+  - {fileID: 11400000, guid: c3355151eafd3194baae2baf59fa0be8, type: 2}
+  - {fileID: 11400000, guid: 2cb83f0a9299c794d8374ba580d7a627, type: 2}
+  - {fileID: 11400000, guid: 5d5c4326b1cf49b4dabf1a39982206e7, type: 2}
+  - {fileID: 11400000, guid: 2b21e0b44a5703541b18865ad3e2c73d, type: 2}
   CurrentStats:
     Runs: 0
     DepthLevel: 0
@@ -11768,6 +11773,7 @@ MonoBehaviour:
     StanceSubtree: 1
     RefElement: 2
   debugAugmentType: 0
+  HubSelectedStance: 0
 --- !u!1 &8343308611638889769
 GameObject:
   m_ObjectHideFlags: 0

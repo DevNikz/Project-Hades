@@ -2,18 +2,21 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner Instance { get; private set;}
     void Start()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
-        else 
+        else
             Destroy(this);
-    }
 
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+    
     [SerializeReference] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeReference] private List<EnemyWave> waves;
     private int waveCounter = 0;
@@ -31,7 +34,10 @@ public class EnemySpawner : MonoBehaviour
         this._objectPool = this.gameObject.GetComponent<ObjectPool>();
     }
 
-
+    void OnSceneLoad(Scene scene, LoadSceneMode mode) {
+        if (SaveManager.Instance != null && SaveManager.Instance.CurrentFloorWaveset != null)
+            waves = SaveManager.Instance.CurrentFloorWaveset.EnemyWaves;
+    }
 
     // Update is called once per frame
     void Update()
