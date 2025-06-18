@@ -104,7 +104,7 @@ public class ItemManager : MonoBehaviour
         AddAugment(type);
     }
     
-    public AugmentType HubSelectedStance = AugmentType.None;
+    public AugmentType HubSelectedStance = AugmentType.Air;
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch (scene.buildIndex)
