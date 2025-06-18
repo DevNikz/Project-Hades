@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class MainMenu_Button_Script : MonoBehaviour
 {
     [SerializeField] private ASyncLoader asyncLoader;
+    [SerializeField] private bool _isHubAvailable = false;
 
     [SerializeField] private string sceneToLoad = "Tutorial";
     public void OnStartClick()
     {
         if (asyncLoader != null)
         {
-            if (SaveManager.Instance.CurrentStats.hasPlayed == 1)
+            if (SaveManager.Instance.CurrentStats.hasPlayed == 1 && _isHubAvailable)
                 sceneToLoad = "HubLevel";
             asyncLoader.LoadLevelBtn(sceneToLoad);
             SFXManager.Instance.SwitchAudio();

@@ -6,7 +6,11 @@ public class LoseScreen_Script : MonoBehaviour
 {
     [SerializeField] GameObject panel;
     [SerializeField] GameObject bg;
+    [SerializeField] string _sceneToReloadTo = "Title Screen";
     [SerializeField][Range(0.1f, 5f)] private float delay = 1f;
+    [SerializeField] private float clickDelay = 2.0f;
+    private float _showcaseTime = 0.0f;
+    private bool _isDisplayed = false;
 
     void Awake()
     {
@@ -17,24 +21,27 @@ public class LoseScreen_Script : MonoBehaviour
     void Update()
     {
         if(RevampPlayerStateHandler.Instance != null)
-        if (RevampPlayerStateHandler.Instance.gameObject.tag == "Player(Dead)")
+        if (RevampPlayerStateHandler.Instance.gameObject.tag == "Player(Dead)" && !_isDisplayed)
         {
+            _isDisplayed = true;   
             bg.SetActive(true);
             panel.SetActive(true);
+            _showcaseTime = Time.time + clickDelay;
+           
                 //Defeat();
+        }
 
-                if (Input.anyKeyDown && IsMouseOverGameWindow)
-                {
-                    Debug.Log("Pressed");
-                    Reset();
+        if (Input.anyKeyDown && IsMouseOverGameWindow && Time.time > _showcaseTime && _isDisplayed)
+        {
+            Debug.Log("Pressed");
+            Reset();
 
-                    //Disable
-                    panel.SetActive(false);
-                    bg.SetActive(false);
+            //Disable
+            panel.SetActive(false);
+            bg.SetActive(false);
 
-                    //GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("HubLevel");
-                    GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("Title Screen");
-                }
+            //GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel("HubLevel");
+            GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(_sceneToReloadTo);
         }
     }
 
@@ -42,6 +49,7 @@ public class LoseScreen_Script : MonoBehaviour
     {
         if (RevampPlayerStateHandler.Instance != null)
         {
+            _isDisplayed = false;
             RevampPlayerStateHandler.Instance.gameObject.tag = "Player";
             RevampPlayerStateHandler.Instance.ResetHealth();
             RevampPlayerStateHandler.Instance.ResetCharge();

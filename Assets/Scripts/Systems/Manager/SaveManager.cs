@@ -29,6 +29,8 @@ public class SaveManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         //Checks if save has been created after exiting game.
         string path1 = Application.persistentDataPath + "/playerSave1.sav";
@@ -39,6 +41,22 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(path2)) HadPlayedSave2 = true;
         if (File.Exists(path3)) HadPlayedSave3 = true;
         if (File.Exists(gfxPath)) LoadSettings();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.buildIndex)
+        {
+            case 0: // Main Menu
+            case 1: // Tutorial
+            case 2: // Hub
+                SetDepth(0);
+                SavePlayer();
+                break;
+            default:
+                CurrentStats.hasPlayed = 1;
+                break;
+        }
     }
 
     public void SavePlayer()

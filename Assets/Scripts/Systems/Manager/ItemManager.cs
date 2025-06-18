@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ItemManager : MonoBehaviour
 {
+#region References
     public static ItemManager Instance;
     //[SerializeField] private RevampPlayerStateHandler _player;
 
@@ -58,26 +60,18 @@ public class ItemManager : MonoBehaviour
 
     // Helper Fields
     private Dictionary<AugmentType, int> augmentIndexRef = new Dictionary<AugmentType, int>();
+#endregion
 
-    private void Awake() {
-        if(Instance == null) {
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
-        // Make aure all stackable augment counts are reset to 0
-        foreach (var augment in stackableAugments)
-            augment.Count = 0;
-        
-        // Remove unlock of all other augments as both stance and stance sub augments
-        foreach (var augment in stanceAugments)
-            augment.Unlocked = false;
-        foreach (var augment in stanceSubAugments)
-            augment.Unlocked = false;
-
-        // Unlock the first stance
-        stanceAugments[0].Unlocked = true;
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // Make sure that all augment indecies are correct
         augmentIndexRef.Clear();
@@ -86,15 +80,47 @@ public class ItemManager : MonoBehaviour
         int stanceAugmentCount = stanceAugments.Count;
         int stanceSubAugmentCount = stanceSubAugments.Count;
 
-        for(int i = 0; i < stackableAugmentCount; i++)
+        for (int i = 0; i < stackableAugmentCount; i++)
             augmentIndexRef.Add(stackableAugments[i].Augment.augmentType, i);
-        for(int i = 0; i < stanceAugmentCount; i++)
+        for (int i = 0; i < stanceAugmentCount; i++)
             augmentIndexRef.Add(stanceAugments[i].Augment.augmentType, i);
-        for(int i = 0; i < stanceSubAugmentCount; i++)
+        for (int i = 0; i < stanceSubAugmentCount; i++)
             augmentIndexRef.Add(stanceSubAugments[i].Augment.augmentType, i);
     }
 
-    public bool Earth{
+    private void ClearAugmentsExceptStance(AugmentType type)
+    {
+        // Make aure all stackable augment counts are reset to 0
+        foreach (var augment in stackableAugments)
+            augment.Count = 0;
+
+        // Remove unlock of all other augments as both stance and stance sub augments
+        foreach (var augment in stanceAugments)
+            augment.Unlocked = false;
+        foreach (var augment in stanceSubAugments)
+            augment.Unlocked = false;
+
+        // Unlock the the correct stance
+        AddAugment(type);
+    }
+    
+    public AugmentType HubSelectedStance = AugmentType.None;
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.buildIndex)
+        {
+            case 0: // Main Menu
+                ClearAugmentsExceptStance(AugmentType.Earth);
+                break;
+            case 1: // Tutorial
+            case 2: // Hub
+                ClearAugmentsExceptStance(HubSelectedStance);
+                break;
+        }
+    }
+
+    public bool Earth
+    {
         get { return stanceAugments[0].Unlocked; }
         set { stanceAugments[0].Unlocked = value; }
     }
