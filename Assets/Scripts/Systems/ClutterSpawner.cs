@@ -11,15 +11,21 @@ public class ClutterSpawner : MonoBehaviour
     [SerializeField] private float _density;
     [SerializeField] private bool _randomizeOnLoad;
     [SerializeField] private List<GameObject> _clutterPrefabs = new();
-    [SerializeField,HideInInspector] List<GameObject> _spawnedObjects = new();
-    [SerializeField, HideInInspector] List<MeshRenderer> _meshObjects = new();
+    [SerializeField] List<GameObject> _spawnedObjects = new();
+    [SerializeField] List<MeshRenderer> _meshObjects = new();
 
     void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (_randomizeOnLoad)
             SpawnClutter();
+        else
+        {
+            //GetSpawnedObjects();
+            GetMeshObjects();
+            if (GameSetting.Instance != null) SetClutterVisiblity(GameSetting.Instance.highDetail);
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -30,13 +36,31 @@ public class ClutterSpawner : MonoBehaviour
         }
     }
 
+    void GetSpawnedObjects()
+    {
+        _spawnedObjects.Clear();
+        _spawnedObjects.AddRange(transform.GetComponentsInChildren<GameObject>());
+    }
+
     void GetMeshObjects()
     {
         _meshObjects.Clear();
-        foreach (GameObject obj in _spawnedObjects)
+        _meshObjects.AddRange(transform.GetComponentsInChildren<MeshRenderer>());
+        // if (_spawnedObjects != null)
+        // {
+        //     for (int i = 0; i < _spawnedObjects.Count; i++)
+        //     {
+        //         _meshObjects.Add(_spawnedObjects[i].GetComponent<MeshRenderer>());
+        //     }
+        // }
+    }
+
+    void Update()
+    {
+        if (GameSetting.Instance != null)
         {
-            _meshObjects.Add(obj.GetComponent<MeshRenderer>());
-        }
+            SetClutterVisiblity(GameSetting.Instance.highDetail);
+        }   
     }
 
     public void SetClutterVisiblity(bool value)
@@ -44,7 +68,7 @@ public class ClutterSpawner : MonoBehaviour
         GetMeshObjects();
         foreach (MeshRenderer m in _meshObjects)
         {
-            if (GameSetting.Instance != null) m.enabled = value;
+            m.enabled = value;
         }
     }
 

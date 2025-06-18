@@ -27,23 +27,28 @@ public class GameSetting : MonoBehaviour
         SetDetailMode(SaveManager.Instance.CurrentSettings.detail != 0);
     }
 
-    void SetDetail(bool value)
-    {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Clutter");
+    // IEnumerator SetDetail(bool value)
+    // {
+    //     GameObject[] temp = GameObject.FindGameObjectsWithTag("Clutter");
 
-        if (temp != null)
-        {
-            foreach (GameObject obj in temp)
-            {
-                clutterSpawners.Add(obj.GetComponent<ClutterSpawner>());
-            }
 
-            foreach (ClutterSpawner cs in clutterSpawners)
-            {
-                cs.SetClutterVisiblity(value);
-            }
-        }
-    }
+    //     if (temp != null)
+    //     {
+    //         foreach (GameObject obj in temp)
+    //         {
+    //             clutterSpawners.Add(obj.GetComponent<ClutterSpawner>());
+    //         }
+
+    //         yield return new WaitForSeconds(1f);
+
+    //         foreach (ClutterSpawner cs in clutterSpawners)
+    //         {
+    //             cs.SetClutterVisiblity(value);
+    //         }
+    //     }
+
+    //     yield return null;
+    // }
 
     public void SetScreenMode(bool value)
     {
@@ -66,6 +71,6 @@ public class GameSetting : MonoBehaviour
     public void SetDetailMode(bool value)
     {
         highDetail = value;
-        SetDetail(value);
+        // StartCoroutine(SetDetail(value));
     }
 }
