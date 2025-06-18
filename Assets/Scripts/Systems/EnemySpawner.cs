@@ -62,7 +62,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnWave()
     {
-        if(spawnPoints.Count <= 0) return;
+        if (waves.Count <= 0) return;
+        if (spawnPoints.Count <= 0) return;
 
         for (int i = 0; i < waves[waveCounter].EnemyList.Count; i++)
         {
