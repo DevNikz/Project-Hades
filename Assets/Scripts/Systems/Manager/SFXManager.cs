@@ -11,8 +11,6 @@ public class SFXManager : MonoBehaviour
 
     public Sound[] sounds;
 
-    //[SerializeField] public AudioClip[] soundList; //array of just clips
-
     [SerializeField] AudioSource sfxSource;
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource menuSource;
@@ -162,9 +160,7 @@ public class SFXManager : MonoBehaviour
 
     public void PlayMusic(string name)
     {
-        //AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         Sound s = Array.Find(sounds, sound => sound.name == name);
-
         if (s == null || s.clip == null || musicSource == null) return;
 
         musicSource.clip = s.clip;
@@ -180,11 +176,31 @@ public class SFXManager : MonoBehaviour
 
     public void PlaySFX(string name)
     {
-        //AudioClip clip = Array.Find(soundList, sound => sound.name == name);
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null || s.clip == null || sfxSource == null) return;
         
-        sfxSource.PlayOneShot(s.clip, s.volume); // hard set to half volume since all clips are reduced more than this in old array
+        sfxSource.PlayOneShot(s.clip, s.volume);
+    }
+
+    public void PlayAlertLevelSFX(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null || s.clip == null || sfxSource == null) return;
+
+        switch(name)
+        {
+            case "AlertLevel1":
+                sfxSource.clip = s.clip;
+                sfxSource.loop = true;
+                sfxSource.Play();
+                break;
+            default:
+                sfxSource.Stop();
+                sfxSource.clip = s.clip;
+                sfxSource.loop = true;
+                sfxSource.Play();
+                break;
+        }
     }
 
     public void PlayMenu(string name) //not used?
