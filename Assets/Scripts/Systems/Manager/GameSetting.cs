@@ -23,6 +23,7 @@ public class GameSetting : MonoBehaviour
     void Start()
     {
         SetScreenMode(SaveManager.Instance.CurrentSettings.screenMode != 0);
+        SetVsync(SaveManager.Instance.CurrentSettings.vsync != 0);
         SetDifficulty(SaveManager.Instance.CurrentSettings.difficulty != 0);
         SetDetailMode(SaveManager.Instance.CurrentSettings.detail != 0);
     }
@@ -49,6 +50,11 @@ public class GameSetting : MonoBehaviour
 
     //     yield return null;
     // }
+
+    public void SetVsync(bool value)
+    {
+        QualitySettings.vSyncCount = value ? 1 : 0;
+    }
 
     public void SetScreenMode(bool value)
     {

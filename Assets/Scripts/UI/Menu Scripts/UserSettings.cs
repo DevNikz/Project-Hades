@@ -16,8 +16,9 @@ public class UserSettings : MonoBehaviour
     public void LoadSettings()
     {
         toggle[0].isOn = SaveManager.Instance.CurrentSettings.screenMode != 0;
-        toggle[1].isOn = SaveManager.Instance.CurrentSettings.difficulty != 0;
+        toggle[1].isOn = SaveManager.Instance.CurrentSettings.vsync != 0;
         toggle[2].isOn = SaveManager.Instance.CurrentSettings.detail != 0;
+        toggle[3].isOn = SaveManager.Instance.CurrentSettings.difficulty != 0;
     }
 
     public void SetScreenMode()
@@ -27,10 +28,10 @@ public class UserSettings : MonoBehaviour
         isFullscreen = toggle[0].isOn;
     }
 
-    public void SetDifficulty()
+    public void SetVsync()
     {
-        if (GameSetting.Instance != null) GameSetting.Instance.SetDifficulty(toggle[1].isOn);
-        SaveManager.Instance.CurrentSettings.screenMode = toggle[1].isOn ? 1 : 0;
+        if (GameSetting.Instance != null) GameSetting.Instance.SetVsync(toggle[1].isOn);
+        SaveManager.Instance.CurrentSettings.vsync = toggle[1].isOn ? 1 : 0;
     }
 
     public void SetDetailMode()
@@ -38,6 +39,10 @@ public class UserSettings : MonoBehaviour
         if (GameSetting.Instance != null) GameSetting.Instance.SetDetailMode(toggle[2].isOn);
         SaveManager.Instance.CurrentSettings.detail = toggle[2].isOn ? 1 : 0;
     }
-
+    public void SetDifficulty()
+    {
+        if (GameSetting.Instance != null) GameSetting.Instance.SetDifficulty(toggle[3].isOn);
+        SaveManager.Instance.CurrentSettings.screenMode = toggle[3].isOn ? 1 : 0;
+    }
 
 }

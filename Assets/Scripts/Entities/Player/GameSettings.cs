@@ -7,6 +7,7 @@ public class GameSettings {
     public float gameplayVolume;
     public float menuVolume;
     public int screenMode;
+    public int vsync;
     public int difficulty;
     public int detail;
     public GameSettings()
@@ -16,6 +17,7 @@ public class GameSettings {
         gameplayVolume = 1f;
         menuVolume = 1f;
         screenMode = 1;
+        vsync = 1;
         difficulty = 0;
         detail = 1;
     }
@@ -27,6 +29,7 @@ public class GameSettings {
         gameplayVolume = player.CurrentSettings.gameplayVolume;
         menuVolume = player.CurrentSettings.menuVolume;
         screenMode = player.CurrentSettings.screenMode;
+        vsync = player.CurrentSettings.vsync;
         difficulty = player.CurrentSettings.difficulty;
         detail = player.CurrentSettings.detail;
     }
