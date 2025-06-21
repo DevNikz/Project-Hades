@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAnimation : MonoBehaviour
 {
     public Animator spriteAnimator;
+    public Animator vfxAnimator;
     public float rotation = 45f;
     public EntityDirection entityDirection;
     public EntityMovement entityMovement;
@@ -23,9 +24,11 @@ public class EnemyAnimation : MonoBehaviour
     public void OnEnable()
     {
         spriteAnimator = transform.Find("EnemySprite").GetComponent<Animator>();
+        vfxAnimator = transform.Find("VfxSprite").GetComponent<Animator>();
         action = this.gameObject.GetComponentInParent<EnemyAction>();
         entityMovement = EntityMovement.Idle;
         spriteAnimator.Play("Idle");
+        vfxAnimator.Play("Idle");
 
         xScale = spriteAnimator.gameObject.transform.localScale.x;
         Scale = spriteAnimator.gameObject.transform.localScale;
@@ -146,6 +149,11 @@ public class EnemyAnimation : MonoBehaviour
         }
 
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+    }
+
+    public void PlayStatusVFX(string name)
+    {
+        vfxAnimator.Play(name);
     }
 
     public EntityDirection IsoCompass(float x, float z)

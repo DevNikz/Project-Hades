@@ -35,7 +35,6 @@ public class SightTrigger : MonoBehaviour
         viewMeshFilter.mesh = viewMesh;
 
         StartCoroutine("FindTargetsWithDelay", .2f);
-        //SFXManager.Instance.PlayAlertLevelSFX("AlertLevel1");
     }
 
     public void AllAggro()
@@ -46,7 +45,8 @@ public class SightTrigger : MonoBehaviour
         {
             st[i].GetComponentInParent<EnemyAction>().SetAction(1);
         }
-        //SFXManager.Instance.PlayAlertLevelSFX("AlertLevel3");
+        
+        SFXManager.Instance.PlaySFX("Alerted");
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -83,7 +83,6 @@ public class SightTrigger : MonoBehaviour
                         isAttacking = true;
                         if (this.GetComponentInParent<EnemyAction>() != null)
                         {
-                            //SFXManager.Instance.PlayAlertLevelSFX("Alerted");
                             //this.GetComponentInParent<EnemyAction>().SetAction(1);
                             AllAggro();
                         }
@@ -113,7 +112,6 @@ public class SightTrigger : MonoBehaviour
                         isAttacking = true;
                         if (this.GetComponentInParent<EnemyAction>() != null)
                         {
-                            //SFXManager.Instance.PlayAlertLevelSFX("Alerted");
                             //this.GetComponentInParent<EnemyAction>().SetAction(1);
                             AllAggro();
                         }

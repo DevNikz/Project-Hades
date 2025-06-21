@@ -19,6 +19,7 @@ public class SFXManager : MonoBehaviour
     [Range(0.1f, 10f)][SerializeField] public float fadeThreshold = 0.1f;
     [ReadOnly] public float volumeTemp;
 
+    private bool hasPlayedAlert;
 
     private void Awake()
     {
@@ -28,6 +29,8 @@ public class SFXManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        hasPlayedAlert = false;
     }
 
     private void Start()
@@ -178,7 +181,17 @@ public class SFXManager : MonoBehaviour
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null || s.clip == null || sfxSource == null) return;    
-        sfxSource.PlayOneShot(s.clip, s.volume);
+        
+        if(name == "Alerted")
+        {
+            if (!hasPlayedAlert)
+            {
+                sfxSource.PlayOneShot(s.clip, s.volume);
+                hasPlayedAlert = true;
+            }
+            else return;
+        }
+        else sfxSource.PlayOneShot(s.clip, s.volume);
     }
 
     public void PlaySFXAtPosition(string name, Vector3 position)
@@ -202,28 +215,6 @@ public class SFXManager : MonoBehaviour
         tempSource.Play();
 
         Destroy(tempGO, s.clip.length / tempSource.pitch);
-    }
-
-
-    public void PlayAlertLevelSFX(string name)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null || s.clip == null || sfxSource == null) return;
-
-        switch(name)
-        {
-            case "AlertLevel1":
-                sfxSource.clip = s.clip;
-                sfxSource.loop = true;
-                sfxSource.Play();
-                break;
-            default:
-                sfxSource.Stop();
-                sfxSource.clip = s.clip;
-                sfxSource.loop = true;
-                sfxSource.Play();
-                break;
-        }
     }
 
     public void PlayMenu(string name) //not used?

@@ -43,6 +43,7 @@ public class EnemyController : MonoBehaviour
     public bool IsDead { get { return currentHealth <= 0; } }
 
     private EnemyAction _enemyAction;
+    private EnemyAnimation _enemyAnimation;
 
     [SerializeField] private float stunTimer;
     [SerializeField] private float rustTimer;
@@ -102,6 +103,7 @@ public class EnemyController : MonoBehaviour
     private float maxHP;
     void Start() {
         _enemyAction = this.GetComponent<EnemyAction>();
+        _enemyAnimation = this.GetComponentInChildren<EnemyAnimation>();
 
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
@@ -270,7 +272,11 @@ public class EnemyController : MonoBehaviour
 
     public void ApplyRust(float amount){
         if(!IsRusted)
+        {
             rustBuildup += amount;
+            _enemyAnimation.PlayStatusVFX("Corrosion_VFX");
+        }
+            
     }
 
     public void Stun(float length){
@@ -278,15 +284,21 @@ public class EnemyController : MonoBehaviour
 
         stunTimer = length;
         sprite.color = StatCalculator.Instance.StunnedColor;
+        _enemyAnimation.PlayStatusVFX("Stun_VFX");
     }
 
     public void SetSlow(float length){
         slowTimer = length;
+        _enemyAnimation.PlayStatusVFX("Slow_VFX");
     }
 
     public void ApplyBurn(float length){
         if(!IsBurning)
+        {
             burnTimer = length;
+            _enemyAnimation.PlayStatusVFX("Burn_VFX");
+        }
+            
     }
 
     public void ApplyKnockedbackState(float length){
