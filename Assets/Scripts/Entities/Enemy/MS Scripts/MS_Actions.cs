@@ -54,7 +54,7 @@ public class MS_Actions : EnemyAction
         gameObject.transform.LookAt(Player.transform.position);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
-        findPoint(20f);
+        findPoint(10f);
     }
 
     private void findPoint(float multiplier)
