@@ -40,6 +40,8 @@ public class EnemyController : MonoBehaviour
     }
     public bool IsKnockedback = false;
 
+    public bool IsDead { get { return currentHealth <= 0; } }
+
     private EnemyAction _enemyAction;
 
     [SerializeField] private float stunTimer;
@@ -383,6 +385,8 @@ public class EnemyController : MonoBehaviour
     }
 
     public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain, bool isCritical = false) {
+        if (this.currentHealth <= 0) return;
+
         //SFX Play
         SFXPlayer(detain);
 

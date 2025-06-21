@@ -51,6 +51,7 @@ public class ButtonHighlightScript : MonoBehaviour
 
     public void ResetHighlight()
     {
+        if(image != null)
         image.enabled = false;
     }
 }

@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2329499c69403c46affb2a3a8d890ea, type: 3}
   m_Name: AirSpecial1
   m_EditorClassIdentifier: 
-  BaseDamage: 10
-  BasePoiseDamage: 0
-  BaseCritRate: 0
-  BaseKnockback: 5
+  BaseDamage: 20
+  FullChargeDamageScalar: 1.1
+  BasePoiseDamage: 30
+  FullChargePoiseScalar: 1.1
+  BaseCritRate: 0.1
+  FullChargeCritScalar: 1.3
+  BaseKnockback: 0.2
+  FullChargeKnockbackScalar: 1.1
+  FullChargeTime: 2
   ManaCost: 0
-  ManaReward: 40
+  ManaReward: 80
   MaxMoveSpeed: 3
   AnimationClipName: WindSkill_1
   VFXAnimClipName: 
-  HitboxTiming: 0.1
-  HitboxLingerTime: 0.3
-  EarliestTimeForNextAttack: 0.5
-  ComboInputWindowMaxTime: 1
-  AnimationHoldLength: 1
-  AttackForgottenTime: 1.2
   ComboMissPunishTime: 0
+  SFXClipName: 

@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2329499c69403c46affb2a3a8d890ea, type: 3}
   m_Name: EarthSpecial2
   m_EditorClassIdentifier: 
-  BaseDamage: 10
-  BasePoiseDamage: 30
-  BaseCritRate: 0
-  BaseKnockback: 0
+  BaseDamage: 40
+  FullChargeDamageScalar: 1.2
+  BasePoiseDamage: 160
+  FullChargePoiseScalar: 1.5
+  BaseCritRate: 0.1
+  FullChargeCritScalar: 1.2
+  BaseKnockback: 1
+  FullChargeKnockbackScalar: 1.3
+  FullChargeTime: 1
   ManaCost: 60
   ManaReward: 0
   MaxMoveSpeed: 3
   AnimationClipName: EarthSkill_1
   VFXAnimClipName: 
-  HitboxTiming: 0.1
-  HitboxLingerTime: 0.3
-  EarliestTimeForNextAttack: 0.5
-  ComboInputWindowMaxTime: 1
-  AnimationHoldLength: 1
-  AttackForgottenTime: 1.2
   ComboMissPunishTime: 0
+  SFXClipName: 

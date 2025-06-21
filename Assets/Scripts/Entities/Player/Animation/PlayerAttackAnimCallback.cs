@@ -5,4 +5,5 @@ using UnityEngine;
 public class PlayerAttackAnimCallback : MonoBehaviour
 {
     [SerializeField] public bool _isAttacking = false;
+    [SerializeField] public bool _isInvulnerable = false;
 }
