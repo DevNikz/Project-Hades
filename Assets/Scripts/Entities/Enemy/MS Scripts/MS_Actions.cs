@@ -35,7 +35,7 @@ public class MS_Actions : EnemyAction
         if (!IsAttacking)
             Agent.SetDestination(Player.transform.position);
 
-        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < chargeDistance)
+        if (!IsAttacking && Agent.remainingDistance < chargeDistance)
             Attacking();
 
         if (IsAttacking && Agent.remainingDistance <= Agent.stoppingDistance)

@@ -27,7 +27,7 @@ public class LC_Actions : EnemyAction
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
         }
 
-        if (!IsAttacking && Vector3.Distance(this.transform.position, Player.transform.position) < Agent.stoppingDistance)
+        if (!IsAttacking && Agent.remainingDistance < Agent.stoppingDistance)
         {
             IsAttacking = true;
             Agent.isStopped = true;
