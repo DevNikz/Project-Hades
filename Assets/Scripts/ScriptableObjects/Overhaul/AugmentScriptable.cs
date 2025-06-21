@@ -34,12 +34,12 @@ public class AugmentScriptable : ScriptableObject
     
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)][HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Description", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)][TextArea(1, 5)]
     public string augmentDescription;
 
     [VerticalGroup("Attributes/base/right")]
     [BoxGroup("Attributes/base/right/box2", showLabel: false)]
-    [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)]
+    [LabelWidth(100)][HideLabel] [Title("Lore", TitleAlignment = TitleAlignments.Centered, HorizontalLine = false, Bold = false)][TextArea(1, 5)]
     public string augmentLore;
 
     public float augmentPower;
