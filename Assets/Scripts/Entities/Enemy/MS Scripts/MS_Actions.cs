@@ -13,6 +13,7 @@ public class MS_Actions : EnemyAction
     private float _originalSpeed;
     [SerializeField] private float chargeDistance = 5;
     private bool  isCharging = false;
+    private int count = 0;
 
     protected override void BonusOnEnable()
     {
@@ -53,7 +54,7 @@ public class MS_Actions : EnemyAction
         gameObject.transform.LookAt(Player.transform.position);
         this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
-        findPoint(10f);
+        findPoint(20f);
     }
 
     private void findPoint(float multiplier)
@@ -86,6 +87,15 @@ public class MS_Actions : EnemyAction
         this._attackHitbox.SetActive(false);
         //this.gameObject.GetComponent<BoxCollider>().enabled = true;
         this.SetAction(1);
-        this.Cooldown = this.AttackRate;
+        if (count >= 3)
+        {
+            count = 0;
+            this.Cooldown = this.AttackRate;
+        }
+        else
+        {
+            count++;
+            this.Cooldown = 0.2f;
+        }
     }
 }
