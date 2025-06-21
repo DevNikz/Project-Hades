@@ -8,13 +8,13 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private bool _isOneshot;
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<PlayerController>(out var player))
+        if (other.gameObject.TryGetComponent<RevampPlayerController>(out var player))
         {
             DialogueManager.Instance.StartDialoge(_targetDialogueTag);
 
             if (_isOneshot)
             {
-                this.enabled = false;
+                gameObject.SetActive(false);
             }
         }
     }

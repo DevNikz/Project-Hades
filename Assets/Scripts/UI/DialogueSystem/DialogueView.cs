@@ -30,13 +30,18 @@ public class DialogueView : MonoBehaviour
     IEnumerator TextCrawl(string text, float timePerCharacter)
     {
         _isTextCrawling = true;
-
+        float elapsedTime = 0.0f;
         int index = 0;
         while (index < text.Length && _isTextCrawling)
         {
-            _textbox.text = text.Substring(0, index);
-            index++;
-            yield return new WaitForSeconds(timePerCharacter);
+            elapsedTime += Time.unscaledDeltaTime;
+            if (elapsedTime >= timePerCharacter)
+            {
+                _textbox.text = text.Substring(0, index);
+                index++;
+                elapsedTime = 0.0f;
+            }
+            yield return new WaitForEndOfFrame();
         }
         _textbox.text = text;
 

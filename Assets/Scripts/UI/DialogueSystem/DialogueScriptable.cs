@@ -6,5 +6,6 @@ using UnityEngine;
 public class DialogueScriptable : ScriptableObject
 {
     public string DialogueTag;
+    [TextArea(1, 5)]
     public List<string> DialogueLines;
 }

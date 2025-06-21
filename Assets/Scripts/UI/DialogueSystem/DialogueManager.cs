@@ -36,6 +36,8 @@ public class DialogueManager : MonoBehaviour
         _currentDialogueLineIndex = 0;
 
         _dialogueView.gameObject.SetActive(true);
+        _dialogueView.DialogueBoxClickCallback();
+        Time.timeScale = 0;
     }
 
     public string GetNextDialogueLine()
@@ -61,6 +63,7 @@ public class DialogueManager : MonoBehaviour
         _currentDialogue = null;
         _currentDialogueLineIndex = -1;
         _dialogueView.gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void DialogueBoxClickCallback()

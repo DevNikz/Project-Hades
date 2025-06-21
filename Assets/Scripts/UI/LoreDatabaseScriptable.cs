@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LoreDatabase", menuName = "ProjectHades/General/LoreDatabase", order = 1)]
 public class LoreDatabaseScriptable : ScriptableObject
 {
+    [TextArea(1, 5)]
     [SerializeField] public List<string> LoreList = new();
     public string GetRandomLorebit()
     {
