@@ -6,61 +6,61 @@ using UnityEngine;
 public class EnemyStatsScriptable : ScriptableObject 
 {
     [PropertySpace] [TitleGroup("Attributes", "General Enemy Attributes", alignment: TitleAlignments.Centered)]
-    [InfoBox("Enemy Type", InfoMessageType.None)]
+    // [InfoBox("Enemy Type", InfoMessageType.None)]
     [Required] public EnemyType enemyType;
 
-    [PropertySpace] [InfoBox("Enemy Max HP (Default = 100)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Enemy Max HP (Default = 100)", InfoMessageType.None)]
     [Required] [Range(0f, 10000f)] public float maxHP = 100f;
 
-    [PropertySpace] [InfoBox("Enemy Max Poise (Default = 100)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Enemy Max Poise (Default = 100)", InfoMessageType.None)]
     [Required] [Range(0f, 10000f)] public float maxPoise = 100f;
 
-    [PropertySpace] [InfoBox("Stun Resist (Default = 1)", InfoMessageType.None)]
-    [Required] [Range(0f, 100f)] public float stunResist = 1f;
+    // [PropertySpace] [InfoBox("Stun Resist (Default = 1)", InfoMessageType.None)]
+    [Required] [Range(0f, 1f)] public float stunResist = 1f;
 
-    [PropertySpace] [InfoBox("Damage Resist (Default = 1)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Damage Resist (Default = 1)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float damageResist = 1f;
     
-    [PropertySpace] [InfoBox("Attack Rate (Default = 0.5)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Attack Rate (Default = 0.5)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float attackRate = 0.5f;
     
-    [PropertySpace] [InfoBox("Movement Speed (Default = 10)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Movement Speed (Default = 10)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float moveSpeed = 10f;
     
-    [PropertySpace] [InfoBox("Stopping Distance (Default = 5)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Stopping Distance (Default = 5)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float stoppingDistance = 5f;
     
-    [PropertySpace] [InfoBox("Wander Range (Default = 5)", InfoMessageType.None)]
+    // [PropertySpace] [InfoBox("Wander Range (Default = 5)", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float wanderRange = 5f;
 
     [PropertySpace] [TitleGroup("Timer Properties", "Enemy Timer Properties", alignment: TitleAlignments.Centered)]
-    [InfoBox("Timer Delay", InfoMessageType.None)]
+    // [InfoBox("Timer Delay", InfoMessageType.None)]
     [Required] [Range(0f, 100f)] public float timerDelay = 2f;
 
     [PropertySpace]
     [TitleGroup("Timer Properties", "Max Cooldown Timer", alignment: TitleAlignments.Centered)]
-    [InfoBox("Max Cooldown", InfoMessageType.None)]
+    // [InfoBox("Max Cooldown", InfoMessageType.None)]
     [Required][Range(0f, 100f)] public float _maxCooldown = 2f;
 
     [PropertySpace] [TitleGroup("Loot Properties", "Enemy Loot Drops!", alignment: TitleAlignments.Centered)]
     [AssetList(Path = "/Resources/Items")]
-    [InfoBox("Assign Loot when Detained", InfoMessageType.None)]
+    // [InfoBox("Assign Loot when Detained", InfoMessageType.None)]
     [Required] public GameObject[] lootDetained;
 
     [PropertySpace] [AssetList(Path = "/Resources/Items")]
-    [InfoBox("Assign Loot when Killed", InfoMessageType.None)]
+    // [InfoBox("Assign Loot when Killed", InfoMessageType.None)]
     [Required] public GameObject[] lootKilled;
 
-    [PropertySpace, InfoBox("Scrap Count when killed", InfoMessageType.None)]
+    // [PropertySpace, InfoBox("Scrap Count when killed", InfoMessageType.None)]
     [Required] [Range(1f, 10000f)] public int scrapCount = 1;
 
     [PropertySpace] [TitleGroup("References", "General References to Assets", alignment: TitleAlignments.Centered)]
     [AssetList(Path = "/Resources/Enemy/Animation")]
-    [InfoBox("Assign Reference To Enemy Animation Clips", InfoMessageType.None)]
+    // [InfoBox("Assign Reference To Enemy Animation Clips", InfoMessageType.None)]
     [Required] public AnimationClip[] animationClips;
 
     [PropertySpace] [AssetList(Path = "/Resources/Enemy/Scripts")]
-    [InfoBox("Assign Reference To Enemy AI Scripts", InfoMessageType.None)]
+    // [InfoBox("Assign Reference To Enemy AI Scripts", InfoMessageType.None)]
     [Required] public AnimationClip[] AIScripts;
     
 }

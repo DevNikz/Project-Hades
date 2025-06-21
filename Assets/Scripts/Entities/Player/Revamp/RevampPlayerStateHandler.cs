@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class RevampPlayerStateHandler : MonoBehaviour
 {
+    // []
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Slider _manaBar;
     [SerializeReference] private PlayerCombatStats _playerCombatStats;
