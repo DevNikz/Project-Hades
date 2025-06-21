@@ -177,10 +177,33 @@ public class SFXManager : MonoBehaviour
     public void PlaySFX(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null || s.clip == null || sfxSource == null) return;
-        
+        if (s == null || s.clip == null || sfxSource == null) return;    
         sfxSource.PlayOneShot(s.clip, s.volume);
     }
+
+    public void PlaySFXAtPosition(string name, Vector3 position)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null || s.clip == null) return;
+
+        GameObject tempGO = new GameObject("TempSFX3D_" + s.name);
+        tempGO.transform.position = position;
+
+        AudioSource tempSource = tempGO.AddComponent<AudioSource>();
+        tempSource.clip = s.clip;
+        tempSource.volume = s.volume;
+        tempSource.pitch = UnityEngine.Random.Range(0.95f, 1.05f);
+        tempSource.outputAudioMixerGroup = sfxSource.outputAudioMixerGroup;
+        tempSource.spatialBlend = 1.0f;
+        tempSource.minDistance = 1.0f;  
+        tempSource.maxDistance = 90.0f;
+        tempSource.rolloffMode = AudioRolloffMode.Linear;
+
+        tempSource.Play();
+
+        Destroy(tempGO, s.clip.length / tempSource.pitch);
+    }
+
 
     public void PlayAlertLevelSFX(string name)
     {

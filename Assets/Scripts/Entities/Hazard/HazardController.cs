@@ -142,7 +142,7 @@ public class HazardController : MonoBehaviour
             visualBox.SetActive(true);
             tempTimer = curTimer;
             timerState = TimerState.Start;
-            SFXManager.Instance.PlaySFX("Falling_Debris");
+            SFXManager.Instance.PlaySFXAtPosition("Falling_Debris", transform.position);
         }
         else if(counter > 11) counter = 11;
     }

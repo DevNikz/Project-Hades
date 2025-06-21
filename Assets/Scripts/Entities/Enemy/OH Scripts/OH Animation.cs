@@ -14,7 +14,7 @@ public class OHAnimation : EnemyAnimation
             case 1:
                 spriteAnimator.Play("OH Charging");
                 if (getPrevAction() != 1)
-                    SFXManager.Instance.PlaySFX("OHCharging");
+                    SFXManager.Instance.PlaySFXAtPosition("OH_Charge", transform.position);
                 break;
             case 2:
                 spriteAnimator.Play("OH Trotting");

@@ -69,7 +69,7 @@ public class EnemyAnimation : MonoBehaviour
         
         isHit = true;
         spriteAnimator.Play("Hit");
-        SFXManager.Instance.PlaySFX("Robot_Damaged_SFX");
+        SFXManager.Instance.PlaySFXAtPosition("Robot_Damaged_SFX", transform.position);
     }
 
     public virtual void SetStun(AttackDirection attackDirection, float duration)
@@ -78,7 +78,7 @@ public class EnemyAnimation : MonoBehaviour
 
         isStun = true;
         spriteAnimator.Play("Stun");
-        SFXManager.Instance.PlaySFX("Enemy_Stun");
+        SFXManager.Instance.PlaySFXAtPosition("Enemy_Stun", transform.position);
     }
 
     public virtual void SetShoot(AttackDirection attackDirection)
@@ -94,7 +94,7 @@ public class EnemyAnimation : MonoBehaviour
         action.CancelInvoke();
         action.Cooldown = 10;
         spriteAnimator.Play("Death");
-        SFXManager.Instance.PlaySFX("Robot_Death_Kill");
+        SFXManager.Instance.PlaySFXAtPosition("Robot_Death_Kill", transform.position);
         this.gameObject.GetComponentInParent<Collider>().enabled = false;
     }
 

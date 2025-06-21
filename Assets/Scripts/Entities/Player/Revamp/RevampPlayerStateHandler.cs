@@ -105,8 +105,8 @@ public class RevampPlayerStateHandler : MonoBehaviour
     void TriggerRandomHurtSFX()
     {
         if(SFXManager.Instance != null)
-            SFXManager.Instance.PlaySFX($"Player_Hurt_{Random.Range(1, 3)}");
-            //SFXManager.Instance.Play($"PlayerHurt{Random.Range(1, 3)}");
+            SFXManager.Instance.PlaySFXAtPosition($"Player_Hurt_{Random.Range(1, 3)}", transform.position);
+        //SFXManager.Instance.Play($"PlayerHurt{Random.Range(1, 3)}");
     }
 
     public void ResetHealth()

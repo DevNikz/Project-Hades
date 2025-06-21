@@ -22,14 +22,14 @@ public class CronosAnimation : EnemyAnimation
                 if (this.getPrevAction() != 3)
                 {
                     spriteAnimator.Play("Reap");
-                    SFXManager.Instance.PlaySFX("CronosSwing");
+                    SFXManager.Instance.PlaySFXAtPosition("CronosSwing", transform.position);
                 }
                 break;
             case 4:
                 if (this.getPrevAction() != 4)
                 {
                     spriteAnimator.Play("Dash");
-                    SFXManager.Instance.PlaySFX("CronosCharge");
+                    SFXManager.Instance.PlaySFXAtPosition("CronosCharge", transform.position);
                 }
                 break;
             default:

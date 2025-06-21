@@ -21,7 +21,7 @@ public class BugEAnimation : EnemyAnimation
             case 3:
                 spriteAnimator.Play("Shoot");
                 if (getPrevAction() != 3)
-                    SFXManager.Instance.PlaySFX($"BugE_ShootV{UnityEngine.Random.Range(1, 2)}");
+                    SFXManager.Instance.PlaySFXAtPosition($"BugE_ShootV{UnityEngine.Random.Range(1, 2)}", transform.position);
                 break;
             default:
                 spriteAnimator.Play("Idle");

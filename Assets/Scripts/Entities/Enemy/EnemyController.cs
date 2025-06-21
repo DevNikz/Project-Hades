@@ -376,7 +376,7 @@ public class EnemyController : MonoBehaviour
                 break;
             case Detain.No:
                 //SFXManager.Instance.Play("RobotDamaged");
-                SFXManager.Instance.PlaySFX("Robot_Damaged_SFX");
+                SFXManager.Instance.PlaySFXAtPosition("Robot_Damaged_SFX", this.transform.position);
                 hasBeenDetained = false;
                 break;
         }

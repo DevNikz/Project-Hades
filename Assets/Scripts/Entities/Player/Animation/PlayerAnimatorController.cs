@@ -303,7 +303,7 @@ public class PlayerAnimatorController : MonoBehaviour
         vfxAnimator.SetBool("isAttacking",true);
         animator.Play(animationName);
         vfxAnimator.Play(vfxAnimName);
-        SFXManager.Instance.PlaySFX(sfxClipName);
+        SFXManager.Instance.PlaySFXAtPosition(sfxClipName, transform.position);
     }
 
     public void ResetAttack()
