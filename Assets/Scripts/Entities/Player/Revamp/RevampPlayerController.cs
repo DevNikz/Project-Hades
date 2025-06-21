@@ -287,10 +287,14 @@ public class RevampPlayerController : MonoBehaviour
         _rigidbody.drag = 0.0f;
         if (_stateHandler.CurrentState != EntityState.Attack)
             _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
-            // _rigidbody.AddForce(, ForceMode.Impulse);
+        // _rigidbody.AddForce(, ForceMode.Impulse);
         else
         {
-            _rigidbody.velocity = 100.0f * Math.Min(LastUsedAttack.MaxMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+            // If the attack anim callback is less than 0, disables custom per frame speed, using the attack's max movespeed, otherwise, prefers the per frame speed
+            if (_attackAnimCallback._attackMoveSpeed < 0)
+                _rigidbody.velocity = 100.0f * Math.Min(LastUsedAttack.MaxMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+            else
+                _rigidbody.velocity = 100.0f * Math.Min(_attackAnimCallback._attackMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
         }
     }
     void ProcessDash()
