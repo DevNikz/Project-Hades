@@ -145,7 +145,7 @@ public class MeleeController : MonoBehaviour
             }
 
             // AWARD ON HIT CHARGE
-            if (_stateHandler != null)
+            if (_stateHandler != null && !enemy.IsDead)
                 _stateHandler.GiveCharge(_revampedAttackStats.ManaReward);
 
             float healthDmgMult = 1.0f;
