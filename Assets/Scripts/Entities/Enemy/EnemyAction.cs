@@ -15,7 +15,7 @@ public abstract class EnemyAction : MonoBehaviour
     [NonSerialized] public NavMeshAgent Agent;
     private float _baseSpeed;
     private float _altBaseSpeed;
-    [NonSerialized] public bool IsAttacking = false;
+     public bool IsAttacking = false;
     [NonSerialized] public bool IsPatrolling = false;
     [NonSerialized] public bool IsSearching = false;
 
@@ -33,6 +33,8 @@ public abstract class EnemyAction : MonoBehaviour
     public float Cooldown = 0;
     LineRenderer line = new LineRenderer();
     public bool drawLine = false;
+    public Vector3 prevPlayerPos = Vector3.zero;
+    public Vector3 currPlayerPos = Vector3.zero;
 
     protected EnemyAnimation anims;
 
@@ -51,6 +53,12 @@ public abstract class EnemyAction : MonoBehaviour
             Agent.speed = _altBaseSpeed;
         
         ProcessAILogic();
+
+        if (Player.transform.position != currPlayerPos)
+        {
+            prevPlayerPos = currPlayerPos;
+            currPlayerPos = Player.transform.position;
+        }
 
         if (Cooldown > 0)
         {
@@ -151,8 +159,11 @@ public abstract class EnemyAction : MonoBehaviour
 
         _controller = this.GetComponent<EnemyController>();
         _enemyStats = this.GetComponent<EnemyController>().GetStatsScriptable();
+
         AttackRate = _enemyStats.attackRate;
         _wanderRange = _enemyStats.wanderRange;
+        Agent.stoppingDistance = _enemyStats.stoppingDistance;
+        Agent.speed = _enemyStats.moveSpeed;
         _maxCooldown = _enemyStats._maxCooldown;
         _timerDelay = _enemyStats.timerDelay;
 
@@ -249,6 +260,16 @@ public abstract class EnemyAction : MonoBehaviour
     {
         if(Player.transform.position.x < this.transform.position.x) _atkDir = AttackDirection.Left;
         else _atkDir = AttackDirection.Right;
+    }
+
+    protected Vector3 Calculate()
+    {
+        Vector3 dir = Player.transform.position - this.transform.position;
+        Vector3 pos = currPlayerPos - prevPlayerPos;
+
+        if (((pos.x <= 0 && dir.x <= 0) || (pos.x >= 0 && dir.x >= 0)) && ((pos.y <= 0 && dir.y <= 0) || (pos.y >= 0 && dir.y >= 0)))
+            return pos * Vector3.Distance(this.transform.position, Player.transform.position) * Agent.speed;
+        else return Vector3.zero;
     }
 }
 

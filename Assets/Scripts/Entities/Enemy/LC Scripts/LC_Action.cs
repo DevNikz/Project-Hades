@@ -17,8 +17,9 @@ public class LC_Actions : EnemyAction
 
     protected override void Attack()
     {
-        if (!IsAttacking) Agent.isStopped = false;
-        Agent.SetDestination(Player.transform.position);
+        IsAttacking = false;
+        Agent.isStopped = false;
+        Agent.SetDestination(Player.transform.position + Calculate());
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
@@ -54,6 +55,7 @@ public class LC_Actions : EnemyAction
 
     public void TurnHitOn()
     {
+        this.transform.LookAt(Player.transform.position + Calculate());
         SetAttackDirection();
         this._attackHitbox.transform.position = this.transform.position + this.transform.forward;
         this._attackHitbox.SetActive(true);

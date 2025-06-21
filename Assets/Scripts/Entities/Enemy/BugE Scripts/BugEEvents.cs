@@ -23,7 +23,8 @@ public class BugEEvents : MonoBehaviour
     {
         if (action.shotCount >= 3)
         {
-            action.Cooldown = action.AttackRate;
+            action.SetAction(4);
+            action.runtime = action.AttackRate;
             action.shotCount = 0;
         }
     }

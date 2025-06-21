@@ -24,7 +24,7 @@ public class OHActions : EnemyAction
     protected override void Attack()
     {
         Agent.isStopped = false;
-        Agent.SetDestination(Player.transform.position);
+        Agent.SetDestination(Player.transform.position + Calculate());
         Agent.speed = _fastSpeed;
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
@@ -53,6 +53,7 @@ public class OHActions : EnemyAction
 
     public void BeginAttack()
     {
+        gameObject.transform.LookAt(Player.transform.position);
         this._attackHitbox.SetActive(true);
     }
 
@@ -60,6 +61,6 @@ public class OHActions : EnemyAction
     {
         this._attackHitbox.SetActive(false);
         IsAttacking = false;
-        Cooldown = _maxCooldown;
+        Cooldown = AttackRate;
     }
 }

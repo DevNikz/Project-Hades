@@ -1,24 +1,31 @@
 
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BugEAI : EnemyAction
 {
     [SerializeField] private float _bulletSpeed = 10;
     private ObjectPool bulletPool;
     public int shotCount = 0;
+    public float runtime = 0;
+    public float origStopDis = 0;
 
     protected override void BonusOnEnable() {
         bulletPool = GetComponent<ObjectPool>();
+        origStopDis = _enemyStats.stoppingDistance;
     }
 
     protected override void ProcessAILogic(){
+        if (runtime >= 0) runtime -= Time.deltaTime;
         
+        if (Action != 4) Agent.stoppingDistance = origStopDis;
+        else if (Action == 4) RunAway();
     }
 
     protected override void Attack()
     {
         Agent.isStopped = false;
-        Agent.SetDestination(Player.transform.position);
+        Agent.SetDestination(Player.transform.position + Calculate());
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)
         {
@@ -26,7 +33,6 @@ public class BugEAI : EnemyAction
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
             if (Vector3.Distance(this.transform.position, Player.transform.position) <= Agent.stoppingDistance + 1) {
-            IsAttacking = true;
             this.SetAction(3);
             }
         }
@@ -42,6 +48,31 @@ public class BugEAI : EnemyAction
         */
     }
 
+    public void RunAway()
+    {
+        Agent.stoppingDistance = 0;
+        this.transform.LookAt(2 * this.transform.position - Player.transform.position);
+        this.findPoint(10f);
+
+        if (runtime <= 0)
+        {
+            this.SetAction(1);
+            Agent.stoppingDistance = origStopDis;
+        }
+    }
+
+    private void findPoint(float multiplier)
+    {
+        Vector3 randomPoint = this.transform.position + this.transform.forward * multiplier;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            gameObject.transform.LookAt(hit.position);
+            this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
+            Agent.SetDestination(hit.position);
+        }
+    }
+
     public void Shoot()
     {
         SetAttackDirection();
@@ -50,7 +81,7 @@ public class BugEAI : EnemyAction
 
     protected override void Attacking()
     {
-        if(IsAttacking && this.tag == "Enemy") {
+        if(this.tag == "Enemy") {
             // Debug.Log("Attempted to shoot");
             // GameObject fire = GameObject.Instantiate(Bullet);
             gameObject.transform.LookAt(Player.transform.position);
