@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class RevampPlayerStateHandler : MonoBehaviour
 {
-    // []
+    [SerializeField] private PlayerAttackAnimCallback _attackAnimCallback;
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Slider _manaBar;
     [SerializeReference] private PlayerCombatStats _playerCombatStats;
@@ -73,7 +73,7 @@ public class RevampPlayerStateHandler : MonoBehaviour
     public void ReceiveDamage(DamageType damageType, float damage)
     {
         if (CurrentState == EntityState.Dead) return;
-        if (IsInvincible) return;
+        if (IsInvincible || _attackAnimCallback._isInvulnerable) return;
 
         // HURT DAMAGE CALCULATION
         float actualDamage = damage;
