@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAnimator: {fileID: 0}
+  vfxAnimator: {fileID: 0}
   rotation: 45
   entityDirection: 0
   entityMovement: 0
@@ -100,7 +101,7 @@ MonoBehaviour:
   xScale: 0
   Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
-  action: {fileID: 0}
+  action: {fileID: 1130099694423834350}
 --- !u!1 &1558013903955208357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,9 +1006,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
+  IsAttacking: 0
   _attackHitbox: {fileID: 7888682918843761678}
   Cooldown: 0
   drawLine: 0
+  prevPlayerPos: {x: 0, y: 0, z: 0}
+  currPlayerPos: {x: 0, y: 0, z: 0}
   reapDistance: 5
   reapDelay: 0.43
   reapLength: 15
