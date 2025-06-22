@@ -52,11 +52,7 @@ public class RevampPlayerController : MonoBehaviour
 
     void Update()
     {
-        if (CurrentStance.StanceType == EStance.Air)
-            ProcessUpdatePointerPosition(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
-        else
-            ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
-        UpdateAnimatorControllerStates();
+        UpdatePointerInfo();
 
         if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
             ProcessAttack(false);
@@ -395,6 +391,15 @@ public class RevampPlayerController : MonoBehaviour
     }
 
     #region UpdatingPointerInfo
+    public void UpdatePointerInfo()
+    {
+        if (CurrentStance.StanceType == EStance.Air)
+            ProcessUpdatePointerPosition(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+        else
+            ProcessUpdatePointerDirection(_playerMap.FindAction("MousePosition").ReadValue<Vector2>());
+        UpdateAnimatorControllerStates();
+    }
+
     private float _hitboxPointerOriginalXRotation = 0.0f;
     void ProcessUpdatePointerDirection(Vector2 position)
     {

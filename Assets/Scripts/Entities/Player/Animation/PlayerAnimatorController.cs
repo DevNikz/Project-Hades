@@ -12,6 +12,7 @@ public class PlayerAnimatorController : MonoBehaviour
     public bool ShowReferences;
     [ShowIfGroup("ShowReferences")]
     [BoxGroup("ShowReferences/Ref")]
+    [SerializeField] private RevampPlayerController _controller;
 
     [BoxGroup("ShowReferences/Ref")]
     [SerializeReference] private Animator animator;
@@ -70,6 +71,8 @@ public class PlayerAnimatorController : MonoBehaviour
 
             if(entityState != EntityState.Attack) SetDir(entityDirection);
             else SetAttackDir(attackDirection);
+
+            _controller.UpdatePointerInfo();
 
             // PlayMovementAnim(entityMovement, entityState, PlayerController.Instance.IsDashing(), PlayerController.Instance.IsHurt());
             UpdateAnimation(selectedElement);
