@@ -109,7 +109,10 @@ public class EnemySpawner : MonoBehaviour
                 for (int j = 0; j < waves[waveCounter].EnemyList[i].Amount; j++)
                 {
                     RandomSpawn = Random.Range(0, spawnPoints.Count);
-                    GameObject enemy = Instantiate(waves[waveCounter].EnemyList[i].Enemy, spawnPoints[RandomSpawn].transform.position, Quaternion.identity);
+                    Transform spawnpoint = spawnPoints[RandomSpawn];
+                    if(spawnpoint == null) continue;
+
+                    GameObject enemy = Instantiate(waves[waveCounter].EnemyList[i].Enemy, spawnpoint.transform.position, Quaternion.identity);
                     // enemy.GetComponent<EnemyAction>().Cooldown = enemyCooldown;
                 }
             }
