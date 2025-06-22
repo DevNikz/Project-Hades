@@ -91,6 +91,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     public void ClearSpawnPoints(){
+        Debug.Log("Clear spawnpoints called");
         spawnPoints.Clear();
     }
 
