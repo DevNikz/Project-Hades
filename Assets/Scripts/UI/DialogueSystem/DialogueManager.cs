@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private DialogueView _dialogueView;
     [SerializeField] public float TextCrawlTimePerCharacter;
+    [SerializeField] private float _interactableSpamBufferTime;
     [SerializeReference] private DialogueDatabaseScriptable _coreDatabase;
     [SerializeReference] private List<DialogueDatabaseScriptable> _dialogueDatabases = new();
     private Dictionary<string, DialogueScriptable> _dialogueDictionary = new();
@@ -16,6 +17,7 @@ public class DialogueManager : MonoBehaviour
 
     public delegate void EndDialogueCallback();
     private EndDialogueCallback _endDialogueCallback = null;
+    private float _dialogueInteractableCountdown = 0f;
 
     private int _currentDialogueLineIndex = -1;
     public void StartDialogue(string DialogueTag, EndDialogueCallback callback = null)
@@ -41,6 +43,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        _dialogueInteractableCountdown = _interactableSpamBufferTime;
 
         _currentDialogue = _dialogueDictionary[DialogueTag];
         _currentDialogueLineIndex = 0;
@@ -49,6 +52,7 @@ public class DialogueManager : MonoBehaviour
         _dialogueView.DialogueBoxClickCallback();
         Time.timeScale = 0;
         _endDialogueCallback = callback;
+
     }
     public void StartRandomDialogueFromDatabase(string DatabaseTag, EndDialogueCallback callback = null)
     {
@@ -73,6 +77,8 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        _dialogueInteractableCountdown = _interactableSpamBufferTime;
+
         _currentDialogue = _dialogueDatabaseDictionary[DatabaseTag].GetRandomDialogue();
         _currentDialogueLineIndex = 0;
 
@@ -85,7 +91,8 @@ public class DialogueManager : MonoBehaviour
 
     public string GetNextDialogueLine()
     {
-        if (_currentDialogue == null) {
+        if (_currentDialogue == null)
+        {
             Debug.LogWarning("[WARN]: Tried to get dialogue line while no dialogue is running");
             CloseDialogue();
             return null;
@@ -113,11 +120,15 @@ public class DialogueManager : MonoBehaviour
 
     public void DialogueBoxClickCallback()
     {
+        if (_dialogueInteractableCountdown > 0)
+            return;
+
         if (!_dialogueView)
         {
             Debug.LogWarning("[WARN]: Dialogue View missing");
             return;
         }
+        _dialogueInteractableCountdown = _interactableSpamBufferTime;
         _dialogueView.DialogueBoxClickCallback();
     }
 
@@ -147,5 +158,11 @@ public class DialogueManager : MonoBehaviour
         {
             _dialogueDatabaseDictionary.Add(database.DatabaseTag, database);
         }
+    }
+
+    void Update()
+    {
+        if (_dialogueInteractableCountdown > 0)
+            _dialogueInteractableCountdown -= Time.unscaledDeltaTime;   
     }
 }
