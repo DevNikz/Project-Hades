@@ -10,7 +10,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<RevampPlayerController>(out var player))
         {
-            DialogueManager.Instance.StartDialoge(_targetDialogueTag);
+            DialogueManager.Instance.StartDialogue(_targetDialogueTag);
 
             if (_isOneshot)
             {

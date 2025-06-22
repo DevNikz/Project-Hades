@@ -46,12 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogueView: {fileID: 626964367345714553}
-  TextCrawlTimePerCharacter: 0.02
-  _dialogueList:
-  - {fileID: 11400000, guid: af2987d838c9bf948a7dfab4f8cf0ef0, type: 2}
-  - {fileID: 11400000, guid: 4a6d1431c1675804493672dfa8b0eb1e, type: 2}
-  - {fileID: 11400000, guid: c5403ccb865458e46befa922a9b47c8b, type: 2}
-  - {fileID: 11400000, guid: e9a147b86c4b9df4ab586a21a0787547, type: 2}
+  TextCrawlTimePerCharacter: 0.05
+  _coreDatabase: {fileID: 11400000, guid: b6dd23bd566cf1b42b2104a6b263ee70, type: 2}
+  _dialogueDatabases:
+  - {fileID: 11400000, guid: 44ce018c23981fe429b68e5760bab2df, type: 2}
+  - {fileID: 11400000, guid: d101652e89daa2b458897a8e9fdcff46, type: 2}
 --- !u!1 &338656439820962191
 GameObject:
   m_ObjectHideFlags: 0
@@ -5192,7 +5191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rewardMenu: {fileID: 5707761510567387377}
-  _rewardShowDelayTime: 0.2
+  _rewardShowDelayTime: 0.3
   _rewardAugmentPerWave: 1
   spawnPoints: []
   waves: []
@@ -5415,6 +5414,7 @@ MonoBehaviour:
   chosenAugments: []
   lootpool: {fileID: 11400000, guid: 1cdf4ba7be009f14e8adfe74877698b6, type: 2}
   maxRetryAugmentGenerate: 100
+  _tutorialDialogueTag: 
 --- !u!1 &3012179013981658447
 GameObject:
   m_ObjectHideFlags: 0
@@ -11743,13 +11743,13 @@ MonoBehaviour:
     Count: 0
   stanceAugments:
   - Augment: {fileID: 11400000, guid: 3eac95e50562629488c90a1cb8281ef9, type: 2}
-    Unlocked: 0
+    Unlocked: 1
   - Augment: {fileID: 11400000, guid: b9400f75c8f333b45909d5694cebc3b2, type: 2}
     Unlocked: 1
   - Augment: {fileID: 11400000, guid: d1aff34c2f35f0b439a7e66201a9631e, type: 2}
-    Unlocked: 0
+    Unlocked: 1
   - Augment: {fileID: 11400000, guid: 435bef6d3966851428e8260736aaf415, type: 2}
-    Unlocked: 0
+    Unlocked: 1
   stanceSubAugments:
   - Augment: {fileID: 11400000, guid: 5d04fcd060943c24aadb2db0fc0c3a07, type: 2}
     Unlocked: 0
@@ -12344,6 +12344,11 @@ PrefabInstance:
       propertyPath: _enemySpawner
       value: 
       objectReference: {fileID: 2965580521377953484}
+    - target: {fileID: 82623774868150702, guid: bbe14e043d9193d4e9e5c6d30957be97,
+        type: 3}
+      propertyPath: _tutorialDialogueTag
+      value: AugmentTutorial
+      objectReference: {fileID: 0}
     - target: {fileID: 159004298041092285, guid: bbe14e043d9193d4e9e5c6d30957be97,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target

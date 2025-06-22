@@ -17,23 +17,28 @@ public class LevelRewardScript : MonoBehaviour
 
     [SerializeReference] private LootpoolScriptable lootpool;
     [SerializeField] private int maxRetryAugmentGenerate = 100;
+
+    [SerializeField] private string _tutorialDialogueTag;
+
     bool _loadedFromWaveEnd = false;
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
-    public void ReloadAugments(){
+    public void ReloadAugments()
+    {
         if (lootpool == null)
         {
             Debug.LogWarning("[WARN]: Lootpool null");
             return;
         }
-        
+
         lootpool.initialize();
         AssignSprites();
     }
 
     AugmentType choice = AugmentType.None;
 
-    void Start(){
+    void Start()
+    {
         ResetMenu();
     }
 
@@ -63,7 +68,8 @@ public class LevelRewardScript : MonoBehaviour
         }
 
         chosenAugments.Clear();
-        foreach (var button in augmentButtons){
+        foreach (var button in augmentButtons)
+        {
             AugmentScriptable chosenAugment = null;
             int currentAugmentGenRetries = 0;
             do
@@ -77,7 +83,7 @@ public class LevelRewardScript : MonoBehaviour
                     if (ItemManager.Instance.hasUnlocked(chosenAugment.augmentType))
                     {
                         chosenAugment = null;
-                        continue;   
+                        continue;
                     }
 
                     // Debug.Log($"ChosenAug: {chosenAugment.preReqAugment}");
@@ -102,7 +108,8 @@ public class LevelRewardScript : MonoBehaviour
         choice = AugmentType.None;
 
         AugmentIconUpdater updater = button.GetComponent<AugmentIconUpdater>();
-        if(updater != null && updater.GetAugment() != null){
+        if (updater != null && updater.GetAugment() != null)
+        {
             choice = updater.GetAugment().augmentType;
         }
     }
@@ -152,7 +159,8 @@ public class LevelRewardScript : MonoBehaviour
         }
     }
 
-    public void TransitionLevel(){
+    public void TransitionLevel()
+    {
         ResetMenu();
         SaveManager.Instance.AddDepth();
         GameObject.Find("LevelLoader").GetComponent<LevelLoader>().LoadLevel(
@@ -169,7 +177,24 @@ public class LevelRewardScript : MonoBehaviour
     public void Activate(bool loadedFromWaveEnd)
     {
         _loadedFromWaveEnd = loadedFromWaveEnd;
+
+        if (!TryActivateDialogue())
+            InternalActivate();
+    }
+
+    private void InternalActivate()
+    {
         levelRewardMenu.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    private bool TryActivateDialogue()
+    {
+        if (_tutorialDialogueTag.IsNullOrWhitespace()) return false;
+        if (DialogueManager.Instance == null) return false;
+
+        DialogueManager.Instance.StartDialogue(_tutorialDialogueTag, InternalActivate);
+        _tutorialDialogueTag = "";
+        return true;
     }
 }

@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoad;
     }
+
     [SerializeField] private LevelRewardScript _rewardMenu;
     [SerializeField] private float _rewardShowDelayTime = 0.2f;
     [SerializeField] private bool _rewardAugmentPerWave = false;
