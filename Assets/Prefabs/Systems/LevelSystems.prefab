@@ -5380,14 +5380,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   augmentMenu: {fileID: 4921765179636261472}
   stanceSprites:
-  - {fileID: 21300000, guid: d0bf03b359a94eb4b9f27ffe24fbe900, type: 3}
-  - {fileID: 21300000, guid: edaa5d75058eacd43b9d4fe3433de323, type: 3}
-  - {fileID: 21300000, guid: 0985e945dd1e5d44e9b3ae113a4244a3, type: 3}
-  lockedSprite: {fileID: 0}
+  - {fileID: 21300000, guid: 914108c75487f7f42b5023c552738042, type: 3}
+  - {fileID: 21300000, guid: 63178cbf464954a4686345d066864093, type: 3}
+  - {fileID: 21300000, guid: e89a894ed99c4dc409ea6a003f56beb7, type: 3}
+  - {fileID: 21300000, guid: 2bd8dc1baa50be549be598bce161b2bd, type: 3}
+  lockedSprite: {fileID: 21300000, guid: d4a12028b611fab499ac2a93b1373de5, type: 3}
   stanceButtons:
   - {fileID: 506231007318572485}
   - {fileID: 3369663019840768545}
   - {fileID: 4426186569896918043}
+  - {fileID: 567040260933117911}
   waterUnlocked: 0
   windUnlocked: 0
   fireUnlocked: 0
@@ -12739,7 +12741,7 @@ PrefabInstance:
     - target: {fileID: 8930183447572485206, guid: bbe14e043d9193d4e9e5c6d30957be97,
         type: 3}
       propertyPath: m_BlockingMask.m_Bits
-      value: 4294967295
+      value: 262135
       objectReference: {fileID: 0}
     - target: {fileID: 9026312091910851367, guid: bbe14e043d9193d4e9e5c6d30957be97,
         type: 3}
@@ -12775,6 +12777,12 @@ PrefabInstance:
 --- !u!1 &506231007318572485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5266393875399984282, guid: bbe14e043d9193d4e9e5c6d30957be97,
+    type: 3}
+  m_PrefabInstance: {fileID: 5625984640268417375}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &567040260933117911 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5317918984597921416, guid: bbe14e043d9193d4e9e5c6d30957be97,
     type: 3}
   m_PrefabInstance: {fileID: 5625984640268417375}
   m_PrefabAsset: {fileID: 0}
