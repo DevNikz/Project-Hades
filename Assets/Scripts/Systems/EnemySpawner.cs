@@ -39,9 +39,12 @@ public class EnemySpawner : MonoBehaviour
         this._objectPool = this.gameObject.GetComponent<ObjectPool>();
     }
 
-    void OnSceneLoad(Scene scene, LoadSceneMode mode) {
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
         if (SaveManager.Instance != null && SaveManager.Instance.CurrentFloorWaveset != null)
             InitializeSpawner(SaveManager.Instance.CurrentFloorWaveset);
+        else if (SaveManager.Instance != null) 
+            InitializeSpawner();
     }
 
     // Update is called once per frame
