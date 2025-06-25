@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
 // MK Toon URP Particles PBS						//
 //					                                //
 // Created by Michael Kremmel                       //
@@ -230,92 +230,92 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 4.5
 			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_FLIPBOOK
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_OCCLUSION_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FLIPBOOK
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_OCCLUSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#if UNITY_VERSION >= 202220
-				#pragma multi_compile _ _FORWARD_PLUS
+// Disabled by Shader Control: #pragma multi_compile __ _FORWARD_PLUS
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -371,92 +371,92 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 4.5
 			#pragma exclude_renderers gles gles3 glcore d3d11_9x wiiu n3ds switch
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_FLIPBOOK
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_OCCLUSION_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FLIPBOOK
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_OCCLUSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#if UNITY_VERSION >= 202220
-				#pragma multi_compile _ _FORWARD_PLUS
+// Disabled by Shader Control: #pragma multi_compile __ _FORWARD_PLUS
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -515,14 +515,14 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
             #pragma multi_compile_instancing
 			#pragma instancing_options procedural:ParticleInstancingSetup
@@ -553,18 +553,18 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
 			#if UNITY_VERSION >= 202220
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -598,15 +598,15 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
 			
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
 
             #define MK_URP
 			#define MK_UNLIT
@@ -656,92 +656,92 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 3.5
 			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_FLIPBOOK
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_OCCLUSION_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FLIPBOOK
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_OCCLUSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#if UNITY_VERSION >= 202220
-				#pragma multi_compile _ _FORWARD_PLUS
+// Disabled by Shader Control: #pragma multi_compile __ _FORWARD_PLUS
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -793,92 +793,92 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 3.5
 			#pragma exclude_renderers gles d3d11_9x ps4 ps5 xboxone
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_FLIPBOOK
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_OCCLUSION_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FLIPBOOK
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC _MK_SPECULAR_ANISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_NORMAL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_OCCLUSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#if UNITY_VERSION >= 202220
-				#pragma multi_compile _ _FORWARD_PLUS
+// Disabled by Shader Control: #pragma multi_compile __ _FORWARD_PLUS
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -933,14 +933,14 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_HEIGHT_MAP
-			#pragma shader_feature_local __ _MK_PARALLAX
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_HEIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PARALLAX
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
             #pragma multi_compile_instancing
 			#pragma instancing_options procedural:ParticleInstancingSetup
@@ -971,18 +971,18 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
 			#if UNITY_VERSION >= 202220
 				#if UNITY_VERSION >= 202310
 					#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 				#else
-					#pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _WRITE_RENDERING_LAYERS
 				#endif
 			#endif
 
@@ -1016,15 +1016,15 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
 			
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
 
             #define MK_URP
 			#define MK_UNLIT
@@ -1074,77 +1074,77 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 2.5
 			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -1195,77 +1195,77 @@ Shader "MK/Toon/URP/Particles/Physically Based"
 			#pragma target 2.5
 			#pragma exclude_renderers gles3 d3d11 ps4 ps5 xboxone wiiu n3ds switch
 
-			#pragma shader_feature_local __ _MK_SOFT_FADE
-			#pragma shader_feature_local __ _MK_CAMERA_FADE
-			#pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
-			#pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
-			#pragma shader_feature_local __ _MK_THRESHOLD_MAP
-			#pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
-			#pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-			#pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-			#pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
-			#pragma shader_feature_local __ _MK_PBS_MAP_0
-			#pragma shader_feature_local __ _MK_PBS_MAP_1
-			#pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature __ _MK_EMISSION
-			#pragma shader_feature __ _MK_EMISSION_MAP
-			#pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
-			#pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC
-			#pragma shader_feature_local __ _MK_DETAIL_MAP
-			#pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
-			#pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
-			#pragma shader_feature_local __ _MK_THICKNESS_MAP
-			#pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
-			#pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
-			#pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
-			#pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
-			#pragma shader_feature_local __ _MK_GOOCH_RAMP
-			#pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SOFT_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_CAMERA_FADE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_BLEND_ADDITIVE _MK_COLOR_BLEND_SUBTRACTIVE _MK_COLOR_BLEND_OVERLAY _MK_COLOR_BLEND_COLOR _MK_COLOR_BLEND_DIFFERENCE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_CEL _MK_LIGHT_BANDED _MK_LIGHT_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THRESHOLD_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_DRAWN _MK_ARTISTIC_HATCHING _MK_ARTISTIC_SKETCH
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ARTISTIC_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WORKFLOW_SPECULAR _MK_WORKFLOW_ROUGHNESS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_0
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_PBS_MAP_1
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ENVIRONMENT_REFLECTIONS_AMBIENT _MK_ENVIRONMENT_REFLECTIONS_ADVANCED
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION
+// Disabled by Shader Control: #pragma shader_feature __ _MK_EMISSION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DIFFUSE_OREN_NAYAR _MK_DIFFUSE_MINNAERT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SPECULAR_ISOTROPIC
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DETAIL_BLEND_MIX _MK_DETAIL_BLEND_ADD
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_LIGHT_TRANSMISSION_TRANSLUCENT _MK_LIGHT_TRANSMISSION_SUB_SURFACE_SCATTERING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_THICKNESS_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_FRESNEL_HIGHLIGHTS
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_RIM_DEFAULT _MK_RIM_SPLIT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_IRIDESCENCE_DEFAULT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_BRIGHT_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_DARK_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_GOOCH_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_WRAPPED_DIFFUSE
 
 			#if UNITY_VERSION >= 202120
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-				#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-				#pragma multi_compile_fragment _ _LIGHT_LAYERS
-				#pragma multi_compile_fragment _ _LIGHT_COOKIES
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BLENDING
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _REFLECTION_PROBE_BOX_PROJECTION
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_LAYERS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _LIGHT_COOKIES
 				#if UNITY_VERSION < 202220
-					#pragma multi_compile _ _CLUSTERED_RENDERING
+// Disabled by Shader Control: #pragma multi_compile __ _CLUSTERED_RENDERING
 				#endif
-				#pragma multi_compile _ DYNAMICLIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile __ DYNAMICLIGHTMAP_ON
 			#endif
 
-			#pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
-			#pragma multi_compile_fragment __ _SHADOWS_SOFT
-			#pragma shader_feature __ _MK_RECEIVE_SHADOWS
-			#pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-			#pragma multi_compile __ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile __ LIGHTMAP_ON
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _ADDITIONAL_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile_fragment __ _SHADOWS_SOFT
+// Disabled by Shader Control: #pragma shader_feature __ _MK_RECEIVE_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+// Disabled by Shader Control: #pragma multi_compile __ DIRLIGHTMAP_COMBINED
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_ON
 
 			#if UNITY_VERSION >= 202010
-				#pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
+// Disabled by Shader Control: #pragma multi_compile __ _SCREEN_SPACE_OCCLUSION
 			#endif
 
 			#if UNITY_VERSION >= 202020
-				#pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
-				#pragma multi_compile __ SHADOWS_SHADOWMASK
+// Disabled by Shader Control: #pragma multi_compile __ LIGHTMAP_SHADOW_MIXING
+// Disabled by Shader Control: #pragma multi_compile __ SHADOWS_SHADOWMASK
 			#else
-				#pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
+// Disabled by Shader Control: #pragma multi_compile __ _MIXED_LIGHTING_SUBTRACTIVE
 			#endif
 
 			#if UNITY_VERSION >= 202110
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#else
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS
-				#pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS
+// Disabled by Shader Control: #pragma multi_compile __ _MAIN_LIGHT_SHADOWS_CASCADE
 			#endif
 
 			#pragma fragmentoption ARB_precision_hint_fastest
@@ -1319,12 +1319,12 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthOnlyVert
             #pragma fragment DepthOnlyFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
             #pragma multi_compile_instancing
 			#pragma instancing_options procedural:ParticleInstancingSetup
@@ -1355,12 +1355,12 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
 
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-            #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
 
             #pragma multi_compile_instancing
 			#pragma instancing_options procedural:ParticleInstancingSetup
@@ -1392,15 +1392,15 @@ Shader "MK/Toon/URP/Particles/Physically Based"
             #pragma vertex Universal2DVert
             #pragma fragment Universal2DFrag
 			
-			#pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local __ _MK_ALBEDO_MAP
-			#pragma shader_feature_local __ _MK_ALPHA_CLIPPING
-            #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
-			#pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
-			#pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
-			#pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_SURFACE_TYPE_TRANSPARENT
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALBEDO_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_ALPHA_CLIPPING
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_BLEND_PREMULTIPLY _MK_BLEND_ADDITIVE _MK_BLEND_MULTIPLY
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_STUTTER
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_SINE _MK_VERTEX_ANIMATION_PULSE _MK_VERTEX_ANIMATION_NOISE
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_VERTEX_ANIMATION_MAP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_DISSOLVE_DEFAULT _MK_DISSOLVE_BORDER_COLOR _MK_DISSOLVE_BORDER_RAMP
+// Disabled by Shader Control: #pragma shader_feature_local __ _MK_COLOR_GRADING_ALBEDO _MK_COLOR_GRADING_FINAL_OUTPUT
 
             #define MK_URP
 			#define MK_UNLIT
