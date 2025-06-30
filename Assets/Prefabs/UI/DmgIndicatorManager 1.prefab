@@ -197,7 +197,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!114 &2020389367479075892
 MonoBehaviour:
@@ -289,7 +289,11 @@ MonoBehaviour:
   _normalTextColor: {r: 1, g: 1, b: 1, a: 1}
   _criticalTextColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _burnTextColor: {r: 1, g: 0, b: 0, a: 1}
+  _maxSpawnDisplacement: {x: 1.5, y: 1, z: 0}
+  _decayDirection: {x: 0, y: 1, z: 0}
   _indicatorDecayTime: 0.5
+  _biggestDamageThreshold: 300
+  _fontSizeRange: {x: 30, y: 50}
 --- !u!114 &5794924904839669924
 MonoBehaviour:
   m_ObjectHideFlags: 0

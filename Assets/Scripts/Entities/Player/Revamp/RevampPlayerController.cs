@@ -506,6 +506,7 @@ public class RevampPlayerController : MonoBehaviour
 
         if (ItemManager.Instance != null && ItemManager.Instance.UnlockedStanceCount <= 0)
         {
+            Debug.Log("Stance Count: " + ItemManager.Instance.UnlockedStanceCount);
             switch (CurrentStance.StanceType)
             {
                 case EStance.Earth:

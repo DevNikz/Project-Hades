@@ -43,8 +43,8 @@ public class PillarHazard : MonoBehaviour
             {
                 if (healthPercent >= 1f) break;
                 if (healthPercent <= 0) break;
-                Debug.Log($"{(float)(_pillarStateObjects.Count - i) / (float)(_pillarStateObjects.Count)} {healthPercent} {_pillarStateObjects[i]}");
-                if (((float)(_pillarStateObjects.Count - i) / (float)(_pillarStateObjects.Count)) <= healthPercent ||  i == _pillarStateObjects.Count - 1)
+                
+                if (((float)(_pillarStateObjects.Count - i) / (float)(_pillarStateObjects.Count)) <= healthPercent || i == _pillarStateObjects.Count - 1)
                 {
                     _pillarStateObjects[i].SetActive(true);
                     break;
@@ -57,11 +57,12 @@ public class PillarHazard : MonoBehaviour
     public void TakeDamage(float amount, bool isCrit)
     {
         if (_wasDestroyed) return;
-        if (amount > _currentHealth) amount = _currentHealth;
         if (amount <= 0) return;
-        _currentHealth -= amount;
 
         DamageIndicatorManager.Instance.PlayIndicator(gameObject.transform.position, amount, isCrit ? DamageIndicatorManager.DamageType.Critical : DamageIndicatorManager.DamageType.Normal);
+
+        if (amount > _currentHealth) amount = _currentHealth;
+        _currentHealth -= amount;
 
         if (_currentHealth > 0)
             _wasDestroyed = false;

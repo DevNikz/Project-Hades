@@ -13,36 +13,53 @@ public class DamageIndicatorManager : MonoBehaviour
     [SerializeField] private Color _normalTextColor = Color.white;
     [SerializeField] private Color _criticalTextColor = Color.yellow;
     [SerializeField] private Color _burnTextColor = Color.red;
+    [SerializeField] private Vector3 _maxSpawnDisplacement;
+    [SerializeField] private Vector3 _decayDirection = Vector3.up;
     [SerializeField] private float _indicatorDecayTime = 0.5f;
 
-    public void PlayIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1){
+    [SerializeField] private float _biggestDamageThreshold;
+    [SerializeField] private Vector2 _fontSizeRange;
+
+    public void PlayIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1)
+    {
+
+        float randomDispX = (Random.Range(0f, 2f) - 1f) * _maxSpawnDisplacement.x;
+        float randomDispY = Random.Range(0f, 1f) * _maxSpawnDisplacement.y;
+        float randomDispZ = (Random.Range(0f, 2f) - 1f) * _maxSpawnDisplacement.z;
+        position += new Vector3(randomDispX, randomDispY, randomDispZ);
+
         GameObject indicator = _objectPool.ReleaseObjectAt(position);
         TMP_Text text = indicator.GetComponentInChildren<TMP_Text>();
-        if(!text){
+        if (!text)
+        {
             Debug.LogWarning("[WARN]: Damage Indicator missing TMP Text.");
             _objectPool.ReturnObject(indicator);
             return;
         }
 
-        switch(damageType){
-            case DamageType.Normal: 
-                text.text = $"{damage}"; 
+        switch (damageType)
+        {
+            case DamageType.Normal:
+                text.text = $"{damage}";
                 text.color = _normalTextColor;
                 break;
-            case DamageType.Critical: 
-                text.text = $"{damage}!"; 
+            case DamageType.Critical:
+                text.text = $"{damage}!";
                 text.color = _criticalTextColor;
                 break;
-            case DamageType.Burn: 
+            case DamageType.Burn:
                 text.text = $"{damage}";
                 text.color = _burnTextColor;
                 break;
         }
 
-        if(duration < 0)
+        float fontSize = Mathf.Clamp(damage, 0, _biggestDamageThreshold) / _biggestDamageThreshold * (_fontSizeRange.y - _fontSizeRange.x) + _fontSizeRange.x;
+        text.fontSize = fontSize;
+
+        if (duration < 0)
             duration = _indicatorDecayTime;
 
-        StartCoroutine(IndicatorDecay(indicator, Vector3.up, duration));
+        StartCoroutine(IndicatorDecay(indicator, _decayDirection, duration));
     }
 
     private IEnumerator IndicatorDecay(GameObject indicator, Vector3 floatDisplacement, float duration){

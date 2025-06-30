@@ -73000,16 +73000,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelSystems
       objectReference: {fileID: 0}
-    - target: {fileID: 7431595993285790439, guid: 33c0629352bb91048b2b789087c575e7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7476126009494025242, guid: 33c0629352bb91048b2b789087c575e7,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -75859,81 +75849,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 125869667}
     m_Modifications:
-    - target: {fileID: 1524242358730628191, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_Name
-      value: ExitElevator
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524242358730628191, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 1820978226733567985, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 42.794
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 28.487
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 270
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2768285780057237721, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 4980500810593305905, guid: fede19319acc148448860306f04165eb,
-        type: 3}
-      propertyPath: playerInputManager
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 248714192110747923, guid: 97a79f98878723b42a9a181ec8f18b57,
         type: 3}
       propertyPath: m_Mesh
@@ -76383,6 +76298,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VersionIndex
       value: 1697
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524242358730628191, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_Name
+      value: ExitElevator
+      objectReference: {fileID: 0}
+    - target: {fileID: 1524242358730628191, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1820978226733567985, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 42.794
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 28.487
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103758696856096714, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2768285780057237721, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980500810593305905, guid: fede19319acc148448860306f04165eb,
+        type: 3}
+      propertyPath: playerInputManager
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
