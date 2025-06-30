@@ -19,6 +19,9 @@ public class DamageIndicatorManager : MonoBehaviour
 
     [SerializeField] private float _biggestDamageThreshold;
     [SerializeField] private Vector2 _fontSizeRange;
+    [SerializeField] private Vector2 _hitStopTimeRange;
+    private float _hitStopDuration = 0f;
+    private bool _inHitstop = false;
 
     public void PlayIndicator(Vector3 position, float damage, DamageType damageType, float duration = -1)
     {
@@ -59,6 +62,7 @@ public class DamageIndicatorManager : MonoBehaviour
         if (duration < 0)
             duration = _indicatorDecayTime;
 
+        TriggerHitstop(damage);
         StartCoroutine(IndicatorDecay(indicator, _decayDirection, duration));
     }
 
@@ -76,6 +80,33 @@ public class DamageIndicatorManager : MonoBehaviour
         _objectPool.ReturnObject(indicator);
     }
 
+    public void TriggerHitstop(float damage)
+    {
+        if (_inHitstop) return;
+
+        float hitstopDur = Mathf.Clamp(damage, 0, _biggestDamageThreshold) / _biggestDamageThreshold * (_hitStopTimeRange.y - +_hitStopTimeRange.x) + _hitStopTimeRange.x;
+
+        _hitStopDuration = hitstopDur;
+        Time.timeScale = 0f;
+        _inHitstop = true;
+    }
+
+    private void CheckHitstop()
+    {
+        if(!_inHitstop) return;
+
+        _hitStopDuration -= Time.unscaledDeltaTime;
+        if (_hitStopDuration > 0f) return;
+
+        _hitStopDuration = 0f;
+        Time.timeScale = 1f;
+        _inHitstop = false;
+    }
+
+    void Update()
+    {
+        CheckHitstop();
+    }
 
     void Awake()
     {
@@ -85,6 +116,8 @@ public class DamageIndicatorManager : MonoBehaviour
         }
 
         Instance = this;
+        _hitStopDuration = 0f;
+        _inHitstop = false;
 
         if(!TryGetComponent<ObjectPool>(out _objectPool)){
             Debug.LogWarning("[WARN]: Object Pool not found in Damage Indicator Manager");
