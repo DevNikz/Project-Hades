@@ -405,8 +405,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5791125938281950552}
   - component: {fileID: 8670243566881200512}
-  - component: {fileID: 8168633860521398313}
   - component: {fileID: 8342266661962079596}
+  - component: {fileID: 8640823660148071445}
   m_Layer: 14
   m_Name: Pillar
   m_TagString: HitHazard
@@ -461,36 +461,6 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: -0.1, y: 1.01, z: 0.1}
---- !u!114 &8168633860521398313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3074935759764025669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d4a196acd317a45ab8f9157001b058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hazardType: 1
-  entitySpeed: 0
-  timerState: 0
-  curTimer: 3
-  tempTimer: 0
-  EnableBog: 0
-  debuffBogScalar: 1.35
-  EnablePillar: 0
-  counter: 1
-  hitbox: {fileID: 0}
-  visualBox: {fileID: 0}
-  hitEffect: {fileID: 0}
-  shakeEffect: {fileID: 0}
-  pillar1: {fileID: 0}
-  pillar2: {fileID: 0}
-  pillar3: {fileID: 0}
-  pillar4: {fileID: 0}
-  pillar5: {fileID: 0}
 --- !u!208 &8342266661962079596
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -507,6 +477,30 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.1, y: 1.01, z: 0.1}
   m_TimeToStationary: 0.5
+--- !u!114 &8640823660148071445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074935759764025669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da13eeba928d1e0499856e41ef62fbdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 200
+  _destroyDelay: 3
+  _visualBox: {fileID: 1876300222817006135}
+  _hitbox: {fileID: 4887013144177211511}
+  _hitEffect: {fileID: 7272076601641338389}
+  _shakeEffect: {fileID: 4581548060150891223}
+  _fullState: {fileID: 7710763413839883073}
+  _zeroHealthState: {fileID: 1308696709547817385}
+  _destroyedState: {fileID: 3215768185764460799}
+  _pillarStateObjects:
+  - {fileID: 2546024795174568717}
+  - {fileID: 2305081670149351749}
 --- !u!1 &3107760837470495155
 GameObject:
   m_ObjectHideFlags: 0

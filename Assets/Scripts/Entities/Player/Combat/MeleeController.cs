@@ -120,13 +120,6 @@ public class MeleeController : MonoBehaviour
 
     void TriggerAttack(Collider other) {
 
-        // Debug.Log("Attack hit something");
-        if(other.CompareTag("HitHazard")) {
-            Debug.Log("Hazard Hit!");
-            other.GetComponent<HazardController>().InitHazard();
-        }
-
-
         if (other.TryGetComponent<BulletController>(out var bullet))
         {
             if (ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
@@ -135,17 +128,21 @@ public class MeleeController : MonoBehaviour
                 bullet.Reflect(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).augmentPower);
         }
 
-        
-        if(other.TryGetComponent<EnemyController>(out var enemy)){
+        EnemyController enemy = other.GetComponent<EnemyController>();
+        PillarHazard pillar = other.GetComponent<PillarHazard>();
+
+        if (enemy != null || pillar != null)
+        {
             // Debug.Log("Hit an enemy");
 
-            if(attackType == null && _revampedAttackStats == null){
+            if (attackType == null && _revampedAttackStats == null)
+            {
                 Debug.LogWarning("[COMBAT-WARN]: Attack type when triggered is null");
                 return;
             }
 
             // AWARD ON HIT CHARGE
-            if (_stateHandler != null && !enemy.IsDead)
+            if (_stateHandler != null && (pillar != null || (enemy != null && !enemy.IsDead)))
                 _stateHandler.GiveCharge(_revampedAttackStats.ManaReward);
 
             float healthDmgMult = 1.0f;
@@ -157,7 +154,7 @@ public class MeleeController : MonoBehaviour
             float chargeScalar = 0.0f;
             if (_chargeTime > _revampedAttackStats.FullChargeTime)
                 chargeScalar = 1.0f;
-            else if(_chargeTime > 0.0f && _revampedAttackStats.FullChargeTime != 0.0f)
+            else if (_chargeTime > 0.0f && _revampedAttackStats.FullChargeTime != 0.0f)
                 chargeScalar = (_chargeTime / _revampedAttackStats.FullChargeTime);
 
             healthDmgMult += chargeScalar * _revampedAttackStats.FullChargeDamageScalar;
@@ -171,128 +168,168 @@ public class MeleeController : MonoBehaviour
             healthDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Aggro) * ItemManager.Instance.getAugment(AugmentType.Aggro).augmentPower;
             poiseDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Heavy) * ItemManager.Instance.getAugment(AugmentType.Heavy).augmentPower;
 
-            if(ItemManager.Instance.getAugment(AugmentType.Amp_Gear).IsActive)
+            if (ItemManager.Instance.getAugment(AugmentType.Amp_Gear).IsActive)
                 healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Amp_Gear).augmentPower;
 
-            if(ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).IsActive)
+            if (ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).IsActive)
                 poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).augmentPower;
 
-            if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive){
+            if (ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive)
+            {
                 knockbackMult += ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower;
-            } else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive) {
+            }
+            else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
+            {
                 knockbackMult += ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower;
             }
 
-            if(ItemManager.Instance.getAugment(AugmentType.Volt_Gear).IsActive)
+            if (ItemManager.Instance.getAugment(AugmentType.Volt_Gear).IsActive)
                 criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Volt_Gear).augmentPower;
 
-            if(ItemManager.Instance.getAugment(AugmentType.Fume_Gear).IsActive){
+            if (ItemManager.Instance.getAugment(AugmentType.Fume_Gear).IsActive)
+            {
                 healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower * StatCalculator.Instance.SlowedEnemyCount;
                 criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower2 * StatCalculator.Instance.SlowedEnemyCount;
             }
 
-            if(enemy.IsStunned){
-                if(ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).IsActive)
-                    poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).augmentPower;
-            } else {
-                // Chance to stun
-                if(enemy.IsAttacking){
-                    if(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
-                        enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).augmentPower);
-                } else {
-                    if(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).IsActive){
-                        if (Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower * 100)
-                        enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower2);
+            if (enemy != null)
+            {
+
+                if (enemy.IsStunned)
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).IsActive)
+                        poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).augmentPower;
+                }
+                else
+                {
+                    // Chance to stun
+                    if (enemy.IsAttacking)
+                    {
+                        if (ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+                            enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).augmentPower);
                     }
-                }                
-            }
+                    else
+                    {
+                        if (ItemManager.Instance.getAugment(AugmentType.Impact_Gear).IsActive)
+                        {
+                            if (Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower * 100)
+                                enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower2);
+                        }
+                    }
+                }
 
-            if(enemy.IsRusted){
-                if(ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).IsActive)
-                    poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).augmentPower;
-            
-                if(ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
-                    criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
-            } else {
-                if(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).IsActive)
-                    enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
-            }
+                if (enemy.IsRusted)
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).IsActive)
+                        poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).augmentPower;
 
-            if(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).IsActive){
-                enemy.SetSlow(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).augmentPower);
-            }
+                    if (ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
+                        criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+                }
+                else
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).IsActive)
+                        enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
+                }
 
-            if(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive){
-                enemy.ApplyBurn(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower);
-            }
-    
-            if(enemy.IsBurning){
-                if(ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).IsActive)
-                    healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).augmentPower;
-                if(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).IsActive)
-                    healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower3;
-            }
+                if (ItemManager.Instance.getAugment(AugmentType.Haze_Gear).IsActive)
+                {
+                    enemy.SetSlow(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).augmentPower);
+                }
 
-            // Calculate Stagger
-            if(enemy.IsStaggered){
-                if(ItemManager.Instance.getAugment(AugmentType.Breaching_Gear).IsActive)
-                    healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Breaching_Gear).augmentPower;
+                if (ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive)
+                {
+                    enemy.ApplyBurn(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower);
+                }
 
-                if(ItemManager.Instance.getAugment(AugmentType.Punish_Gear).IsActive)
-                    criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Punish_Gear).augmentPower;
+                if (enemy.IsBurning)
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).IsActive)
+                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Scorch_Gear).augmentPower;
+                    if (ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).IsActive)
+                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower3;
+                }
 
-                healthDmgMult += StatCalculator.Instance.StaggeredDmgMult;
+                // Calculate Stagger
+                if (enemy.IsStaggered)
+                {
+                    if (ItemManager.Instance.getAugment(AugmentType.Breaching_Gear).IsActive)
+                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Breaching_Gear).augmentPower;
 
-            } else {
-                float baseKnockback = _revampedAttackStats.BaseKnockback;
-                if(_stanceStats != null) baseKnockback += _stanceStats.ExtraKnockback;
-                if (_playerStats != null) baseKnockback += _playerStats.BaseKnockback;
-                if(_playerPosition == null) _playerPosition = Vector3.zero;
+                    if (ItemManager.Instance.getAugment(AugmentType.Punish_Gear).IsActive)
+                        criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Punish_Gear).augmentPower;
 
-                Vector3 knockbackDir = other.transform.position - _playerPosition;
-                Vector3 targetKnockback =  baseKnockback * knockbackMult * knockbackDir.normalized;
-                Vector3 knockbackForce = rb.mass * 2.0f * targetKnockback;
+                    healthDmgMult += StatCalculator.Instance.StaggeredDmgMult;
 
-                // Debug.Log($"Knockback: {knockbackDir}, {targetKnockback}, {knockbackForce}");
-                rb.AddForce(knockbackForce, ForceMode.Impulse); 
+                }
+                else
+                {
+                    float baseKnockback = _revampedAttackStats.BaseKnockback;
+                    if (_stanceStats != null) baseKnockback += _stanceStats.ExtraKnockback;
+                    if (_playerStats != null) baseKnockback += _playerStats.BaseKnockback;
+                    if (_playerPosition == null) _playerPosition = Vector3.zero;
 
-                if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
-                    enemy.ApplyKnockedbackState(StatCalculator.Instance.KnockbackTime);
+                    Vector3 knockbackDir = other.transform.position - _playerPosition;
+                    Vector3 targetKnockback = baseKnockback * knockbackMult * knockbackDir.normalized;
+                    Vector3 knockbackForce = rb.mass * 2.0f * targetKnockback;
+
+                    // Debug.Log($"Knockback: {knockbackDir}, {targetKnockback}, {knockbackForce}");
+                    rb.AddForce(knockbackForce, ForceMode.Impulse);
+
+                    if (ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive || ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
+                        enemy.ApplyKnockedbackState(StatCalculator.Instance.KnockbackTime);
+                }
             }
 
             bool doesCritDmg = false;
             // Calculate Critical Hit
-            if (
-                (
-                    ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).IsActive &&
-                    enemy.IsAttacking &&
-                    Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).augmentPower * 100
-                ) ||
-                    Random.Range(0, 100) < criticalHitChance * 100
-                )
+            if (enemy != null)
             {
 
-                if (ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
-                    poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
-
-                if (enemy.IsRusted)
+                if (
+                    (
+                        ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).IsActive &&
+                        enemy.IsAttacking &&
+                        Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Turboshock_Gear).augmentPower * 100
+                    ) ||
+                        Random.Range(0, 100) < criticalHitChance * 100
+                    )
                 {
-                    if (ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
-                        healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+
+                    if (ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).IsActive)
+                        poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Crippling_Gear).augmentPower;
+
+                    if (enemy.IsRusted)
+                    {
+                        if (ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
+                            healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
+                    }
+
+                    healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
+                    poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
+
+                    doesCritDmg = true;
+                    Debug.Log("[COMBAT]: Does a crit!");
                 }
-
-                healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
-                poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
-
-                doesCritDmg = true;
-                Debug.Log("[COMBAT]: Does a crit!");
+                else
+                {
+                    // Debug.Log("[COMBAT]: Does normal damage!");
+                }
             }
             else
             {
-                // Debug.Log("[COMBAT]: Does normal damage!");
+                if (Random.Range(0, 100) < criticalHitChance * 100)
+                {
+
+                    healthDmgMult += StatCalculator.Instance.CriticalDmgMult;
+                    poiseDmgMult += StatCalculator.Instance.CriticalPoiseDmgMult;
+
+                    doesCritDmg = true;
+                    Debug.Log("[COMBAT]: Does a crit!");
+                }
             }
 
-            if(enemy.IsStaggered)
+            if (enemy != null && enemy.IsStaggered)
                 poiseDmgMult = 0.0f;
 
             float healthDamage = _revampedAttackStats.BaseDamage;
@@ -319,7 +356,10 @@ public class MeleeController : MonoBehaviour
             poiseDamage = Mathf.Round(poiseDamage);
 
             // enemy.ReceiveDamage(attackType.damageType, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
-            enemy.ReceiveDamage(DamageType.Physical, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
+            if (enemy != null)
+                enemy.ReceiveDamage(DamageType.Physical, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
+            if (pillar != null)
+                pillar.TakeDamage(healthDamage, doesCritDmg);
         }
     }
 
