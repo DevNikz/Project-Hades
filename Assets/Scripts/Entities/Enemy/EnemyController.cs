@@ -449,14 +449,19 @@ public class EnemyController : MonoBehaviour
     }
 
     void UpdateBossHP() {
-        if(currentHealth <= 300 && currentHealth > 200) {
+        if(bossMeter1 == null || bossMeter2 == null || bossMeter3 == null) return;
+
+        if (currentHealth <= 300 && currentHealth > 200)
+        {
             bossMeter1.value = ToPercent(currentHealth, 300);
         }
-        else if(currentHealth <= 200 && currentHealth > 100) {
+        else if (currentHealth <= 200 && currentHealth > 100)
+        {
             bossMeter1.value = ToPercent(currentHealth, 300);
             bossMeter2.value = ToPercent(currentHealth, 200);
         }
-        else if(currentHealth <= 100 && currentHealth > 0) {
+        else if (currentHealth <= 100 && currentHealth > 0)
+        {
             bossMeter1.value = 0;
             bossMeter2.value = 0;
             bossMeter3.value = ToPercent(currentHealth, 100);

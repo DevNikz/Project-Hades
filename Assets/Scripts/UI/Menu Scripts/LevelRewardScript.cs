@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class LevelRewardScript : MonoBehaviour
 {
+    [SerializeField] private int _maxStanceCount = 2;
     [SerializeField] GameObject levelRewardMenu;
     [SerializeField] ButtonHighlightScript _selectHighlight;
     [SerializeField] GameObject[] augmentButtons;
@@ -45,7 +46,7 @@ public class LevelRewardScript : MonoBehaviour
     private void ResetMenu()
     {
         Time.timeScale = 1.0f;
-        Debug.Log(gameObject);
+        // Debug.Log(gameObject);
         gameObject.SetActive(false);
         _selectHighlight.ResetHighlight();
         ReloadAugments();
@@ -91,6 +92,17 @@ public class LevelRewardScript : MonoBehaviour
 
                     if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
                     {
+                        chosenAugment = null;
+                        continue;
+                    }
+
+                    if((
+                        chosenAugment.augmentType == AugmentType.Earth || 
+                        chosenAugment.augmentType == AugmentType.Water || 
+                        chosenAugment.augmentType == AugmentType.Fire || 
+                        chosenAugment.augmentType == AugmentType.Air) &&
+                        ItemManager.Instance.UnlockedStanceCount >= _maxStanceCount
+                    ){
                         chosenAugment = null;
                         continue;
                     }

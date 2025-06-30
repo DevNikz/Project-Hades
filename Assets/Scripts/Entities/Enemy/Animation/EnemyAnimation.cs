@@ -34,8 +34,8 @@ public class EnemyAnimation : MonoBehaviour
         Scale = spriteAnimator.gameObject.transform.localScale;
         ExtraStart();
 
-        Debug.Log(action);
-        Debug.Log(action._enemyStats);
+        // Debug.Log(action);
+        // Debug.Log(action._enemyStats);
     }
 
     public virtual void ExtraStart() {}

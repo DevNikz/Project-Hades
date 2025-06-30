@@ -7,24 +7,24 @@ using UnityEngine.SceneManagement;
 
 public class ItemManager : MonoBehaviour
 {
-#region References
+    #region References
     public static ItemManager Instance;
     //[SerializeField] private RevampPlayerStateHandler _player;
 
     // Definitions for ease of tracking
-    [Serializable] public class StackableAugment{
+    [Serializable] public class StackableAugment {
         [HorizontalGroup("Row")]
-            [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
-            
-            [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int Count;
+        [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
+
+        [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int Count;
     }
-    [Serializable] public class UnlockableAugment{
+    [Serializable] public class UnlockableAugment {
         [HorizontalGroup("Row")]
-            [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
-            
-            [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public bool Unlocked;
+        [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
+
+        [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public bool Unlocked;
     }
-    [Serializable] public class StanceSubAugment : UnlockableAugment{
+    [Serializable] public class StanceSubAugment : UnlockableAugment {
         [VerticalGroup("Row/StanceIndex"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceIndex;
         [VerticalGroup("Row/StanceSubtree"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceSubtree;
         [VerticalGroup("Row/RefElement"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public Elements RefElement;
@@ -32,35 +32,35 @@ public class ItemManager : MonoBehaviour
 
     // References
     [TitleGroup("References", "General Manager References", Alignment = TitleAlignments.Centered)]
-        [TitleGroup("References/Augments")]
-            [TabGroup("References/Augments/TabGroup", "Stackable Augments")]
-                [SerializeField] private List<StackableAugment> stackableAugments = new();
-            [TabGroup("References/Augments/TabGroup", "Stances")]
-                [SerializeField] private List<UnlockableAugment> stanceAugments = new();
-            [TabGroup("References/Augments/TabGroup", "Stance Sub Augments")]
-                [SerializeField] private List<StanceSubAugment> stanceSubAugments = new();
+    [TitleGroup("References/Augments")]
+    [TabGroup("References/Augments/TabGroup", "Stackable Augments")]
+    [SerializeField] private List<StackableAugment> stackableAugments = new();
+    [TabGroup("References/Augments/TabGroup", "Stances")]
+    [SerializeField] private List<UnlockableAugment> stanceAugments = new();
+    [TabGroup("References/Augments/TabGroup", "Stance Sub Augments")]
+    [SerializeField] private List<StanceSubAugment> stanceSubAugments = new();
 
     // Debug (Player)
     [BoxGroup("Player Debug")]
-        [HorizontalGroup("Player Debug/Button")]
-            [VerticalGroup("Player Debug/Button/Right")]
-            [Button("Add/Unlock Chosen Augment", ButtonSizes.Medium)]
-            public void DebugAddAugment(){
-                AddAugment(debugAugmentType);
-            }
+    [HorizontalGroup("Player Debug/Button")]
+    [VerticalGroup("Player Debug/Button/Right")]
+    [Button("Add/Unlock Chosen Augment", ButtonSizes.Medium)]
+    public void DebugAddAugment() {
+        AddAugment(debugAugmentType);
+    }
 
-            [VerticalGroup("Player Debug/Button/Right")]
-            [Button("Add/Remove Chosen Augment", ButtonSizes.Medium)]
-            public void DebugRemoveAugment(){
-                RemoveAugment(debugAugmentType);
-            }
+    [VerticalGroup("Player Debug/Button/Right")]
+    [Button("Add/Remove Chosen Augment", ButtonSizes.Medium)]
+    public void DebugRemoveAugment() {
+        RemoveAugment(debugAugmentType);
+    }
 
-            [VerticalGroup("Player Debug/Button/Left")]
-            [SerializeField, LabelText("Type")] private AugmentType debugAugmentType;
+    [VerticalGroup("Player Debug/Button/Left")]
+    [SerializeField, LabelText("Type")] private AugmentType debugAugmentType;
 
     // Helper Fields
     private Dictionary<AugmentType, int> augmentIndexRef = new Dictionary<AugmentType, int>();
-#endregion
+    #endregion
 
     private void Awake()
     {
@@ -103,7 +103,7 @@ public class ItemManager : MonoBehaviour
         // Unlock the the correct stance
         AddAugment(type);
     }
-    
+
     public AugmentType HubSelectedStance = AugmentType.Air;
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -124,30 +124,41 @@ public class ItemManager : MonoBehaviour
         get { return stanceAugments[0].Unlocked; }
         set { stanceAugments[0].Unlocked = value; }
     }
-    public bool Water{
+    public bool Water {
         get { return stanceAugments[1].Unlocked; }
         set { stanceAugments[1].Unlocked = value; }
     }
 
-    public bool Wind{
+    public bool Wind {
         get { return stanceAugments[2].Unlocked; }
         set { stanceAugments[2].Unlocked = value; }
     }
 
-    public bool Fire{
+    public bool Fire {
         get { return stanceAugments[3].Unlocked; }
         set { stanceAugments[3].Unlocked = value; }
     }
 
-    public AugmentScriptable getAugment(AugmentType type){
+    public int UnlockedStanceCount
+    {
+        get {
+            int count = 0;
+            foreach (var augment in stanceAugments)
+                if (augment.Unlocked) count++;
+            return count;
+        }
+    }
+
+    public AugmentScriptable getAugment(AugmentType type)
+    {
         StackableAugment stackableAugment = getStackableAugment(type);
-        if(stackableAugment != null)
+        if (stackableAugment != null)
             return stackableAugment.Augment;
 
         UnlockableAugment unlockableAugment = getUnlockableAugment(type);
-        if(unlockableAugment != null)
+        if (unlockableAugment != null)
             return unlockableAugment.Augment;
-        
+
         return null;
     }
 

@@ -31,7 +31,7 @@ public class LevelTrigger : MonoBehaviour
 
     void Awake()
     {
-        if (playerInputManager == null) Debug.Log("Error. PlayerinputManager not detected");
+        // if (playerInputManager == null) Debug.LogWarning("Error. PlayerinputManager not detected");
         AtEndOfLevel = false;
 
         spawner = FindAnyObjectByType<EnemySpawner>(FindObjectsInactive.Include);

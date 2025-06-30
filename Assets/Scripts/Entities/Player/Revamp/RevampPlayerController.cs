@@ -54,14 +54,19 @@ public class RevampPlayerController : MonoBehaviour
     {
         UpdatePointerInfo();
 
-        if (_playerMap.FindAction("Attack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
-            ProcessAttack(false);
-        if(_playerMap.FindAction("Attack").WasReleasedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player" && _holdingAnAttack)
-            SubmitAttack(false);
-        if (_playerMap.FindAction("SpecialAttack").WasPressedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player")
-            ProcessAttack(true);
-        if(_playerMap.FindAction("SpecialAttack").WasReleasedThisFrame() && IsMouseOverGameWindow && gameObject.tag == "Player" && _holdingAnAttack)
-            SubmitAttack(true);
+        if (IsMouseOverGameWindow && gameObject.tag == "Player")
+        {
+            InputAction attack = _playerMap.FindAction("Attack");
+            InputAction specialAttack = _playerMap.FindAction("SpecialAttack");
+            if (attack.IsPressed())                               ProcessAttack(false);
+            if (specialAttack.IsPressed())                        Debug.Log("Press R");
+            if (attack.IsPressed())                               Debug.Log("Press L");
+            if (specialAttack.IsPressed())                        ProcessAttack(true);
+            if (attack.WasReleasedThisFrame())                              Debug.Log("Release L");
+            if (specialAttack.WasReleasedThisFrame())                       Debug.Log("Release R");
+            if (attack.WasReleasedThisFrame() && _holdingAnAttack)          SubmitAttack(false);
+            if (specialAttack.WasReleasedThisFrame() && _holdingAnAttack)   SubmitAttack(true);
+        }
 
         if (_playerMap.FindAction("StanceSwitch").WasPressedThisFrame())
             ProcessStanceSwitch();
@@ -139,8 +144,8 @@ public class RevampPlayerController : MonoBehaviour
 
     void ProcessAttack(bool isSpecialAttack)
     {
-        // Reset in case of double click
-        _holdingAnAttack = false;
+        // Cancel invoke if already being charged
+        if (_holdingAnAttack) return;
 
         /** CHECK IF CLICK IS AT A VALID TIME **/
 
@@ -154,7 +159,7 @@ public class RevampPlayerController : MonoBehaviour
             return;
         }
 
-        /* SUCCESS WILL ACTIVATE MOVE SUBMISSION ON BUTTON RELEASE */
+        /* SUCCESS, WILL ACTIVATE MOVE SUBMISSION ON BUTTON RELEASE */
         _holdingAnAttack = true;
         _chargingStartTime = Time.time;
         _chargeTime = 0.0f;
@@ -256,10 +261,15 @@ public class RevampPlayerController : MonoBehaviour
         if (LevelTrigger.AtEndOfLevel) return;
 
         ParticleSystem.EmissionModule particleEmission = _walkParticles.emission;
-        if (input.sqrMagnitude <= 0 || !gameObject.CompareTag("Player"))
+        if ((input.sqrMagnitude <= 0 && !_isDashing) || !gameObject.CompareTag("Player"))
         {
-            _animator.SetMovement(EntityMovement.Idle);
-            _animator.RevampSetMoving(false);
+
+            if (_stateHandler.CurrentState == EntityState.None)
+            {
+                _animator.SetMovement(EntityMovement.Idle);
+                _animator.RevampSetMoving(false);   
+            }
+
             _rigidbody.drag = 1000.0f;
             particleEmission.enabled = false;
             return;
@@ -269,11 +279,16 @@ public class RevampPlayerController : MonoBehaviour
         if(input.sqrMagnitude > 0)
             _lastMoveInput = new(input.x, 0.0f, input.y);
 
+        // Debug.Log("Move Input: " + _lastMoveInput);
+
         if (_isDashing) return;
 
         // SET ANIMATOR
-        _animator.SetMovement(EntityMovement.Strafing);
-        _animator.RevampSetMoving(true);
+        if (_stateHandler.CurrentState == EntityState.None)
+        {
+            _animator.SetMovement(EntityMovement.Strafing);
+            _animator.RevampSetMoving(true);
+        }
         if(_stateHandler.CurrentState != EntityState.Attack)
             _animator.SetDirection(input.x >= 0 ? LookDirection.Right : LookDirection.Left);
         particleEmission.enabled = true;
@@ -298,11 +313,12 @@ public class RevampPlayerController : MonoBehaviour
         if (Time.time - _timeOfLastDash < PlayerStats.DashCooldown) return;
 
         _isDashing = true;
-        _rigidbody.drag = 0.0f;
         _timeOfLastDash = Time.time;
+        _rigidbody.drag = 0.0f;
         _dashParticles.Play();
 
-        _animator.RevampDashAnim(_isDashing);
+        if(_stateHandler.CurrentState == EntityState.None)
+            _animator.RevampDashAnim(_isDashing);
 
         _rigidbody.velocity = 100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
 
@@ -491,6 +507,33 @@ public class RevampPlayerController : MonoBehaviour
         _hitboxPointerOriginalXRotation = _hitboxPointer.transform.rotation.eulerAngles.x;
         _rigidbody = GetComponent<Rigidbody>();
         ResetState();
+
+        if (ItemManager.Instance != null && ItemManager.Instance.UnlockedStanceCount <= 0)
+        {
+            switch (CurrentStance.StanceType)
+            {
+                case EStance.Earth:
+                    ItemManager.Instance.AddAugment(AugmentType.Earth);
+                    ProcessStanceSwitch();
+                    break;
+                case EStance.Water:
+                    ItemManager.Instance.AddAugment(AugmentType.Water);
+                    ProcessStanceSwitch();
+                    break;
+                case EStance.Air:
+                    ItemManager.Instance.AddAugment(AugmentType.Air);
+                    ProcessStanceSwitch();
+                    break;
+                case EStance.Fire:
+                    ItemManager.Instance.AddAugment(AugmentType.Fire);
+                    ProcessStanceSwitch();
+                    break;
+                case EStance.None:
+                    ItemManager.Instance.AddAugment(AugmentType.Earth);
+                    ProcessStanceSwitch();
+                    break;
+            }
+        }
     }
 
     void OnDisable()

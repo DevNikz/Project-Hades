@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -49,6 +50,8 @@ public class RevampPlayerStateHandler : MonoBehaviour
         _animator = GetComponent<PlayerAnimatorController>();
 
         ResetStatus();
+
+        SceneManager.sceneLoaded += OnSceneLoad;
     }
 
     public void ResetStatus()
@@ -64,9 +67,15 @@ public class RevampPlayerStateHandler : MonoBehaviour
         UpdateManabar();
     }
 
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        UpdateHealthbar();
+        UpdateManabar();
+    }
+
     public void SetInvincibility(float amount)
     {
-        if(_invincibilitySetTime < Time.time + amount)
+        if (_invincibilitySetTime < Time.time + amount)
             _invincibilitySetTime = Time.time + amount;
     }
 
