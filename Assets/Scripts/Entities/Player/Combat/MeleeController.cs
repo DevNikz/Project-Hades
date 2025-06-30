@@ -1,9 +1,14 @@
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MeleeController : MonoBehaviour
 {
     [SerializeField] private RevampPlayerStateHandler _stateHandler;
+    [SerializeField] private float _biggestDamageThreshold;
+    [SerializeField] private Vector2 _hitStopTimeRange;
+    private float _hitStopDuration = 0f;
+    private bool _inHitstop = false;
 
     [Title("AttackType")]
     public AttackType attackType;
@@ -62,8 +67,9 @@ public class MeleeController : MonoBehaviour
         _chargeTime = chargeTime;
     }
 
-    void Awake() {
-        if(gameObject.CompareTag("PlayerMelee"))
+    void Awake()
+    {
+        if (gameObject.CompareTag("PlayerMelee"))
         {
             // attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
             // gameObject.transform.localScale = new Vector3(defaultScaleX, defaultScaleY, defaultScaleZ);
@@ -78,14 +84,18 @@ public class MeleeController : MonoBehaviour
             attackType = Resources.Load<AttackType>("Weapon/Sword/BasicAttack");
             gameObject.transform.localScale = new Vector3(largeScaleX, largeScaleY, largeScaleZ);
         }
+        _hitStopDuration = 0f;
+        _inHitstop = false;
     }
     
     public void StartTimer() {
         timerState = TimerState.Start;
     }
 
-    void Update() {
+    void Update()
+    {
         UpdateMelee();
+        CheckHitstop();
     }
 
     void UpdateMelee() {
@@ -360,7 +370,27 @@ public class MeleeController : MonoBehaviour
                 enemy.ReceiveDamage(DamageType.Physical, healthDamage, poiseDamage, atkdirection, Detain.No, doesCritDmg);
             if (pillar != null)
                 pillar.TakeDamage(healthDamage, doesCritDmg);
+
+            float hitstopDur = Mathf.Clamp(healthDamage, 0, _biggestDamageThreshold) / _biggestDamageThreshold * (_hitStopTimeRange.y - +_hitStopTimeRange.x) + _hitStopTimeRange.x;
+            TriggerHitstop(hitstopDur);
         }
+    }
+
+    private void TriggerHitstop(float duration)
+    {
+        _hitStopDuration = duration;
+        Time.timeScale = 0f;
+        _inHitstop = true;
+    }
+
+    private void CheckHitstop()
+    {
+        _hitStopDuration -= Time.unscaledDeltaTime;
+        if (_hitStopDuration > 0f) return;
+
+        _hitStopDuration = 0f;
+        Time.timeScale = 1f;
+        _inHitstop = false;
     }
 
     void TriggerDetain(Collider other) {

@@ -90,7 +90,7 @@ public class ItemManager : MonoBehaviour
 
     private void ClearAugmentsExceptStance(AugmentType type)
     {
-        // Make aure all stackable augment counts are reset to 0
+        // Make sure all stackable augment counts are reset to 0
         foreach (var augment in stackableAugments)
             augment.Count = 0;
 
