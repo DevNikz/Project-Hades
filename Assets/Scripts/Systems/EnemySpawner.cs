@@ -37,13 +37,17 @@ public class EnemySpawner : MonoBehaviour
     void Awake()
     {
         this._objectPool = this.gameObject.GetComponent<ObjectPool>();
+
+
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
+        if(scene.buildIndex == 0) this.enabled = false;
+
         if (SaveManager.Instance != null && SaveManager.Instance.CurrentFloorWaveset != null)
             InitializeSpawner(SaveManager.Instance.CurrentFloorWaveset);
-        else if (SaveManager.Instance != null) 
+        else if (SaveManager.Instance != null)
             InitializeSpawner();
     }
 
@@ -58,10 +62,10 @@ public class EnemySpawner : MonoBehaviour
             _triggeredSpawn = true;
             if (_rewardAugmentPerWave)
             {
-                StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
                 if (waves.Count <= 0 || spawnPoints.Count <= 0)
                     FinalWave = true;
                 if (FinalWave) this.enabled = false;
+                StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
             }
             else
             {
@@ -73,13 +77,19 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator DelayedRewardOpen(float time)
     {
+        Debug.Log("Reward called");
         yield return new WaitForSeconds(time);
         
+        Debug.Log("Coroutine Stop called");
+        StopAllCoroutines();
         _rewardMenu.Activate(true);
     }
 
     public void InitializeSpawner(EnemyWaveSet spawnPreset = null)
     {
+        // Debug.Log("Coroutine Stop called");
+        // StopAllCoroutines();
+
         if (spawnPreset != null)
             this.waves = spawnPreset.EnemyWaves;
         FinalWave = false;
@@ -88,7 +98,20 @@ public class EnemySpawner : MonoBehaviour
         _triggeredSpawn = false;
     }
 
-    public void AddSpawnpoint(Transform spawnpoint){
+    void OnDisable()
+    {
+        // Debug.Log("Coroutine Stop called");
+        // StopAllCoroutines();
+    }
+
+    void OnDestroy()
+    {
+        // Debug.Log("Coroutine Stop called");
+        // StopAllCoroutines();
+    }
+
+    public void AddSpawnpoint(Transform spawnpoint)
+    {
         if (spawnpoint == null) return;
         spawnPoints.Add(spawnpoint);
     }
@@ -100,10 +123,15 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnWave()
     {
-        _triggeredSpawn = false;
-        if (FinalWave) return;
+        Debug.Log("Spawn wave called");
+        if (FinalWave)
+        {
+            _triggeredSpawn = false;
+            return;
+        }
         if (waves.Count <= 0 || spawnPoints.Count <= 0)
         {
+            _triggeredSpawn = false;
             FinalWave = true;
             return;
         }
@@ -120,6 +148,7 @@ public class EnemySpawner : MonoBehaviour
                     // enemy.GetComponent<EnemyAction>().Cooldown = enemyCooldown;
                 }
             }
+        _triggeredSpawn = false;
 
         // foreach(GameObject enemy in waves[waveCounter].Enemies){
         //     this.object

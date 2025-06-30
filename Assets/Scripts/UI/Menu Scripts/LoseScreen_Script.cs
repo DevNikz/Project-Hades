@@ -33,7 +33,7 @@ public class LoseScreen_Script : MonoBehaviour
 
         if (Input.anyKeyDown && IsMouseOverGameWindow && Time.time > _showcaseTime && _isDisplayed)
         {
-            Debug.Log("Pressed");
+            // Debug.Log("Pressed");
             Reset();
 
             //Disable

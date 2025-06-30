@@ -188,6 +188,7 @@ public class LevelRewardScript : MonoBehaviour
 
     public void Activate(bool loadedFromWaveEnd)
     {
+        Debug.Log("Reward Menu Activated");
         _loadedFromWaveEnd = loadedFromWaveEnd;
 
         if (!TryActivateDialogue())

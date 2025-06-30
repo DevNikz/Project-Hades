@@ -58,12 +58,8 @@ public class RevampPlayerController : MonoBehaviour
         {
             InputAction attack = _playerMap.FindAction("Attack");
             InputAction specialAttack = _playerMap.FindAction("SpecialAttack");
-            if (attack.IsPressed())                               ProcessAttack(false);
-            if (specialAttack.IsPressed())                        Debug.Log("Press R");
-            if (attack.IsPressed())                               Debug.Log("Press L");
-            if (specialAttack.IsPressed())                        ProcessAttack(true);
-            if (attack.WasReleasedThisFrame())                              Debug.Log("Release L");
-            if (specialAttack.WasReleasedThisFrame())                       Debug.Log("Release R");
+            if (attack.IsPressed())                                         ProcessAttack(false);
+            if (specialAttack.IsPressed())                                  ProcessAttack(true);
             if (attack.WasReleasedThisFrame() && _holdingAnAttack)          SubmitAttack(false);
             if (specialAttack.WasReleasedThisFrame() && _holdingAnAttack)   SubmitAttack(true);
         }
