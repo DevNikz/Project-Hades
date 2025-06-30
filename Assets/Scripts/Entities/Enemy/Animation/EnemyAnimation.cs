@@ -17,6 +17,7 @@ public class EnemyAnimation : MonoBehaviour
     public Vector3 Scale;
 
     [SerializeField] GameObject obj;
+    [SerializeField] private GameObject _deathSprite;
     public EnemyAction action;
 
     private int prevAction = -1;
@@ -149,6 +150,9 @@ public class EnemyAnimation : MonoBehaviour
         }
 
         spriteAnimator.gameObject.transform.localScale = new Vector3(xScale, Scale.y, Scale.z);
+        Vector3 ogScale = _deathSprite.transform.localScale;
+        ogScale.x = xScale;
+        _deathSprite.transform.localScale = ogScale;
     }
 
     public void PlayStatusVFX(string name)

@@ -574,6 +574,7 @@ MonoBehaviour:
   xScale: 0
   Scale: {x: 0, y: 0, z: 0}
   obj: {fileID: 0}
+  _deathSprite: {fileID: 2553794881323989972}
   action: {fileID: 0}
 --- !u!1 &3099624619047412123
 GameObject:
@@ -5955,9 +5956,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Action: 0
+  IsAttacking: 0
   _attackHitbox: {fileID: 1025720507062330859}
   Cooldown: 0
   drawLine: 0
+  prevPlayerPos: {x: 0, y: 0, z: 0}
+  currPlayerPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1891413502577154544
 MonoBehaviour:
   m_ObjectHideFlags: 0

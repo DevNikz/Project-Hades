@@ -1,6 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ public class EnemySpawner : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoad;
     }
 
+    [SerializeField] private TMP_Text _waveCallout;
     [SerializeField] private LevelRewardScript _rewardMenu;
     [SerializeField] private float _rewardShowDelayTime = 0.2f;
     [SerializeField] private bool _rewardAugmentPerWave = false;
@@ -37,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     void Awake()
     {
         this._objectPool = this.gameObject.GetComponent<ObjectPool>();
-
+        _waveCallout.gameObject.SetActive(false);
 
     }
 
@@ -90,8 +92,8 @@ public class EnemySpawner : MonoBehaviour
         // Debug.Log("Coroutine Stop called");
         // StopAllCoroutines();
 
-        if (spawnPreset != null)
-            this.waves = spawnPreset.EnemyWaves;
+        // if (spawnPreset != null)
+        this.waves = spawnPreset.EnemyWaves;
         FinalWave = false;
         this.enabled = true;
         waveCounter = 0;
