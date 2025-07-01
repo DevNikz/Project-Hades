@@ -15,10 +15,11 @@ public class BugEAI : EnemyAction
         origStopDis = _enemyStats.stoppingDistance;
     }
 
-    protected override void ProcessAILogic(){
+    protected override void ProcessAILogic() {
         if (runtime >= 0) runtime -= Time.deltaTime;
-        
-        if (Action != 4) Agent.stoppingDistance = origStopDis;
+
+        if (Action != 4 && Action != 3) Agent.stoppingDistance = origStopDis;
+        else if (Action == 3) Distancing();
         else if (Action == 4) RunAway();
     }
 
@@ -48,13 +49,21 @@ public class BugEAI : EnemyAction
         */
     }
 
+    public void Distancing()
+    {
+        if(Vector3.Distance(this.transform.position, Player.transform.position) < origStopDis / 2)
+        {
+            this.SetAction(4);
+        }
+    }
+
     public void RunAway()
     {
         Agent.stoppingDistance = 0;
         this.transform.LookAt(2 * this.transform.position - Player.transform.position);
         this.findPoint(10f);
 
-        if (runtime <= 0)
+        if (runtime <= 0 && Vector3.Distance(this.transform.position, Player.transform.position) > origStopDis / 2)
         {
             this.SetAction(1);
             Agent.stoppingDistance = origStopDis;

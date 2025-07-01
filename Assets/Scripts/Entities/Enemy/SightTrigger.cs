@@ -43,7 +43,9 @@ public class SightTrigger : MonoBehaviour
 
         for (int i = 0; i < st.Length; i++)
         {
+            if(st[i].enabled)
             st[i].GetComponentInParent<EnemyAction>().SetAction(1);
+            st[i].enabled = false;
         }
         
         SFXManager.Instance.PlaySFX("Alerted");

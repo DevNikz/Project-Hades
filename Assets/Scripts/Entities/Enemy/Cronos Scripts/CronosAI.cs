@@ -21,6 +21,8 @@ public class CronosAI : EnemyAction
     private Dictionary<string, Attacks> possibleAttacks = new Dictionary<string, Attacks>();
     private string chosenAttack = "Reap";
 
+    [SerializeField] private float middleDistance = 7f;
+    [SerializeField] private int reapRepeat = 2;
     [SerializeField] private float reapDistance = 5f;
     [SerializeField] private float reapDelay = 0.25f;
     [SerializeField] private float reapLength = 15f;
@@ -29,6 +31,7 @@ public class CronosAI : EnemyAction
     [SerializeField] private float chargeCooldown = 0.25f;
     [SerializeField] private float actionCooldown = 2f;
     private float currentCooldown;
+    private int reapCount = 0;
     [SerializeField] private GameObject circleHitBox;
 
     protected override void BonusOnEnable()
@@ -86,21 +89,34 @@ public class CronosAI : EnemyAction
         if (isActionFinished)
         {
             count = 0;
-            if (percentHP > 0.65f)
-                chosenAttack = "Reap";
 
-            else if (percentHP > 0.25f)
+            if (reapCount < reapRepeat && Vector3.Distance(this.transform.position, Player.transform.position) <= middleDistance)
             {
-                if (Random.Range(0f, 1f) <= percentHP)
-                    chosenAttack = "Reap";
-                else
-                    chosenAttack = "Dash";
+                chosenAttack = "Reap";
+                reapCount++;
+            }
+            else 
+            { 
+                chosenAttack = "Dash";
+                reapCount = 0;
             }
 
-            else
-                chosenAttack = "Dash";
+                /*
+                if (percentHP > 0.65f)
+                    chosenAttack = "Reap";
 
-            isActionFinished = false;
+                else if (percentHP > 0.25f)
+                {
+                    if (Random.Range(0f, 1f) <= percentHP)
+                        chosenAttack = "Reap";
+                    else
+                        chosenAttack = "Dash";
+                }
+
+                else
+                    chosenAttack = "Dash";
+                */
+                isActionFinished = false;
         }
     }
 
@@ -191,11 +207,11 @@ public class CronosAI : EnemyAction
             gameObject.transform.LookAt(hit.position);
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
             Agent.SetDestination(hit.position);
-            StartCoroutine(cutPath());
+            StartCoroutine(CutPath());
         }
     }
 
-    private IEnumerator cutPath()
+    private IEnumerator CutPath()
     {
         yield return new WaitForEndOfFrame();
         Vector3[] pos = Agent.path.corners;
