@@ -37,10 +37,17 @@ public class EnemySpawner : MonoBehaviour
     {
         LocalInitialize();
     }
+    void OnSceneUnloaded(Scene scene)
+    {
+        Deactivate();
+    }
     private void LocalInitialize()
     {
         if (_isActive) return;
-        
+
+        GameObject playerSpawn = GameObject.Find("PlayerSpawn");
+        if (playerSpawn == null) return;
+
         if (SaveManager.Instance != null && SaveManager.Instance.CurrentFloorWaveset != null)
             InitializeSpawner(SaveManager.Instance.CurrentFloorWaveset);
         else
@@ -65,11 +72,12 @@ public class EnemySpawner : MonoBehaviour
     {
         _spawnpoints.Clear();
         _waveSet = null;
+        _isActive = false;
 
-        foreach (var wave in _toSpawnEnemyWaves)
-        {
-            foreach (GameObject enemy in wave) Destroy(enemy);
-        }
+        // foreach (var wave in _toSpawnEnemyWaves)
+        // {
+        //     foreach (GameObject enemy in wave) Destroy(enemy);
+        // }
         _toSpawnEnemyWaves.Clear();
     }
 
@@ -84,7 +92,7 @@ public class EnemySpawner : MonoBehaviour
     private bool _awaitingNextSpawn = false;
     public bool AreWavesOver { get { return GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && IsFinalWave; } }
     public bool IsFinalWave { get { return _toSpawnEnemyWaves.Count <= 0; } }
-    private bool CanSpawnNextWave { get { return _activeEnemyCount <= _enemiesRemainingBeforeNextWave && !_awaitingNextSpawn && !IsFinalWave; }}
+    private bool CanSpawnNextWave { get { return _activeEnemyCount <= _enemiesRemainingBeforeNextWave && !_awaitingNextSpawn; }}
     void Update()
     {
         if (_waveSet != null)
@@ -202,6 +210,7 @@ public class EnemySpawner : MonoBehaviour
         Debug.Log("Start");
         Instance = this;
         SceneManager.sceneLoaded += OnSceneLoad;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
         LocalInitialize();
     }
 }
