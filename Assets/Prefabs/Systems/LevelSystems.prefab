@@ -5199,6 +5199,11 @@ MonoBehaviour:
   _enemiesPerBatch: 5
   _spawnBatchCooldown: 2
   _enemiesRemainingBeforeNextWave: 0
+  _waveCalloutFadeTime: 1
+  _waveCalloutHoverTime: 1
+  _waveCalloutPrefix: 'WAVE '
+  _finalWaveCallout: FINAL WAVE
+  _levelClearCallout: FLOOR CLEAR
   _waveSet: {fileID: 0}
 --- !u!114 &197146545545682393
 MonoBehaviour:
@@ -5439,7 +5444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2437499131040501620
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5536,9 +5541,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 400
-    m_Right: 400
-    m_Top: 0
+    m_Left: 30
+    m_Right: 0
+    m_Top: 20
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -10726,7 +10731,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8019041253399413730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10743,8 +10748,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -540}
-  m_SizeDelta: {x: 1120, y: 1080}
+  m_AnchoredPosition: {x: 975, y: -550}
+  m_SizeDelta: {x: 1890, y: 1060}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4396118778098658851
 CanvasRenderer:
@@ -10774,7 +10779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Wave 1W
+  m_text: Wave 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78c88360d1feb4141b09492327fee270, type: 2}
   m_sharedMaterial: {fileID: 2805557418347072853, guid: 78c88360d1feb4141b09492327fee270,
@@ -10802,15 +10807,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 400
-  m_fontSizeBase: 400
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 200
   m_fontSizeMax: 400
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

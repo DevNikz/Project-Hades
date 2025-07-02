@@ -22,6 +22,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int                    _enemiesPerBatch;
     [SerializeField] private float                  _spawnBatchCooldown;
     [SerializeField] private int                    _enemiesRemainingBeforeNextWave;
+    [SerializeField] private float                  _waveCalloutFadeTime;
+    [SerializeField] private float                  _waveCalloutHoverTime;
+    [SerializeField] private string                 _waveCalloutPrefix;
+    [SerializeField] private string                 _finalWaveCallout;
+    [SerializeField] private string                 _levelClearCallout;
     [SerializeReference] private EnemyWaveSet       _waveSet;
     #endregion
 
@@ -59,7 +64,6 @@ public class EnemySpawner : MonoBehaviour
         _waveSet = spawnPreset;
         _awaitingNextSpawn = false;
         _isActive = true;
-        Debug.Log("Is Active Check " + _isActive);
 
         if (_waveSet != null)
         {
@@ -101,7 +105,6 @@ public class EnemySpawner : MonoBehaviour
             {
                 _awaitingNextSpawn = true;
                 if (IsFinalWave) _isActive = false;
-                Debug.Log("Is Active Check " + _isActive);
                 if (!_rewardAugmentPerWave) SpawnWave();
                 else StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
             }
@@ -115,7 +118,6 @@ public class EnemySpawner : MonoBehaviour
                 if (!_rewardAugmentPerWave) SpawnWave();
                 else StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
             }
-            Debug.Log("Is Active Check " + _isActive);
         }
     }
 
@@ -136,11 +138,46 @@ public class EnemySpawner : MonoBehaviour
         _awaitingNextSpawn = false;
         if (_toSpawnEnemyWaves.Count > 0)
             StartCoroutine(SpawnWaveCoroutine(_toSpawnEnemyWaves.Dequeue()));
+        else StartCoroutine(WaveCalloutHover(_levelClearCallout));
     }
     private IEnumerator SpawnWaveCoroutine(Queue<GameObject> waveEnemies)
     {
-        SpawnBatch(waveEnemies);
-        yield return new WaitForSeconds(_spawnBatchCooldown);
+        if(IsFinalWave) StartCoroutine(WaveCalloutHover(_finalWaveCallout));
+        else StartCoroutine(WaveCalloutHover(_waveCalloutPrefix + (_waveSet.EnemyWaves.Count - _toSpawnEnemyWaves.Count)));
+        while (waveEnemies.Count > 0)
+        {
+            SpawnBatch(waveEnemies);
+            yield return new WaitForSeconds(_spawnBatchCooldown);
+        }
+    }
+    private IEnumerator WaveCalloutHover(string calloutText)
+    {
+        if(_waveCalloutHoverTime <= 0) yield break;
+        
+        _waveCallout.text = calloutText;
+        _waveCallout.gameObject.SetActive(true);
+        Color textColor = _waveCallout.color;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < _waveCalloutFadeTime) {
+            elapsedTime += Time.deltaTime;
+            _waveCallout.color = new Color(textColor.r, textColor.g, textColor.b, elapsedTime / _waveCalloutFadeTime);
+
+            yield return new WaitForEndOfFrame();
+        }
+        _waveCallout.color = new Color(textColor.r, textColor.g, textColor.b, 1f);
+
+        yield return new WaitForSeconds(_waveCalloutHoverTime);
+
+        elapsedTime = _waveCalloutFadeTime;
+        while (elapsedTime > 0f)
+        {
+            elapsedTime -= Time.deltaTime;
+            _waveCallout.color = new Color(textColor.r, textColor.g, textColor.b, elapsedTime / _waveCalloutFadeTime);
+
+            yield return new WaitForEndOfFrame();
+        }
+        _waveCallout.gameObject.SetActive(false);
     }
     private void SpawnBatch(Queue<GameObject> waveEnemies)
     {
