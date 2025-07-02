@@ -30,8 +30,10 @@ public class EnemyDeath : MonoBehaviour
                 break;
         }
     }
-
-    public void Die() {
+    public delegate void OnDeathSpawnerCallbackFunc(GameObject obj);
+    public OnDeathSpawnerCallbackFunc OnDeathSpawnerCallback;
+    public void Die()
+    {
         if (isDead) return;
         isDead = true;
 
@@ -42,6 +44,8 @@ public class EnemyDeath : MonoBehaviour
 
         tempTimer = timer;
         timerState = TimerState.Start;
+
+        OnDeathSpawnerCallback?.Invoke(gameObject);
 
         Broadcaster.Instance.AddBoolParam(Combat.ENEMY_KILLED, EventNames.Combat.ENEMY_KILLED, true);
     }

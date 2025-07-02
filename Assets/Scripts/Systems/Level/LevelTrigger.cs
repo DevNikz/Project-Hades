@@ -10,7 +10,6 @@ public class LevelTrigger : MonoBehaviour
 {
     [SerializeField] String NextLevel;
     [SerializeField] GameObject playerInputManager;
-    private EnemySpawner spawner;
 
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
 
@@ -33,8 +32,6 @@ public class LevelTrigger : MonoBehaviour
     {
         // if (playerInputManager == null) Debug.LogWarning("Error. PlayerinputManager not detected");
         AtEndOfLevel = false;
-
-        spawner = FindAnyObjectByType<EnemySpawner>(FindObjectsInactive.Include);
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,7 +41,6 @@ public class LevelTrigger : MonoBehaviour
             if (GameObject.FindGameObjectsWithTag("Enemy").Length > 0 && !TransitionWithEnemies) return;
 
             if (!TryStartDialogue()) FinishLevel();
-
         }
     }
 
@@ -64,8 +60,8 @@ public class LevelTrigger : MonoBehaviour
     public void FinishLevel()
     {
         AtEndOfLevel = true;
-        if (spawner != null)
-            spawner.ClearSpawnPoints();
+        if (EnemySpawner.Instance != null)
+            EnemySpawner.Instance.Deactivate();
 
         this.playerInputManager = GameObject.Find("PlayerInputManager");
         if (!LoadsImmediatelyWithoutAugment && playerInputManager != null)
@@ -86,6 +82,7 @@ public class LevelTrigger : MonoBehaviour
                 Debug.LogWarning("[WARN]: LevelLoader component not found");
                 return;
             }
+            
             if (SaveManager.Instance == null)
             {
                 Debug.LogWarning("[WARN]: SaveManager null");

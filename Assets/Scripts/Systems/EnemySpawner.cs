@@ -2,162 +2,206 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public static EnemySpawner Instance { get; private set;}
-    void Start()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
+    #region References
+    [Header("References")]
+    [SerializeField] private TMP_Text               _waveCallout;
+    [SerializeField] private LevelRewardScript      _rewardMenu;
+    #endregion
 
-        SceneManager.sceneLoaded += OnSceneLoad;
-    }
+    #region Settings
+    [Header("Settings")]
+    [SerializeField] private float                  _rewardShowDelayTime = 0.2f;
+    [SerializeField] private bool                   _rewardAugmentPerWave = false;
+    [SerializeField] private int                    _enemiesPerBatch;
+    [SerializeField] private float                  _spawnBatchCooldown;
+    [SerializeField] private int                    _enemiesRemainingBeforeNextWave;
+    [SerializeReference] private EnemyWaveSet       _waveSet;
+    #endregion
 
-    [SerializeField] private TMP_Text _waveCallout;
-    [SerializeField] private LevelRewardScript _rewardMenu;
-    [SerializeField] private float _rewardShowDelayTime = 0.2f;
-    [SerializeField] private bool _rewardAugmentPerWave = false;
-    [SerializeReference] private List<Transform> spawnPoints = new List<Transform>();
-    [SerializeReference] private List<EnemyWave> waves;
-    private int waveCounter = 0;
-    private int enemyCounter;
-    private int RandomSpawn;
-    public float enemyCooldown = 0.25f;
-    public bool FinalWave;
-    private LevelTrigger _levelTrigger;
-
-    private ObjectPool _objectPool;
-    private bool _triggeredSpawn = false;
-
-    // Start is called before the first frame update
+    #region Setup and Activation
+    private bool _isActive = false;
+    private List<Transform> _spawnpoints = new();
     void Awake()
     {
-        this._objectPool = this.gameObject.GetComponent<ObjectPool>();
         _waveCallout.gameObject.SetActive(false);
-
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
-        if(scene.buildIndex == 0) this.enabled = false;
-
+        LocalInitialize();
+    }
+    private void LocalInitialize()
+    {
+        if (_isActive) return;
+        
         if (SaveManager.Instance != null && SaveManager.Instance.CurrentFloorWaveset != null)
             InitializeSpawner(SaveManager.Instance.CurrentFloorWaveset);
-        else if (SaveManager.Instance != null)
+        else
             InitializeSpawner();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        enemyCounter = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        // enemyCounter = _objectPool.ReleasedCount;
-        if (enemyCounter <= 0 && !_triggeredSpawn)
-        {
-            _triggeredSpawn = true;
-            if (_rewardAugmentPerWave)
-            {
-                if (waves.Count <= 0 || spawnPoints.Count <= 0)
-                    FinalWave = true;
-                if (FinalWave) this.enabled = false;
-                StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
-            }
-            else
-            {
-                SpawnWave();
-
-            }
-        }
-    }
-
-    IEnumerator DelayedRewardOpen(float time)
-    {
-        Debug.Log("Reward called");
-        yield return new WaitForSeconds(time);
-        
-        Debug.Log("Coroutine Stop called");
-        StopAllCoroutines();
-        _rewardMenu.Activate(true);
     }
 
     public void InitializeSpawner(EnemyWaveSet spawnPreset = null)
     {
-        // Debug.Log("Coroutine Stop called");
-        // StopAllCoroutines();
+        _waveSet = spawnPreset;
+        _awaitingNextSpawn = false;
+        _isActive = true;
+        Debug.Log("Is Active Check " + _isActive);
 
-        // if (spawnPreset != null)
-        this.waves = spawnPreset.EnemyWaves;
-        FinalWave = false;
-        this.enabled = true;
-        waveCounter = 0;
-        _triggeredSpawn = false;
+        if (_waveSet != null)
+        {
+            WarmSpawns();
+            SpawnWave();
+        }
     }
 
-    void OnDisable()
+    public void Deactivate()
     {
-        // Debug.Log("Coroutine Stop called");
-        // StopAllCoroutines();
-    }
+        _spawnpoints.Clear();
+        _waveSet = null;
 
-    void OnDestroy()
-    {
-        // Debug.Log("Coroutine Stop called");
-        // StopAllCoroutines();
+        foreach (var wave in _toSpawnEnemyWaves)
+        {
+            foreach (GameObject enemy in wave) Destroy(enemy);
+        }
+        _toSpawnEnemyWaves.Clear();
     }
 
     public void AddSpawnpoint(Transform spawnpoint)
     {
         if (spawnpoint == null) return;
-        spawnPoints.Add(spawnpoint);
+        _spawnpoints.Add(spawnpoint);
+    }
+    #endregion
+
+    #region Check Wave Completion
+    private bool _awaitingNextSpawn = false;
+    public bool AreWavesOver { get { return GameObject.FindGameObjectsWithTag("Enemy").Length <= 0 && IsFinalWave; } }
+    public bool IsFinalWave { get { return _toSpawnEnemyWaves.Count <= 0; } }
+    private bool CanSpawnNextWave { get { return _activeEnemyCount <= _enemiesRemainingBeforeNextWave && !_awaitingNextSpawn && !IsFinalWave; }}
+    void Update()
+    {
+        if (_waveSet != null)
+        {
+            if (CanSpawnNextWave && _isActive)
+            {
+                _awaitingNextSpawn = true;
+                if (IsFinalWave) _isActive = false;
+                Debug.Log("Is Active Check " + _isActive);
+                if (!_rewardAugmentPerWave) SpawnWave();
+                else StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
+            }
+        }
+        else
+        {
+            if (AreWavesOver && _isActive)
+            {
+                _awaitingNextSpawn = true;
+                _isActive = false;
+                if (!_rewardAugmentPerWave) SpawnWave();
+                else StartCoroutine(DelayedRewardOpen(_rewardShowDelayTime));
+            }
+            Debug.Log("Is Active Check " + _isActive);
+        }
     }
 
-    public void ClearSpawnPoints(){
-        Debug.Log("Clear spawnpoints called");
-        spawnPoints.Clear();
+    IEnumerator DelayedRewardOpen(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        _rewardMenu.Activate(true);
     }
 
+    #endregion
+
+    #region Spawning
+    private int _activeEnemyCount;
+    private Queue<Queue<GameObject>> _toSpawnEnemyWaves = new();
     public void SpawnWave()
     {
-        Debug.Log("Spawn wave called");
-        if (FinalWave)
-        {
-            _triggeredSpawn = false;
-            return;
-        }
-        if (waves.Count <= 0 || spawnPoints.Count <= 0)
-        {
-            _triggeredSpawn = false;
-            FinalWave = true;
-            return;
-        }
+        _awaitingNextSpawn = false;
+        if (_toSpawnEnemyWaves.Count > 0)
+            StartCoroutine(SpawnWaveCoroutine(_toSpawnEnemyWaves.Dequeue()));
+    }
+    private IEnumerator SpawnWaveCoroutine(Queue<GameObject> waveEnemies)
+    {
+        SpawnBatch(waveEnemies);
+        yield return new WaitForSeconds(_spawnBatchCooldown);
+    }
+    private void SpawnBatch(Queue<GameObject> waveEnemies)
+    {
+        for (int i = 0; i < _enemiesPerBatch && waveEnemies.Count > 0; i++)
+            SpawnEnemy(waveEnemies.Dequeue());
+    }
+    private void SpawnEnemy(GameObject enemy)
+    {
+        int randomSpawn = _spawnpoints.Count > 0 ? Random.Range(0, _spawnpoints.Count) : -1;
+        Transform spawnpoint = randomSpawn >= 0 ? _spawnpoints[randomSpawn] : null;
+        Vector3 spawnPosition = spawnpoint == null ? gameObject.transform.position : spawnPosition = spawnpoint.position;
 
-        for (int i = 0; i < waves[waveCounter].EnemyList.Count; i++)
+        _activeEnemyCount++;
+        enemy.transform.position = spawnPosition;
+        enemy.SetActive(true);
+    }
+    private void WarmSpawns()
+    {
+        foreach (EnemyWave wave in _waveSet.EnemyWaves)
+        {
+            List<GameObject> spawnedEnemies = new();
+            foreach (EnemyWave.EnemyCountPair countpair in wave.EnemyList)
             {
-                for (int j = 0; j < waves[waveCounter].EnemyList[i].Amount; j++)
+                for (int i = 0; i < countpair.Amount; i++)
                 {
-                    RandomSpawn = Random.Range(0, spawnPoints.Count);
-                    Transform spawnpoint = spawnPoints[RandomSpawn];
-                    if(spawnpoint == null) continue;
-
-                    GameObject enemy = Instantiate(waves[waveCounter].EnemyList[i].Enemy, spawnpoint.transform.position, Quaternion.identity);
-                    // enemy.GetComponent<EnemyAction>().Cooldown = enemyCooldown;
+                    GameObject obj = WarmSpawn(countpair.Enemy);
+                    if(obj != null) spawnedEnemies.Add(obj);
                 }
             }
-        _triggeredSpawn = false;
 
-        // foreach(GameObject enemy in waves[waveCounter].Enemies){
-        //     this.object
-        // }
+            Queue<GameObject> waveEnemies = new();
+            while (spawnedEnemies.Count > 0)
+            {
+                int randomEnemy = Random.Range(0, spawnedEnemies.Count);
+                waveEnemies.Enqueue(spawnedEnemies[randomEnemy]);
+                spawnedEnemies.RemoveAt(randomEnemy);
+            }
 
-        waveCounter++;
-        if (waves.Count == waveCounter) FinalWave = true;
+            _toSpawnEnemyWaves.Enqueue(waveEnemies);
+        }
+    }
+    private GameObject WarmSpawn(GameObject prefab)
+    {
+        GameObject obj = Instantiate(prefab, gameObject.transform.position, Quaternion.identity);
+        obj.SetActive(false);
 
+        EnemyDeath deathScript = obj.GetComponentInChildren<EnemyDeath>();
+        if (obj == null) return null;
+
+        deathScript.OnDeathSpawnerCallback = OnDeathCallback;
+        return obj;
+    }
+    public void OnDeathCallback(GameObject obj)
+    {
+        _activeEnemyCount--;
+    }
+    #endregion
+
+    public static EnemySpawner Instance { get; private set; }
+    void Start()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        Debug.Log("Start");
+        Instance = this;
+        SceneManager.sceneLoaded += OnSceneLoad;
+        LocalInitialize();
     }
 }

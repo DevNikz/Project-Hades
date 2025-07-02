@@ -5192,14 +5192,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45510a77c1d52cf40abdb06a6a7126a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waveCallout: {fileID: 0}
+  _waveCallout: {fileID: 814647335964146615}
   _rewardMenu: {fileID: 5707761510567387377}
   _rewardShowDelayTime: 0.3
   _rewardAugmentPerWave: 1
-  spawnPoints: []
-  waves: []
-  enemyCooldown: 0.25
-  FinalWave: 0
+  _enemiesPerBatch: 5
+  _spawnBatchCooldown: 2
+  _enemiesRemainingBeforeNextWave: 0
+  _waveSet: {fileID: 0}
 --- !u!114 &197146545545682393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5416,7 +5416,6 @@ MonoBehaviour:
   - {fileID: 4593095062856681484}
   - {fileID: 8552098963414450258}
   - {fileID: 1592467377449684464}
-  _enemySpawner: {fileID: 0}
   chosenAugments: []
   lootpool: {fileID: 11400000, guid: 1cdf4ba7be009f14e8adfe74877698b6, type: 2}
   maxRetryAugmentGenerate: 100

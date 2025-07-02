@@ -12,7 +12,6 @@ public class LevelRewardScript : MonoBehaviour
     [SerializeField] GameObject levelRewardMenu;
     [SerializeField] ButtonHighlightScript _selectHighlight;
     [SerializeField] GameObject[] augmentButtons;
-    [SerializeField] EnemySpawner _enemySpawner;
 
     [SerializeField, ReadOnly] private List<AugmentScriptable> chosenAugments = new();
 
@@ -183,7 +182,8 @@ public class LevelRewardScript : MonoBehaviour
     private void ContinueSpawning()
     {
         ResetMenu();
-        _enemySpawner.SpawnWave();
+        if(EnemySpawner.Instance != null)
+            EnemySpawner.Instance.SpawnWave();
     }
 
     public void Activate(bool loadedFromWaveEnd)
