@@ -652,8 +652,8 @@ Transform:
   m_GameObject: {fileID: 1215171518506638564}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0000010182457, y: 4.333333, z: -0.000001639127}
-  m_LocalScale: {x: 1.8, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0000023096804, y: 0.3333273, z: -0.0000009934104}
+  m_LocalScale: {x: 18, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7927902503518967625}
@@ -705,7 +705,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
@@ -6653,6 +6653,7 @@ MonoBehaviour:
   _attackHitbox: {fileID: 7821734719925142348}
   _attackAnimCallback: {fileID: 3749413141250970016}
   _hitboxPointer: {fileID: 267848936122921413}
+  _fireChargeDisplayer: {fileID: 2139575330239220253}
   _stanceAttackIndicators:
   - {fileID: 772638481238340083}
   - {fileID: 1505644978913712305}
@@ -7537,6 +7538,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7927902503518967625}
+  - component: {fileID: 2139575330239220253}
   m_Layer: 6
   m_Name: FireIndicator
   m_TagString: Untagged
@@ -7561,6 +7563,19 @@ Transform:
   - {fileID: 6632478469346662513}
   m_Father: {fileID: 6480504003313979749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2139575330239220253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6211196454015826431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc2706c51ba16e4088657d732e49da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _filledSprite: {fileID: 8084344088579394371}
 --- !u!1 &6504217658419683979
 GameObject:
   m_ObjectHideFlags: 0

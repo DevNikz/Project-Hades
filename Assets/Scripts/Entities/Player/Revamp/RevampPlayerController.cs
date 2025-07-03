@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,7 @@ public class RevampPlayerController : MonoBehaviour
     [SerializeField] private MeleeController _attackHitbox;
     [SerializeField] private PlayerAttackAnimCallback _attackAnimCallback;
     [SerializeField] private GameObject _hitboxPointer;
+    [SerializeField] private FireChargeDisplayer _fireChargeDisplayer;
     [SerializeField] private List<GameObject> _stanceAttackIndicators = new();
     [SerializeField] private bool _useAutohitboxSpawn = false;
     [SerializeField] private ParticleSystem _walkParticles;
@@ -38,6 +40,7 @@ public class RevampPlayerController : MonoBehaviour
     private int _comboCount = -1;
     private RevampPlayerAttackStatsScriptable _queuedAttack = null;
     private bool _queuedAttackIsSpecial = false;
+    private bool _chargedAttackIsSpecial = false;
     private bool _lastPerformedAttackIsSpecial = false;
     private float _timeOfLastAttack;
     private Rigidbody _rigidbody;
@@ -58,11 +61,28 @@ public class RevampPlayerController : MonoBehaviour
         {
             InputAction attack = _playerMap.FindAction("Attack");
             InputAction specialAttack = _playerMap.FindAction("SpecialAttack");
-            if (attack.IsPressed())                                         ProcessAttack(false);
-            if (specialAttack.IsPressed())                                  ProcessAttack(true);
-            if (attack.WasReleasedThisFrame() && _holdingAnAttack)          SubmitAttack(false);
-            if (specialAttack.WasReleasedThisFrame() && _holdingAnAttack)   SubmitAttack(true);
+            if (attack.IsPressed()) ProcessAttack(false);
+            if (specialAttack.IsPressed()) ProcessAttack(true);
+
+            if (CurrentStance.StanceType == EStance.Fire && _fireChargeDisplayer != null)
+            {
+                if (_holdingAnAttack)
+                {
+                    if (_chargedAttackIsSpecial && NextSpecialAttack != null)
+                        _fireChargeDisplayer.SetFill(Time.time - _chargingStartTime, NextSpecialAttack.FullChargeTime);
+                    else if (NextNormalAttack != null)
+                        _fireChargeDisplayer.SetFill(Time.time - _chargingStartTime, NextNormalAttack.FullChargeTime);
+                    else
+                        _fireChargeDisplayer.SetFill(0, 1);
+                }
+                else
+                    _fireChargeDisplayer.SetFill(0, 1);
+            }
+
+            if (!attack.IsPressed() && !specialAttack.IsPressed() && _holdingAnAttack)
+                SubmitAttack(_chargedAttackIsSpecial);
         }
+
 
         if (_playerMap.FindAction("StanceSwitch").WasPressedThisFrame())
             ProcessStanceSwitch();
@@ -154,8 +174,9 @@ public class RevampPlayerController : MonoBehaviour
         {
             return;
         }
-
+        
         /* SUCCESS, WILL ACTIVATE MOVE SUBMISSION ON BUTTON RELEASE */
+        _chargedAttackIsSpecial = isSpecialAttack;
         _holdingAnAttack = true;
         _chargingStartTime = Time.time;
         _chargeTime = 0.0f;
@@ -204,7 +225,7 @@ public class RevampPlayerController : MonoBehaviour
         );
 
         // TP Player if they are in Wind Stance
-        if(CurrentStance.StanceType == EStance.Air)
+        if (CurrentStance.StanceType == EStance.Air)
             transform.position = _hitboxPointer.transform.position;
 
         // SET ANIMATION
@@ -217,6 +238,30 @@ public class RevampPlayerController : MonoBehaviour
         _lastPerformedAttackIsSpecial = _queuedAttackIsSpecial;
         _queuedAttack = null;
         _queuedAttackIsSpecial = false;
+    }
+    private IEnumerator WindAttackMove(Vector3 target)
+    {
+        RevampPlayerAttackStatsScriptable localQueuedAtk = _queuedAttack;
+        _queuedAttack = null;
+        _stateHandler.CurrentState = EntityState.Attack;
+
+        Vector3 startPosition = transform.position;
+        float elapsedTime = 0f;
+        while (elapsedTime < 0.5f)
+        {
+            transform.position = Vector3.Lerp(startPosition, target, elapsedTime / 0.5f);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = target;
+
+        _comboCount++;
+        _timeOfLastAttack = Time.time;
+        _lastPerformedAttackIsSpecial = _queuedAttackIsSpecial;
+        _queuedAttackIsSpecial = false;
+
+        // SET ANIMATION
+        _animator.RevampedPlayAttackAnim(localQueuedAtk.AnimationClipName, 0, localQueuedAtk.VFXAnimClipName, localQueuedAtk.SFXClipName);
     }
     void AttackFail(float lagtime)
     {
