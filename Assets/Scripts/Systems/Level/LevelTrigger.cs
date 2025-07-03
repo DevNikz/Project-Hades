@@ -32,6 +32,20 @@ public class LevelTrigger : MonoBehaviour
     {
         // if (playerInputManager == null) Debug.LogWarning("Error. PlayerinputManager not detected");
         AtEndOfLevel = false;
+        _procedGudiingArrow = false;
+    }
+
+    private bool _procedGudiingArrow = false;
+    void Update()
+    {
+        if (!_procedGudiingArrow && EnemySpawner.Instance != null)
+        {
+            if (EnemySpawner.Instance.AreWavesOver && GuidingArrow.Instance != null)
+            {
+                _procedGudiingArrow = true;
+                GuidingArrow.Instance.Enable(gameObject.transform);
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
