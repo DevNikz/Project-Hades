@@ -41,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         LocalInitialize();
+        if (scene.name == "HubLevel") _isActive = false;
     }
     void OnSceneUnloaded(Scene scene)
     {
