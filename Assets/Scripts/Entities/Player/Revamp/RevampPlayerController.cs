@@ -117,10 +117,12 @@ public class RevampPlayerController : MonoBehaviour
     }
 
     #region Attacks
-    bool IsMouseOverGameWindow {
-        get {
+    bool IsMouseOverGameWindow
+    {
+        get
+        {
             Vector3 mp = Input.mousePosition;
-            return !( 0>mp.x || 0>mp.y || Screen.width<mp.x || Screen.height<mp.y );
+            return !(0 > mp.x || 0 > mp.y || Screen.width < mp.x || Screen.height < mp.y);
         }
     }
     private RevampPlayerAttackStatsScriptable LastUsedAttack
@@ -174,7 +176,7 @@ public class RevampPlayerController : MonoBehaviour
         {
             return;
         }
-        
+
         /* SUCCESS, WILL ACTIVATE MOVE SUBMISSION ON BUTTON RELEASE */
         _chargedAttackIsSpecial = isSpecialAttack;
         _holdingAnAttack = true;
@@ -283,7 +285,7 @@ public class RevampPlayerController : MonoBehaviour
     void DeactivateHitbox()
     {
         // Debug.Log($"Attack Hitbox: {_lastHitboxEndTime}, {Time.time}");
-        if(_lastHitboxEndTime < Time.time)
+        if (_lastHitboxEndTime < Time.time)
             _attackHitbox.gameObject.SetActive(false);
     }
     void ResetAttackingAnim()
@@ -308,7 +310,7 @@ public class RevampPlayerController : MonoBehaviour
             if (_stateHandler.CurrentState == EntityState.None)
             {
                 _animator.SetMovement(EntityMovement.Idle);
-                _animator.RevampSetMoving(false);   
+                _animator.RevampSetMoving(false);
             }
 
             _rigidbody.drag = 1000.0f;
@@ -317,7 +319,7 @@ public class RevampPlayerController : MonoBehaviour
         }
 
         // UPDATE MOVE DIRECTION
-        if(input.sqrMagnitude > 0)
+        if (input.sqrMagnitude > 0)
             _lastMoveInput = new(input.x, 0.0f, input.y);
 
         // Debug.Log("Move Input: " + _lastMoveInput);
@@ -330,7 +332,7 @@ public class RevampPlayerController : MonoBehaviour
             _animator.SetMovement(EntityMovement.Strafing);
             _animator.RevampSetMoving(true);
         }
-        if(_stateHandler.CurrentState != EntityState.Attack)
+        if (_stateHandler.CurrentState != EntityState.Attack)
             _animator.SetDirection(input.x >= 0 ? LookDirection.Right : LookDirection.Left);
         particleEmission.enabled = true;
 
@@ -358,7 +360,7 @@ public class RevampPlayerController : MonoBehaviour
         _rigidbody.drag = 0.0f;
         _dashParticles.Play();
 
-        if(_stateHandler.CurrentState == EntityState.None)
+        if (_stateHandler.CurrentState == EntityState.None)
             _animator.RevampDashAnim(_isDashing);
 
         _rigidbody.velocity = 100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
@@ -381,7 +383,7 @@ public class RevampPlayerController : MonoBehaviour
         get { return _stanceDatabase.Stances[_activeStanceIndex]; }
         set { _activeStanceIndex = _stanceDatabase.Stances.IndexOf(value); }
     }
-    void ProcessStanceSwitch()
+    public void ProcessStanceSwitch()
     {
         bool leaveLoop = false;
         for (int i = 0; i < 4 && !leaveLoop; i++)
@@ -407,7 +409,7 @@ public class RevampPlayerController : MonoBehaviour
                     break;
             }
         }
-        
+
         UpdateAttackIndicator();
         StartCoroutine(StancePopup());
     }
@@ -425,20 +427,20 @@ public class RevampPlayerController : MonoBehaviour
             item.SetActive(false);
 
         switch (CurrentStance.StanceType)
-            {
-                case EStance.Earth:
-                    _stanceAttackIndicators[0].SetActive(true);
-                    break;
-                case EStance.Water:
-                    _stanceAttackIndicators[1].SetActive(true);
-                    break;
-                case EStance.Air:
-                    _stanceAttackIndicators[2].SetActive(true);
-                    break;
-                case EStance.Fire:
-                    _stanceAttackIndicators[3].SetActive(true);
-                    break;
-            }
+        {
+            case EStance.Earth:
+                _stanceAttackIndicators[0].SetActive(true);
+                break;
+            case EStance.Water:
+                _stanceAttackIndicators[1].SetActive(true);
+                break;
+            case EStance.Air:
+                _stanceAttackIndicators[2].SetActive(true);
+                break;
+            case EStance.Fire:
+                _stanceAttackIndicators[3].SetActive(true);
+                break;
+        }
     }
     #endregion
 
@@ -464,13 +466,14 @@ public class RevampPlayerController : MonoBehaviour
         _hitboxPointer.SetActive(true);
 
         float angle = ToIsoRotation(position);
-        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, - angle - 45, 0.0f);
+        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle - 45, 0.0f);
         _hitboxPointer.transform.rotation = rot;
-        
-        if(_stateHandler.CurrentState == EntityState.Attack)
+
+        if (_stateHandler.CurrentState == EntityState.Attack)
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
     }
-    float ToIsoRotation(Vector2 position) {
+    float ToIsoRotation(Vector2 position)
+    {
         Vector3 tempVector = Camera.main.WorldToScreenPoint(transform.position);
         tempVector = (Vector3)position - tempVector;
         return Mathf.Atan2(tempVector.y, tempVector.x) * Mathf.Rad2Deg;
@@ -486,7 +489,7 @@ public class RevampPlayerController : MonoBehaviour
         }
 
         float angle = ToIsoRotation(position);
-        if(_stateHandler.CurrentState == EntityState.Attack)
+        if (_stateHandler.CurrentState == EntityState.Attack)
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
 
         RaycastHit raycastHit;
@@ -501,7 +504,7 @@ public class RevampPlayerController : MonoBehaviour
         }
         else
             _hitboxPointer.SetActive(false);
-            
+
     }
 
     void UpdateAnimatorControllerStates()
@@ -583,4 +586,15 @@ public class RevampPlayerController : MonoBehaviour
         _inputActions.Disable();
     }
 
+    public static RevampPlayerController Instance { get; private set; }
+    void Start()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
 }

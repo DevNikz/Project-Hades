@@ -65,7 +65,7 @@ public class StanceHitbox : MonoBehaviour
 
         // Unlock the selected stance
         ItemManager.Instance.AddAugment(selectedStance);
-        ItemManager.Instance.HubSelectedStance = selectedStance;
+        // ItemManager.Instance.HubSelectedStance = selectedStance;
 
         // Optional: Debug log to confirm the stance selection
         Debug.Log($"Stance selected: {selectedStance}");

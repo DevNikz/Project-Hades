@@ -88,7 +88,7 @@ public class ItemManager : MonoBehaviour
             augmentIndexRef.Add(stanceSubAugments[i].Augment.augmentType, i);
     }
 
-    private void ClearAugmentsExceptStance(AugmentType type)
+    public void ClearAugmentsExceptStance(EStance type)
     {
         // Make sure all stackable augment counts are reset to 0
         foreach (var augment in stackableAugments)
@@ -101,19 +101,28 @@ public class ItemManager : MonoBehaviour
             augment.Unlocked = false;
 
         // Unlock the the correct stance
-        AddAugment(type);
+        switch (type)
+        {
+            case EStance.Earth:     AddAugment(AugmentType.Earth);  break;
+            case EStance.Water:     AddAugment(AugmentType.Water);  break;
+            case EStance.Air:       AddAugment(AugmentType.Air);    break;
+            case EStance.Fire:      AddAugment(AugmentType.Fire);   break;
+        }
+
+        if (RevampPlayerController.Instance != null)
+            RevampPlayerController.Instance.ProcessStanceSwitch();
     }
 
-    public AugmentType HubSelectedStance = AugmentType.Air;
+    public EStance HubSelectedStance = EStance.Air;
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch (scene.buildIndex)
         {
             case 0: // Main Menu
-                ClearAugmentsExceptStance(AugmentType.Earth);
-                break;
             case 1: // Tutorial
             case 2: // Hub
+                if (HubSelectedStance == EStance.None)
+                    HubSelectedStance = EStance.Earth;
                 ClearAugmentsExceptStance(HubSelectedStance);
                 break;
         }
