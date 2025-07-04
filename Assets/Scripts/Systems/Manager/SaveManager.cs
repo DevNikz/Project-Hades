@@ -90,7 +90,17 @@ public class SaveManager : MonoBehaviour
 
     public void LoadPlayer(int index)
     {
-        LoadStats(index);
+        SelectedSave = index;
+        bool checkVal = false;
+        switch (index)
+        {
+            case 1: checkVal = HadPlayedSave1; break;
+            case 2: checkVal = HadPlayedSave2; break;
+            case 3: checkVal = HadPlayedSave3; break;
+        }
+
+        if (checkVal)
+            LoadStats(index);
     }
 
     public void LoadSettings()
@@ -102,7 +112,6 @@ public class SaveManager : MonoBehaviour
     void LoadStats(int index)
     {
         CurrentStats = SaveSystem.LoadPlayerData(index);
-        SelectedSave = index;
         if (CurrentStats == null)
             CurrentStats = new();
     }

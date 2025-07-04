@@ -77,6 +77,7 @@ public class EnemySpawner : MonoBehaviour
         _spawnpoints.Clear();
         _waveSet = null;
         _isActive = false;
+        _activeEnemyCount = 0;
 
         // foreach (var wave in _toSpawnEnemyWaves)
         // {

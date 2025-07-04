@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2517444428169806130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2549121376575534727}
+  - component: {fileID: 671180353184716}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2549121376575534727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517444428169806130}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &671180353184716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517444428169806130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f20413f822174947a4fe0bb367e5b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxLevels: 3
+  _useRandomGen: 0
+  _nonRandomGenWavesets:
+  - {fileID: 11400000, guid: c3355151eafd3194baae2baf59fa0be8, type: 2}
+  - {fileID: 11400000, guid: 2cb83f0a9299c794d8374ba580d7a627, type: 2}
+  - {fileID: 11400000, guid: 5d5c4326b1cf49b4dabf1a39982206e7, type: 2}
+  - {fileID: 11400000, guid: 2b21e0b44a5703541b18865ad3e2c73d, type: 2}
+  CurrentStats:
+    Runs: 0
+    DepthLevel: 0
+    AugmentID: 
+    Wins: 0
+    Deaths: 0
+    hasPlayed: 0
+  CurrentSettings:
+    masterVolume: 1
+    musicVolume: 1
+    gameplayVolume: 1
+    menuVolume: 1
+    screenMode: 1
+    vsync: 1
+    difficulty: 0
+    detail: 1
+  SelectedSave: -1
+  HadPlayedSave1: 0
+  HadPlayedSave2: 0
+  HadPlayedSave3: 0
