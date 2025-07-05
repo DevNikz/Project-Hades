@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CronosAnimation : EnemyAnimation
 {
+    [SerializeField] Animator atkvfxAnimator;
+
     public override void SetAnimation()
-    {
+    {  
         SetDirection();
         switch (action.Action)
         {
@@ -22,6 +24,7 @@ public class CronosAnimation : EnemyAnimation
                 if (this.getPrevAction() != 3)
                 {
                     spriteAnimator.Play("Reap");
+                    atkvfxAnimator.Play("CronosAtkVFX1");
                     SFXManager.Instance.PlaySFXAtPosition("CronosSwing", transform.position);
                 }
                 break;
@@ -29,6 +32,7 @@ public class CronosAnimation : EnemyAnimation
                 if (this.getPrevAction() != 4)
                 {
                     spriteAnimator.Play("Dash");
+                    atkvfxAnimator.Play("CronosAtkVFX2");
                     SFXManager.Instance.PlaySFXAtPosition("CronosCharge", transform.position);
                 }
                 break;
