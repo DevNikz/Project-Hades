@@ -14,11 +14,13 @@ public class PillarHazard : MonoBehaviour
     [SerializeField] private GameObject _zeroHealthState;
     [SerializeField] private GameObject _destroyedState;
     [SerializeField] private List<GameObject> _pillarStateObjects = new();
+    [SerializeField] private Animator _animator;
     private bool _wasDestroyed = true;
 
     private float _currentHealth;
     void OnEnable()
     {
+        _animator = GetComponentInChildren<Animator>();
         _currentHealth = _maxHealth;
         if (_maxHealth > 0) _wasDestroyed = false;
         UpdateLook();
@@ -79,16 +81,17 @@ public class PillarHazard : MonoBehaviour
         _zeroHealthState.SetActive(true);
         _wasDestroyed = true;
         _shakeEffect.Play();
-        _visualBox.SetActive(true);
+        //_visualBox.SetActive(true);
         SFXManager.Instance.PlaySFXAtPosition("Falling_Debris", transform.position);
 
         yield return new WaitForSeconds(delay);
 
         _hitbox.SetActive(true);
-        _visualBox.SetActive(false);
+        //_visualBox.SetActive(false);
 
         yield return new WaitForEndOfFrame();
 
+        _animator.Play("CollapseVFX");
         _hitbox.SetActive(false);
         foreach (var state in _pillarStateObjects)
             state.SetActive(false);

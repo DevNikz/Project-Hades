@@ -81,9 +81,6 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private Slider bossMeter2;
 
     [BoxGroup("ShowReferences/Reference")]
-    [SerializeReference] private Slider bossMeter3;
-
-    [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private GameObject poiseUI;
 
     [BoxGroup("ShowReferences/Reference")]
@@ -114,7 +111,12 @@ public class EnemyController : MonoBehaviour
         spawnPoint = this.transform.position;
         currentPoise = enemyStats.maxPoise;
 
-        healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
+        if (enemyStats.enemyType == EnemyType.Boss)
+        {
+            bossMeter1 = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
+            bossMeter2 = healthUI.transform.Find("Icon Slider").GetComponent<Slider>();
+        }
+        else healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
 
         maxHP = enemyStats.maxHP;
         currentHealth = enemyStats.maxHP;
@@ -133,7 +135,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void SetHealth() {
+    /*void SetHealth() {
         healthMeter = healthUI.transform.Find("HealthSlider").GetComponent<Slider>();
     }
 
@@ -141,7 +143,7 @@ public class EnemyController : MonoBehaviour
         bossMeter1 = healthUI.transform.Find("Slider1").GetComponent<Slider>();
         bossMeter2 = healthUI.transform.Find("Slider2").GetComponent<Slider>();
         bossMeter3 = healthUI.transform.Find("Slider3").GetComponent<Slider>();
-    }
+    }*/
 
     void Update() {
         UpdateStatusEffects(Time.deltaTime);
@@ -309,7 +311,8 @@ public class EnemyController : MonoBehaviour
         currentHealth -= amount;
         DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, amount, DamageIndicatorManager.DamageType.Burn);
         sprite.color = StatCalculator.Instance.BurnDamagedColor;
-        UpdateNormalHP();
+        if (enemyStats.enemyType == EnemyType.Normal) UpdateNormalHP();
+        else UpdateBossHP();
     }
 
     void UpdateHealth() {
@@ -372,7 +375,6 @@ public class EnemyController : MonoBehaviour
         else {
             bossMeter1.value = 1;
             bossMeter2.value = 1;
-            bossMeter3.value = 1;
         }
     }
 
@@ -449,23 +451,10 @@ public class EnemyController : MonoBehaviour
     }
 
     void UpdateBossHP() {
-        if(bossMeter1 == null || bossMeter2 == null || bossMeter3 == null) return;
+        if(bossMeter1 == null || bossMeter2 == null) return;
 
-        if (currentHealth <= 300 && currentHealth > 200)
-        {
-            bossMeter1.value = ToPercent(currentHealth, 300);
-        }
-        else if (currentHealth <= 200 && currentHealth > 100)
-        {
-            bossMeter1.value = ToPercent(currentHealth, 300);
-            bossMeter2.value = ToPercent(currentHealth, 200);
-        }
-        else if (currentHealth <= 100 && currentHealth > 0)
-        {
-            bossMeter1.value = 0;
-            bossMeter2.value = 0;
-            bossMeter3.value = ToPercent(currentHealth, 100);
-        }
+        bossMeter1.value = ToPercent(currentHealth, maxHP);
+        bossMeter2.value = ToPercent(currentHealth, maxHP);
     }
 
     float ToPercent(float value, float threshold) {
