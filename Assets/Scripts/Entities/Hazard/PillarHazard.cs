@@ -15,6 +15,9 @@ public class PillarHazard : MonoBehaviour
     [SerializeField] private GameObject _destroyedState;
     [SerializeField] private List<GameObject> _pillarStateObjects = new();
     [SerializeField] private Animator _animator;
+
+    [SerializeField] private List<GameObject> _debrisObjects = new();
+
     private bool _wasDestroyed = true;
 
     private float _currentHealth;
@@ -92,6 +95,10 @@ public class PillarHazard : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         _animator.Play("CollapseVFX");
+
+        foreach (var obj in _debrisObjects)
+            obj.SetActive(true);
+
         _hitbox.SetActive(false);
         foreach (var state in _pillarStateObjects)
             state.SetActive(false);
