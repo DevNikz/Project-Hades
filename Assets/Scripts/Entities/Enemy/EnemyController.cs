@@ -96,11 +96,13 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
+    private FlashSpriteScript _flashScript;
     private PlayerController manaCharge;
     private float maxHP;
     void Start() {
         _enemyAction = this.GetComponent<EnemyAction>();
         _enemyAnimation = this.GetComponentInChildren<EnemyAnimation>();
+        _flashScript = GetComponent<FlashSpriteScript>();
 
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
@@ -406,6 +408,7 @@ public class EnemyController : MonoBehaviour
 
         //Visual Cue
         hitFX.Play();
+        if (_flashScript != null) _flashScript.TriggerFlash(damage, true);
         this.gameObject.GetComponent<EnemyAction>().SetHit(attackDirection);
         manaCharge = FindAnyObjectByType<PlayerController>();
         if(isCritical)

@@ -6004,6 +6004,7 @@ GameObject:
   - component: {fileID: 2811799466518090972}
   - component: {fileID: 3531643762332650172}
   - component: {fileID: 8139042829468095190}
+  - component: {fileID: 3720126845141005461}
   m_Layer: 8
   m_Name: Base
   m_TagString: Enemy
@@ -6092,7 +6093,6 @@ MonoBehaviour:
   detectCone: {fileID: 0}
   bossMeter1: {fileID: 0}
   bossMeter2: {fileID: 0}
-  bossMeter3: {fileID: 0}
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
@@ -6255,6 +6255,23 @@ MonoBehaviour:
   _makeParent: 0
   availableObjects: []
   releasedObjects: []
+--- !u!114 &3720126845141005461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762131239574803217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621067540491bd4ca2af9b19893247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashMaterial: {fileID: 2100000, guid: 3afa1205ad8cb6c4bbdf57aefc195e06, type: 2}
+  _maxDamageThreshold: 300
+  _maxFlashCount: 5
+  _targetSprites:
+  - {fileID: 5801174849917690058}
 --- !u!1 &7975870582735388577
 GameObject:
   m_ObjectHideFlags: 0

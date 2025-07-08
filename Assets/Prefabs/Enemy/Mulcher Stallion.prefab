@@ -5727,6 +5727,7 @@ GameObject:
   - component: {fileID: 3984673750307050947}
   - component: {fileID: 8697157024730073472}
   - component: {fileID: 5940546734512363079}
+  - component: {fileID: 5305467030915602825}
   m_Layer: 8
   m_Name: Base
   m_TagString: Enemy
@@ -5813,7 +5814,6 @@ MonoBehaviour:
   detectCone: {fileID: 0}
   bossMeter1: {fileID: 0}
   bossMeter2: {fileID: 0}
-  bossMeter3: {fileID: 0}
   poiseUI: {fileID: 0}
   poiseMeter: {fileID: 0}
   hitFX: {fileID: 0}
@@ -5958,6 +5958,23 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5305467030915602825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5162316480614726336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621067540491bd4ca2af9b19893247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashMaterial: {fileID: 2100000, guid: 3afa1205ad8cb6c4bbdf57aefc195e06, type: 2}
+  _maxDamageThreshold: 300
+  _maxFlashCount: 5
+  _targetSprites:
+  - {fileID: 622561997751044650}
 --- !u!1 &5254247734287496246
 GameObject:
   m_ObjectHideFlags: 0

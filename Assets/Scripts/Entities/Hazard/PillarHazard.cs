@@ -17,6 +17,7 @@ public class PillarHazard : MonoBehaviour
     [SerializeField] private List<GameObject> _pillarStateObjects = new();
     [SerializeField] private Animator _animator;
 
+    private FlashSpriteScript _flashScript;
     private bool _wasDestroyed = true;
 
     private float _currentHealth;
@@ -25,6 +26,7 @@ public class PillarHazard : MonoBehaviour
         _currentHealth = _maxHealth;
         if (_maxHealth > 0) _wasDestroyed = false;
         UpdateLook();
+        _flashScript = GetComponent<FlashSpriteScript>();
     }
 
     private void UpdateLook()
@@ -72,12 +74,13 @@ public class PillarHazard : MonoBehaviour
 
         //Play Effect
         _hitEffect.Play();
+        if(_flashScript != null) _flashScript.TriggerFlash(amount, true);
         UpdateLook();
     }
 
     private IEnumerator DestroyPillar(float delay)
     {
-        if(_wasDestroyed) yield break;
+        if (_wasDestroyed) yield break;
         Debug.Log("Shaking!");
         _zeroHealthState.SetActive(true);
         _wasDestroyed = true;
@@ -103,5 +106,6 @@ public class PillarHazard : MonoBehaviour
         _zeroHealthState.SetActive(false);
         _destroyedState.SetActive(true);
         _shakeEffect.Stop();
+        
     }
 }

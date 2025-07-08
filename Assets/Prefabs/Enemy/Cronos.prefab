@@ -105,6 +105,7 @@ MonoBehaviour:
   _deathSprite: {fileID: 2621697447378166346}
   action: {fileID: 1130099694423834350}
   atkvfxAnimator: {fileID: 3746073391324320165}
+  atkvfxSpritePos: {x: 0, y: 0, z: 0}
 --- !u!1 &1558013903955208357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,6 +1563,7 @@ GameObject:
   - component: {fileID: 3487741192337953489}
   - component: {fileID: 1755216493547745609}
   - component: {fileID: 8548389217303475500}
+  - component: {fileID: 397657467989751878}
   m_Layer: 8
   m_Name: Base
   m_TagString: Enemy
@@ -1802,6 +1804,23 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &397657467989751878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7059399204093418455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621067540491bd4ca2af9b19893247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashMaterial: {fileID: 2100000, guid: 3afa1205ad8cb6c4bbdf57aefc195e06, type: 2}
+  _maxDamageThreshold: 300
+  _maxFlashCount: 5
+  _targetSprites:
+  - {fileID: 2652493103928534736}
 --- !u!1 &7131602120865716731
 GameObject:
   m_ObjectHideFlags: 0
