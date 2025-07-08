@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75691fe4a49db4a21986bd2b7ebe85e1, type: 3}
   m_Name: BuiltShaders
   m_EditorClassIdentifier: 
-  creationDateTicks: 638864841966827035
+  creationDateTicks: 638876115923388178
   shaders:
   - name: MK/Toon/URP/Standard/Physically Based
     simpleName: Physically Based
@@ -125,7 +125,7 @@ MonoBehaviour:
     isReadOnly: 0
     variants: []
     path: Assets/Plugins/_MK/MKToon/Shader/URP/Standard/StandardPBS.shader
-    variantCount: 300
+    variantCount: 328
     variantCountShouldReset: 0
   - name: Universal Render Pipeline/Lit
     simpleName: Lit
@@ -1293,23 +1293,6 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 4
     variantCountShouldReset: 0
-  - name: TextMeshPro/Mobile/Distance Field Overlay
-    simpleName: Distance Field Overlay
-    isExpanded: 0
-    includeInBuild: 1
-    keywords:
-    - keyword: UNITY_UI_ALPHACLIP
-      includeInBuild: 1
-      includeInVariant: 0
-    - keyword: UNITY_UI_CLIP_RECT
-      includeInBuild: 1
-      includeInVariant: 0
-    isInternal: 0
-    isReadOnly: 0
-    variants: []
-    path: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
-    variantCount: 4
-    variantCountShouldReset: 0
   - name: TextMeshPro/Sprite
     simpleName: Sprite
     isExpanded: 0
@@ -1325,6 +1308,23 @@ MonoBehaviour:
     isReadOnly: 0
     variants: []
     path: Assets/TextMesh Pro/Shaders/TMP_Sprite.shader
+    variantCount: 4
+    variantCountShouldReset: 0
+  - name: Shader Graphs/FieldGraph
+    simpleName: FieldGraph
+    isExpanded: 0
+    includeInBuild: 1
+    keywords:
+    - keyword: _SCREEN_SPACE_OCCLUSION
+      includeInBuild: 1
+      includeInVariant: 0
+    - keyword: FOG_EXP2
+      includeInBuild: 1
+      includeInVariant: 0
+    isInternal: 0
+    isReadOnly: 0
+    variants: []
+    path: Assets/Resources/Materials/FieldGraph.shadergraph
     variantCount: 4
     variantCountShouldReset: 0
   - name: UI/Default
@@ -1389,21 +1389,21 @@ MonoBehaviour:
     path: Assets/Resources/Materials/Borderlands.shadergraph
     variantCount: 4
     variantCountShouldReset: 0
-  - name: Shader Graphs/FieldGraph
-    simpleName: FieldGraph
+  - name: TextMeshPro/Mobile/Distance Field Overlay
+    simpleName: Distance Field Overlay
     isExpanded: 0
     includeInBuild: 1
     keywords:
-    - keyword: _SCREEN_SPACE_OCCLUSION
+    - keyword: UNITY_UI_ALPHACLIP
       includeInBuild: 1
       includeInVariant: 0
-    - keyword: FOG_EXP2
+    - keyword: UNITY_UI_CLIP_RECT
       includeInBuild: 1
       includeInVariant: 0
     isInternal: 0
     isReadOnly: 0
     variants: []
-    path: Assets/Resources/Materials/FieldGraph.shadergraph
+    path: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
     variantCount: 4
     variantCountShouldReset: 0
   - name: Skybox/Procedural
@@ -1493,8 +1493,22 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 3
     variantCountShouldReset: 0
-  - name: Hidden/Internal-GUITexture
-    simpleName: Internal-GUITexture
+  - name: Custom/Mask
+    simpleName: Mask
+    isExpanded: 0
+    includeInBuild: 1
+    keywords:
+    - keyword: FOG_EXP2
+      includeInBuild: 1
+      includeInVariant: 0
+    isInternal: 0
+    isReadOnly: 0
+    variants: []
+    path: Assets/Resources/VFX/Mask.shader
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/CubeCopy
+    simpleName: CubeCopy
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1504,8 +1518,30 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 2
     variantCountShouldReset: 0
-  - name: Hidden/Internal-GUITextureBlit
-    simpleName: Internal-GUITextureBlit
+  - name: Hidden/Internal-GUIRoundedRect
+    simpleName: Internal-GUIRoundedRect
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/Internal-GUITextureClip
+    simpleName: Internal-GUITextureClip
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/Internal-GUIRoundedRectWithColorPerBorder
+    simpleName: Internal-GUIRoundedRectWithColorPerBorder
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1544,8 +1580,19 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/FinalPost.shader
     variantCount: 2
     variantCountShouldReset: 0
-  - name: Hidden/CubeCopy
-    simpleName: CubeCopy
+  - name: Hidden/Internal-GUITextureBlit
+    simpleName: Internal-GUITextureBlit
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/Internal-GUITexture
+    simpleName: Internal-GUITexture
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1566,69 +1613,11 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 2
     variantCountShouldReset: 0
-  - name: Hidden/Internal-GUITextureClip
-    simpleName: Internal-GUITextureClip
+  - name: Hidden/VR/BlitFromTex2DToTexArraySlice
+    simpleName: BlitFromTex2DToTexArraySlice
     isExpanded: 0
     includeInBuild: 1
     keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Hidden/Internal-GUIRoundedRect
-    simpleName: Internal-GUIRoundedRect
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Hidden/Internal-GUIRoundedRectWithColorPerBorder
-    simpleName: Internal-GUIRoundedRectWithColorPerBorder
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Hidden/CubeBlur
-    simpleName: CubeBlur
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Hidden/VoxelizeShader
-    simpleName: VoxelizeShader
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.visualeffectgraph/Shaders/SDFBaker/RayMapVoxelize.shader
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Unlit/Texture
-    simpleName: Texture
-    isExpanded: 0
-    includeInBuild: 1
-    keywords:
-    - keyword: FOG_EXP2
-      includeInBuild: 1
-      includeInVariant: 0
     isInternal: 1
     isReadOnly: 1
     variants: []
@@ -1652,8 +1641,8 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/PaniniProjection.shader
     variantCount: 2
     variantCountShouldReset: 0
-  - name: Hidden/Internal-GUITextureClipText
-    simpleName: Internal-GUITextureClipText
+  - name: Hidden/CubeBlur
+    simpleName: CubeBlur
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1661,31 +1650,6 @@ MonoBehaviour:
     isReadOnly: 1
     variants: []
     path: Resources/unity_builtin_extra
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Custom/Mask
-    simpleName: Mask
-    isExpanded: 0
-    includeInBuild: 1
-    keywords:
-    - keyword: FOG_EXP2
-      includeInBuild: 1
-      includeInVariant: 0
-    isInternal: 0
-    isReadOnly: 0
-    variants: []
-    path: Assets/Resources/VFX/Mask.shader
-    variantCount: 2
-    variantCountShouldReset: 0
-  - name: Hidden/Universal/HDRDebugView
-    simpleName: HDRDebugView
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader
     variantCount: 2
     variantCountShouldReset: 0
   - name: Hidden/VFX/Empty
@@ -1702,8 +1666,8 @@ MonoBehaviour:
     path: Packages/com.unity.visualeffectgraph/Shaders/Empty.shader
     variantCount: 2
     variantCountShouldReset: 0
-  - name: Hidden/VR/BlitFromTex2DToTexArraySlice
-    simpleName: BlitFromTex2DToTexArraySlice
+  - name: Hidden/Internal-GUITextureClipText
+    simpleName: Internal-GUITextureClipText
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1711,6 +1675,28 @@ MonoBehaviour:
     isReadOnly: 1
     variants: []
     path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/Universal/HDRDebugView
+    simpleName: HDRDebugView
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.render-pipelines.universal/Shaders/Debug/HDRDebugView.shader
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Hidden/VoxelizeShader
+    simpleName: VoxelizeShader
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.visualeffectgraph/Shaders/SDFBaker/RayMapVoxelize.shader
     variantCount: 2
     variantCountShouldReset: 0
   - name: Hidden/Internal-Halo
@@ -1727,6 +1713,34 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 2
     variantCountShouldReset: 0
+  - name: Unlit/Texture
+    simpleName: Texture
+    isExpanded: 0
+    includeInBuild: 1
+    keywords:
+    - keyword: FOG_EXP2
+      includeInBuild: 1
+      includeInVariant: 0
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
+  - name: Mobile/Particles/Alpha Blended
+    simpleName: Alpha Blended
+    isExpanded: 0
+    includeInBuild: 1
+    keywords:
+    - keyword: FOG_EXP2
+      includeInBuild: 1
+      includeInVariant: 0
+    isInternal: 1
+    isReadOnly: 0
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 2
+    variantCountShouldReset: 0
   - name: Hidden/Universal Render Pipeline/XR/XROcclusionMesh
     simpleName: XROcclusionMesh
     isExpanded: 0
@@ -1736,6 +1750,28 @@ MonoBehaviour:
     isReadOnly: 1
     variants: []
     path: Packages/com.unity.render-pipelines.universal/Shaders/XR/XROcclusionMesh.shader
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/TextCore/Distance Field SSD
+    simpleName: Distance Field SSD
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/VR/BlitTexArraySlice
+    simpleName: BlitTexArraySlice
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
   - name: Hidden/Universal Render Pipeline/Debug/DebugReplacement
@@ -1843,40 +1879,26 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/Debug/ProbeVolumeOffsetDebug.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal Render Pipeline/XR/XRMirrorView
-    simpleName: XRMirrorView
+  - name: Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling
+    simpleName: Edge Adaptive Spatial Upsampling
     isExpanded: 0
     includeInBuild: 1
-    keywords:
-    - keyword: DISABLE_TEXTURE2D_X_ARRAY
-      includeInBuild: 1
-      includeInVariant: 0
+    keywords: []
     isInternal: 0
     isReadOnly: 1
     variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMirrorView.shader
+    path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/EdgeAdaptiveSpatialUpsampling.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/VideoComposite
-    simpleName: VideoComposite
+  - name: Hidden/Universal Render Pipeline/MaterialError
+    simpleName: MaterialError
     isExpanded: 0
     includeInBuild: 1
     keywords: []
-    isInternal: 1
+    isInternal: 0
     isReadOnly: 1
     variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/VR/BlitTexArraySlice
-    simpleName: BlitTexArraySlice
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
+    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/MaterialError.shader
     variantCount: 1
     variantCountShouldReset: 0
   - name: Hidden/Universal Render Pipeline/Stop NaN
@@ -1890,15 +1912,15 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/StopNaN.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal Render Pipeline/Edge Adaptive Spatial Upsampling
-    simpleName: Edge Adaptive Spatial Upsampling
+  - name: Hidden/Universal Render Pipeline/CameraMotionVectors
+    simpleName: CameraMotionVectors
     isExpanded: 0
     includeInBuild: 1
     keywords: []
     isInternal: 0
     isReadOnly: 1
     variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/EdgeAdaptiveSpatialUpsampling.shader
+    path: Packages/com.unity.render-pipelines.universal/Shaders/CameraMotionVectors.shader
     variantCount: 1
     variantCountShouldReset: 0
   - name: Hidden/Shader Graph/FallbackError
@@ -1934,17 +1956,6 @@ MonoBehaviour:
     path: Packages/com.unity.probuilder/Content/Shader/HideVertices.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/ProBuilder/FacePicker
-    simpleName: FacePicker
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.probuilder/Content/Shader/FacePicker.shader
-    variantCount: 1
-    variantCountShouldReset: 0
   - name: Hidden/Universal Render Pipeline/FallbackError
     simpleName: FallbackError
     isExpanded: 0
@@ -1956,19 +1967,8 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/FallbackError.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal Render Pipeline/CameraMotionVectors
-    simpleName: CameraMotionVectors
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/CameraMotionVectors.shader
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/TextCore/Distance Field SSD
-    simpleName: Distance Field SSD
+  - name: Hidden/Internal-Flare
+    simpleName: Internal-Flare
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -1992,19 +1992,22 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/Blit.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal Render Pipeline/MaterialError
-    simpleName: MaterialError
+  - name: Hidden/Universal Render Pipeline/XR/XRMirrorView
+    simpleName: XRMirrorView
     isExpanded: 0
     includeInBuild: 1
-    keywords: []
+    keywords:
+    - keyword: DISABLE_TEXTURE2D_X_ARRAY
+      includeInBuild: 1
+      includeInVariant: 0
     isInternal: 0
     isReadOnly: 1
     variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/MaterialError.shader
+    path: Packages/com.unity.render-pipelines.universal/Shaders/XR/XRMirrorView.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Internal-Flare
-    simpleName: Internal-Flare
+  - name: Hidden/VideoComposite
+    simpleName: VideoComposite
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2014,19 +2017,8 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal Render Pipeline/Sampling
-    simpleName: Sampling
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/BlitToDepth
-    simpleName: BlitToDepth
+  - name: Hidden/ConvertTexture
+    simpleName: ConvertTexture
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2036,52 +2028,8 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Core/FallbackError
-    simpleName: FallbackError
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.render-pipelines.core/Runtime/RenderPipelineResources/FallbackShader.shader
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/BlitCopyWithDepth
-    simpleName: BlitCopyWithDepth
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: ProBuilder/UnlitVertexColor
-    simpleName: UnlitVertexColor
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 0
-    isReadOnly: 1
-    variants: []
-    path: Packages/com.unity.probuilder/Content/Shader/UnlitVertexColor.shader
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/BlitCopyDepth
-    simpleName: BlitCopyDepth
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/BlitCopy
-    simpleName: BlitCopy
+  - name: Hidden/Internal-CombineDepthNormals
+    simpleName: Internal-CombineDepthNormals
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2108,8 +2056,52 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/PostProcessing/ScalingSetup.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/BlitCopyHDRTonemap
-    simpleName: BlitCopyHDRTonemap
+  - name: Hidden/Compositing
+    simpleName: Compositing
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/BlitCopy
+    simpleName: BlitCopy
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/Core/FallbackError
+    simpleName: FallbackError
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.render-pipelines.core/Runtime/RenderPipelineResources/FallbackShader.shader
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: ProBuilder/UnlitVertexColor
+    simpleName: UnlitVertexColor
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.probuilder/Content/Shader/UnlitVertexColor.shader
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/BlitCopyWithDepth
+    simpleName: BlitCopyWithDepth
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2130,8 +2122,30 @@ MonoBehaviour:
     path: Packages/com.unity.render-pipelines.universal/Shaders/Debug/ProbeVolumeFragmentationDebug.shader
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Compositing
-    simpleName: Compositing
+  - name: Hidden/Universal Render Pipeline/Sampling
+    simpleName: Sampling
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/Sampling.shader
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/ProBuilder/FacePicker
+    simpleName: FacePicker
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.probuilder/Content/Shader/FacePicker.shader
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/BlitCopyDepth
+    simpleName: BlitCopyDepth
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2141,30 +2155,8 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Internal-CombineDepthNormals
-    simpleName: Internal-CombineDepthNormals
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/Internal-StencilWrite
-    simpleName: Internal-StencilWrite
-    isExpanded: 0
-    includeInBuild: 1
-    keywords: []
-    isInternal: 1
-    isReadOnly: 1
-    variants: []
-    path: Resources/unity_builtin_extra
-    variantCount: 1
-    variantCountShouldReset: 0
-  - name: Hidden/ConvertTexture
-    simpleName: ConvertTexture
+  - name: Hidden/BlitToDepth
+    simpleName: BlitToDepth
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2185,8 +2177,8 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Internal-UIRDefault
-    simpleName: Internal-UIRDefault
+  - name: Hidden/BlitCopyHDRTonemap
+    simpleName: BlitCopyHDRTonemap
     isExpanded: 0
     includeInBuild: 1
     keywords: []
@@ -2251,16 +2243,27 @@ MonoBehaviour:
     path: Resources/unity_builtin_extra
     variantCount: 1
     variantCountShouldReset: 0
-  - name: Hidden/Universal/BlitHDROverlay
-    simpleName: BlitHDROverlay
+  - name: Hidden/Internal-StencilWrite
+    simpleName: Internal-StencilWrite
     isExpanded: 0
     includeInBuild: 1
     keywords: []
-    isInternal: 0
+    isInternal: 1
     isReadOnly: 1
     variants: []
-    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/BlitHDROverlay.shader
-    variantCount: 0
+    path: Resources/unity_builtin_extra
+    variantCount: 1
+    variantCountShouldReset: 0
+  - name: Hidden/Internal-UIRDefault
+    simpleName: Internal-UIRDefault
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 1
+    isReadOnly: 1
+    variants: []
+    path: Resources/unity_builtin_extra
+    variantCount: 1
     variantCountShouldReset: 0
   - name: Hidden/Universal Render Pipeline/StencilDeferred
     simpleName: StencilDeferred
@@ -2272,6 +2275,28 @@ MonoBehaviour:
     variants: []
     path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/StencilDeferred.shader
     variantCount: 0
+    variantCountShouldReset: 0
+  - name: Hidden/Universal/BlitHDROverlay
+    simpleName: BlitHDROverlay
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 1
+    variants: []
+    path: Packages/com.unity.render-pipelines.universal/Shaders/Utils/BlitHDROverlay.shader
+    variantCount: 0
+    variantCountShouldReset: 0
+  - name: Shader Graphs/PureColorShader
+    simpleName: PureColorShader
+    isExpanded: 0
+    includeInBuild: 1
+    keywords: []
+    isInternal: 0
+    isReadOnly: 0
+    variants: []
+    path: Assets/Shaders/PureColorShader.shadergraph
+    variantCount: 2
     variantCountShouldReset: 0
   sortType: 2
   hideReadOnlyShaders: 1
