@@ -10,20 +10,18 @@ public class PillarHazard : MonoBehaviour
     [SerializeField] private GameObject _hitbox;
     [SerializeField] private ParticleSystem _hitEffect;
     [SerializeField] private ParticleSystem _shakeEffect;
+    [SerializeField] private ParticleSystem _debrisObjects;
     [SerializeField] private GameObject _fullState;
     [SerializeField] private GameObject _zeroHealthState;
     [SerializeField] private GameObject _destroyedState;
     [SerializeField] private List<GameObject> _pillarStateObjects = new();
     [SerializeField] private Animator _animator;
 
-    [SerializeField] private List<GameObject> _debrisObjects = new();
-
     private bool _wasDestroyed = true;
 
     private float _currentHealth;
     void OnEnable()
     {
-        _animator = GetComponentInChildren<Animator>();
         _currentHealth = _maxHealth;
         if (_maxHealth > 0) _wasDestroyed = false;
         UpdateLook();
@@ -96,8 +94,7 @@ public class PillarHazard : MonoBehaviour
 
         _animator.Play("CollapseVFX");
 
-        foreach (var obj in _debrisObjects)
-            obj.SetActive(true);
+        _debrisObjects.Play();
 
         _hitbox.SetActive(false);
         foreach (var state in _pillarStateObjects)

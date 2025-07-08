@@ -5,6 +5,7 @@ using UnityEngine;
 public class CronosAnimation : EnemyAnimation
 {
     [SerializeField] Animator atkvfxAnimator;
+    public Vector3 atkvfxSpritePos;
 
     public override void SetAnimation()
     {  
