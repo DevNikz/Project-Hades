@@ -38,6 +38,8 @@ public class FlashSpriteScript : MonoBehaviour
         if (_currentFlashCount >= _flashCount)
         {
             _isFlashing = false;
+            for (int i = 0; i < _targetSprites.Count; i++)
+                _targetSprites[i].material = _originalMaterials[i];
             return;
         }
 
