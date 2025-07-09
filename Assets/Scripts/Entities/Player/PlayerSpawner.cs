@@ -53,8 +53,15 @@ public class PlayerSpawner : MonoBehaviour
         //     player.gameObject.tag = "Player";
         //     player.SetActive(true);
         // }
+        Camera camera = player.GetComponentInChildren<Camera>();
+        Vector3 camOffset = Vector3.zero;
+        if (camera != null)
+            camOffset = camera.transform.position - player.transform.position;
 
         player.transform.position = this.transform.position;
+
+        if (camera != null)
+            camera.transform.position = player.transform.position + camOffset;
 
         //Destroy(gameObject);
         TryStartDialogue();
