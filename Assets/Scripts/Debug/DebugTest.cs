@@ -5,34 +5,20 @@ using UnityEngine;
 
 public class DebugTest : MonoBehaviour
 {
-    private Movement movement;
-    private Combat combat;
-
-    private TextMeshProUGUI speed;
-    private TextMeshProUGUI dash;
-    private TextMeshProUGUI lunge;
-    private TextMeshProUGUI fixeddeltaTime;
-    private TextMeshProUGUI state;
+    public float fps;
+    private TextMeshProUGUI fpsText;
 
     void Awake() {
-        movement = FindAnyObjectByType<Movement>();
-        combat = FindAnyObjectByType<Combat>();
-
-        speed = transform.Find("Player").transform.Find("Speed").GetComponent<TextMeshProUGUI>();
-        dash = transform.Find("Player").transform.Find("Dash").GetComponent<TextMeshProUGUI>();
-        lunge = transform.Find("Player").transform.Find("Lunge").GetComponent<TextMeshProUGUI>();
-
-        fixeddeltaTime = transform.Find("Time").transform.Find("FixedDeltaTime").GetComponent<TextMeshProUGUI>();
-        
-        state = transform.Find("State").transform.Find("State").GetComponent<TextMeshProUGUI>();
-
+        fpsText = transform.Find("Time").transform.Find("FPS").GetComponent<TextMeshProUGUI>();
     }
 
-    void Update() {
-        speed.text = "Speed: " + movement.currentSpeed;
-        dash.text = "Dash: " + movement.movement.dashForce;
-        lunge.text = "Lunge: " + combat.combat.quickLungeForce;
-        fixeddeltaTime.text = "FixedDeltaTime: " + Time.fixedDeltaTime;
-        state.text = "State: " + PlayerData.entityState;
+    void Start()
+    {
+        InvokeRepeating("GetFPS", 1, 1);
+    }
+
+    void GetFPS() {
+        fps = (int)(1f / Time.unscaledDeltaTime);
+        fpsText.text = fps + " FPS";
     }
 }
