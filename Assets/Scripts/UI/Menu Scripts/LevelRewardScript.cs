@@ -12,6 +12,7 @@ public class LevelRewardScript : MonoBehaviour
     [SerializeField] GameObject levelRewardMenu;
     [SerializeField] ButtonHighlightScript _selectHighlight;
     [SerializeField] GameObject[] augmentButtons;
+    [SerializeField] AugmentMenuScript _augmentMenuScript;
 
     [SerializeField, ReadOnly] private List<AugmentScriptable> chosenAugments = new();
 
@@ -131,19 +132,8 @@ public class LevelRewardScript : MonoBehaviour
         if (choice != AugmentType.None)
         {
             ItemManager.Instance.AddAugment(choice);
-            switch (choice)
-            {
-                case AugmentType.Water:
-                    Broadcaster.Instance.AddBoolParam(AugmentMenuScript.WATER_UNLOCKED, EventNames.Augment.WATER_UNLOCKED, true);
-                    break;
-                case AugmentType.Air:
-                    Broadcaster.Instance.AddBoolParam(AugmentMenuScript.WIND_UNLOCKED, EventNames.Augment.WIND_UNLOCKED, true);
-                    break;
-                case AugmentType.Fire:
-                    Broadcaster.Instance.AddBoolParam(AugmentMenuScript.FIRE_UNLOCKED, EventNames.Augment.FIRE_UNLOCKED, true);
-                    break;
+            _augmentMenuScript.UnlockAugment(choice);
 
-            }
             if (_loadedFromWaveEnd)
             {
 
@@ -188,7 +178,7 @@ public class LevelRewardScript : MonoBehaviour
 
     public void Activate(bool loadedFromWaveEnd)
     {
-        Debug.Log("Reward Menu Activated");
+        //Debug.Log("Reward Menu Activated");
         _loadedFromWaveEnd = loadedFromWaveEnd;
 
         if (!TryActivateDialogue())

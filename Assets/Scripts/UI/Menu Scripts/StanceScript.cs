@@ -16,6 +16,7 @@ public class StanceHitbox : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Unlock the selected stance and lock all others
+            /*
             switch (stanceIndex)
             {
                 case 0: // Earth
@@ -37,6 +38,7 @@ public class StanceHitbox : MonoBehaviour
                     Debug.LogWarning($"Invalid stance index: {stanceIndex}");
                     break;
             }
+            */
             Debug.Log("Player Entered");
         }
         Debug.Log("Entered");
@@ -81,13 +83,13 @@ public class StanceHitbox : MonoBehaviour
 
         // Log resetting all stance booleans using RemoveAugment
         Debug.Log("Resetting all stance booleans to locked using isLocked.");
-        augmentMenuScript.earthUnlocked = false;
-        augmentMenuScript.waterUnlocked = false;
-        augmentMenuScript.windUnlocked = false;
-        augmentMenuScript.fireUnlocked = false;
+        //augmentMenuScript.earthUnlocked = false;
+        //augmentMenuScript.waterUnlocked = false;
+        //augmentMenuScript.windUnlocked = false;
+        //augmentMenuScript.fireUnlocked = false;
 
         // Update the locked state for each stance
-        switch (stanceUnlocked)
+        /*switch (stanceUnlocked)
         {
             case AugmentMenuScript.EARTH_UNLOCKED:
                 Debug.Log("Unlocking Earth stance.");
@@ -112,7 +114,7 @@ public class StanceHitbox : MonoBehaviour
             default:
                 Debug.LogWarning($"Unknown stance unlocked: {stanceUnlocked}");
                 break;
-        }
+        }*/
 
         // Lock all other stances
         LockOtherStances(stanceUnlocked);
@@ -123,7 +125,7 @@ public class StanceHitbox : MonoBehaviour
 
     private void LockOtherStances(string unlockedStance)
     {
-
+        /*
         if (unlockedStance != AugmentMenuScript.WATER_UNLOCKED)
         {
             UpdateStanceElements(0, true); // Lock Water
@@ -139,11 +141,12 @@ public class StanceHitbox : MonoBehaviour
         if (unlockedStance != AugmentMenuScript.EARTH_UNLOCKED)
         {
             UpdateStanceElements(3, true); // Lock Earth
-        }
+        }*/
     }
 
     private void UpdateStanceElements(int index, bool isLocked)
     {
+        /*
         if (index < 0 || index >= augmentMenuScript.stanceButtons.Length)
         {
             Debug.LogError($"Invalid stance button index: {index}");
@@ -169,6 +172,7 @@ public class StanceHitbox : MonoBehaviour
             buttonImage.sprite = augmentMenuScript.stanceSprites[index];
             augmentMenuScript.stanceButtons[index].name = augmentMenuScript.stanceSprites[index].name;
         }
+        */
     }
 
 
