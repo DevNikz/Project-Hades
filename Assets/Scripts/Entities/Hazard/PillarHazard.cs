@@ -17,6 +17,7 @@ public class PillarHazard : MonoBehaviour
     [SerializeField] private List<GameObject> _pillarStateObjects = new();
     [SerializeField] private Animator _animator;
 
+    private Collider _collider;
     private FlashSpriteScript _flashScript;
     private bool _wasDestroyed = true;
 
@@ -27,6 +28,8 @@ public class PillarHazard : MonoBehaviour
         if (_maxHealth > 0) _wasDestroyed = false;
         UpdateLook();
         _flashScript = GetComponent<FlashSpriteScript>();
+        _collider = GetComponentInChildren<Collider>();
+        if(_collider != null) _collider.enabled = true;
     }
 
     private void UpdateLook()
@@ -103,6 +106,7 @@ public class PillarHazard : MonoBehaviour
         foreach (var state in _pillarStateObjects)
             state.SetActive(false);
         _fullState.SetActive(false);
+        if(_collider != null) _collider.enabled = false;
         _zeroHealthState.SetActive(false);
         _destroyedState.SetActive(true);
         _shakeEffect.Stop();
