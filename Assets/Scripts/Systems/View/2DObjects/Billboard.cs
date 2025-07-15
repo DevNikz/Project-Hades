@@ -6,6 +6,7 @@ public class Billboard : MonoBehaviour
 {
     void Update()
     {
+        if(Camera.main != null)
         transform.rotation = Quaternion.Euler(0f, Camera.main.transform.eulerAngles.y, 0f);
     }
 }
