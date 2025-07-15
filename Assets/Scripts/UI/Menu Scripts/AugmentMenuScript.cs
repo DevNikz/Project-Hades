@@ -40,6 +40,22 @@ public class AugmentMenuScript : MonoBehaviour
         aggroCount.text = ItemManager.Instance.getAugmentCount(AugmentType.Aggro).ToString();
         steelCount.text = ItemManager.Instance.getAugmentCount(AugmentType.Steel).ToString();
         heavyCount.text = ItemManager.Instance.getAugmentCount(AugmentType.Heavy).ToString();
+
+        switch (ItemManager.Instance.HubSelectedStance)
+        {
+            case EStance.Earth:
+                UnlockAugment(AugmentType.Earth);
+                break;
+            case EStance.Fire:
+                UnlockAugment(AugmentType.Fire);
+                break;
+            case EStance.Water:
+                UnlockAugment(AugmentType.Water);
+                break;
+            case EStance.Air:
+                UnlockAugment(AugmentType.Air);
+                break;
+        }
     }
 
     // Update is called once per frame

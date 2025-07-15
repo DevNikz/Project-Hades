@@ -2075,6 +2075,23 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8482834932967147885}
+    - target: {fileID: 1395122547700356215, guid: bbe14e043d9193d4e9e5c6d30957be97,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d4a12028b611fab499ac2a93b1373de5,
+        type: 3}
+    - target: {fileID: 1534291476315644670, guid: bbe14e043d9193d4e9e5c6d30957be97,
+        type: 3}
+      propertyPath: lockedImage
+      value: 
+      objectReference: {fileID: 21300000, guid: d4a12028b611fab499ac2a93b1373de5,
+        type: 3}
+    - target: {fileID: 1534291476315644670, guid: bbe14e043d9193d4e9e5c6d30957be97,
+        type: 3}
+      propertyPath: unlockEventName
+      value: EARTH_UNLOCKED
+      objectReference: {fileID: 0}
     - target: {fileID: 1809714196070684116, guid: bbe14e043d9193d4e9e5c6d30957be97,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2256,7 +2273,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4878779070710450394, guid: bbe14e043d9193d4e9e5c6d30957be97, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbe14e043d9193d4e9e5c6d30957be97, type: 3}
