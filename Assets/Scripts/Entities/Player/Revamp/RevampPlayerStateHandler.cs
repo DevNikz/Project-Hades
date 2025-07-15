@@ -50,8 +50,11 @@ public class RevampPlayerStateHandler : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else Destroy(gameObject);
-
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         //Components
         _healthBar = GameObject.Find("PlayerHealth")?.GetComponent<Slider>();
         _manaBar = GameObject.Find("PlayerMana")?.GetComponent<Slider>();
@@ -75,10 +78,14 @@ public class RevampPlayerStateHandler : MonoBehaviour
         UpdateManabar();
     }
 
-    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    public void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"Health Updated on reload for {gameObject.name}");
+        Debug.Log($"Before: {CurrentHealth}/{_maxHealth} ({_healthBar.value}) HP, {CurrentCharge}/{_maxCharge} ({_manaBar.value}) SP ");
         UpdateHealthbar();
         UpdateManabar();
+        Debug.Log($"After: {CurrentHealth}/{_maxHealth} ({_healthBar.value}) HP, {CurrentCharge}/{_maxCharge} ({_manaBar.value}) SP ");
+
     }
 
     public void SetInvincibility(float amount)

@@ -43,4 +43,5 @@ public class EnemySetup : MonoBehaviour
     void ToggleSightDebug() {
         sightDebug.GetComponent<MeshRenderer>().enabled = isDebug;
     }
+
 }
