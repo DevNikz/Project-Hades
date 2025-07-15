@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         LocalInitialize();
-        if (scene.name == "HubLevel") _isActive = false;
+        if (scene.name == "HubLevel" || scene.name == "Title Screen") _isActive = false;
     }
     void OnSceneUnloaded(Scene scene)
     {
@@ -251,5 +251,7 @@ public class EnemySpawner : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoad;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         LocalInitialize();
+
+        if(SceneManager.GetActiveScene().name == "HubLevel" || SceneManager.GetActiveScene().name == "Title Screen") _isActive = false;
     }
 }

@@ -80,11 +80,8 @@ public class RevampPlayerStateHandler : MonoBehaviour
 
     public void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"Health Updated on reload for {gameObject.name}");
-        Debug.Log($"Before: {CurrentHealth}/{_maxHealth} ({_healthBar.value}) HP, {CurrentCharge}/{_maxCharge} ({_manaBar.value}) SP ");
         UpdateHealthbar();
         UpdateManabar();
-        Debug.Log($"After: {CurrentHealth}/{_maxHealth} ({_healthBar.value}) HP, {CurrentCharge}/{_maxCharge} ({_manaBar.value}) SP ");
 
     }
 
