@@ -32,6 +32,14 @@ public class RevampPlayerStateHandler : MonoBehaviour
         get { return CurrentHealth <= 0; }
     }
 
+    public bool godMode;
+
+    public bool IsGod
+    {
+        get { return godMode; }
+        set { godMode = value;  }
+    }
+
     public static RevampPlayerStateHandler Instance { get; private set; }
     private PlayerAnimatorController _animator;
 
@@ -83,7 +91,8 @@ public class RevampPlayerStateHandler : MonoBehaviour
     {
         if (CurrentState == EntityState.Dead) return;
         if (IsInvincible || _attackAnimCallback._isInvulnerable) return;
-
+        if (godMode) return;
+ 
         // HURT DAMAGE CALCULATION
         float actualDamage = damage;
         float damageReduction = 0.0f;
