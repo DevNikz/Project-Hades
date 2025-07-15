@@ -6685,6 +6685,7 @@ MonoBehaviour:
   _playerCombatStats: {fileID: 11400000, guid: 584833b9407af9b4898baf1b764973d5, type: 2}
   _hurtTime: 0.1
   CurrentState: 0
+  godMode: 0
 --- !u!1 &4638424918634927194
 GameObject:
   m_ObjectHideFlags: 0
@@ -7282,8 +7283,8 @@ MonoBehaviour:
   m_VerticalDamping: 2
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_DeadZoneWidth: 0.2
-  m_DeadZoneHeight: 0.2
+  m_DeadZoneWidth: 0
+  m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
   m_SoftZoneHeight: 0.8
   m_BiasX: 0
