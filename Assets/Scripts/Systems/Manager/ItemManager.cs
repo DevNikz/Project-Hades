@@ -229,7 +229,7 @@ public class ItemManager : MonoBehaviour
                 // if(!_player)
                 //     _player = GameObject.Find("Player").GetComponent<RevampPlayerStateHandler>();
                 //_player.HealHealth(stackAugment.Augment.augmentPower);
-                RevampPlayerStateHandler.Instance.HealHealth(stackAugment.Augment.augmentPower);
+                RevampPlayerStateHandler.Instance.HealHealth(999999);
             }
             else
             {
