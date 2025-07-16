@@ -50,6 +50,7 @@ public class DialogueManager : MonoBehaviour
 
         _dialogueView.gameObject.SetActive(true);
         _dialogueView.DialogueBoxClickCallback();
+        RevampPlayerController.Instance.SetInput(false);
         Time.timeScale = 0;
         _endDialogueCallback = callback;
 
@@ -113,6 +114,8 @@ public class DialogueManager : MonoBehaviour
         _currentDialogueLineIndex = -1;
         _dialogueView.gameObject.SetActive(false);
         Time.timeScale = 1;
+        if(RevampPlayerController.Instance != null)
+            RevampPlayerController.Instance.SetInput(true);
 
         _endDialogueCallback?.Invoke();
         _endDialogueCallback = null;

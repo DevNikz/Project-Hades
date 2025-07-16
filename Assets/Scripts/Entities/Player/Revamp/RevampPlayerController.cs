@@ -585,6 +585,14 @@ public class RevampPlayerController : MonoBehaviour
         _inputActions.Disable();
     }
 
+    public void SetInput(bool isEnabled)
+    {
+        if(isEnabled)
+            _inputActions.Enable();
+        else
+            _inputActions.Disable();
+    }
+
     public static RevampPlayerController Instance { get; private set; }
     void Start()
     {
