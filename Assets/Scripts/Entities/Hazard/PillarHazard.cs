@@ -93,16 +93,14 @@ public class PillarHazard : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
-        _hitbox.SetActive(true);
         //_visualBox.SetActive(false);
 
-        yield return new WaitForEndOfFrame();
 
         _animator.Play("CollapseVFX");
+        _hitbox.SetActive(true);
 
         _debrisObjects.Play();
 
-        _hitbox.SetActive(false);
         foreach (var state in _pillarStateObjects)
             state.SetActive(false);
         _fullState.SetActive(false);
@@ -110,6 +108,9 @@ public class PillarHazard : MonoBehaviour
         _zeroHealthState.SetActive(false);
         _destroyedState.SetActive(true);
         _shakeEffect.Stop();
+
+        yield return new WaitForSeconds(0.5f);
+        _hitbox.SetActive(false);
         
     }
 }

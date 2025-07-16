@@ -11,7 +11,7 @@ public class HitBoxController : MonoBehaviour
         // }
         
         if(other.TryGetComponent<EnemyController>(out var enemy)) {
-            enemy.ReceiveDamage(DamageType.Physical, 10f, 100f, AttackDirection.None, Detain.No, false);
+            enemy.ReceiveDamage(DamageType.Physical, 10f, 500f, AttackDirection.None, Detain.No, false);
         }
     }
 }
