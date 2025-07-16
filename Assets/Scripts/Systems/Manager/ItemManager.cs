@@ -316,20 +316,34 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if(activeStance == Elements.None)
-            return;
+        switch (RevampPlayerController.Instance.CurrentStance.StanceType)
+        {
+            case EStance.Earth: activeStance = Elements.Earth; break;
+            case EStance.Water: activeStance = Elements.Water; break;
+            case EStance.Air: activeStance = Elements.Wind; break;
+            case EStance.Fire: activeStance = Elements.Fire; break;
+        }
 
-        foreach(StanceSubAugment augment in stanceSubAugments){
-            if(augment.RefElement == activeStance){
-                if(augment.Unlocked){
-                    if(!augment.Augment.IsActive)
+        foreach (StanceSubAugment augment in stanceSubAugments)
+        {
+            if (augment.RefElement == activeStance)
+            {
+                if (augment.Unlocked)
+                {
+                    if (!augment.Augment.IsActive)
+                    {
                         augment.Augment.OnActivate();
-                } else {
-                    if(augment.Augment.IsActive)
+                    }
+                }
+                else
+                {
+                    if (augment.Augment.IsActive)
                         augment.Augment.OnDeactivate();
                 }
-            } else {
-                if(augment.Augment.IsActive)
+            }
+            else
+            {
+                if (augment.Augment.IsActive)
                     augment.Augment.OnDeactivate();
             }
         }

@@ -240,6 +240,7 @@ public class MeleeController : MonoBehaviour
                     enemy.SetSlow(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).augmentPower);
                 }
 
+                Debug.Log($"Check Augment: {ItemManager.Instance.getAugment(AugmentType.Ember_Gear)}, {ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive}");
                 if (ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive)
                 {
                     enemy.ApplyBurn(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower);

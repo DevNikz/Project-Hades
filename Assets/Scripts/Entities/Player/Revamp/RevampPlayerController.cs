@@ -377,7 +377,7 @@ public class RevampPlayerController : MonoBehaviour
     #endregion
 
     #region StanceSwiching
-    private StanceStatsScriptable CurrentStance
+    public StanceStatsScriptable CurrentStance
     {
         get { return _stanceDatabase.Stances[_activeStanceIndex]; }
         set { _activeStanceIndex = _stanceDatabase.Stances.IndexOf(value); }
@@ -409,6 +409,7 @@ public class RevampPlayerController : MonoBehaviour
             }
         }
 
+        ItemManager.Instance.ToggleValidAugments(Elements.None);
         UpdateAttackIndicator();
         StartCoroutine(StancePopup());
     }

@@ -297,7 +297,8 @@ public class EnemyController : MonoBehaviour
     }
 
     public void ApplyBurn(float length){
-        if(!IsBurning)
+        Debug.Log("Burn applied");
+        if (!IsBurning)
         {
             burnTimer = length;
             _enemyAnimation.PlayStatusVFX("Burn_VFX");
