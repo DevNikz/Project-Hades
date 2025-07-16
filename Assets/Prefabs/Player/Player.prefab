@@ -6464,6 +6464,7 @@ GameObject:
   - component: {fileID: 7773981988441345252}
   - component: {fileID: 4250258120052086840}
   - component: {fileID: 3975398296081513053}
+  - component: {fileID: 5000228440717009405}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -6686,6 +6687,23 @@ MonoBehaviour:
   _hurtTime: 0.1
   CurrentState: 0
   godMode: 0
+--- !u!114 &5000228440717009405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577822604049303543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621067540491bd4ca2af9b19893247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashMaterial: {fileID: 2100000, guid: 5a1f8656fb2c71d419bcbe56caf2acbd, type: 2}
+  _maxDamageThreshold: 300
+  _maxFlashCount: 3
+  _targetSprites:
+  - {fileID: 3898617837443489585}
 --- !u!1 &4638424918634927194
 GameObject:
   m_ObjectHideFlags: 0

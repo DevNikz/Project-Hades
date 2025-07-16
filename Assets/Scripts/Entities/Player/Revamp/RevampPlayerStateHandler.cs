@@ -107,6 +107,9 @@ public class RevampPlayerStateHandler : MonoBehaviour
         actualDamage *= 1.0f - damageReduction;
         CurrentHealth -= actualDamage;
 
+        if (TryGetComponent<FlashSpriteScript>(out var flashScript))
+            flashScript.TriggerFlash(actualDamage, true);
+
         // SFX SETTINGS
         TriggerRandomHurtSFX();
         TriggerHurt();
