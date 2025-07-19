@@ -151,8 +151,11 @@ public class SaveManager : MonoBehaviour
 
     public string GetNextLevel()
     {
+        if (CurrentStats.DepthLevel > _maxLevels + 1)
+            return "WinScreen";
+
         if (CurrentStats.DepthLevel > _maxLevels)
-            return "CronosLevel";
+                return "CronosLevel";
 
         if (!_useRandomGen)
             return "Level " + (CurrentStats.DepthLevel);

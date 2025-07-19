@@ -11,6 +11,8 @@ public class LevelTrigger : MonoBehaviour
     [SerializeField] String NextLevel;
     [SerializeField] GameObject playerInputManager;
 
+    [SerializeField] WinScreen_script _winScreen;
+
     [TitleGroup("Properties", "General Level Trigger Properties", TitleAlignments.Centered)]
 
     [HorizontalGroup("Properties/base")]
@@ -105,7 +107,11 @@ public class LevelTrigger : MonoBehaviour
 
             Debug.Log("Level Over");
             SaveManager.Instance.AddDepth();
-            loader.LoadLevel(SaveManager.Instance.GetNextLevel());
+            String nextLevel = SaveManager.Instance.GetNextLevel();
+            if (nextLevel == "WinScreen")
+                _winScreen.Display();
+            else
+                loader.LoadLevel(nextLevel);
         }
 
         Destroy(this.GetComponent<Rigidbody>());
