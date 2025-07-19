@@ -97,16 +97,22 @@ public class EnemyController : MonoBehaviour
     [SerializeReference] private Vector3 spawnPoint;
 
     private FlashSpriteScript _flashScript;
+    private FlashSpriteScript _staggerFlashScript;
     private PlayerController manaCharge;
     private float maxHP;
     void Start() {
         _enemyAction = this.GetComponent<EnemyAction>();
         _enemyAnimation = this.GetComponentInChildren<EnemyAnimation>();
-        _flashScript = GetComponent<FlashSpriteScript>();
+
+        FlashSpriteScript[] flashScripts = GetComponents<FlashSpriteScript>();
+        if(flashScripts.Length > 0)
+        _flashScript = flashScripts[0];
+        if(flashScripts.Length > 1)
+        _staggerFlashScript = flashScripts[1];
 
         healthUI = this.transform.parent.transform.Find("HealthAndDetection").gameObject;
         detectCone = this.transform.Find("Cone").gameObject;
-        // poiseUI = this.transform.parent.transform.Find("Poise").gameObject;
+        // poiseUI = this.transform.parent.transform.Find("Poise").gameObject; 
         // poiseMeter = poiseUI.transform.Find("Slider").GetComponent<Slider>();
         hitFX = transform.Find("HitFX").GetComponent<ParticleSystem>();
         spriteContainer = transform.Find("SpriteContainer").gameObject;
@@ -212,7 +218,7 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        if(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).IsActive){
+        if(ItemManager.Instance.getUnlockableAugment(AugmentType.Immolation_Gear).IsActive){
             while(burnDamageTicker >= ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower2){
                 burnDamageTicker -= ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower2;
                 DealBurnDamage(ItemManager.Instance.getAugment(AugmentType.Immolation_Gear).augmentPower);    
@@ -267,9 +273,9 @@ public class EnemyController : MonoBehaviour
         if(other.layer != LayerMask.NameToLayer("Wall"))
             return;
         
-        if(ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive){
+        if(ItemManager.Instance.getUnlockableAugment(AugmentType.Galeforce_Gear).IsActive){
             ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower2, AttackDirection.None, Detain.No);
-        } else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive){
+        } else if (ItemManager.Instance.getUnlockableAugment(AugmentType.Gust_Strike_Gear).IsActive){
             ReceiveDamage(DamageType.Physical, 0.0f, ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower2, AttackDirection.None, Detain.No);
         }
     }
@@ -409,7 +415,6 @@ public class EnemyController : MonoBehaviour
 
         //Visual Cue
         hitFX.Play();
-        if (_flashScript != null) _flashScript.TriggerFlash(damage, true);
         this.gameObject.GetComponent<EnemyAction>().SetHit(attackDirection);
         manaCharge = FindAnyObjectByType<PlayerController>();
         if(isCritical)
@@ -429,8 +434,12 @@ public class EnemyController : MonoBehaviour
         currentTimer = enemyStats.timerDelay;
         //poiseMeter.value = ToPercent(totalPoise) - ToPercent(currentPoise);
 
-        if (currentPoise <= 0) 
-            this.gameObject.GetComponent<EnemyAction>().SetStagger(attackDirection, enemyStats.timerDelay);
+        if (currentPoise <= 0)
+        {
+            if(_staggerFlashScript != null) _staggerFlashScript.TriggerFlash(damage, true);
+            this.gameObject.GetComponent<EnemyAction>().SetStagger(attackDirection, 2.0f);
+        } else 
+            if (_flashScript != null) _flashScript.TriggerFlash(damage, true);
 
         //UI
         switch (enemyStats.enemyType) {

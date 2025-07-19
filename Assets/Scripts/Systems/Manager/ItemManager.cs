@@ -18,15 +18,16 @@ public class ItemManager : MonoBehaviour
 
         [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int Count;
     }
-    [Serializable] public class UnlockableAugment {
+    [Serializable]
+    public class UnlockableAugment
+    {
         [HorizontalGroup("Row")]
         [VerticalGroup("Row/Left")][SerializeReference] public AugmentScriptable Augment;
 
         [VerticalGroup("Row/Right"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public bool Unlocked;
+        public bool IsActive = false;
     }
     [Serializable] public class StanceSubAugment : UnlockableAugment {
-        [VerticalGroup("Row/StanceIndex"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceIndex;
-        [VerticalGroup("Row/StanceSubtree"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public int StanceSubtree;
         [VerticalGroup("Row/RefElement"), HorizontalGroup("Row", Width = 0.2f)][SerializeField] public Elements RefElement;
     }
 
@@ -198,7 +199,7 @@ public class ItemManager : MonoBehaviour
     
     }
     
-    private UnlockableAugment getUnlockableAugment (AugmentType type){
+    public UnlockableAugment getUnlockableAugment (AugmentType type){
         if(!augmentIndexRef.ContainsKey(type))
             return null;
 
@@ -308,11 +309,17 @@ public class ItemManager : MonoBehaviour
 
         foreach(UnlockableAugment augment in stanceAugments){
             if(augment.Unlocked){
-                if(!augment.Augment.IsActive)
+                if (!augment.IsActive)
+                {
+                    augment.IsActive = true;
                     augment.Augment.OnActivate();
+                }
             } else {
-                if(augment.Augment.IsActive)
+                if (augment.IsActive)
+                {
+                    augment.IsActive = false;
                     augment.Augment.OnDeactivate();
+                }
             }
         }
 
@@ -330,21 +337,28 @@ public class ItemManager : MonoBehaviour
             {
                 if (augment.Unlocked)
                 {
-                    if (!augment.Augment.IsActive)
+                    if (!augment.IsActive)
                     {
+                        augment.IsActive = true;
                         augment.Augment.OnActivate();
                     }
                 }
                 else
                 {
-                    if (augment.Augment.IsActive)
+                    if (augment.IsActive)
+                    {
+                        augment.IsActive = false;
                         augment.Augment.OnDeactivate();
+                    }
                 }
             }
             else
             {
-                if (augment.Augment.IsActive)
+                if (augment.IsActive)
+                {
+                    augment.IsActive = false;
                     augment.Augment.OnDeactivate();
+                }
             }
         }
 

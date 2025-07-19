@@ -125,9 +125,9 @@ public class MeleeController : MonoBehaviour
 
         if (other.TryGetComponent<BulletController>(out var bullet))
         {
-            if (ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Staunch_Impact_Gear).IsActive)
                 bullet.ReturnToPool();
-            if (ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Storm_Wall_Gear).IsActive)
                 bullet.Reflect(ItemManager.Instance.getAugment(AugmentType.Storm_Wall_Gear).augmentPower);
         }
 
@@ -171,25 +171,25 @@ public class MeleeController : MonoBehaviour
             healthDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Aggro) * ItemManager.Instance.getAugment(AugmentType.Aggro).augmentPower;
             poiseDmgMult += ItemManager.Instance.getAugmentCount(AugmentType.Heavy) * ItemManager.Instance.getAugment(AugmentType.Heavy).augmentPower;
 
-            if (ItemManager.Instance.getAugment(AugmentType.Amp_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Amp_Gear).IsActive)
                 healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Amp_Gear).augmentPower;
 
-            if (ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Tsunami_Gear).IsActive)
                 poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Tsunami_Gear).augmentPower;
 
-            if (ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Galeforce_Gear).IsActive)
             {
                 knockbackMult += ItemManager.Instance.getAugment(AugmentType.Galeforce_Gear).augmentPower;
             }
-            else if (ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).IsActive)
+            else if (ItemManager.Instance.getUnlockableAugment(AugmentType.Gust_Strike_Gear).IsActive)
             {
                 knockbackMult += ItemManager.Instance.getAugment(AugmentType.Gust_Strike_Gear).augmentPower;
             }
 
-            if (ItemManager.Instance.getAugment(AugmentType.Volt_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Volt_Gear).IsActive)
                 criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Volt_Gear).augmentPower;
 
-            if (ItemManager.Instance.getAugment(AugmentType.Fume_Gear).IsActive)
+            if (ItemManager.Instance.getUnlockableAugment(AugmentType.Fume_Gear).IsActive)
             {
                 healthDmgMult += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower * StatCalculator.Instance.SlowedEnemyCount;
                 criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Fume_Gear).augmentPower2 * StatCalculator.Instance.SlowedEnemyCount;
@@ -200,7 +200,7 @@ public class MeleeController : MonoBehaviour
 
                 if (enemy.IsStunned)
                 {
-                    if (ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).IsActive)
+                    if (ItemManager.Instance.getUnlockableAugment(AugmentType.Double_Impact_Gear).IsActive)
                         poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Double_Impact_Gear).augmentPower;
                 }
                 else
@@ -208,12 +208,12 @@ public class MeleeController : MonoBehaviour
                     // Chance to stun
                     if (enemy.IsAttacking)
                     {
-                        if (ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).IsActive)
+                        if (ItemManager.Instance.getUnlockableAugment(AugmentType.Staunch_Impact_Gear).IsActive)
                             enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Staunch_Impact_Gear).augmentPower);
                     }
                     else
                     {
-                        if (ItemManager.Instance.getAugment(AugmentType.Impact_Gear).IsActive)
+                        if (ItemManager.Instance.getUnlockableAugment(AugmentType.Impact_Gear).IsActive)
                         {
                             if (Random.Range(0, 100) < ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower * 100)
                                 enemy.Stun(ItemManager.Instance.getAugment(AugmentType.Impact_Gear).augmentPower2);
@@ -223,25 +223,25 @@ public class MeleeController : MonoBehaviour
 
                 if (enemy.IsRusted)
                 {
-                    if (ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).IsActive)
+                    if (ItemManager.Instance.getUnlockableAugment(AugmentType.Corrode_Gear).IsActive)
                         poiseDmgMult += ItemManager.Instance.getAugment(AugmentType.Corrode_Gear).augmentPower;
 
-                    if (ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).IsActive)
+                    if (ItemManager.Instance.getUnlockableAugment(AugmentType.Caustic_Gear).IsActive)
                         criticalHitChance += ItemManager.Instance.getAugment(AugmentType.Caustic_Gear).augmentPower;
                 }
                 else
                 {
-                    if (ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).IsActive)
+                    if (ItemManager.Instance.getUnlockableAugment(AugmentType.Oxidize_Gear).IsActive)
                         enemy.ApplyRust(ItemManager.Instance.getAugment(AugmentType.Oxidize_Gear).augmentPower);
                 }
 
-                if (ItemManager.Instance.getAugment(AugmentType.Haze_Gear).IsActive)
+                if (ItemManager.Instance.getUnlockableAugment(AugmentType.Haze_Gear).IsActive)
                 {
                     enemy.SetSlow(ItemManager.Instance.getAugment(AugmentType.Haze_Gear).augmentPower);
                 }
 
-                Debug.Log($"Check Augment: {ItemManager.Instance.getAugment(AugmentType.Ember_Gear)}, {ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive}");
-                if (ItemManager.Instance.getAugment(AugmentType.Ember_Gear).IsActive)
+                Debug.Log($"Check Augment: {ItemManager.Instance.getAugment(AugmentType.Ember_Gear)}, {ItemManager.Instance.getUnlockableAugment(AugmentType.Ember_Gear).IsActive}");
+                if (ItemManager.Instance.getUnlockableAugment(AugmentType.Ember_Gear).IsActive)
                 {
                     enemy.ApplyBurn(ItemManager.Instance.getAugment(AugmentType.Ember_Gear).augmentPower);
                 }

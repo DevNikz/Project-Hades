@@ -470,7 +470,7 @@ public class Combat : MonoBehaviour
         }
 
         // Set scale of hitbox
-        if(ItemManager.Instance.getAugment(AugmentType.Wave_Gear).IsActive){
+        if(ItemManager.Instance.getUnlockableAugment(AugmentType.Wave_Gear).IsActive){
             Vector3 newScale = hitboxLeft_Temp.transform.localScale;
             newScale.x *= ItemManager.Instance.getAugment(AugmentType.Wave_Gear).augmentPower;
             newScale.y *= ItemManager.Instance.getAugment(AugmentType.Wave_Gear).augmentPower;

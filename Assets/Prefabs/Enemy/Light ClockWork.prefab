@@ -6156,6 +6156,7 @@ GameObject:
   - component: {fileID: 5767518328609094481}
   - component: {fileID: 4500748292377504821}
   - component: {fileID: 3472480912375746875}
+  - component: {fileID: 3532094086337798678}
   m_Layer: 8
   m_Name: Base
   m_TagString: Enemy
@@ -6398,6 +6399,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _flashMaterial: {fileID: 2100000, guid: 3afa1205ad8cb6c4bbdf57aefc195e06, type: 2}
+  _maxDamageThreshold: 300
+  _maxFlashCount: 5
+  _targetSprites:
+  - {fileID: 1235205148075948474}
+--- !u!114 &3532094086337798678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8071902308898319438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621067540491bd4ca2af9b19893247c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _flashMaterial: {fileID: 2100000, guid: a02e91be30745c94ab4b993ac5ac4637, type: 2}
   _maxDamageThreshold: 300
   _maxFlashCount: 5
   _targetSprites:
