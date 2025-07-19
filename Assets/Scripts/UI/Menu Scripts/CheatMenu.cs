@@ -23,7 +23,6 @@ public class CheatMenu : MonoBehaviour
         }
     }
 
-    [Button("Tutorial")]
     public void Tutorial()
     {
         Time.timeScale = 1.0f;
@@ -37,6 +36,7 @@ public class CheatMenu : MonoBehaviour
 
     public void Level1()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
@@ -47,6 +47,7 @@ public class CheatMenu : MonoBehaviour
 
     public void Level2()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
@@ -57,6 +58,7 @@ public class CheatMenu : MonoBehaviour
 
     public void Level3()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
@@ -67,6 +69,7 @@ public class CheatMenu : MonoBehaviour
 
     public void BossLevel()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
@@ -77,6 +80,7 @@ public class CheatMenu : MonoBehaviour
 
     public void HUBLevel()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
@@ -86,6 +90,7 @@ public class CheatMenu : MonoBehaviour
 
     public void MainMenu()
     {
+        Time.timeScale = 1.0f;
         LevelLoader levelLoader;
         if (CheckLoader(out levelLoader))
         {
