@@ -17,6 +17,12 @@ public static class SaveSystem
         stream.Close();
     }
 
+    public static void DeleteSave(int saveIndex)
+    {
+        string path = Application.persistentDataPath + $"/playerSave{saveIndex}.sav";
+        if(File.Exists(path)) File.Delete(path);
+    }
+
     public static void SaveSettingsData(SaveManager player)
     {
         BinaryFormatter formatter = new BinaryFormatter();

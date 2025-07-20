@@ -78,6 +78,11 @@ public class SaveManager : MonoBehaviour
         SaveSystem.SavePlayerData(this, SelectedSave);
     }
 
+
+    public void DeleteSave(int selectedSave){
+        SaveSystem.DeleteSave(selectedSave);
+    }
+
     public void SavePlayer(int index)
     {
         SaveSystem.SavePlayerData(this, index);
