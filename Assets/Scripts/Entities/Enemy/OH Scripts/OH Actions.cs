@@ -23,7 +23,7 @@ public class OHActions : EnemyAction
     protected override void Attack()
     {
         Agent.isStopped = false;
-        Agent.SetDestination(Player.transform.position + Calculate());
+        Agent.SetDestination(Player.transform.position);
         Agent.speed = _fastSpeed;
 
         if (Agent.remainingDistance <= Agent.stoppingDistance)

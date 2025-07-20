@@ -200,7 +200,8 @@ public abstract class EnemyAction : MonoBehaviour
         if (anims.isDead || anims.isStun || anims.isHit) return;
 
         EndAttack();
-        if(Cooldown < _timerDelay) Cooldown = _timerDelay;
+        if (Cooldown < _timerDelay) Cooldown = _timerDelay;
+        else Invoke(nameof(ResetHit), _timerDelay);
 
         anims.SetHit(attackDirection);
         //Invoke(nameof(ResetHit), _timerDelay);

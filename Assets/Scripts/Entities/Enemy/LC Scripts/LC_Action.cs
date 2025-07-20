@@ -80,4 +80,15 @@ public class LC_Actions : EnemyAction
         Attacking();
     }
 
+    public override void SetHit(AttackDirection attackDirection)
+    {
+        Debug.Log("Dmg");
+        if (anims.isDead || anims.isStun || anims.isHit || IsAttacking) return;
+
+        EndAttack();
+        if (Cooldown < _timerDelay) Cooldown = _timerDelay;
+
+        anims.SetHit(attackDirection);
+        //Invoke(nameof(ResetHit), _timerDelay);
+    }
 }

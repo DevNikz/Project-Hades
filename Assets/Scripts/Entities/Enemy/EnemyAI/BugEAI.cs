@@ -33,7 +33,7 @@ public class BugEAI : EnemyAction
             gameObject.transform.LookAt(Player.transform.position);
             this.transform.eulerAngles = new Vector3(0, this.transform.eulerAngles.y, 0);
 
-            if (Vector3.Distance(this.transform.position, Player.transform.position) <= Agent.stoppingDistance + 1) {
+            if (Vector3.Distance(this.transform.position, Player.transform.position) <= Agent.stoppingDistance) {
             this.SetAction(3);
             }
         }
@@ -51,7 +51,7 @@ public class BugEAI : EnemyAction
 
     public void Distancing()
     {
-        if(Vector3.Distance(this.transform.position, Player.transform.position) < origStopDis / 2)
+        if(Vector3.Distance(this.transform.position, Player.transform.position) <= origStopDis / 2)
         {
             this.SetAction(4);
         }
