@@ -79,8 +79,16 @@ public class SaveManager : MonoBehaviour
     }
 
 
-    public void DeleteSave(int selectedSave){
+    public void DeleteSave(int selectedSave)
+    {
         SaveSystem.DeleteSave(selectedSave);
+
+        string path1 = Application.persistentDataPath + "/playerSave1.sav";
+        string path2 = Application.persistentDataPath + "/playerSave2.sav";
+        string path3 = Application.persistentDataPath + "/playerSave3.sav";
+        HadPlayedSave1 = File.Exists(path1);
+        HadPlayedSave2 = File.Exists(path2);
+        HadPlayedSave3 = File.Exists(path3);
     }
 
     public void SavePlayer(int index)
