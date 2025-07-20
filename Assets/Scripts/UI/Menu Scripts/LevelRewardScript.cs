@@ -193,6 +193,9 @@ public class LevelRewardScript : MonoBehaviour
 
     private bool TryActivateDialogue()
     {
+        if (SaveManager.Instance != null && SaveManager.Instance.CurrentStats.hasPlayed != 0)
+            _tutorialDialogueTag = "";
+
         if (_tutorialDialogueTag.IsNullOrWhitespace()) return false;
         if (DialogueManager.Instance == null) return false;
 
