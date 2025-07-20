@@ -7,6 +7,7 @@ public class BulletController : MonoBehaviour
     public AttackType attackType;
     [SerializeField] public bool IsHostile;
     [SerializeField] private GameObject _outerSphere;
+    public bool WasReflected = false;
     private GameObject tempObject;
     private Rigidbody rb;
     private Rigidbody bulletBody;
@@ -27,10 +28,12 @@ public class BulletController : MonoBehaviour
         // attackType = Resources.Load<AttackType>(this.attackType.); 
     }
 
-    void OnEnable() {
+    void OnEnable()
+    {
         this.bulletBody = this.gameObject.GetComponent<Rigidbody>();
         timerState = TimerState.Start;
         timerProgress = timer;
+        WasReflected = false;
     }
 
     private void OnDisable() {
@@ -61,8 +64,12 @@ public class BulletController : MonoBehaviour
     }
 
     public void Reflect(float damageScaler){
+        if (WasReflected) return;
         _damageScaler = damageScaler;
-        if(this.TryGetComponent<Rigidbody>(out var rb)){
+        WasReflected = true;
+        IsHostile = !IsHostile;
+        if (this.TryGetComponent<Rigidbody>(out var rb))
+        {
             Vector3 velocity = rb.velocity;
             velocity.x = -velocity.x;
             velocity.y = -velocity.y;
@@ -81,9 +88,9 @@ public class BulletController : MonoBehaviour
                 Vector3 knockback = direction * attackType.knocbackForce;
                 rb.AddForce(knockback, ForceMode.Impulse);
                 enemy.ReceiveDamage(attackType.damageType, attackType.damage * _damageScaler, attackType.poise, AttackDirection.None, Detain.No);
+                ReturnToPool();
             }
 
-            ReturnToPool();
         }
 
         if (other.TryGetComponent<PlayerController>(out var player)) {
@@ -92,8 +99,8 @@ public class BulletController : MonoBehaviour
                 Vector3 knockback = direction * attackType.knocbackForce;
                 rb.AddForce(knockback, ForceMode.Impulse);
                 player.ReceiveDamage(attackType.damageType, attackType.damage);
+                ReturnToPool();
             }
-            ReturnToPool();
         }
 
         if (other.TryGetComponent<RevampPlayerStateHandler>(out var revampPlayer))
@@ -104,8 +111,8 @@ public class BulletController : MonoBehaviour
                 Vector3 knockback = direction * attackType.knocbackForce;
                 rb.AddForce(knockback, ForceMode.Impulse);
                 revampPlayer.ReceiveDamage(attackType.damageType, attackType.damage);
+                ReturnToPool();
             }
-            ReturnToPool();
         }
 
         if(other.CompareTag("Bounds")) {

@@ -317,7 +317,10 @@ public class EnemyController : MonoBehaviour
     }
 
     private void DealBurnDamage(float amount){
+        if (IsDead) return;
         currentHealth -= amount;
+        if(_flashScript != null)
+        _flashScript.TriggerFlash(amount, true);
         DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, amount, DamageIndicatorManager.DamageType.Burn);
         sprite.color = StatCalculator.Instance.BurnDamagedColor;
         if (enemyStats.enemyType == EnemyType.Normal) UpdateNormalHP();

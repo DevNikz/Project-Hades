@@ -295,7 +295,7 @@ public class ItemManager : MonoBehaviour
         foreach(StackableAugment augment in stackableAugments){
             if(augment.Augment.augmentType == AugmentType.Vitality){
                 UpdatePlayerVitality();
-                return;
+                continue;
             }
 
             if(augment.Count >= 1){
@@ -330,6 +330,8 @@ public class ItemManager : MonoBehaviour
             case EStance.Air: activeStance = Elements.Wind; break;
             case EStance.Fire: activeStance = Elements.Fire; break;
         }
+
+        Debug.Log(activeStance);
 
         foreach (StanceSubAugment augment in stanceSubAugments)
         {
