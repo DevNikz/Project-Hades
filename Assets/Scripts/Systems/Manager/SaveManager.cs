@@ -58,6 +58,10 @@ public class SaveManager : MonoBehaviour
                 break;
             default:
                 CurrentStats.hasPlayed = 1;
+                int depth = CurrentStats.DepthLevel;
+                CurrentStats.DepthLevel = 0;
+                SavePlayer();
+                CurrentStats.DepthLevel = depth;
                 break;
         }
     }
