@@ -138,8 +138,16 @@ public class EnemySpawner : MonoBehaviour
     #region Spawning
     private int _activeEnemyCount;
     private Queue<Queue<GameObject>> _toSpawnEnemyWaves = new();
+    public void ClearWaves()
+    {
+        // Debug.Log("Calling in spawmer to clear waves");
+        _toSpawnEnemyWaves.Clear();
+        
+        // Debug.Log("Waves left: " + _toSpawnEnemyWaves.Count);
+    }
     public void SpawnWave()
     {
+        // Debug.Log("To spawn waves: " + _toSpawnEnemyWaves.Count);
         _awaitingNextSpawn = false;
         if (_toSpawnEnemyWaves.Count > 0)
             StartCoroutine(SpawnWaveCoroutine(_toSpawnEnemyWaves.Dequeue()));

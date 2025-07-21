@@ -1,7 +1,9 @@
 using System;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
@@ -96,6 +98,8 @@ public class EnemyController : MonoBehaviour
     [BoxGroup("ShowReferences/Reference")]
     [SerializeReference] private Vector3 spawnPoint;
 
+    public UnityEvent OnDeath;
+
     private FlashSpriteScript _flashScript;
     private FlashSpriteScript _staggerFlashScript;
     private PlayerController manaCharge;
@@ -140,6 +144,16 @@ public class EnemyController : MonoBehaviour
         if(this.gameObject.TryGetComponent<NavMeshAgent>(out var agent)){
             agent.speed = enemyStats.moveSpeed;
             agent.stoppingDistance = enemyStats.stoppingDistance;
+        }
+    }
+
+    public void ClearWaveSpawns()
+    {
+        // Debug.Log("Tried to clear waves");
+        if (EnemySpawner.Instance != null)
+        {
+            // Debug.Log("Called to clear waves");
+            EnemySpawner.Instance.ClearWaves();
         }
     }
 
@@ -327,10 +341,12 @@ public class EnemyController : MonoBehaviour
         sprite.color = StatCalculator.Instance.BurnDamagedColor;
         if (enemyStats.enemyType == EnemyType.Normal) UpdateNormalHP();
         else UpdateBossHP();
-        
-        
-        if(this.currentHealth <= 0) {
+
+
+        if (this.currentHealth <= 0)
+        {
             this.GetComponent<EnemyDeath>().Die();
+            OnDeath?.Invoke();
 
             //Add Scrap if ded
             // if(ItemManager.Instance != null) {
@@ -425,6 +441,8 @@ public class EnemyController : MonoBehaviour
     public void ReceiveDamage(DamageType damageType, float damage, float poise, AttackDirection attackDirection, Detain detain, bool isCritical = false) {
         if (this.currentHealth <= 0) return;
 
+        damage *= enemyStats.damageResist;
+
         //SFX Play
         SFXPlayer(detain);
 
@@ -466,6 +484,7 @@ public class EnemyController : MonoBehaviour
 
         if(this.currentHealth <= 0) {
             this.GetComponent<EnemyDeath>().Die();
+            OnDeath?.Invoke();
 
             //Add Scrap if ded
             // if(ItemManager.Instance != null) {
