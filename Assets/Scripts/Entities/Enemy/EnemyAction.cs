@@ -48,6 +48,8 @@ public abstract class EnemyAction : MonoBehaviour
 
     public void Update()
     {
+        if (!Agent.enabled) return; 
+
         this.transform.position = new Vector3(this.transform.position.x, this._originalPosition.y, this.transform.position.z);
         if(Agent.speed == _baseSpeed && Agent.speed != _altBaseSpeed)
             Agent.speed = _altBaseSpeed;
@@ -105,6 +107,17 @@ public abstract class EnemyAction : MonoBehaviour
         }
 
         if(drawLine) DrawLine();
+    }
+
+     bool IsOnNavMesh()
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(Agent.transform.position, out hit, 10.0f, NavMesh.AllAreas))
+        {
+            // Check if the hit point is close enough to the agent's position
+            return Vector3.Distance(Agent.transform.position, hit.position) < 0.1f; // Adjust threshold as needed
+        }
+        return false;
     }
 
     private void DrawLine()

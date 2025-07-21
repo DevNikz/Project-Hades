@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private bool                   _rewardAugmentPerWave = false;
     [SerializeField] private int                    _enemiesPerBatch;
     [SerializeField] private float                  _spawnBatchCooldown;
+    [SerializeField] private float                  _fallingSpawnDelay;
+    [SerializeField] private Vector3                _fallSpawnOffset;
     [SerializeField] private int                    _enemiesRemainingBeforeNextWave;
     [SerializeField] private float                  _waveCalloutFadeTime;
     [SerializeField] private float                  _waveCalloutHoverTime;
@@ -190,11 +193,64 @@ public class EnemySpawner : MonoBehaviour
     {
         int randomSpawn = _spawnpoints.Count > 0 ? Random.Range(0, _spawnpoints.Count) : -1;
         Transform spawnpoint = randomSpawn >= 0 ? _spawnpoints[randomSpawn] : null;
-        Vector3 spawnPosition = spawnpoint == null ? gameObject.transform.position : spawnPosition = spawnpoint.position;
-
+        Vector3 spawnPosition = spawnpoint == null ? gameObject.transform.position : spawnpoint.position;
         _activeEnemyCount++;
-        enemy.transform.position = spawnPosition;
-        enemy.SetActive(true);
+
+        if (_fallingSpawnDelay > 0)
+        {
+            enemy.transform.position = spawnPosition + _fallSpawnOffset;
+            StartCoroutine(SpawnEnemyFalling(enemy, spawnPosition + _fallSpawnOffset, spawnPosition));
+            enemy.SetActive(true);
+        }
+        else
+        {
+            enemy.transform.position = spawnPosition;
+            enemy.SetActive(true);
+        }
+
+    }
+
+    private IEnumerator SpawnEnemyFalling(GameObject enemy, Vector3 startPos, Vector3 endPos)
+    {
+        NavMeshAgent agent = enemy.GetComponentInChildren<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.enabled = false;
+            agent.updatePosition = false;
+        }
+
+        float elapsedTime = 0f;
+        while (elapsedTime < _fallingSpawnDelay)
+        {
+            enemy.transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / _fallingSpawnDelay);
+            if (agent != null)
+            {
+                agent.nextPosition = enemy.transform.position;
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        enemy.transform.position = endPos;
+        agent.nextPosition = endPos;
+
+
+        if (agent != null)
+        {
+            agent.enabled = true;
+            agent.updatePosition = true;
+        }
+        /*
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(endPos, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position); // Only use Warp to relocate
+            else
+            {
+                enemy.transform.position = hit.position;
+            }
+        }
+        */
     }
     private void WarmSpawns()
     {
@@ -206,7 +262,7 @@ public class EnemySpawner : MonoBehaviour
                 for (int i = 0; i < countpair.Amount; i++)
                 {
                     GameObject obj = WarmSpawn(countpair.Enemy);
-                    if(obj != null) spawnedEnemies.Add(obj);
+                    if (obj != null) spawnedEnemies.Add(obj);
                 }
             }
 
