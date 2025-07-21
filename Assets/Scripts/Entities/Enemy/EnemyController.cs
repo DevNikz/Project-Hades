@@ -316,15 +316,27 @@ public class EnemyController : MonoBehaviour
         knockbackTimer = length;
     }
 
-    private void DealBurnDamage(float amount){
+    private void DealBurnDamage(float amount)
+    {
         if (IsDead) return;
         currentHealth -= amount;
-        if(_flashScript != null)
-        _flashScript.TriggerFlash(amount, true);
+        if(currentHealth < 0) currentHealth = 0;
+        if (_flashScript != null)
+            _flashScript.TriggerFlash(amount, true);
         DamageIndicatorManager.Instance.PlayIndicator(this.transform.position, amount, DamageIndicatorManager.DamageType.Burn);
         sprite.color = StatCalculator.Instance.BurnDamagedColor;
         if (enemyStats.enemyType == EnemyType.Normal) UpdateNormalHP();
         else UpdateBossHP();
+        
+        
+        if(this.currentHealth <= 0) {
+            this.GetComponent<EnemyDeath>().Die();
+
+            //Add Scrap if ded
+            // if(ItemManager.Instance != null) {
+            //     ItemManager.Instance.PAddScrap(enemyStats.scrapCount);
+            // }
+        }
     }
 
     void UpdateHealth() {

@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c1e9b7020a8b394aafe5292eb4d7891, type: 3}
-  m_Name: LightClockwork Flash
+  m_Script: {fileID: 11500000, guid: b4c5fa7a982b43d42a9d505dee8edd78, type: 3}
+  m_Name: '[1] BugE Intro'
   m_EditorClassIdentifier: 
-  damageType: 0
-  damage: 20
-  poise: 25
-  criticalChance: 0
-  knocbackForce: 20
+  EnemyList:
+  - Enemy: {fileID: 7975870582735388577, guid: a6a859d55358ce84daa4f50874c6c24b, type: 3}
+    Amount: 6

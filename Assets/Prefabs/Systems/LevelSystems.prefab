@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SlowedEnemyCount: 0
-  BurningColor: {r: 0.4811321, g: 0, b: 0, a: 1}
+  BurningColor: {r: 1, g: 0.7071237, b: 0.36320752, a: 1}
   BurnDamagedColor: {r: 1, g: 0, b: 0, a: 1}
   SlowedColor: {r: 0, g: 0.5188679, b: 0.2706754, a: 1}
   RustedFullyColor: {r: 0.20754719, g: 0.06345057, b: 0, a: 1}
@@ -301,9 +301,9 @@ MonoBehaviour:
   _maxLevels: 3
   _useRandomGen: 0
   _nonRandomGenWavesets:
-  - {fileID: 11400000, guid: c3355151eafd3194baae2baf59fa0be8, type: 2}
-  - {fileID: 11400000, guid: 2cb83f0a9299c794d8374ba580d7a627, type: 2}
-  - {fileID: 11400000, guid: 5d5c4326b1cf49b4dabf1a39982206e7, type: 2}
+  - {fileID: 11400000, guid: 95db3253db378834b88488a16c307ae3, type: 2}
+  - {fileID: 11400000, guid: 6558278a29c0e4b4795efade059ad53c, type: 2}
+  - {fileID: 11400000, guid: 201b2dcff3471c64182e38570fef9721, type: 2}
   - {fileID: 11400000, guid: 2b21e0b44a5703541b18865ad3e2c73d, type: 2}
   CurrentStats:
     Runs: 0
@@ -1995,6 +1995,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630115592702085731, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: _burnTextColor.b
+      value: 0.24056602
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630115592702085731, guid: 83f6558f46b9bdf44bb3595299d589d2,
+        type: 3}
+      propertyPath: _burnTextColor.g
+      value: 0.58159804
       objectReference: {fileID: 0}
     - target: {fileID: 1630115592702085731, guid: 83f6558f46b9bdf44bb3595299d589d2,
         type: 3}

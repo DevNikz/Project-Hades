@@ -323,12 +323,17 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        switch (RevampPlayerController.Instance.CurrentStance.StanceType)
+        if (RevampPlayerController.Instance == null) activeStance = Elements.None;
+        else
         {
-            case EStance.Earth: activeStance = Elements.Earth; break;
-            case EStance.Water: activeStance = Elements.Water; break;
-            case EStance.Air: activeStance = Elements.Wind; break;
-            case EStance.Fire: activeStance = Elements.Fire; break;
+            
+            switch (RevampPlayerController.Instance.CurrentStance.StanceType)
+            {
+                case EStance.Earth: activeStance = Elements.Earth; break;
+                case EStance.Water: activeStance = Elements.Water; break;
+                case EStance.Air: activeStance = Elements.Wind; break;
+                case EStance.Fire: activeStance = Elements.Fire; break;
+            }
         }
 
         Debug.Log(activeStance);
