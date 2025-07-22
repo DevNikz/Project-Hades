@@ -9,6 +9,7 @@ public class PauseMenuScript : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject deathOverlay;
+    [SerializeField] GameObject augmentMenu;
 
     private static bool isPaused;
 
@@ -30,6 +31,8 @@ public class PauseMenuScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                if (augmentMenu.activeInHierarchy) return;
+
                 if (isPaused) ResumeGame();
                 else PauseGame();
             }

@@ -132,7 +132,7 @@ public class LevelRewardScript : MonoBehaviour
         if (choice != AugmentType.None)
         {
             ItemManager.Instance.AddAugment(choice);
-            _augmentMenuScript.UnlockAugment(choice);
+            _augmentMenuScript.ChangeAugment(choice, true);
 
             if (_loadedFromWaveEnd)
             {
