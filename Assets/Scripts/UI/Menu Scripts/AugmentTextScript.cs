@@ -22,4 +22,10 @@ public class AugmentTextScript : MonoBehaviour
         nameText.text = augmentInfo.augmentName;
         descText.text = augmentInfo.augmentDescription;
     }
+
+    private void OnDisable()
+    {
+        nameText.text = "";
+        descText.text = "";
+    }
 }
