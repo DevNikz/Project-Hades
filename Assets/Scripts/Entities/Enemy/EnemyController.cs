@@ -443,6 +443,8 @@ public class EnemyController : MonoBehaviour
 
         damage *= enemyStats.damageResist;
 
+        damage = Mathf.Ceil(damage);
+
         //SFX Play
         SFXPlayer(detain);
 

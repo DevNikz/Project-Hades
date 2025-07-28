@@ -469,6 +469,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnpoint
       objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3177,6 +3182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -8543,6 +8553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -18294,6 +18309,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnpoint (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19561,6 +19581,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnpoint (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19719,6 +19744,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -26219,6 +26249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1013878756}
+  - component: {fileID: 1013878757}
   m_Layer: 0
   m_Name: Bugg-Egy
   m_TagString: Untagged
@@ -26244,6 +26275,25 @@ Transform:
   - {fileID: 83739230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -124.828995, y: -81.13098, z: 67.461}
+--- !u!114 &1013878757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013878755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1015093358
 GameObject:
   m_ObjectHideFlags: 0
@@ -30105,6 +30155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1199521676}
+  - component: {fileID: 1199521677}
   m_Layer: 0
   m_Name: Bugg-Egy (1)
   m_TagString: Untagged
@@ -30130,6 +30181,25 @@ Transform:
   - {fileID: 176036746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -124.828995, y: -52.977997, z: 67.461}
+--- !u!114 &1199521677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199521675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1207067209
 GameObject:
   m_ObjectHideFlags: 0
@@ -31445,6 +31515,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -34133,6 +34208,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnpoint (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -36470,6 +36550,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -41141,6 +41226,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnpoint (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41447,6 +41537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
@@ -41856,6 +41951,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemySpawnpoint (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803425004830087456, guid: bea453f089de99a4690377c11661628c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015000627420853905, guid: bea453f089de99a4690377c11661628c,
         type: 3}
