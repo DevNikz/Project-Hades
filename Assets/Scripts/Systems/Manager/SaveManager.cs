@@ -18,9 +18,15 @@ public class SaveManager : MonoBehaviour
     [SerializeField] public PlayerStats CurrentStats;
     [SerializeField] public GameSettings CurrentSettings;
     [ReadOnly] public int SelectedSave = -1;
-    [ReadOnly] public bool HadPlayedSave1;
-    [ReadOnly] public bool HadPlayedSave2;
-    [ReadOnly] public bool HadPlayedSave3;
+    public bool HadPlayedSave1 {
+        get { return File.Exists(Application.persistentDataPath + "/playerSave1.sav"); }
+    }
+    public bool HadPlayedSave2 {
+        get { return File.Exists(Application.persistentDataPath + "/playerSave2.sav"); }
+    }
+    public bool HadPlayedSave3 {
+        get { return File.Exists(Application.persistentDataPath + "/playerSave3.sav"); }
+    }
 
 
     void Awake()
@@ -35,13 +41,13 @@ public class SaveManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         //Checks if save has been created after exiting game.
-        string path1 = Application.persistentDataPath + "/playerSave1.sav";
-        string path2 = Application.persistentDataPath + "/playerSave2.sav";
-        string path3 = Application.persistentDataPath + "/playerSave3.sav";
+        // string path1 = Application.persistentDataPath + "/playerSave1.sav";
+        // string path2 = Application.persistentDataPath + "/playerSave2.sav";
+        // string path3 = Application.persistentDataPath + "/playerSave3.sav";
         string gfxPath = Application.persistentDataPath + "/video.sav";
-        if (File.Exists(path1)) HadPlayedSave1 = true;
-        if (File.Exists(path2)) HadPlayedSave2 = true;
-        if (File.Exists(path3)) HadPlayedSave3 = true;
+        // if (File.Exists(path1)) HadPlayedSave1 = true;
+        // if (File.Exists(path2)) HadPlayedSave2 = true;
+        // if (File.Exists(path3)) HadPlayedSave3 = true;
         if (File.Exists(gfxPath)) LoadSettings();
 
     }
@@ -87,12 +93,12 @@ public class SaveManager : MonoBehaviour
     {
         SaveSystem.DeleteSave(selectedSave);
 
-        string path1 = Application.persistentDataPath + "/playerSave1.sav";
-        string path2 = Application.persistentDataPath + "/playerSave2.sav";
-        string path3 = Application.persistentDataPath + "/playerSave3.sav";
-        HadPlayedSave1 = File.Exists(path1);
-        HadPlayedSave2 = File.Exists(path2);
-        HadPlayedSave3 = File.Exists(path3);
+        // string path1 = Application.persistentDataPath + "/playerSave1.sav";
+        // string path2 = Application.persistentDataPath + "/playerSave2.sav";
+        // string path3 = Application.persistentDataPath + "/playerSave3.sav";
+        // HadPlayedSave1 = File.Exists(path1);
+        // HadPlayedSave2 = File.Exists(path2);
+        // HadPlayedSave3 = File.Exists(path3);
     }
 
     public void SavePlayer(int index)
