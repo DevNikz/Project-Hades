@@ -212,8 +212,11 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            enemy.transform.position = spawnPosition;
-            enemy.SetActive(true);
+            if (enemy != null)
+            {
+                enemy.transform.position = spawnPosition;
+                enemy.SetActive(true);
+            }
         }
 
     }

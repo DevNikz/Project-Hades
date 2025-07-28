@@ -82,7 +82,7 @@ public class RevampPlayerController : MonoBehaviour
             if (!attack.IsPressed() && !specialAttack.IsPressed() && _holdingAnAttack)
                 SubmitAttack(_chargedAttackIsSpecial);
         }
-        Debug.Log($"Stance Switch: {_playerMap.FindAction("StanceSwitch").WasPerformedThisFrame()}");
+        // Debug.Log($"Stance Switch: {_playerMap.FindAction("StanceSwitch").WasPerformedThisFrame()}");
         if (_playerMap.FindAction("StanceSwitch").WasPerformedThisFrame())
             ProcessStanceSwitch();
         if (_playerMap.FindAction("OpenAugmentMenu").WasPressedThisFrame())

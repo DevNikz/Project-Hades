@@ -49,7 +49,6 @@ public class LevelRewardScript : MonoBehaviour
         // Debug.Log(gameObject);
         gameObject.SetActive(false);
         _selectHighlight.ResetHighlight();
-        ReloadAugments();
 
         choice = AugmentType.None;
         if (levelRewardMenu == null)
@@ -87,8 +86,7 @@ public class LevelRewardScript : MonoBehaviour
                         continue;
                     }
 
-                    // Debug.Log($"ChosenAug: {chosenAugment.preReqAugment}");
-                    // Debug.Log($"HasUnlocked: {ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment)}");
+                    // Debug.Log($"ChosenAug: {chosenAugment.preReqAugment}, HasUnlocked: {ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment)}");
 
                     if (chosenAugment.preReqAugment != AugmentType.None && !ItemManager.Instance.hasUnlocked(chosenAugment.preReqAugment))
                     {
@@ -96,19 +94,22 @@ public class LevelRewardScript : MonoBehaviour
                         continue;
                     }
 
-                    if((
-                        chosenAugment.augmentType == AugmentType.Earth || 
-                        chosenAugment.augmentType == AugmentType.Water || 
-                        chosenAugment.augmentType == AugmentType.Fire || 
+                    if ((
+                        chosenAugment.augmentType == AugmentType.Earth ||
+                        chosenAugment.augmentType == AugmentType.Water ||
+                        chosenAugment.augmentType == AugmentType.Fire ||
                         chosenAugment.augmentType == AugmentType.Air) &&
                         ItemManager.Instance.UnlockedStanceCount >= _maxStanceCount
-                    ){
+                    )
+                    {
                         chosenAugment = null;
                         continue;
                     }
                 }
+                // Debug.Log($"{gameObject}, {button}: {chosenAugment} | {chosenAugments.Contains(chosenAugment)} | {currentAugmentGenRetries}/{maxRetryAugmentGenerate}");
             } while ((chosenAugment == null || chosenAugments.Contains(chosenAugment)) && (currentAugmentGenRetries++ <= maxRetryAugmentGenerate));
 
+            // Debug.Log($"{gameObject}, Apply to {button}: {chosenAugment} | {chosenAugments.Contains(chosenAugment)} | {currentAugmentGenRetries}/{maxRetryAugmentGenerate}");
             chosenAugments.Add(chosenAugment);
             button.GetComponent<AugmentIconUpdater>().SetAugment(chosenAugment);
         }
@@ -188,6 +189,7 @@ public class LevelRewardScript : MonoBehaviour
     private void InternalActivate()
     {
         levelRewardMenu.SetActive(true);
+        ReloadAugments();
         Time.timeScale = 0;
     }
 
