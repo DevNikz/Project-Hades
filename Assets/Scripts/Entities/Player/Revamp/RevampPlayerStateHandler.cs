@@ -101,10 +101,11 @@ public class RevampPlayerStateHandler : MonoBehaviour
         float actualDamage = damage;
         float damageReduction = 0.0f;
         damageReduction += ItemManager.Instance.getAugmentCount(AugmentType.Steel) * ItemManager.Instance.getAugment(AugmentType.Steel).augmentPower;
-        if (ItemManager.Instance.getAugment(AugmentType.Fog_Gear).IsActive)
+        if (ItemManager.Instance.getUnlockableAugment(AugmentType.Fog_Gear).IsActive)
             damageReduction += ItemManager.Instance.getAugment(AugmentType.Fog_Gear).augmentPower;
 
         actualDamage *= 1.0f - damageReduction;
+        if (actualDamage <= 0.0f) actualDamage = 1.0f;
         CurrentHealth -= actualDamage;
 
         if (TryGetComponent<FlashSpriteScript>(out var flashScript))
