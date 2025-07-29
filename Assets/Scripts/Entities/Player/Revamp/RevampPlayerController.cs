@@ -481,7 +481,7 @@ public class RevampPlayerController : MonoBehaviour
 
     void ProcessUpdatePointerPosition(Vector2 position)
     {
-        if (_attackAnimCallback._isAttacking)
+        if (_attackAnimCallback._isAttacking || _comboCount > -1)
         {
             _hitboxPointer.transform.localPosition = new(0.0f, 0.0f, 0.0f);
             _hitboxPointer.SetActive(true);
