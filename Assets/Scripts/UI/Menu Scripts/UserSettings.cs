@@ -18,6 +18,7 @@ public class UserSettings : MonoBehaviour
         toggle[0].isOn = SaveManager.Instance.CurrentSettings.screenMode != 0;
         toggle[1].isOn = SaveManager.Instance.CurrentSettings.vsync != 0;
         toggle[2].isOn = SaveManager.Instance.CurrentSettings.detail != 0;
+        if(toggle[3] != null)
         toggle[3].isOn = SaveManager.Instance.CurrentSettings.difficulty != 0;
     }
 
