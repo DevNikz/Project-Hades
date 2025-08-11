@@ -500,12 +500,39 @@ public class RevampPlayerController : MonoBehaviour
         _hitboxPointer.transform.localPosition = new(0.0f, 0.0f, 0.0f);
         _hitboxPointer.SetActive(true);
 
-        float angle = ToIsoRotation(position);
-        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle - 45, 0.0f);
+        // float angle = ToIsoRotation(position);
+        float angle = ToAngle(position, 0.5f);
+        Quaternion rot = Quaternion.Euler(_hitboxPointerOriginalXRotation, -angle -90, 0.0f);
         _hitboxPointer.transform.rotation = rot;
 
         if (_stateHandler.CurrentState == EntityState.Attack)
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
+    }
+
+    Vector3 RaycastToYPos(Vector2 position, float yPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(position);
+        Plane plane = new(Vector3.up, new Vector3(0, yPos, 0));
+        if (plane.Raycast(ray, out float distance))
+        {
+            return ray.GetPoint(distance);
+        }
+
+        return new();
+    }
+    float ToAngle(Vector2 position, float yPos)
+    {
+        Vector3 transformAtFloor = transform.position;
+        transformAtFloor.y = yPos;
+        Vector3 tempVector = RaycastToYPos(position, yPos) - transformAtFloor;
+        Debug.DrawLine(RaycastToYPos(position, yPos), transformAtFloor, Color.blue);
+        Vector3 zAxis = transformAtFloor;
+        zAxis.z += tempVector.z;
+        Vector3 xAxis = transformAtFloor;
+        xAxis.x += tempVector.x;
+        Debug.DrawLine(transformAtFloor, xAxis, Color.green);
+        Debug.DrawLine(transformAtFloor, zAxis, Color.red);
+        return Mathf.Atan2(tempVector.z, tempVector.x) * Mathf.Rad2Deg;
     }
     float ToIsoRotation(Vector2 position)
     {
@@ -523,7 +550,7 @@ public class RevampPlayerController : MonoBehaviour
             return;
         }
 
-        float angle = ToIsoRotation(position);
+        float angle = ToAngle(position, 0.5f);
         if (_stateHandler.CurrentState == EntityState.Attack)
             _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
 
