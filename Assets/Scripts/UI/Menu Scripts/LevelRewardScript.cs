@@ -21,6 +21,8 @@ public class LevelRewardScript : MonoBehaviour
 
     [SerializeField] private string _tutorialDialogueTag;
 
+    [SerializeField] GameObject augmentMenuText;
+
     bool _loadedFromWaveEnd = false;
 
     [Button("Reload Augment Rewards", ButtonSizes.Large)]
@@ -41,6 +43,13 @@ public class LevelRewardScript : MonoBehaviour
     void Start()
     {
         ResetMenu();
+    }
+
+    private void OnEnable()
+    {
+        if (SceneManager.GetActiveScene().name == "Tutorial")
+            augmentMenuText.SetActive(true);
+        else augmentMenuText.SetActive(false);
     }
 
     private void ResetMenu()
