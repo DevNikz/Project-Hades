@@ -339,17 +339,52 @@ public class RevampPlayerController : MonoBehaviour
         // Debug.Log("Current Speed: " + CurrentSpeed);
         _rigidbody.drag = 0.0f;
         if (_stateHandler.CurrentState != EntityState.Attack)
-            _rigidbody.velocity = 100.0f * CurrentSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
-        // _rigidbody.AddForce(, ForceMode.Impulse);
+            MoveDirection(((Vector3)_lastMoveInput).ToIso(), CurrentSpeed);
+        
         else
         {
             // If the attack anim callback is less than 0, disables custom per frame speed, using the attack's max movespeed, otherwise, prefers the per frame speed
             if (_attackAnimCallback._attackMoveSpeed < 0)
-                _rigidbody.velocity = 100.0f * Math.Min(LastUsedAttack.MaxMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+                MoveDirection(((Vector3)_lastMoveInput).ToIso(), Math.Min(LastUsedAttack.MaxMoveSpeed, CurrentSpeed));
             else
-                _rigidbody.velocity = 100.0f * Math.Min(_attackAnimCallback._attackMoveSpeed, CurrentSpeed) * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+                MoveDirection(((Vector3)_lastMoveInput).ToIso(), Math.Min(LastUsedAttack.MaxMoveSpeed, Math.Min(_attackAnimCallback._attackMoveSpeed, CurrentSpeed)));
         }
     }
+
+    void MoveDirection(Vector3 vector, float speed)
+    {
+        // TODO : WIP Sliding fixes
+    //     Vector3 modDir = vector;
+
+        //     float rayDistance = speed;
+        //     int rayCount = 3;                      // Number of rays to cast across width
+        //     float raySpread = 0.5f;                // Spread distance of rays left-right
+        //     Vector3 origin = transform.position;
+
+        //     List<Vector3> hitNormals = new List<Vector3>();
+
+        //     for (int i = 0; i < rayCount; i++) {
+        //         float offset = Mathf.Lerp(-raySpread, raySpread, i / (float)(rayCount - 1));
+        //         Vector3 rayOrigin = origin + transform.right * offset;  // Offset the ray origin horizontally 
+        //         if (Physics.Raycast(rayOrigin, vector, out RaycastHit hit, rayDistance)) {
+        //             hitNormals.Add(hit.normal);
+        //             Debug.DrawLine(rayOrigin, hit.point, Color.green);
+        //         }
+        //     }
+
+        //     // Combine normals or use default if none hit
+        //     Vector3 combinedNormal = Vector3.zero;
+        //     if (hitNormals.Count > 0) {
+        //         foreach (var n in hitNormals) combinedNormal += n;
+        //         combinedNormal = combinedNormal.normalized;
+        //         modDir = Vector3.ProjectOnPlane(modDir, combinedNormal);
+        //     }
+
+        _rigidbody.velocity = 100.0f * speed * Time.fixedDeltaTime * vector;
+        // _rigidbody.AddForce(10.0f * speed * Time.fixedDeltaTime * vector, ForceMode.Impulse);
+        // _rigidbody.MovePosition(transform.position + 3.0f * speed * Time.fixedDeltaTime * vector);
+    }
+
     void ProcessDash()
     {
         if (Time.time - _timeOfLastDash < PlayerStats.DashCooldown) return;
@@ -362,7 +397,7 @@ public class RevampPlayerController : MonoBehaviour
         if (_stateHandler.CurrentState == EntityState.None)
             _animator.RevampDashAnim(_isDashing);
 
-        _rigidbody.velocity = 100.0f * PlayerStats.DashSpeed * Time.fixedDeltaTime * ((Vector3)_lastMoveInput).ToIso();
+        MoveDirection(((Vector3)_lastMoveInput).ToIso(), PlayerStats.DashSpeed);
 
         _stateHandler.SetInvincibility(PlayerStats.DashTime);
 

@@ -3205,9 +3205,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 15261067033578076}
-        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: DeleteSave
+      - m_Target: {fileID: 50939224}
+        m_TargetAssemblyTypeName: MainMenu_Button_Script, Assembly-CSharp
+        m_MethodName: OnDeleteSave
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3589,9 +3589,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 15261067033578076}
-        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: DeleteSave
+      - m_Target: {fileID: 50939224}
+        m_TargetAssemblyTypeName: MainMenu_Button_Script, Assembly-CSharp
+        m_MethodName: OnDeleteSave
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4260,9 +4260,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 15261067033578076}
-        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: DeleteSave
+      - m_Target: {fileID: 50939224}
+        m_TargetAssemblyTypeName: MainMenu_Button_Script, Assembly-CSharp
+        m_MethodName: OnDeleteSave
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9996,18 +9996,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95bf268fc2ec9814c88e6cb5c9998b78, type: 3}
---- !u!114 &15261067033578076 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 671180353184716, guid: 95bf268fc2ec9814c88e6cb5c9998b78,
-    type: 3}
-  m_PrefabInstance: {fileID: 15261067033578075}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f20413f822174947a4fe0bb367e5b0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3283613783883709938
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -35,4 +35,9 @@ public class MainMenu_Button_Script : MonoBehaviour
     {
         Application.Quit();
     }
+    public void OnDeleteSave(int saveIndex)
+    {
+        if (SaveManager.Instance != null)
+            SaveManager.Instance.DeleteSave(saveIndex);
+    }
 }
