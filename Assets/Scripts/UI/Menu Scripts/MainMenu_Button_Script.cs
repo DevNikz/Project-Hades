@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class MainMenu_Button_Script : MonoBehaviour
 {
     [SerializeField] private ASyncLoader asyncLoader;
+    [SerializeField] private GameObject _saveMenuInner;
+    [SerializeField] private GameObject _saveMenuBacking;
+    [SerializeField] private Vector2 _saveMenuYPositions;
     [SerializeField] private bool _isHubAvailable = false;
 
     [SerializeField] private string sceneToLoad = "Tutorial";
@@ -39,5 +42,32 @@ public class MainMenu_Button_Script : MonoBehaviour
     {
         if (SaveManager.Instance != null)
             SaveManager.Instance.DeleteSave(saveIndex);
+    }
+
+    public void ActivateSaveMenu()
+    {
+        _saveMenuBacking.SetActive(true);
+        _saveMenuInner.transform.localPosition = new(_saveMenuInner.transform.localPosition.x, _saveMenuYPositions.x, _saveMenuInner.transform.localPosition.z);
+        StartCoroutine(LerpSaveMenu(_saveMenuYPositions.y, 0.4f, true));
+    }
+    public void DeactivateSaveMenu()
+    {
+        _saveMenuBacking.SetActive(false);
+        StartCoroutine(LerpSaveMenu(_saveMenuYPositions.x, 0.4f, false));
+
+    }
+    private IEnumerator LerpSaveMenu(float endY, float duration, bool endActivity)
+    {
+        Vector3 startPos = _saveMenuInner.transform.localPosition;
+        Vector3 endPos = new Vector3(startPos.x, endY, startPos.z);
+        float t = 0.0f;
+        if(endActivity) _saveMenuInner.SetActive(true);
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime / duration;
+            _saveMenuInner.transform.localPosition = Vector3.Lerp(startPos, endPos, t);
+            yield return new WaitForEndOfFrame();
+        }
+        if(!endActivity) _saveMenuInner.SetActive(false);
     }
 }
