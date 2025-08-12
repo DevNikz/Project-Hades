@@ -20,6 +20,10 @@ public class MainMenu_Button_Script : MonoBehaviour
         {
             if (SaveManager.Instance.CurrentStats.hasPlayed == 1 && _isHubAvailable)
                 sceneToLoad = "HubLevel";
+
+            if (RevampPlayerController.Instance != null)
+                RevampPlayerController.Instance.SetInput(true); //enable player input
+
             asyncLoader.LoadLevelBtn(sceneToLoad);
             SFXManager.Instance.SwitchAudio();
         }

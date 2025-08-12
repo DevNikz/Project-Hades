@@ -69,8 +69,7 @@ public class PauseMenuScript : MonoBehaviour
 
         deathOverlay.GetComponent<LoseScreen_Script>().Defeat();
         
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1.0f;
+        ResumeGame();
     }
 
     public void ExitGame()
@@ -79,8 +78,9 @@ public class PauseMenuScript : MonoBehaviour
         // SceneManager.LoadScene("Title Screen");
 
         //Maybe put save here
-        ResumeGame();
-        Application.Quit();
+        Time.timeScale = 1.0f;
+        if (CheckLoader(out LevelLoader levelLoader))
+            levelLoader.LoadLevel("Title Screen");
     }
 
     public void PlayHoverSFX()
@@ -91,5 +91,16 @@ public class PauseMenuScript : MonoBehaviour
     public void PlayClickSFX()
     {
         SFXManager.Instance.PlaySFX("ConfirmSFX");
+    }
+
+    bool CheckLoader(out LevelLoader levelLoader)
+    {
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        if (levelLoader == null)
+        {
+            Debug.LogWarning("[WARN]: LevelLoader not found");
+            return false;
+        }
+        else return true;
     }
 }
