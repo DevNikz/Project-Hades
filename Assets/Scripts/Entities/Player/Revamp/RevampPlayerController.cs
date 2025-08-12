@@ -506,7 +506,7 @@ public class RevampPlayerController : MonoBehaviour
         _hitboxPointer.transform.rotation = rot;
 
         if (_stateHandler.CurrentState == EntityState.Attack)
-            _animator.SetDirection(angle >= -90 && angle <= 90 ? LookDirection.Right : LookDirection.Left);
+            _animator.SetDirection(angle >= -135 && angle <= 45 ? LookDirection.Right : LookDirection.Left);
     }
 
     Vector3 RaycastToYPos(Vector2 position, float yPos)
