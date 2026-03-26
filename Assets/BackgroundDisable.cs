@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class BackgroundDisable : MonoBehaviour
 {
     public Image img;
-    public float duration = 2f;
+    public float duration = 1f;
 
     private void Awake()
     {
         if (RevampPlayerController.Instance != null)
             RevampPlayerController.Instance.SetInput(false); //disable player input
+
+        if (GameObject.Find("HP"))
 
         StartCoroutine("fadeOut");
     }
