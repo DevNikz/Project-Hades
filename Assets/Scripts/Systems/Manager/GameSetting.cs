@@ -7,7 +7,7 @@ public class GameSetting : MonoBehaviour
 {
 
     public static GameSetting Instance;
-    [SerializeField] public bool highDetail { get; set; }
+    [field: SerializeField] public bool highDetail { get; set; }
     [SerializeField] public List<ClutterSpawner> clutterSpawners;
 
     void Awake()

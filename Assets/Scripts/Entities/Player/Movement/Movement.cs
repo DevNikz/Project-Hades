@@ -218,9 +218,9 @@ public class Movement : MonoBehaviour {
 
     private void CheckDrag() {
         if(move == EntityMovement.Strafing) {
-            rigidBody.drag = movement.groundDrag;
+            rigidBody.linearDamping = movement.groundDrag;
         }
-        else rigidBody.drag = 10f;
+        else rigidBody.linearDamping = 10f;
     }
 
     private EntityDirection IsoCompass(float x, float z) {

@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace MK.Toon.URP
 {
-    public class MKToonPerObjectOutlines : UnityEngine.Experimental.Rendering.Universal.RenderObjects
+    public class MKToonPerObjectOutlines : UnityEngine.Rendering.Universal.RenderObjects
     {
         private const string _componentName = "MKToonPerObjectOutlines";
         private const string _shaderPassName = "MKToonOutline";

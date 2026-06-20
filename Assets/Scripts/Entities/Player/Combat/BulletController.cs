@@ -37,7 +37,7 @@ public class BulletController : MonoBehaviour
     }
 
     private void OnDisable() {
-        this.bulletBody.velocity = Vector3.zero;    
+        this.bulletBody.linearVelocity = Vector3.zero;    
         this.bulletBody.angularVelocity = Vector3.zero;
     }
 
@@ -70,11 +70,11 @@ public class BulletController : MonoBehaviour
         IsHostile = !IsHostile;
         if (this.TryGetComponent<Rigidbody>(out var rb))
         {
-            Vector3 velocity = rb.velocity;
+            Vector3 velocity = rb.linearVelocity;
             velocity.x = -velocity.x;
             velocity.y = -velocity.y;
             velocity.z = -velocity.z;
-            rb.velocity = velocity;
+            rb.linearVelocity = velocity;
         }
     }
 

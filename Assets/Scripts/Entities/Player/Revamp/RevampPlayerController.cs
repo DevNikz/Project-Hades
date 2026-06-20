@@ -312,7 +312,7 @@ public class RevampPlayerController : MonoBehaviour
                 _animator.RevampSetMoving(false);
             }
 
-            _rigidbody.drag = 1000.0f;
+            _rigidbody.linearDamping = 1000.0f;
             particleEmission.enabled = false;
             return;
         }
@@ -337,7 +337,7 @@ public class RevampPlayerController : MonoBehaviour
 
         // MOVE, SPEED CHANGES BASED ON IF ATTACKING OR NOT
         // Debug.Log("Current Speed: " + CurrentSpeed);
-        _rigidbody.drag = 0.0f;
+        _rigidbody.linearDamping = 0.0f;
         if (_stateHandler.CurrentState != EntityState.Attack)
             MoveDirection(((Vector3)_lastMoveInput).ToIso(), CurrentSpeed);
         
@@ -380,7 +380,7 @@ public class RevampPlayerController : MonoBehaviour
         //         modDir = Vector3.ProjectOnPlane(modDir, combinedNormal);
         //     }
 
-        _rigidbody.velocity = 100.0f * speed * Time.fixedDeltaTime * vector;
+        _rigidbody.linearVelocity = 100.0f * speed * Time.fixedDeltaTime * vector;
         // _rigidbody.AddForce(10.0f * speed * Time.fixedDeltaTime * vector, ForceMode.Impulse);
         // _rigidbody.MovePosition(transform.position + 3.0f * speed * Time.fixedDeltaTime * vector);
     }
@@ -391,7 +391,7 @@ public class RevampPlayerController : MonoBehaviour
 
         _isDashing = true;
         _timeOfLastDash = Time.time;
-        _rigidbody.drag = 0.0f;
+        _rigidbody.linearDamping = 0.0f;
         _dashParticles.Play();
 
         if (_stateHandler.CurrentState == EntityState.None)
@@ -407,7 +407,7 @@ public class RevampPlayerController : MonoBehaviour
     {
         _isDashing = false;
         _animator.RevampDashAnim(_isDashing);
-        _rigidbody.drag = 1000.0f;
+        _rigidbody.linearDamping = 1000.0f;
     }
     #endregion
 
